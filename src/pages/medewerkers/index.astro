@@ -1,0 +1,37 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const sections = [
+  { label: 'Huisartsen', href: '/medewerkers/huisartsen', desc: '8 huisartsen in 4 duo-praktijken' },
+  { label: 'Praktijkverpleegkundigen', href: '/medewerkers/praktijkverpleegkundigen', desc: 'PVK Somatiek, POH-GGZ en spreekuurondersteuner' },
+  { label: 'Praktijkassistenten', href: '/medewerkers/praktijkassistenten', desc: 'Assistenten, baliemedewerkers en praktijkmanager' },
+  { label: 'Huisartsen in opleiding', href: '/medewerkers/huisartsen-in-opleiding', desc: 'HAIO\'s en co-assistenten (Amsterdam UMC)' },
+];
+---
+
+<PageLayout title="Medewerkers" description="Medewerkers van Huisartsenpraktijk Schoterpoort Haarlem.">
+  <section class="py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl lg:text-4xl font-bold mb-6">Medewerkers</h1>
+      <p class="text-neutral-600 mb-10 text-lg">
+        Ons team bestaat uit 10 artsen en een uitgebreid ondersteunend team.
+      </p>
+      <div class="grid gap-4">
+        {sections.map((section) => (
+          <a
+            href={section.href}
+            class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-5 hover:border-primary-300 hover:shadow-sm transition-all no-underline group"
+          >
+            <div>
+              <h2 class="font-semibold text-neutral-900 group-hover:text-dark-700">{section.label}</h2>
+              <p class="text-sm text-neutral-500 mt-0.5">{section.desc}</p>
+            </div>
+            <svg class="w-5 h-5 text-neutral-400 group-hover:text-dark-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

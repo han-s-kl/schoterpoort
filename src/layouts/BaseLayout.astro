@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Huisartsenpraktijk Schoterpoort in Haarlem -- vier huisartsen, persoonlijke zorg.',
+  ogImage = '/images/og-default.jpg',
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title === 'Home' ? 'Huisartsenpraktijk Schoterpoort' : `${title} | Huisartsenpraktijk Schoterpoort`;
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{fullTitle}</title>
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="nl_NL" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MedicalBusiness",
+      "name": "Huisartsenpraktijk Schoterpoort",
+      "description": "Huisartsenpraktijk met vier huisartsen in Haarlem. NPA gecertificeerd, onderwijspraktijk UvA/Amsterdam UMC.",
+      "url": "https://schoterpoort.com",
+      "telephone": "+31235410345",
+      "email": "info@schoterpoort.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Pijnboomstraat 19",
+        "addressLocality": "Haarlem",
+        "postalCode": "2023 VN",
+        "addressCountry": "NL"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      "medicalSpecialty": "PrimaryCare",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "8.5",
+        "bestRating": "10",
+        "worstRating": "1"
+      }
+    })} />
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col bg-white">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+    >
+      Ga naar inhoud
+    </a>
+
+    <slot name="header" />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <slot name="footer" />
+  </body>
+</html>

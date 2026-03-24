@@ -1,0 +1,42 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const healthPageIds = [
+  'reizigersadvisering', 'soa', 'spiraal', 'tekenbeet',
+  'wrattenspreekuur', 'urineweginfecties', 'zwangerschap',
+];
+
+const pages = await getCollection('pages');
+const healthPages = pages.filter((p) => healthPageIds.includes(p.id));
+---
+
+<PageLayout title="Gezondheidsinfo" description="Gezondheidsinformatie van Huisartsenpraktijk Schoterpoort.">
+  <section class="py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl lg:text-4xl font-bold mb-6">Gezondheidsinfo</h1>
+      <p class="text-neutral-600 mb-10">
+        Hieronder vindt u informatie over veelvoorkomende gezondheidsonderwerpen.
+        Voor uitgebreide informatie verwijzen wij u naar
+        <a href="https://www.thuisarts.nl/" target="_blank" rel="noopener">thuisarts.nl</a>.
+      </p>
+
+      <div class="grid gap-3">
+        {healthPages.map((page) => (
+          <a
+            href={`/gezondheid/${page.id}`}
+            class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-4 hover:border-primary-300 hover:shadow-sm transition-all no-underline group"
+          >
+            <div>
+              <h2 class="font-semibold text-neutral-900 group-hover:text-dark-700">{page.data.title}</h2>
+              <p class="text-sm text-neutral-500 mt-0.5">{page.data.description}</p>
+            </div>
+            <svg class="w-5 h-5 text-neutral-400 group-hover:text-dark-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

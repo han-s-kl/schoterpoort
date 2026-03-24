@@ -1,0 +1,78 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import StaffCard from '../../components/staff/StaffCard.astro';
+import { getCollection, render } from 'astro:content';
+import allStaff from '../../data/staff.json';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return ['huisartsen', 'praktijkverpleegkundigen', 'praktijkassistenten', 'huisartsen-in-opleiding']
+    .map((slug) => {
+      const page = pages.find((p) => p.id === slug);
+      return page ? { params: { slug }, props: { page, slug } } : null;
+    })
+    .filter(Boolean);
+}
+
+const { page, slug } = Astro.props;
+const { Content } = await render(page);
+
+// Filter staff by role category
+const roleMap: Record<string, string[]> = {
+  'huisartsen': ['Huisarts'],
+  'praktijkverpleegkundigen': ['Praktijkverpleegkundige', 'Spreekuurondersteuner', 'Praktijkondersteuner GGZ'],
+  'praktijkassistenten': ['Doktersassistente', 'Praktijkmanager', 'Baliemedewerker', 'Spreekuurondersteuner'],
+  'huisartsen-in-opleiding': ['Huisarts in opleiding'],
+};
+
+const roles = roleMap[slug] || [];
+const staffForPage = allStaff.filter((s) => {
+  if (slug === 'huisartsen') {
+    return s.role === 'Huisarts';
+  }
+  return roles.some((r) => s.role.includes(r));
+});
+// Override role display for staff that appear on multiple pages
+const roleOverrides: Record<string, Record<string, string>> = {
+  'praktijkassistenten': { 'Spreekuurondersteuner': 'Doktersassistente' },
+};
+const overrides = roleOverrides[slug] || {};
+
+const hasStaffCards = staffForPage.length > 0;
+---
+
+<PageLayout title={page.data.title} description={page.data.description}>
+  <section class="py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="mb-8 text-sm">
+        <a href="/medewerkers" class="text-dark-600 hover:text-dark-700 no-underline">&larr; Medewerkers</a>
+      </nav>
+
+      <h1 class="text-3xl lg:text-4xl font-bold mb-8">{page.data.title}</h1>
+
+      {hasStaffCards ? (
+        <div class="grid gap-4">
+          {staffForPage.map((member) => (
+            <StaffCard
+              name={member.name}
+              role={overrides[member.role] || member.role}
+              team={member.team}
+              photo={(member as any).photo}
+              workingDays={member.workingDays}
+              since={(member as any).since}
+              background={(member as any).background}
+              specializations={(member as any).specializations}
+              interests={(member as any).interests}
+              phone={(member as any).phone}
+              bigNumber={(member as any).bigNumber}
+            />
+          ))}
+        </div>
+      ) : (
+        <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
+          <Content />
+        </article>
+      )}
+    </div>
+  </section>
+</PageLayout>

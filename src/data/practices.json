@@ -1,0 +1,128 @@
+{
+  "address": "Pijnboomstraat 19, 2023 VN Haarlem",
+  "email": "info@schoterpoort.com",
+  "phoneGeneral": "023-541 03 45",
+  "phoneEmergency": "023-750 45 67",
+  "phoneNurses": "023-525 69 83",
+  "emergencyNote": "Bel 023-750 45 67 buiten openingstijden (na 17:00, weekenden en feestdagen). Bel 112 bij levensbedreigende situaties.",
+  "practices": [
+    {
+      "name": "Praktijk Louwet",
+      "phone": "023-525 43 02",
+      "doctors": [
+        {
+          "name": "Margot Louwet",
+          "initials": "M.",
+          "role": "Huisarts (hoofdpraktijk)",
+          "workingDays": ["maandag", "dinsdag", "donderdagochtend", "vrijdag"]
+        },
+        {
+          "name": "Natasja Moes",
+          "initials": "N.M.",
+          "role": "Huisarts",
+          "workingDays": ["dinsdag", "woensdag", "donderdag"]
+        }
+      ],
+      "assistants": ["Shanice", "Pauline"],
+      "trainees": ["Jesse Holverda"]
+    },
+    {
+      "name": "Praktijk Duijn",
+      "phone": "023-525 54 03",
+      "doctors": [
+        {
+          "name": "Marina Duijn",
+          "initials": "M.M.",
+          "role": "Huisarts (hoofdpraktijk)",
+          "workingDays": []
+        },
+        {
+          "name": "Britt Schouten",
+          "initials": "B.",
+          "role": "Huisarts",
+          "workingDays": ["maandag", "dinsdag", "donderdag"]
+        }
+      ],
+      "assistants": ["Marjoleine", "Larissa"],
+      "trainees": []
+    },
+    {
+      "name": "Praktijk Steketee",
+      "phone": "023-525 62 31",
+      "doctors": [
+        {
+          "name": "Willemijn Steketee",
+          "initials": "W.H.",
+          "role": "Huisarts (hoofdpraktijk)",
+          "workingDays": []
+        },
+        {
+          "name": "Willemijn Schaap",
+          "initials": "W.",
+          "role": "Huisarts",
+          "workingDays": ["maandag", "woensdag", "donderdag"]
+        }
+      ],
+      "assistants": ["Thea", "Ellen"],
+      "trainees": ["Donna Rog"]
+    },
+    {
+      "name": "Praktijk Van der Eem",
+      "phone": "023-525 33 04",
+      "doctors": [
+        {
+          "name": "Lisette van der Eem",
+          "initials": "L.",
+          "role": "Huisarts (hoofdpraktijk)",
+          "workingDays": []
+        },
+        {
+          "name": "Sandra Bosch",
+          "initials": "S.",
+          "role": "Huisarts",
+          "workingDays": ["dinsdag", "donderdag", "vrijdag"]
+        }
+      ],
+      "assistants": ["Wendy", "Milou"],
+      "trainees": []
+    }
+  ],
+  "sharedStaff": {
+    "praktijkmanager": {
+      "name": "Eefje van der Burgh",
+      "workingDays": ["maandag", "dinsdag", "donderdag", "vrijdag"]
+    },
+    "baliemedewerkers": [
+      {
+        "name": "Carolien",
+        "workingDays": ["maandag", "dinsdag", "woensdag"]
+      },
+      {
+        "name": "Jessica",
+        "workingDays": ["maandag", "dinsdag", "woensdag", "donderdag"]
+      }
+    ],
+    "praktijkverpleegkundigen": [
+      {
+        "name": "Martine van Die",
+        "workingDays": ["dinsdag", "woensdag", "donderdag", "vrijdag"],
+        "specializations": ["Diabetes", "COPD", "Ouderenzorg"]
+      },
+      {
+        "name": "Britta Forma",
+        "workingDays": ["maandag", "dinsdag", "woensdag", "donderdag"],
+        "specializations": ["Diabetes", "COPD", "Ouderenzorg"]
+      }
+    ],
+    "pohGGZ": [
+      {
+        "name": "Alette Bubberman",
+        "workingDays": ["maandag", "woensdag", "donderdag"]
+      },
+      {
+        "name": "Irene Verweij",
+        "workingDays": ["dinsdag", "woensdag", "vrijdag"]
+      }
+    ]
+  }
+}

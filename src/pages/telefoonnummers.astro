@@ -1,0 +1,57 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import practiceData from '../data/practices.json';
+---
+
+<PageLayout title="Telefoonnummers" description="Alle telefoonnummers van Huisartsenpraktijk Schoterpoort Haarlem.">
+  <section class="py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl lg:text-4xl font-bold mb-8">Telefoonnummers</h1>
+
+      <!-- Main number -->
+      <div class="bg-primary-50 rounded-xl p-6 border border-primary-200 mb-8">
+        <h2 class="font-bold text-lg text-neutral-900 mb-2">Hoofdlijn</h2>
+        <a href="tel:023-5410345" class="text-2xl font-bold text-dark-700 no-underline hover:text-dark-800">
+          023-541 03 45
+        </a>
+        <p class="text-sm text-neutral-600 mt-2">Ma-vr 08:00 -- 17:00. Tussen 12:00-14:00 en 16:30-17:00 alleen voor spoedgevallen.</p>
+      </div>
+
+      <!-- Practice numbers -->
+      <h2 class="text-xl font-bold mb-4">Directe lijnen per praktijk</h2>
+      <div class="grid sm:grid-cols-2 gap-4 mb-8">
+        {practiceData.practices.map((practice) => (
+          <div class="bg-white rounded-xl border border-neutral-200 p-5">
+            <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
+            <p class="text-sm text-neutral-500 mb-3">
+              {practice.doctors.map((d) => d.name).join(' & ')}
+            </p>
+            <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="text-lg font-semibold text-dark-600 no-underline hover:text-dark-700">
+              {practice.phone}
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <!-- Other numbers -->
+      <h2 class="text-xl font-bold mb-4">Overige nummers</h2>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-4">
+          <span class="text-sm text-neutral-700">Praktijkverpleegkundigen</span>
+          <a href={`tel:${practiceData.phoneNurses.replace(/\s/g, '')}`} class="font-medium text-dark-600 no-underline">{practiceData.phoneNurses}</a>
+        </div>
+        <div class="flex items-center justify-between bg-accent-50 rounded-lg border border-accent-200 p-4">
+          <div>
+            <span class="text-sm font-semibold text-neutral-900">Spoedpost (buiten kantooruren)</span>
+            <p class="text-xs text-neutral-500">Avond, nacht, weekend en feestdagen</p>
+          </div>
+          <a href={`tel:${practiceData.phoneEmergency.replace(/\s/g, '')}`} class="font-bold text-accent-600 no-underline">{practiceData.phoneEmergency}</a>
+        </div>
+        <div class="flex items-center justify-between bg-accent-50 rounded-lg border border-accent-200 p-4">
+          <span class="text-sm font-bold text-neutral-900">Levensbedreiging</span>
+          <a href="tel:112" class="font-bold text-accent-700 no-underline text-lg">112</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

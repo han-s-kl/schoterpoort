@@ -1,0 +1,43 @@
+[
+  { "label": "Home", "href": "/" },
+  { "label": "Contact", "href": "/contact" },
+  { "label": "Telefoonnummers", "href": "/telefoonnummers" },
+  {
+    "label": "Medewerkers",
+    "href": "/medewerkers",
+    "children": [
+      { "label": "Huisartsen", "href": "/medewerkers/huisartsen" },
+      { "label": "Praktijkverpleegkundigen", "href": "/medewerkers/praktijkverpleegkundigen" },
+      { "label": "Praktijkassistenten", "href": "/medewerkers/praktijkassistenten" },
+      { "label": "Huisartsen in opleiding", "href": "/medewerkers/huisartsen-in-opleiding" }
+    ]
+  },
+  { "label": "Information", "href": "/information" },
+  {
+    "label": "Diensten",
+    "href": "#",
+    "children": [
+      { "label": "Spreekuur & afspraken", "href": "/spreekuur" },
+      { "label": "Herhaalrecept", "href": "/herhaalrecept" },
+      { "label": "Apotheek", "href": "/apotheek" },
+      { "label": "Huisbezoek", "href": "/huisbezoek" },
+      { "label": "Spoedpost", "href": "/spoedpost" },
+      { "label": "Patientenomgeving", "href": "/patientenomgeving" },
+      { "label": "Contact kinderen (<16)", "href": "/contact-kinderen" }
+    ]
+  },
+  {
+    "label": "Praktisch",
+    "href": "#",
+    "children": [
+      { "label": "Tarieven 2025", "href": "/tarieven" },
+      { "label": "Eigen risico", "href": "/eigen-risico" },
+      { "label": "Klachtenregeling", "href": "/klachtenregeling" },
+      { "label": "Administratieformulier", "href": "/administratieformulier" },
+      { "label": "Urineonderzoek formulier", "href": "/urineonderzoek-formulier" },
+      { "label": "Vacatures", "href": "/vacatures" },
+      { "label": "Gezondheidsinfo", "href": "/gezondheid" },
+      { "label": "Nieuws", "href": "/nieuws" }
+    ]
+  }
+]
