@@ -15,7 +15,7 @@ interface Props {
 
 const { name, role, photo, team, workingDays, since, background, specializations, interests, phone, bigNumber } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const photoUrl = photo ? `${base}${photo.replace(/^\//, '')}` : undefined;
+const photoUrl = photo ? `${base}${photo}` : undefined;
 
 const initials = name
   .split(' ')
