@@ -4,7 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://schoterpoort.com',
+  site: 'https://han-s-kl.github.io',
+  base: '/schoterpoort',
   trailingSlash: 'never',
   integrations: [sitemap()],
   vite: {
