@@ -51,7 +51,7 @@ Een uur voor het plaatsen van het spiraal kunt u een pijnstiller nemen. De huisa
 
 Het spiraaltje wordt meestal tijdens of vlak na de menstruatie ingebracht. U bent dan zeker niet zwanger en het spiraaltje is direct betrouwbaar. Wilt u na uw bevalling een spiraaltje, dan kan dat vanaf 6-8 weken na de bevalling geplaatst worden, ook als u nog niet heeft gemenstrueerd.
 
-Is er een vermoeden of risico op een SOA dan moet er eerst een SOA-kweek worden afgenomen voor het spiraal geplaatst wordt, de uitslag van de kweek moet dan eerst worden afgewacht. Lees meer op onze [SOA-pagina](/soa).
+Is er een vermoeden of risico op een SOA dan moet er eerst een SOA-kweek worden afgenomen voor het spiraal geplaatst wordt, de uitslag van de kweek moet dan eerst worden afgewacht. Lees meer op onze [SOA-pagina](/schoterpoort/soa).
 
 ### De plaatsing
 

@@ -34,7 +34,7 @@ De patientenomgeving is ook beschikbaar als app voor uw smartphone.
 
 - De patientenomgeving is beschikbaar voor patienten van **16 jaar en ouder**
 - Het is helaas niet mogelijk om een account voor uw kind aan te maken in verband met privacywetgeving
-- **Is uw kind jonger dan 16?** Gebruik het [contactformulier voor kinderen](/contact-kinderen) om beveiligd een bericht te sturen
+- **Is uw kind jonger dan 16?** Gebruik het [contactformulier voor kinderen](/schoterpoort/contact-kinderen) om beveiligd een bericht te sturen
 - **Belangrijk:** Log niet in op uw eigen patientenportaal om een vraag voor uw kind te stellen. Uw portaal is gekoppeld aan uw eigen dossier, niet dat van uw kind
 
 ## Hulp nodig?

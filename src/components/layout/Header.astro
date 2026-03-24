@@ -1,5 +1,6 @@
 ---
 import navigation from '../../data/navigation.json';
+import { url } from '../../utils/url';
 
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL;
@@ -8,7 +9,7 @@ const base = import.meta.env.BASE_URL;
 <header>
   <!-- Logo banner -->
   <div class="bg-[#c2ac57]">
-    <a href="/" class="block no-underline max-w-7xl mx-auto">
+    <a href={url('/')} class="block no-underline max-w-7xl mx-auto">
       <img
         src={`${base}/images/logo.png`}
         alt="Huisartsenpraktijk Schoterpoort -- M.M. Duijn, L. van der Eem, M. Louwet, W.H. Steketee"
@@ -45,7 +46,7 @@ const base = import.meta.env.BASE_URL;
           {navigation.map((item) => (
             <li class="relative group" role="none">
               <a
-                href={item.href}
+                href={url(item.href)}
                 role="menuitem"
                 class:list={[
                   'px-3 py-2 rounded-lg text-sm font-medium no-underline transition-colors',
@@ -68,7 +69,7 @@ const base = import.meta.env.BASE_URL;
                   <li class="bg-white rounded-lg shadow-lg border border-neutral-200 py-1 min-w-56">
                     {item.children.map((child) => (
                       <a
-                        href={child.href}
+                        href={url(child.href)}
                         role="menuitem"
                         class:list={[
                           'block px-4 py-2 text-sm no-underline transition-colors',
@@ -88,7 +89,7 @@ const base = import.meta.env.BASE_URL;
         </ul>
 
         <!-- Mobile: small logo + hamburger -->
-        <a href="/" class="lg:hidden flex items-center no-underline">
+        <a href={url('/')} class="lg:hidden flex items-center no-underline">
           <span class="text-sm font-bold text-neutral-900">Schoterpoort</span>
         </a>
 
@@ -118,7 +119,7 @@ const base = import.meta.env.BASE_URL;
           {navigation.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={url(item.href)}
                 class:list={[
                   'block px-3 py-2.5 rounded-lg text-sm font-medium no-underline',
                   currentPath === item.href
@@ -133,7 +134,7 @@ const base = import.meta.env.BASE_URL;
                   {item.children.map((child) => (
                     <li>
                       <a
-                        href={child.href}
+                        href={url(child.href)}
                         class:list={[
                           'block px-3 py-2 rounded-lg text-sm no-underline',
                           currentPath === child.href

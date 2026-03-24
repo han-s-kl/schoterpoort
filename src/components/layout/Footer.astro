@@ -1,4 +1,5 @@
 ---
+import { url } from '../../utils/url';
 const currentYear = new Date().getFullYear();
 const base = import.meta.env.BASE_URL;
 ---
@@ -33,12 +34,12 @@ const base = import.meta.env.BASE_URL;
       <div>
         <h2 class="text-white font-semibold text-lg mb-4">Snel naar</h2>
         <ul class="space-y-2 text-sm">
-          <li><a href="/telefoonnummers" class="text-dark-300 hover:text-white no-underline transition-colors">Telefoonnummers</a></li>
-          <li><a href="/spreekuur" class="text-dark-300 hover:text-white no-underline transition-colors">Spreekuur & afspraken</a></li>
-          <li><a href="/spoedpost" class="text-dark-300 hover:text-white no-underline transition-colors">Spoedpost</a></li>
-          <li><a href="/tarieven" class="text-dark-300 hover:text-white no-underline transition-colors">Tarieven 2025</a></li>
-          <li><a href="/medewerkers/huisartsen" class="text-dark-300 hover:text-white no-underline transition-colors">Onze huisartsen</a></li>
-          <li><a href="/information" class="text-dark-300 hover:text-white no-underline transition-colors">Information (English)</a></li>
+          <li><a href={url('/telefoonnummers')} class="text-dark-300 hover:text-white no-underline transition-colors">Telefoonnummers</a></li>
+          <li><a href={url('/spreekuur')} class="text-dark-300 hover:text-white no-underline transition-colors">Spreekuur & afspraken</a></li>
+          <li><a href={url('/spoedpost')} class="text-dark-300 hover:text-white no-underline transition-colors">Spoedpost</a></li>
+          <li><a href={url('/tarieven')} class="text-dark-300 hover:text-white no-underline transition-colors">Tarieven 2025</a></li>
+          <li><a href={url('/medewerkers/huisartsen')} class="text-dark-300 hover:text-white no-underline transition-colors">Onze huisartsen</a></li>
+          <li><a href={url('/information')} class="text-dark-300 hover:text-white no-underline transition-colors">Information (English)</a></li>
         </ul>
       </div>
 
@@ -50,7 +51,7 @@ const base = import.meta.env.BASE_URL;
           <li><a href="https://www.moetiknaardedokter.nl/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Moet ik naar de dokter?</a></li>
           <li><a href="https://www.rijksoverheid.nl/onderwerpen/verkeersveiligheid/vraag-en-antwoord/medicijnen-in-het-verkeer/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Medicijnen en verkeer</a></li>
           <li><a href="https://www.pharos.nl/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Pharos.nl</a></li>
-          <li><a href="/gezondheid" class="text-dark-300 hover:text-white no-underline transition-colors">Alle gezondheidsinfo</a></li>
+          <li><a href={url('/gezondheid')} class="text-dark-300 hover:text-white no-underline transition-colors">Alle gezondheidsinfo</a></li>
         </ul>
         <div class="mt-6 pt-4 border-t border-dark-700 text-xs text-dark-400 space-y-1">
           <p><a href={`${base}/documents/Jaarverslag-2023-Huisartsenpraktijk-Schoterpoort.pdf`} class="hover:text-dark-200 no-underline">Jaarverslag 2023</a></p>
@@ -58,11 +59,11 @@ const base = import.meta.env.BASE_URL;
           <p><a href={`${base}/documents/Beleidsplan-2025-2027-Huisartsenpraktijk-Schoterpoort.pdf`} class="hover:text-dark-200 no-underline">Beleidsplan 2025-2027</a></p>
         </div>
         <div class="mt-4 pt-4 border-t border-dark-700 text-xs text-dark-400 space-y-1">
-          <p><a href="/privacy" class="hover:text-dark-200 no-underline">Privacyverklaring</a></p>
-          <p><a href="/medisch-dossier" class="hover:text-dark-200 no-underline">Medisch dossier</a></p>
-          <p><a href="/klachtenregeling" class="hover:text-dark-200 no-underline">Klachtenregeling</a></p>
-          <p><a href="/cookiewetgeving" class="hover:text-dark-200 no-underline">Cookiewetgeving</a></p>
-          <p><a href="/minderjarigen-wilsonbekwamen" class="hover:text-dark-200 no-underline">Minderjarigen en wilsonbekwamen</a></p>
+          <p><a href={url('/privacy')} class="hover:text-dark-200 no-underline">Privacyverklaring</a></p>
+          <p><a href={url('/medisch-dossier')} class="hover:text-dark-200 no-underline">Medisch dossier</a></p>
+          <p><a href={url('/klachtenregeling')} class="hover:text-dark-200 no-underline">Klachtenregeling</a></p>
+          <p><a href={url('/cookiewetgeving')} class="hover:text-dark-200 no-underline">Cookiewetgeving</a></p>
+          <p><a href={url('/minderjarigen-wilsonbekwamen')} class="hover:text-dark-200 no-underline">Minderjarigen en wilsonbekwamen</a></p>
           <p>NPA gecertificeerd sinds 2006</p>
           <p>Onderwijspraktijk UvA/Amsterdam UMC</p>
         </div>

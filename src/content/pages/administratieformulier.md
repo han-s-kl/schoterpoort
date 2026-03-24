@@ -17,7 +17,7 @@ Voor administratieve verzoeken kunt u ook contact opnemen met de praktijk:
 
 ## Veelvoorkomende verzoeken
 
-- Overdracht medisch dossier (zie [Medisch dossier](/medisch-dossier))
+- Overdracht medisch dossier (zie [Medisch dossier](/schoterpoort/medisch-dossier))
 - Inzage in uw dossier
 - Wijziging van uw gegevens
-- Verklaring of attest aanvragen (zie [Tarieven](/tarieven))
+- Verklaring of attest aanvragen (zie [Tarieven](/schoterpoort/tarieven))

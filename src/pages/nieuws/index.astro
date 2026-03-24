@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
+import { url } from '../../utils/url';
 
 const allNews = (await getCollection('news'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -16,7 +17,7 @@ const allNews = (await getCollection('news'))
         <div class="grid gap-4">
           {allNews.map((article) => (
             <a
-              href={`/nieuws/${article.id}`}
+              href={url(`/nieuws/${article.id}`)}
               class="block bg-white rounded-xl border border-neutral-200 p-6 hover:border-primary-300 hover:shadow-md transition-all no-underline group"
             >
               <time class="text-sm text-neutral-400">

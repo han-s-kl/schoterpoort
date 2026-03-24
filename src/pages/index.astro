@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import practiceData from '../data/practices.json';
 import { getCollection } from 'astro:content';
+import { url } from '../utils/url';
 
 const news = (await getCollection('news'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -27,11 +28,11 @@ const practices = practiceData.practices;
           groepspraktijk in Haarlem met een patiënttevredenheidsscore van 8,5 tot 9.
         </p>
         <p class="mt-3 text-sm text-dark-300">
-          <em>Welcome to Huisartsenpraktijk Schoterpoort. For information in English, please visit our <a href="/information" class="text-primary-300 underline hover:text-primary-200">English information page</a>.</em>
+          <em>Welcome to Huisartsenpraktijk Schoterpoort. For information in English, please visit our <a href={url('/information')} class="text-primary-300 underline hover:text-primary-200">English information page</a>.</em>
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a
-            href="/telefoonnummers"
+            href={url('/telefoonnummers')}
             class="inline-flex items-center gap-2 bg-primary-400 text-dark-900 font-semibold px-6 py-3 rounded-xl no-underline hover:bg-primary-300 transition-colors"
           >
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -40,7 +41,7 @@ const practices = practiceData.practices;
             Bel ons
           </a>
           <a
-            href="/spreekuur"
+            href={url('/spreekuur')}
             class="inline-flex items-center gap-2 bg-white/10 text-white font-semibold px-6 py-3 rounded-xl no-underline hover:bg-white/20 transition-colors border border-white/20"
           >
             Afspraak maken
@@ -62,7 +63,7 @@ const practices = practiceData.practices;
           { label: 'Spoedpost', href: '/spoedpost', icon: 'M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z' },
         ].map((action) => (
           <a
-            href={action.href}
+            href={url(action.href)}
             class="flex flex-col items-center gap-2 bg-white rounded-xl p-4 md:p-5 shadow-md hover:shadow-lg transition-shadow no-underline text-center border border-neutral-100"
           >
             <div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center">
@@ -216,12 +217,12 @@ const practices = practiceData.practices;
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-bold">Nieuws</h2>
-          <a href="/nieuws" class="text-sm text-dark-600 hover:text-dark-700 no-underline font-medium">Alle berichten &rarr;</a>
+          <a href={url('/nieuws')} class="text-sm text-dark-600 hover:text-dark-700 no-underline font-medium">Alle berichten &rarr;</a>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
           {news.map((article) => (
             <a
-              href={`/nieuws/${article.id}`}
+              href={url(`/nieuws/${article.id}`)}
               class="block bg-white rounded-xl border border-neutral-200 p-5 hover:border-primary-300 hover:shadow-md transition-all no-underline group"
             >
               <time class="text-xs text-neutral-400">

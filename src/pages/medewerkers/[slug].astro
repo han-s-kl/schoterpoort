@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import StaffCard from '../../components/staff/StaffCard.astro';
 import { getCollection, render } from 'astro:content';
 import allStaff from '../../data/staff.json';
+import { url } from '../../utils/url';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
@@ -45,7 +46,7 @@ const hasStaffCards = staffForPage.length > 0;
   <section class="py-12 lg:py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <nav class="mb-8 text-sm">
-        <a href="/medewerkers" class="text-dark-600 hover:text-dark-700 no-underline">&larr; Medewerkers</a>
+        <a href={url('/medewerkers')} class="text-dark-600 hover:text-dark-700 no-underline">&larr; Medewerkers</a>
       </nav>
 
       <h1 class="text-3xl lg:text-4xl font-bold mb-8">{page.data.title}</h1>
