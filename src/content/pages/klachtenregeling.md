@@ -20,7 +20,7 @@ Als interne oplossing niet lukt, kunt u contact opnemen met DOkH (onafhankelijke
 
 Klik hieronder voor het volledige klachtenreglement:
 
-[Klachtenreglement Schoterpoort Huisartsenpraktijk](/documents/klachtenreglement.pdf)
+[Klachtenreglement Schoterpoort Huisartsenpraktijk](/schoterpoort/documents/klachtenreglement.pdf)
 
 ## Klacht indienen
 

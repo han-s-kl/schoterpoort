@@ -7,7 +7,7 @@ description: "Uitgebreide informatie over het koperspiraaltje en hormoonspiraalt
 
 ## Wat is een spiraaltje?
 
-![Spiraaltje (IUD)](/images/health/spiraal.jpg)
+![Spiraaltje (IUD)](/schoterpoort/images/health/spiraal.jpg)
 
 Het spiraaltje is een kunststof ankertje (24 tot 36 mm lang) dat in de baarmoeder wordt geplaatst om zwangerschap te voorkomen. Er zitten twee draadjes aan vast die uit de baarmoedermond hangen. Deze draadjes zijn nodig om het spiraaltje later weer te kunnen verwijderen. Bij het vrijen merken u en uw partner niets van het spiraaltje.
 

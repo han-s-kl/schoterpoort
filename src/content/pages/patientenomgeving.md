@@ -26,7 +26,7 @@ Kies uw praktijk om in te loggen:
 
 De patientenomgeving is ook beschikbaar als app voor uw smartphone.
 
-[![UwZorgOnline app installeren](/images/uwzorgonline-app.png)](https://uwzorgonline.nl/consumenten/faq/cat/hoe-kan-ik-de-app-installeren/)
+[![UwZorgOnline app installeren](/schoterpoort/images/uwzorgonline-app.png)](https://uwzorgonline.nl/consumenten/faq/cat/hoe-kan-ik-de-app-installeren/)
 
 [Bekijk de installatiehandleiding](https://uwzorgonline.nl/consumenten/faq/cat/hoe-kan-ik-de-app-installeren/)
 

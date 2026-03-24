@@ -7,7 +7,7 @@ description: "Administratief formulier voor Huisartsenpraktijk Schoterpoort."
 
 Dit formulier is bedoeld om gewijzigde adres- en verzekeringsgegevens door te geven aan de praktijkassistente. Het kan niet gebruikt worden om u zonder overleg te laten inschrijven als nieuwe patient bij een van de huisartsen.
 
-[Download het administratieformulier (PDF)](/documents/Administratieformulier.pdf)
+[Download het administratieformulier (PDF)](/schoterpoort/documents/Administratieformulier.pdf)
 
 Voor administratieve verzoeken kunt u ook contact opnemen met de praktijk:
 

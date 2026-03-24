@@ -2,6 +2,7 @@
 import navigation from '../../data/navigation.json';
 
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
 ---
 
 <header>
@@ -9,7 +10,7 @@ const currentPath = Astro.url.pathname;
   <div class="bg-[#c2ac57]">
     <a href="/" class="block no-underline max-w-7xl mx-auto">
       <img
-        src="/images/logo.png"
+        src={`${base}images/logo.png`}
         alt="Huisartsenpraktijk Schoterpoort -- M.M. Duijn, L. van der Eem, M. Louwet, W.H. Steketee"
         class="block h-20 sm:h-28 lg:h-32 w-auto"
       />

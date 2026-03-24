@@ -7,7 +7,7 @@ description: "Informatie over tekenbeten, de ziekte van Lyme, preventie en behan
 
 ## Wat is een tekenbeet?
 
-![Een teek op de huid](/images/health/teek.jpg)
+![Een teek op de huid](/schoterpoort/images/health/teek.jpg)
 
 Een teek is een klein (een tot drie millimeter groot), bruin-zwart spinachtig insect. Teken kruipen. Ze kunnen niet springen of vliegen. Teken leven vooral in struiken en hoog gras, in bossen, heide, duinen, parken en tuinen. Ze houden van een vochtige omgeving, en zijn vooral actief van maart tot oktober. Jaarlijks worden in Nederland een miljoen mensen door een teek gebeten. Ook in het buitenland komen teken voor.
 
@@ -63,9 +63,9 @@ Neem contact op met uw huisarts:
 - Als u een teek heeft verwijderd die waarschijnlijk al 24 uur of langer in de huid heeft vastgezeten.
 - Als in de buurt van een tekenbeet binnen enkele dagen tot drie maanden een rode of blauwrode vlek of ring ontstaat die binnen enkele dagen groter wordt (erythema migrans).
 
-![Erythema migrans -- rode ring rond tekenbeet](/images/health/erythema-migrans.jpg)
+![Erythema migrans -- rode ring rond tekenbeet](/schoterpoort/images/health/erythema-migrans.jpg)
 
-![Tekenbeet met erythema migrans](/images/health/teek-migrans.jpg)
+![Tekenbeet met erythema migrans](/schoterpoort/images/health/teek-migrans.jpg)
 - Als u zich binnen drie maanden na een tekenbeet grieperig gaat voelen met koorts, hoofdpijn, spierpijn en vermoeidheid.
 - Als u lang na een tekenbeet dubbel gaat zien of een scheef gezicht krijgt.
 - Als u lang na een tekenbeet pijn, tintelingen of minder kracht in uw arm of been heeft.
