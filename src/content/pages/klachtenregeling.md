@@ -5,24 +5,15 @@ description: "Procedure voor het indienen van klachten bij Schoterpoort Huisarts
 
 # Klachtenregeling
 
-De meeste patienten zijn tevreden over de zorg. Heeft u toch een klacht of onvrede, dan wordt u aangemoedigd om dit eerst met uw huisarts te bespreken en samen naar een oplossing te zoeken.
+Gelukkig zijn de meeste patiënten tevreden over hun huisarts en onze huisartsenpraktijk. Maar misschien bent u over bepaalde zaken minder of in het geheel niet tevreden. Probeer eerst uw klacht of onvrede met uw huisarts te bespreken en samen met haar (of hem) het probleem op te lossen.
 
-De praktijk neemt klachten serieus en gebruikt deze voor kwaliteitsverbetering. Wanneer een klachtenformulier via de website wordt ingediend, zorgt de interne klachtencoordinator ervoor dat deze wordt verwerkt. Patienten ontvangen een ontvangstbevestiging en worden gecontacteerd over de vervolgstappen, waaronder mogelijk gesprekken met betrokken medewerkers.
+Dat kan ook als uw klacht gaat over een praktijkassistente, praktijkverpleegkundige, praktijkondersteuner GGZ/Somatiek of de praktijkorganisatie. Als de huisarts weet dat u niet helemaal tevreden bent, kan zij (hij) samen met u zoeken naar een oplossing.
 
-## Externe klachtbehandeling
-
-Als interne oplossing niet lukt, kunt u contact opnemen met DOkH (onafhankelijke klachtenorganisatie):
-
-- **Adres:** Robijnstraat 6, 1812 RB Alkmaar
-- **Telefoon:** 072-5208325
-- **E-mail:** [klachtenengeschillen@dokh.nl](mailto:klachtenengeschillen@dokh.nl)
-- **Website:** [www.dokh.nl](https://www.dokh.nl)
-
-Klik hieronder voor het volledige klachtenreglement:
-
-[Klachtenreglement Schoterpoort Huisartsenpraktijk](/schoterpoort/documents/klachtenreglement.pdf)
+Wij gaan uiterst serieus om met klachten en/of uitingen van onvrede, allereerst natuurlijk voor u persoonlijk, maar ook omdat het vaak kan bijdragen aan de kwaliteitsverbetering van onze huisartsenpraktijk.
 
 ## Klacht indienen
+
+Als u het klachtenformulier via de website invult zal de klachtencoördinator binnen de praktijk ervoor zorgen dat de klacht wordt opgepakt binnen de praktijk. U ontvangt een bevestiging van de ontvangst van het klachtenformulier en er wordt contact met u opgenomen over de vervolgstappen die het meest passend zijn.
 
 Heeft u een klacht? U kunt deze indienen door een e-mail te sturen naar [info@schoterpoort.com](mailto:info@schoterpoort.com) met vermelding van "Klacht" in het onderwerp. Vermeld daarbij:
 
@@ -31,3 +22,20 @@ Heeft u een klacht? U kunt deze indienen door een e-mail te sturen naar [info@sc
 - Telefoonnummer
 - E-mailadres
 - Uw klacht
+
+## Externe klachtbehandeling
+
+Wilt u dit niet of komen we er samen met u niet uit, dan kan er door u een beroep worden gedaan op een onafhankelijke klachtenfunctionaris van de organisatie DOkH, afdeling klachten en geschillen.
+
+- **Adres:** Robijnstraat 6, 1812 RB Alkmaar
+- **Telefoon:** 072-5208325
+- **E-mail:** [klachtenengeschillen@dokh.nl](mailto:klachtenengeschillen@dokh.nl)
+- **Website:** [www.dokh.nl](https://www.dokh.nl)
+
+De praktijk is tevens aangesloten bij de geschilleninstantie van DOkH.
+
+## Klachtenreglement
+
+De werkwijze van onze interne klachtenregeling is vastgelegd in een reglement zodat u precies weet waar u aan toe bent.
+
+[Klachtenreglement Schoterpoort Huisartsenpraktijk](/schoterpoort/documents/klachtenreglement.pdf)
