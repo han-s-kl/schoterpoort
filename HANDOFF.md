@@ -24,3 +24,5 @@ Branch: main (feature/initial-site gemerged)
 3. **Build warnings** -- `en/[slug].astro` genereert `/en/spreekuur` en `/en/telefoonnummers` die conflicteren met de standalone .astro pagina's. Oplossing: verwijder `spreekuur` en `telefoonnummers` uit de topLevel array in `en/[slug].astro`.
 4. **GitHub Pages base path** -- alle interne links moeten url() helper gebruiken. Markdown content heeft hardcoded `/schoterpoort/` prefix. Bij migratie naar eigen domein moet base path verwijderd worden.
 5. **Git push** -- `gh auth switch --user han-s-kl` nodig voor push naar GitHub (standaard account is hklplrhft).
+6. **Klachtenformulier backend** -- Gebruikt nu mailto:. Bij migratie naar TransIP: vervang door PHP-script. Zie docs/refs/formulieren-backend.md.
+7. **Contact-kinderen ZIVVER URL** -- Placeholder URL. ZIVVER Conversation Starter moet geactiveerd worden.
