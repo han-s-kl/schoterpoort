@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Inloggen - CMS Schoterpoort</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: white; border-radius: 12px; padding: 2rem; width: 100%; max-width: 360px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    p { font-size: 0.875rem; color: #666; margin-bottom: 1.5rem; }
+    label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+    input { width: 100%; padding: 0.625rem 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    input:focus { outline: none; border-color: #4a5568; }
+    button { width: 100%; padding: 0.625rem; background: #2d3748; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; margin-top: 1rem; }
+    button:hover { background: #1a202c; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    .error { color: #e53e3e; font-size: 0.875rem; margin-top: 0.75rem; display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>CMS Schoterpoort</h1>
+    <p>Voer het wachtwoord in om in te loggen.</p>
+    <form id="form">
+      <label for="password">Wachtwoord</label>
+      <input type="password" id="password" autocomplete="current-password" required autofocus />
+      <button type="submit" id="btn">Inloggen</button>
+      <div class="error" id="error">Onjuist wachtwoord. Probeer opnieuw.</div>
+    </form>
+  </div>
+  <script>
+    const ENCRYPTED = 'NGJVhe4KcEE+LEe9UCi6xcx4LVSlI+Mm1KtKTxm/QOJ/KSEtlGawaLZE3hmsUEiI66pshdgM/dK+ioE6bnRISB/KnW3RUANJFgAtIUyLQGXwLUxQ1+Sg5UVZELY0DirfnkFoO8MTXejSGnYRMqadl9XnngdO5EJdSVWg10KoZ8X4AgpynAHEHJY=';
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn');
+      const errorEl = document.getElementById('error');
+      errorEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Bezig...';
+
+      try {
+        const password = document.getElementById('password').value;
+        const data = Uint8Array.from(atob(ENCRYPTED), c => c.charCodeAt(0));
+
+        const salt = data.slice(0, 16);
+        const iv = data.slice(16, 28);
+        const tag = data.slice(28, 44);
+        const ciphertext = data.slice(44);
+
+        // Combine ciphertext + auth tag (Web Crypto expects them together)
+        const combined = new Uint8Array(ciphertext.length + tag.length);
+        combined.set(ciphertext);
+        combined.set(tag, ciphertext.length);
+
+        const keyMaterial = await crypto.subtle.importKey(
+          'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']
+        );
+        const key = await crypto.subtle.deriveKey(
+          { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+          keyMaterial,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['decrypt']
+        );
+        const decrypted = await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv },
+          key,
+          combined
+        );
+        const token = new TextDecoder().decode(decrypted);
+
+        if (window.opener) {
+          window.opener.postMessage(
+            { token, provider: 'github' },
+            window.location.origin
+          );
+          window.close();
+        }
+      } catch {
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Inloggen';
+      }
+    });
+  </script>
+</body>
+</html>

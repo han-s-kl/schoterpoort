@@ -2,7 +2,8 @@ backend:
   name: github
   repo: han-s-kl/schoterpoort
   branch: main
-  # base_url and auth_endpoint will be configured when PHP proxy is deployed on TransIP
+  base_url: https://han-s-kl.github.io/schoterpoort/admin
+  auth_endpoint: auth.html
 
 publish_mode: editorial_workflow
 
