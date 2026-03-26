@@ -5,19 +5,21 @@ import { url } from '../../utils/url';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages-en');
-  const topLevel = [
-    'spreekuur', 'huisbezoek', 'tarieven', 'eigen-risico', 'apotheek',
-    'spoedpost', 'klachtenregeling', 'privacy', 'medisch-dossier',
-    'vacatures', 'formulieren',
-    'klachtenformulier', 'administratieformulier', 'urineonderzoek-formulier',
-    'minderjarigen-wilsonbekwamen', 'cookiewetgeving',
-    'aanmelding-nieuwe-patienten', 'ik-geef-toestemming',
-    'routebeschrijving', 'beeldbellen-videoconsult',
-    'patientenomgeving', 'herhaalrecept', 'telefoonnummers',
+
+  // Slugs handled by fixed .astro files or sub-routes (/en/gezondheid/, /en/medewerkers/)
+  const excluded = [
+    // Fixed routes (have their own .astro file)
+    'contact', 'contact-kinderen', 'spreekuur', 'telefoonnummers',
+    // /en/gezondheid/[slug]
+    'reizigersadvisering', 'soa', 'spiraal', 'tekenbeet',
+    'wrattenspreekuur', 'urineweginfecties', 'zwangerschap',
+    // /en/medewerkers/[slug]
+    'huisartsen', 'praktijkverpleegkundigen', 'praktijkassistenten',
+    'huisartsen-in-opleiding',
   ];
 
   return pages
-    .filter((p) => topLevel.includes(p.id))
+    .filter((p) => !excluded.includes(p.id))
     .map((page) => ({
       params: { slug: page.id },
       props: { page },
