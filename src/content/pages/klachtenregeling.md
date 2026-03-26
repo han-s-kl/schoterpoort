@@ -13,7 +13,7 @@ Wij gaan uiterst serieus om met klachten en/of uitingen van onvrede, allereerst 
 
 ## Klacht indienen
 
-Als u het klachtenformulier via de website invult zal de klachtencoördinator binnen de praktijk ervoor zorgen dat de klacht wordt opgepakt binnen de praktijk. U ontvangt een bevestiging van de ontvangst van het klachtenformulier en er wordt contact met u opgenomen over de vervolgstappen die het meest passend zijn.
+Als u het klachtenformulier via de website invult zal de klachtencoördinator binnen de praktijk ervoor zorgen dat de klacht wordt opgepakt binnen de praktijk. U ontvangt een bevestiging van de ontvangst van het klachtenformulier en er wordt contact met u opgenomen over de vervolgstappen die het meest passend zijn. Bijvoorbeeld (alsnog) een gesprek met de betreffende arts of medewerker.
 
 Heeft u een klacht? U kunt deze indienen door een e-mail te sturen naar [info@schoterpoort.com](mailto:info@schoterpoort.com) met vermelding van "Klacht" in het onderwerp. Vermeld daarbij:
 
