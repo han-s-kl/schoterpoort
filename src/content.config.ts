@@ -18,6 +18,26 @@ const news = defineCollection({
   }),
 });
 
+const blocks = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blocks' }),
+  schema: z.object({
+    title: z.string(),
+    type: z.enum(['warning', 'info', 'neutral']),
+    visible: z.boolean().default(true),
+    order: z.number().default(0),
+  }),
+});
+
+const blocksEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blocks-en' }),
+  schema: z.object({
+    title: z.string(),
+    type: z.enum(['warning', 'info', 'neutral']),
+    visible: z.boolean().default(true),
+    order: z.number().default(0),
+  }),
+});
+
 const pagesEn = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages-en' }),
   schema: z.object({
@@ -35,4 +55,4 @@ const newsEn = defineCollection({
   }),
 });
 
-export const collections = { pages, news, 'pages-en': pagesEn, 'news-en': newsEn };
+export const collections = { pages, news, blocks, 'pages-en': pagesEn, 'news-en': newsEn, 'blocks-en': blocksEn };

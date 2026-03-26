@@ -1,8 +1,12 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import practiceData from '../../data/practices.json';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { url } from '../../utils/url';
+
+const allBlocks = (await getCollection('blocks-en'))
+  .filter((b) => b.data.visible)
+  .sort((a, b) => a.data.order - b.data.order);
 
 const news = (await getCollection('news-en'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -79,64 +83,39 @@ const practices = practiceData.practices;
   </section>
 
   <!-- Current announcements -->
-  <section class="py-12 lg:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl font-bold mb-6">Current announcements</h2>
-      <div class="space-y-4">
-        <!-- Staff shortage -->
-        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-5">
-          <div class="flex gap-3">
-            <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-            </svg>
-            <div>
-              <h3 class="font-semibold text-amber-900 text-sm">Staff shortage due to illness</h3>
-              <p class="text-sm text-amber-800 mt-1">
-                Due to illness, we have a limited assistant team. Please first check
-                <a href="https://www.moetiknaardedokter.nl/" target="_blank" rel="noopener" class="font-medium underline">moetiknaardedokter.nl</a> or
-                <a href="https://www.thuisarts.nl/" target="_blank" rel="noopener" class="font-medium underline">thuisarts.nl</a>.
-                Use the patient portal for non-urgent questions (response time 3 working days).
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Practice closures -->
-        <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-5">
-          <div class="flex gap-3">
-            <svg class="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-            </svg>
-            <div>
-              <h3 class="font-semibold text-blue-900 text-sm">Practice closures April/May 2026</h3>
-              <ul class="text-sm text-blue-800 mt-2 space-y-1">
-                <li>Van der Eem: 20 April -- 27 April</li>
-                <li>Steketee: 20 April -- 28 April</li>
-                <li>Duijn: 27 April -- 5 May</li>
-                <li>Louwet: 30 April -- 4 May</li>
-              </ul>
-              <p class="text-xs text-blue-600 mt-2">Telephone contact remains available for non-urgent matters.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Appointment policy -->
-        <div class="bg-neutral-50 border-l-4 border-neutral-300 rounded-r-lg p-5">
-          <div class="flex gap-3">
-            <svg class="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-            </svg>
-            <div>
-              <h3 class="font-semibold text-neutral-800 text-sm">Booking appointments</h3>
-              <p class="text-sm text-neutral-600 mt-1">
-                Appointments cannot be made at the reception desk. Please book appointments by phone or via the patient portal, to protect your privacy.
-              </p>
-            </div>
-          </div>
+  {allBlocks.length > 0 && (
+    <section class="py-12 lg:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold mb-6">Current announcements</h2>
+        <div class="space-y-4">
+          {allBlocks.map(async (block) => {
+            const { Content } = await render(block);
+            const styles = {
+              warning: { bg: 'bg-amber-50', border: 'border-amber-400', icon: 'text-amber-500', title: 'text-amber-900', text: 'text-amber-800', iconPath: 'M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z' },
+              info: { bg: 'bg-blue-50', border: 'border-blue-400', icon: 'text-blue-500', title: 'text-blue-900', text: 'text-blue-800', iconPath: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5' },
+              neutral: { bg: 'bg-neutral-50', border: 'border-neutral-300', icon: 'text-neutral-400', title: 'text-neutral-800', text: 'text-neutral-600', iconPath: 'M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z' },
+            };
+            const s = styles[block.data.type];
+            return (
+              <div class={`${s.bg} border-l-4 ${s.border} rounded-r-lg p-5`}>
+                <div class="flex gap-3">
+                  <svg class={`w-5 h-5 ${s.icon} shrink-0 mt-0.5`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={s.iconPath} />
+                  </svg>
+                  <div>
+                    <h3 class={`font-semibold ${s.title} text-sm`}>{block.data.title}</h3>
+                    <div class={`text-sm ${s.text} mt-1 prose prose-sm max-w-none`}>
+                      <Content />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Practices -->
   <section class="py-16 lg:py-24 bg-neutral-50" id="praktijken">

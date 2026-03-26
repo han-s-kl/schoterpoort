@@ -1,0 +1,8 @@
+---
+title: "Staff shortage due to illness"
+type: "warning"
+visible: true
+order: 1
+---
+
+Due to illness, we have a limited assistant team. Please first check [moetiknaardedokter.nl](https://www.moetiknaardedokter.nl/) or [thuisarts.nl](https://www.thuisarts.nl/). Use the patient portal for non-urgent questions (response time 3 working days).
