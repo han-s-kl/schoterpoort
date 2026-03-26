@@ -49,10 +49,10 @@ Patienten kunnen terugbelafspraken aanvragen om wachttijd te vermijden. Voicemai
 
 ## Huisartsen
 
-- Praktijk M. (Margot) Louwet met Natasja Moes (di, wo, do) -- Tel: 023-525 43 02
-- Praktijk M.M. (Marina) Duijn met Britt Schouten (ma, di, do) -- Tel: 023-525 54 03
-- Praktijk W.H. (Willemijn) Steketee met Willemijn Schaap (ma, wo, do) -- Tel: 023-525 62 31
-- Praktijk L. (Lisette) van der Eem met Sandra Bosch (di, do, vr) -- Tel: 023-525 33 04
+- Praktijk Louwet met Natasja Moes (di, wo, do) -- Tel: 023-525 43 02
+- Praktijk Duijn met Britt Schouten (ma, di, do) -- Tel: 023-525 54 03
+- Praktijk Steketee met Willemijn Schaap (ma, wo, do) -- Tel: 023-525 62 31
+- Praktijk Van der Eem met Sandra Bosch (di, do, vr) -- Tel: 023-525 33 04
 
 Algemeen nummer Schoterpoort: 023-541 03 45
 

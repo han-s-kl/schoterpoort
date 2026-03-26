@@ -15,10 +15,10 @@ U kunt via de [patientenomgeving](/schoterpoort/patientenomgeving) op de website
 
 Bel het praktijk-telefoonnummer van uw eigen huisarts en kies voor **keuzetoets 2**.
 
-- Praktijk M. Louwet: [023 -- 525 43 02](tel:0235254302)
-- Praktijk M.M. Duijn: [023 -- 525 54 03](tel:0235255403)
-- Praktijk W.H. Steketee: [023 -- 525 62 31](tel:0235256231)
-- Praktijk L. van der Eem: [023 -- 525 33 04](tel:0235253304)
+- Praktijk Louwet: [023 -- 525 43 02](tel:0235254302)
+- Praktijk Duijn: [023 -- 525 54 03](tel:0235255403)
+- Praktijk Steketee: [023 -- 525 62 31](tel:0235256231)
+- Praktijk Van der Eem: [023 -- 525 33 04](tel:0235253304)
 
 Op de receptenlijn worden automatisch de volgende vragen aan u gesteld:
 
