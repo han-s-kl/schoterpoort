@@ -340,25 +340,24 @@
     "phone": null,
     "workingDays": [],
     "since": "maart 2026",
-    "background": "Eerder werkzaam als basisarts bij diverse zorginstellingen: huisartsencooperatie in Amsterdam, ziekenhuis op Aruba, verslavingszorg Jellinek in Amsterdam.",
+    "background": "Eerder werkzaam als basisarts bij diverse zorginstellingen: huisartsencooperatie in Amsterdam, ziekenhuis op Aruba, verslavingszorg Jellinek in Amsterdam. Ik oefen mijn vak uit met geduld en een luisterend oor. En waar mogelijk met een lach.",
     "specializations": [],
-    "interests": "Buitenactiviteiten, sport (hardlopen, fietsen), koken, reizen",
+    "interests": "Buitenactiviteiten, familie en vrienden, hardlopen, fietsen, koken, reizen, musea, bioscoop",
     "supervisors": ["M. Louwet", "N.M. Moes"],
     "photo": "/images/staff/jesse-holverda.jpg"
   },
   {
-    "name": "Donna Rog",
+    "name": "Lazin Germawi",
     "initials": null,
     "role": "Huisarts in opleiding (HAIO)",
     "bigNumber": null,
     "team": "Praktijk Steketee",
     "phone": null,
     "workingDays": [],
-    "since": null,
-    "background": "Oorspronkelijk uit Rotterdam, geneeskunde gestudeerd aan Universiteit van Amsterdam. Eerder werkzaam in gynaecologie/verloskunde (waaronder 4 maanden in Tanzania) en spoedeisende hulp bij OLVG.",
+    "since": "maart 2026",
+    "background": "",
     "specializations": [],
-    "interests": "Padel, pilates, reizen",
-    "supervisors": ["W.H. Steketee"],
-    "photo": "/images/staff/donna-rog.png"
+    "interests": null,
+    "supervisors": ["W.H. Steketee"]
   }
 ]
