@@ -80,7 +80,7 @@ Wij verzoeken u dringend om uw afspraak uiterlijk 24 uur van tevoren telefonisch
 
 De praktijk heeft sinds 2006 het NPA-kwaliteitskeurmerk, begin 2025 opnieuw verlengd voor drie jaar. Patienttevredenheidsscores zijn consequent 8,5 tot 9 uit 10 voor artsen, personeel, service en organisatie.
 
-De vier huisartsen (Louwet, Duijn, Steketee, Van der Eem) vormen een maatschap met 4 huisartsen in loondienst en 2 huisartsen in opleiding, in totaal 10 artsen. De praktijk is een erkende opleidingspraktijk voor AMC (UMC Amsterdam) huisartsen in opleiding en coassistenten.
+De vier huisartsen (Louwet, Duijn, Steketee, Van der Eem) vormen een maatschap met 4 huisartsen in loondienst en 2 huisartsen in opleiding, in totaal 10 artsen. De praktijk is een erkende opleidingspraktijk voor UMC Amsterdam huisartsen in opleiding en coassistenten.
 
 De praktijk legt de nadruk op servicegerichtheid, samenwerking en het bieden van patientenzorg op hoog niveau. Patienten worden ingeschreven bij een van de vier praktijkhouders en werken met een vast team van huisarts, assistente en praktijkverpleegkundige. De praktijk coordineert zorg met specialisten, ziekenhuizen, apothekers, fysiotherapeuten, psychologen en wijkverpleegkundigen. Avond-, weekend- en nachtdiensten worden verzorgd via de Huisartsen-Spoedpost.
 

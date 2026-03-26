@@ -80,7 +80,7 @@ We strongly request that you cancel your appointment by telephone at least 24 ho
 
 The practice has held the NPA quality mark since 2006, renewed in early 2025 for a further three years. Patient satisfaction scores are consistently 8.5 to 9 out of 10 for physicians, staff, service and organisation.
 
-The four GPs (Louwet, Duijn, Steketee, Van der Eem) form a partnership with 4 employed GPs and 2 GP trainees, totalling 10 physicians. The practice is an accredited training practice for AMC (UMC Amsterdam) GP trainees and medical students.
+The four GPs (Louwet, Duijn, Steketee, Van der Eem) form a partnership with 4 employed GPs and 2 GP trainees, totalling 10 physicians. The practice is an accredited training practice for UMC Amsterdam GP trainees and medical students.
 
 The practice emphasises service orientation, collaboration and providing high-quality patient care. Patients are registered with one of the four practice owners and work with a fixed team of GP, assistant and practice nurse. The practice coordinates care with specialists, hospitals, pharmacists, physiotherapists, psychologists and district nurses. Evening, weekend and night shifts are handled via the GP Emergency Post.
 
