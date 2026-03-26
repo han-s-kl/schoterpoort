@@ -15,7 +15,7 @@ const staffPageIds = ['huisartsen', 'praktijkverpleegkundigen', 'praktijkassiste
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
   const topLevel = [
-    'spreekuur', 'huisbezoek', 'tarieven', 'eigen-risico', 'apotheek',
+    'huisbezoek', 'tarieven', 'eigen-risico', 'apotheek',
     'spoedpost', 'klachtenregeling', 'privacy', 'medisch-dossier',
     'information', 'vacatures', 'formulieren',
     'klachtenformulier', 'administratieformulier', 'urineonderzoek-formulier',
