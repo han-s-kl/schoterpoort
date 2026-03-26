@@ -41,12 +41,26 @@ const portals = [
         ))}
       </div>
 
-      <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 mb-10">
-        <strong>Let op:</strong> Kies de juiste praktijk/huisarts. Anders kunnen we uw aanmelding niet in behandeling nemen.
-      </p>
+      <!-- Belangrijk -->
+      <h2 class="text-xl font-bold mb-4">Belangrijk</h2>
+      <div class="space-y-3 mb-10">
+        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
+          <p class="text-sm text-amber-800"><strong>Let op:</strong> Kies de juiste praktijk/huisarts. Anders kunnen we uw aanmelding niet in behandeling nemen.</p>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
+          <p class="text-sm text-blue-800">De patientenomgeving is beschikbaar voor patienten van <strong>16 jaar en ouder</strong>.</p>
+        </div>
+        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
+          <p class="text-sm text-amber-800">
+            <strong>Kind jonger dan 16?</strong> Gebruik het
+            <a href={url('/contact-kinderen')} class="font-medium underline">contactformulier voor kinderen</a>
+            om beveiligd een bericht te sturen. Log niet in op uw eigen portaal voor uw kind.
+          </p>
+        </div>
+      </div>
 
       <!-- App -->
-      <div class="flex items-center gap-5 bg-neutral-50 rounded-xl p-5 border border-neutral-200 mb-10">
+      <div class="flex items-center gap-5 bg-neutral-50 rounded-xl p-5 border border-neutral-200 mb-6">
         <a href="https://uwzorgonline.nl/consumenten/hulp-en-veelgestelde-vragen/" target="_blank" rel="noopener">
           <img
             src={`${base}/images/uwzorgonline-app.png`}
@@ -60,21 +74,6 @@ const portals = [
           <a href="https://uwzorgonline.nl/consumenten/hulp-en-veelgestelde-vragen/" target="_blank" rel="noopener" class="text-xs text-dark-600 font-medium no-underline hover:underline mt-1 inline-block">
             Bekijk de installatiehandleiding &rarr;
           </a>
-        </div>
-      </div>
-
-      <!-- Warnings -->
-      <h2 class="text-xl font-bold mb-4">Belangrijk</h2>
-      <div class="space-y-3 mb-10">
-        <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
-          <p class="text-sm text-blue-800">De patientenomgeving is beschikbaar voor patienten van <strong>16 jaar en ouder</strong>.</p>
-        </div>
-        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
-          <p class="text-sm text-amber-800">
-            <strong>Kind jonger dan 16?</strong> Gebruik het
-            <a href={url('/contact-kinderen')} class="font-medium underline">contactformulier voor kinderen</a>
-            om beveiligd een bericht te sturen. Log niet in op uw eigen portaal voor uw kind.
-          </p>
         </div>
       </div>
 
