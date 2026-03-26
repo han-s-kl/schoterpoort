@@ -7,7 +7,11 @@ description: "Informatie over het aanvragen van herhaalrecepten bij Huisartsenpr
 
 Herhaalrecepten voor chronische medicatie kunt u 24 uur per dag (ook in het weekend) op 2 manieren aanvragen:
 
-## 1. Via de receptenlijn (telefoon)
+## 1. Via de patientenomgeving
+
+U kunt via de patientenomgeving op de website online herhaalrecepten aanvragen. U dient zich dan wel eerst aan te melden. Houdt u er rekening mee dat het na het aanmaken van een account nog tot maximaal 7 dagen duurt voordat het account werkzaam is.
+
+## 2. Via de receptenlijn (telefoon)
 
 Bel het praktijk-telefoonnummer van uw eigen huisarts en kies voor **keuzetoets 2**.
 
@@ -23,10 +27,6 @@ Op de receptenlijn worden automatisch de volgende vragen aan u gesteld:
 - Straat en huisnummer woonadres
 - Naam of namen van de medicijnen die u bestelt (houd de doosjes bij de hand!)
 - Naam van uw eigen apotheek
-
-## 2. Via de patientenomgeving
-
-U kunt ook via de patientenomgeving op de website online herhaalrecepten aanvragen. U dient zich dan wel eerst aan te melden. Houdt u er rekening mee dat het na het aanmaken van een account nog tot maximaal 7 dagen duurt voordat het account werkzaam is.
 
 ## Welke medicijnen kunt u aanvragen?
 
