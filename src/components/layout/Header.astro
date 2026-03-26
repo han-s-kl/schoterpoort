@@ -1,9 +1,21 @@
 ---
-import navigation from '../../data/navigation.json';
+import navigationNl from '../../data/navigation.json';
+import navigationEn from '../../data/navigation-en.json';
 import { url } from '../../utils/url';
 
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const navigation = lang === 'en' ? navigationEn : navigationNl;
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL;
+
+// Language switch URL: swap /en/ prefix
+const switchUrl = lang === 'en'
+  ? url(currentPath.replace(/\/en(\/|$)/, '/').replace(base, '') || '/')
+  : url(`/en${currentPath.replace(base, '') || '/'}`);
 ---
 
 <header>
@@ -88,8 +100,18 @@ const base = import.meta.env.BASE_URL;
           ))}
         </ul>
 
+        <!-- Language switch (desktop) -->
+        <a
+          href={switchUrl}
+          class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium no-underline border border-neutral-200 hover:bg-neutral-50 transition-colors"
+        >
+          <span class:list={[lang === 'nl' ? 'font-bold text-neutral-900' : 'text-neutral-400']}>NL</span>
+          <span class="text-neutral-300">|</span>
+          <span class:list={[lang === 'en' ? 'font-bold text-neutral-900' : 'text-neutral-400']}>EN</span>
+        </a>
+
         <!-- Mobile: small logo + hamburger -->
-        <a href={url('/')} class="lg:hidden flex items-center no-underline">
+        <a href={url(lang === 'en' ? '/en' : '/')} class="lg:hidden flex items-center no-underline">
           <span class="text-sm font-bold text-neutral-900">Schoterpoort</span>
         </a>
 

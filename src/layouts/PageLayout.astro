@@ -7,15 +7,16 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  lang?: 'nl' | 'en';
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, lang = 'nl' } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} ogImage={ogImage}>
-  <Header slot="header" />
+<BaseLayout title={title} description={description} ogImage={ogImage} lang={lang}>
+  <Header slot="header" lang={lang} />
 
   <slot />
 
-  <Footer slot="footer" />
+  <Footer slot="footer" lang={lang} />
 </BaseLayout>

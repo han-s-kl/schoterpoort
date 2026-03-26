@@ -1,0 +1,43 @@
+[
+  { "label": "Home", "href": "/en" },
+  { "label": "Contact", "href": "/en/contact" },
+  { "label": "Phone numbers", "href": "/en/telefoonnummers" },
+  {
+    "label": "Staff",
+    "href": "/en/medewerkers",
+    "children": [
+      { "label": "General practitioners", "href": "/en/medewerkers/huisartsen" },
+      { "label": "Practice nurses", "href": "/en/medewerkers/praktijkverpleegkundigen" },
+      { "label": "Practice assistants", "href": "/en/medewerkers/praktijkassistenten" },
+      { "label": "GP trainees", "href": "/en/medewerkers/huisartsen-in-opleiding" }
+    ]
+  },
+  { "label": "Information", "href": "/en/information" },
+  {
+    "label": "Services",
+    "href": "#",
+    "children": [
+      { "label": "Appointments", "href": "/en/spreekuur" },
+      { "label": "Repeat prescription", "href": "/en/herhaalrecept" },
+      { "label": "Pharmacy", "href": "/en/apotheek" },
+      { "label": "Home visits", "href": "/en/huisbezoek" },
+      { "label": "Emergency", "href": "/en/spoedpost" },
+      { "label": "Patient portal", "href": "/en/patientenomgeving" },
+      { "label": "Contact children (<16)", "href": "/en/contact-kinderen" }
+    ]
+  },
+  {
+    "label": "Practical",
+    "href": "#",
+    "children": [
+      { "label": "Rates 2025", "href": "/en/tarieven" },
+      { "label": "Deductible", "href": "/en/eigen-risico" },
+      { "label": "Complaints", "href": "/en/klachtenregeling" },
+      { "label": "Administration form", "href": "/en/administratieformulier" },
+      { "label": "Urine test form", "href": "/en/urineonderzoek-formulier" },
+      { "label": "Vacancies", "href": "/en/vacatures" },
+      { "label": "Health info", "href": "/en/gezondheid" },
+      { "label": "News", "href": "/en/nieuws" }
+    ]
+  }
+]

@@ -18,4 +18,21 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { pages, news };
+const pagesEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/pages-en' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+  }),
+});
+
+const newsEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news-en' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+  }),
+});
+
+export const collections = { pages, news, 'pages-en': pagesEn, 'news-en': newsEn };
