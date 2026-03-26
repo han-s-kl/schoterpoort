@@ -41,6 +41,10 @@ Vier huisartsen, NPA-gecertificeerd, onderwijspraktijk UvA/Amsterdam UMC.
 
 ## Kritieke regels
 
+### Vormgeving
+- Bij design/vormgeving aanpassingen: gebruik de frontend-design skill
+- Niet handmatig CSS/Tailwind classes bedenken maar de skill laten genereren
+
 ### Content
 - NOOIT content verwijderen -- anders indelen mag, tekst weghalen niet
 - Alle originele tekst, links, afbeeldingen en PDF's van schoterpoort.com moeten behouden blijven
