@@ -34,7 +34,7 @@
           "name": "Marina Duijn",
           "initials": "M.M.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": []
+          "workingDays": ["maandag", "woensdag", "donderdagochtend", "vrijdag"]
         },
         {
           "name": "Britt Schouten",
@@ -54,7 +54,7 @@
           "name": "Willemijn Steketee",
           "initials": "W.H.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": []
+          "workingDays": ["maandag", "dinsdag", "donderdagochtend", "vrijdag"]
         },
         {
           "name": "Willemijn Schaap",
@@ -74,7 +74,7 @@
           "name": "Lisette van der Eem",
           "initials": "L.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": []
+          "workingDays": ["maandag", "woensdag", "donderdag"]
         },
         {
           "name": "Sandra Bosch",
