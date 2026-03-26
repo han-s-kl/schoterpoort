@@ -24,7 +24,11 @@ import practiceData from '../data/practices.json';
           <div class="bg-white rounded-xl border border-neutral-200 p-5">
             <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
             <p class="text-sm text-neutral-500 mb-3">
-              {practice.doctors.map((d) => d.name).join(' & ')}
+              {practice.doctors.map((d) => {
+                const parts = d.name.split(' ');
+                const lastName = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+                return `${d.initials} ${lastName}`;
+              }).join(' & ')}
             </p>
             <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="text-lg font-semibold text-dark-600 no-underline hover:text-dark-700">
               {practice.phone}
