@@ -26,9 +26,9 @@ Choose your practice to log in:
 
 The patient portal is also available as an app for your smartphone.
 
-[![Install UwZorgOnline app](/schoterpoort/images/uwzorgonline-app.png)](https://uwzorgonline.nl/consumenten/hulp-en-veelgestelde-vragen/)
+[![Install UwZorgOnline app](/schoterpoort/images/uwzorgonline-app.png)](https://uwzorgonline.nl/consumenten/app)
 
-[View the installation guide](https://uwzorgonline.nl/consumenten/hulp-en-veelgestelde-vragen/)
+[View the installation guide](https://uwzorgonline.nl/consumenten/app)
 
 ## Important
 
