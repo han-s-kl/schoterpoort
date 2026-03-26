@@ -105,9 +105,9 @@ const switchUrl = lang === 'en'
           href={switchUrl}
           class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium no-underline border border-neutral-200 hover:bg-neutral-50 transition-colors"
         >
-          <span class:list={[lang === 'nl' ? 'font-bold text-neutral-900' : 'text-neutral-400']}>NL</span>
+          <span class:list={[lang === 'nl' ? 'font-bold text-neutral-900' : 'text-neutral-400 opacity-60']}>&#127475;&#127473; NL</span>
           <span class="text-neutral-300">|</span>
-          <span class:list={[lang === 'en' ? 'font-bold text-neutral-900' : 'text-neutral-400']}>EN</span>
+          <span class:list={[lang === 'en' ? 'font-bold text-neutral-900' : 'text-neutral-400 opacity-60']}>&#127468;&#127463; EN</span>
         </a>
 
         <!-- Mobile: small logo + hamburger -->
@@ -173,9 +173,14 @@ const switchUrl = lang === 'en'
             </li>
           ))}
         </ul>
-        <div class="mt-3 pt-3 border-t border-neutral-200 px-3 flex gap-4">
-          <a href="tel:023-5410345" class="text-dark-600 font-medium text-sm no-underline">023-541 03 45</a>
-          <a href="tel:023-7504567" class="text-accent-600 font-semibold text-sm no-underline">Spoed: 023-750 45 67</a>
+        <div class="mt-3 pt-3 border-t border-neutral-200 px-3 flex justify-between items-center">
+          <div class="flex gap-4">
+            <a href="tel:023-5410345" class="text-dark-600 font-medium text-sm no-underline">023-541 03 45</a>
+            <a href="tel:023-7504567" class="text-accent-600 font-semibold text-sm no-underline">Spoed: 023-750 45 67</a>
+          </div>
+          <a href={switchUrl} class="flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium no-underline border border-neutral-200">
+            {lang === 'nl' ? '🇬🇧 EN' : '🇳🇱 NL'}
+          </a>
         </div>
       </div>
     </div>
