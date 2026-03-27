@@ -529,7 +529,7 @@
       padding: 0.125rem;
       border: 1px solid var(--border);
     }
-    .cms-table td input {
+    .cms-table td .cell-editable {
       width: 100%;
       border: none;
       padding: 0.375rem 0.5rem;
@@ -537,10 +537,16 @@
       font-family: var(--font);
       color: var(--text);
       background: transparent;
-    }
-    .cms-table td input:focus {
+      min-height: 1.6em;
       outline: none;
+      white-space: nowrap;
+    }
+    .cms-table td .cell-editable:focus {
       background: rgba(92, 124, 250, 0.04);
+    }
+    .cms-table td .cell-editable a {
+      color: var(--sidebar-accent);
+      text-decoration: underline;
     }
     .cms-table .row-remove {
       width: 28px;
@@ -1800,10 +1806,11 @@
       const tr = document.createElement('tr');
       for (let i = 0; i < colCount; i++) {
         const td = document.createElement('td');
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = cells[i] || '';
-        td.appendChild(input);
+        const cell = document.createElement('div');
+        cell.className = 'cell-editable';
+        cell.contentEditable = 'true';
+        cell.innerHTML = mdInlineToHtml(cells[i] || '');
+        td.appendChild(cell);
         tr.appendChild(td);
       }
       const tdRemove = document.createElement('td');
@@ -1826,8 +1833,8 @@
       const rows = [];
       for (const tr of tableEl.querySelectorAll('tbody tr')) {
         const cells = [];
-        for (const input of tr.querySelectorAll('td input')) {
-          cells.push(input.value);
+        for (const cell of tr.querySelectorAll('td .cell-editable')) {
+          cells.push(htmlToMdInline(cell.innerHTML));
         }
         if (cells.some(c => c)) rows.push(cells);
       }
