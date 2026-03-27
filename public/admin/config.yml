@@ -10,7 +10,7 @@ collections:
   # --- Editor-accessible collections ---
 
   - name: blocks
-    label: "Mededelingen (NL)"
+    label: "Mededelingen"
     label_singular: "Mededeling"
     folder: src/content/blocks
     create: true
@@ -30,29 +30,8 @@ collections:
       - { label: Volgorde, name: order, widget: number, default: 0, value_type: int }
       - { label: Inhoud, name: body, widget: markdown }
 
-  - name: blocks-en
-    label: "Announcements (EN)"
-    label_singular: "Announcement"
-    folder: src/content/blocks-en
-    create: true
-    delete: false
-    slug: "{{slug}}"
-    sortable_fields: [order, title]
-    fields:
-      - { label: Title, name: title, widget: string }
-      - label: Type
-        name: type
-        widget: select
-        options:
-          - { label: "Warning (yellow)", value: warning }
-          - { label: "Info (blue)", value: info }
-          - { label: "Neutral (grey)", value: neutral }
-      - { label: Visible, name: visible, widget: boolean, default: true }
-      - { label: Order, name: order, widget: number, default: 0, value_type: int }
-      - { label: Content, name: body, widget: markdown }
-
   - name: news
-    label: "Nieuwsberichten (NL)"
+    label: "Nieuwsberichten"
     label_singular: "Nieuwsbericht"
     folder: src/content/news
     create: true
@@ -65,22 +44,8 @@ collections:
       - { label: Beschrijving, name: description, widget: string }
       - { label: Inhoud, name: body, widget: markdown }
 
-  - name: news-en
-    label: "News articles (EN)"
-    label_singular: "News article"
-    folder: src/content/news-en
-    create: true
-    delete: false
-    slug: "{{slug}}"
-    sortable_fields: [date, title]
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD-MM-YYYY", time_format: false }
-      - { label: Description, name: description, widget: string }
-      - { label: Content, name: body, widget: markdown }
-
   - name: pages
-    label: "Pagina's (NL)"
+    label: "Pagina's"
     label_singular: "Pagina"
     folder: src/content/pages
     create: false
@@ -90,18 +55,6 @@ collections:
       - { label: Titel, name: title, widget: string }
       - { label: Beschrijving, name: description, widget: string }
       - { label: Inhoud, name: body, widget: markdown }
-
-  - name: pages-en
-    label: "Pages (EN)"
-    label_singular: "Page"
-    folder: src/content/pages-en
-    create: false
-    delete: false
-    slug: "{{slug}}"
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: string }
-      - { label: Content, name: body, widget: markdown }
 
   # --- Admin-only collections ---
   # These will be filtered out for editors via the PHP proxy (cms-config.php)
@@ -132,7 +85,7 @@ collections:
               - { label: Foto, name: photo, widget: image, required: false }
 
   - name: navigation-nl
-    label: "Navigatie (NL)"
+    label: "Navigatie"
     description: "Alleen admin -- menustructuur beheren"
     files:
       - name: nav-nl
@@ -153,24 +106,3 @@ collections:
                   - { label: Label, name: label, widget: string }
                   - { label: Link, name: href, widget: string }
 
-  - name: navigation-en
-    label: "Navigation (EN)"
-    description: "Admin only -- manage menu structure"
-    files:
-      - name: nav-en
-        label: "Menu (EN)"
-        file: src/data/navigation-en.json
-        fields:
-          - label: "Menu items"
-            name: items
-            widget: list
-            fields:
-              - { label: Label, name: label, widget: string }
-              - { label: Link, name: href, widget: string }
-              - label: Submenu
-                name: children
-                widget: list
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: Link, name: href, widget: string }
