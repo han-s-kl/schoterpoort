@@ -962,8 +962,7 @@
       document.getElementById('file-grid').style.display = view === 'staff-list' ? 'grid' : 'none';
       document.getElementById('editor-panel').style.display =
         (view === 'editor' || view === 'staff-detail') ? 'block' : 'none';
-      document.getElementById('markdown-wrap').style.display =
-        view === 'editor' ? 'block' : 'none';
+      document.getElementById('markdown-wrap').style.display = 'none';
       document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
       document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
     }
