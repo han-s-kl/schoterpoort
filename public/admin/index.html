@@ -832,6 +832,7 @@
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
     let spreekuurSha = null;
     let currentSections = [];   // parsed markdown sections for section editor
+    let currentMeta = {};       // original frontmatter meta (preserved on save)
 
     // --- AUTH ---
     async function decrypt(password) {
@@ -1088,7 +1089,8 @@
         currentFile = { path: item.file, sha };
         const { meta, body } = parseFrontmatter(content);
 
-        renderFields(item.fields, meta);
+        currentMeta = meta;
+        document.getElementById('fields').style.display = 'none';
         currentSections = parseMarkdownSections(body);
         renderSectionEditor(currentSections);
 
@@ -1264,18 +1266,7 @@
     function gatherMarkdownContent() {
       if (!currentNavItem) return null;
       const fields = currentNavItem.fields || PAGE_FIELDS;
-      const meta = {};
-      for (const field of fields) {
-        const input = document.getElementById(`field-${field.name}`);
-        if (!input) continue;
-        if (field.type === 'boolean') {
-          meta[field.name] = input.checked;
-        } else if (field.type === 'number') {
-          meta[field.name] = parseInt(input.value, 10) || 0;
-        } else {
-          meta[field.name] = input.value;
-        }
-      }
+      const meta = currentMeta;
 
       // Gather sections from editable fields
       const editables = document.querySelectorAll('.sections-container .editable-field[data-section-index]');
