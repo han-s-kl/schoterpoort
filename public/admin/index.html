@@ -123,13 +123,13 @@
 
     /* Sidebar */
     .sidebar {
-      width: 200px;
-      min-width: 200px;
+      width: 220px;
+      min-width: 220px;
       background: var(--sidebar-bg);
       display: flex;
       flex-direction: column;
       border-right: 1px solid rgba(255,255,255,0.06);
-      overflow: hidden;
+      overflow-y: auto;
     }
     .sidebar-header {
       padding: 1.25rem 1.25rem 1rem;
@@ -146,31 +146,86 @@
       color: #5a6270;
       margin-top: 0.125rem;
     }
-    .collections {
-      padding: 0.5rem 0.75rem;
+    .sidebar-nav {
+      padding: 0.5rem 0;
+      flex: 1;
     }
-    .collection-btn {
+
+    /* Nav items */
+    .nav-item {
       display: block;
       width: 100%;
       text-align: left;
-      padding: 0.5rem 0.625rem;
+      padding: 0.4375rem 1rem;
       border: none;
       background: none;
       color: var(--sidebar-text);
       font-size: 0.8125rem;
       font-family: var(--font);
       font-weight: 500;
-      border-radius: var(--radius);
       cursor: pointer;
       transition: all 0.1s;
     }
-    .collection-btn:hover {
+    .nav-item:hover {
       background: var(--sidebar-hover);
       color: #d0d4dc;
     }
-    .collection-btn.active {
+    .nav-item.active {
       background: rgba(92, 124, 250, 0.15);
       color: var(--sidebar-active);
+    }
+
+    /* Nav groups (expandable) */
+    .nav-group-header {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      padding: 0.4375rem 1rem;
+      border: none;
+      background: none;
+      color: var(--sidebar-text);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .nav-group-header:hover {
+      background: var(--sidebar-hover);
+      color: #d0d4dc;
+    }
+    .nav-group-header .chevron {
+      font-size: 0.5rem;
+      transition: transform 0.15s;
+      opacity: 0.5;
+    }
+    .nav-group-header.expanded .chevron {
+      transform: rotate(90deg);
+    }
+    .nav-group-children {
+      display: none;
+      padding-left: 0.5rem;
+    }
+    .nav-group-children.expanded {
+      display: block;
+    }
+    .nav-group-children .nav-item {
+      font-size: 0.75rem;
+      padding: 0.375rem 1rem;
+      color: #8890a0;
+    }
+    .nav-group-children .nav-item:hover {
+      color: #c0c8d8;
+    }
+    .nav-group-children .nav-item.active {
+      color: var(--sidebar-active);
+    }
+    .nav-separator {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0.375rem 1rem;
     }
 
     /* File list (in main area) */
@@ -201,7 +256,7 @@
       font-size: 0.875rem;
       font-weight: 600;
     }
-    .file-card .file-slug {
+    .file-card .file-meta {
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 0.25rem;
@@ -248,6 +303,17 @@
       border-radius: 3px;
       white-space: nowrap;
     }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--sidebar-accent);
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      padding: 0;
+      margin-right: 0.5rem;
+    }
+    .back-btn:hover { text-decoration: underline; }
     .topbar-right {
       display: flex;
       align-items: center;
@@ -310,6 +376,9 @@
       display: flex;
       flex-direction: column;
     }
+    .field-wide {
+      grid-column: 1 / -1;
+    }
     .field label {
       font-size: 0.75rem;
       font-weight: 600;
@@ -328,9 +397,22 @@
       background: #fff;
       transition: border-color 0.15s;
     }
-    .field input:focus, .field select:focus {
+    .field input:focus, .field select:focus, .field textarea:focus {
       outline: none;
       border-color: var(--sidebar-accent);
+    }
+    .field textarea {
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+      transition: border-color 0.15s;
     }
     .field-checkbox {
       flex-direction: row;
@@ -405,6 +487,26 @@
     }
     .EasyMDEContainer .cm-header { color: var(--text) !important; }
 
+    /* Blocks panel */
+    .blocks-panel {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .block-section {
+      margin-bottom: 2rem;
+    }
+    .block-section-header {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .block-section .markdown-wrap .CodeMirror {
+      min-height: 150px !important;
+    }
+
     /* Loading spinner */
     .loading {
       display: flex;
@@ -449,12 +551,12 @@
         <h2>Schoterpoort CMS</h2>
         <div class="version">Content beheer</div>
       </div>
-      <nav class="collections" id="collections"></nav>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
     </aside>
     <main class="main">
       <div class="topbar" id="topbar">
         <div class="topbar-left">
-          <span class="topbar-file" id="topbar-file">Selecteer een bestand</span>
+          <span class="topbar-file" id="topbar-file">Selecteer een pagina</span>
           <span class="topbar-collection" id="topbar-collection"></span>
         </div>
         <div class="topbar-right">
@@ -463,15 +565,16 @@
         </div>
       </div>
       <div class="editor-area" id="editor-area">
-        <div class="no-selection" id="no-selection">Kies een collectie in het menu</div>
+        <div class="no-selection" id="no-selection">Kies een pagina in het menu</div>
         <div class="file-grid" id="file-grid" style="display:none"></div>
         <div class="editor-panel" id="editor-panel" style="display:none">
           <div class="fields" id="fields"></div>
-          <div class="markdown-wrap">
+          <div class="markdown-wrap" id="markdown-wrap">
             <div class="markdown-label">Inhoud</div>
             <textarea id="editor-textarea"></textarea>
           </div>
         </div>
+        <div class="blocks-panel" id="blocks-panel" style="display:none"></div>
       </div>
     </main>
   </div>
@@ -483,39 +586,88 @@
     const BRANCH = 'main';
     const API = 'https://api.github.com';
     const ENCRYPTED = 'NGJVhe4KcEE+LEe9UCi6xcx4LVSlI+Mm1KtKTxm/QOJ/KSEtlGawaLZE3hmsUEiI66pshdgM/dK+ioE6bnRISB/KnW3RUANJFgAtIUyLQGXwLUxQ1+Sg5UVZELY0DirfnkFoO8MTXejSGnYRMqadl9XnngdO5EJdSVWg10KoZ8X4AgpynAHEHJY=';
+    const STAFF_PATH = 'src/data/staff.json';
 
-    const COLLECTIONS = [
+    const PAGE_FIELDS = [
+      { name: 'title', label: 'Titel', type: 'string' },
+      { name: 'description', label: 'Beschrijving', type: 'string' },
+    ];
+
+    const BLOCK_FIELDS = [
+      { name: 'title', label: 'Titel', type: 'string' },
+      { name: 'type', label: 'Type', type: 'select', options: [
+        { value: 'warning', label: 'Waarschuwing (geel)' },
+        { value: 'info', label: 'Informatie (blauw)' },
+        { value: 'neutral', label: 'Neutraal (grijs)' },
+      ]},
+      { name: 'visible', label: 'Zichtbaar', type: 'boolean' },
+      { name: 'order', label: 'Volgorde', type: 'number' },
+    ];
+
+    const STAFF_FIELDS = [
+      { name: 'name', label: 'Naam', type: 'string' },
+      { name: 'role', label: 'Rol', type: 'string' },
+      { name: 'team', label: 'Team', type: 'string' },
+      { name: 'phone', label: 'Telefoon', type: 'string' },
+      { name: 'workingDays', label: 'Werkdagen', type: 'tags' },
+      { name: 'since', label: 'Sinds', type: 'string' },
+      { name: 'background', label: 'Achtergrond', type: 'textarea', wide: true },
+      { name: 'interests', label: 'Interesses', type: 'textarea', wide: true },
+      { name: 'photo', label: 'Foto (pad)', type: 'string' },
+    ];
+
+    const STAFF_ROLE_FILTERS = {
+      'huisartsen': s => s.role === 'Huisarts',
+      'praktijkverpleegkundigen': s => /verpleegkundige|ondersteuner|Spreekuurondersteuner/i.test(s.role),
+      'praktijkassistenten': s => /Doktersassistente|Baliemedewerker|Praktijkmanager/i.test(s.role),
+      'huisartsen-in-opleiding': s => s.role === 'Huisarts in opleiding (HAIO)',
+    };
+
+    const NAV_ITEMS = [
+      { label: 'Home', mode: 'markdown', file: 'src/content/pages/home.md', fields: PAGE_FIELDS },
+      { type: 'separator' },
       {
-        name: 'blocks', label: 'Mededelingen',
-        folder: 'src/content/blocks',
-        fields: [
-          { name: 'title', label: 'Titel', type: 'string' },
-          { name: 'type', label: 'Type', type: 'select', options: [
-            { value: 'warning', label: 'Waarschuwing (geel)' },
-            { value: 'info', label: 'Informatie (blauw)' },
-            { value: 'neutral', label: 'Neutraal (grijs)' },
-          ]},
-          { name: 'visible', label: 'Zichtbaar', type: 'boolean' },
-          { name: 'order', label: 'Volgorde', type: 'number' },
+        label: 'Medewerkers', children: [
+          { label: 'Huisartsen', mode: 'staff', filterKey: 'huisartsen' },
+          { label: 'Praktijkverpleegkundigen', mode: 'staff', filterKey: 'praktijkverpleegkundigen' },
+          { label: 'Praktijkassistenten', mode: 'staff', filterKey: 'praktijkassistenten' },
+          { label: 'Huisartsen in opleiding', mode: 'staff', filterKey: 'huisartsen-in-opleiding' },
         ]
       },
       {
-        name: 'pages', label: "Pagina's",
-        folder: 'src/content/pages',
-        fields: [
-          { name: 'title', label: 'Titel', type: 'string' },
-          { name: 'description', label: 'Beschrijving', type: 'string' },
+        label: 'Diensten', children: [
+          { label: 'Spreekuur & afspraken', mode: 'markdown', file: 'src/content/pages/spreekuur.md', fields: PAGE_FIELDS },
+          { label: 'Herhaalrecept', mode: 'markdown', file: 'src/content/pages/herhaalrecept.md', fields: PAGE_FIELDS },
+          { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
+          { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
+          { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS },
+          { label: 'Patientenomgeving', mode: 'markdown', file: 'src/content/pages/patientenomgeving.md', fields: PAGE_FIELDS },
         ]
-      }
+      },
+      {
+        label: 'Praktisch', children: [
+          { label: 'Tarieven 2025', mode: 'markdown', file: 'src/content/pages/tarieven.md', fields: PAGE_FIELDS },
+          { label: 'Eigen risico', mode: 'markdown', file: 'src/content/pages/eigen-risico.md', fields: PAGE_FIELDS },
+          { label: 'Klachtenregeling', mode: 'markdown', file: 'src/content/pages/klachtenregeling.md', fields: PAGE_FIELDS },
+          { label: 'Administratieformulier', mode: 'markdown', file: 'src/content/pages/administratieformulier.md', fields: PAGE_FIELDS },
+          { label: 'Urineonderzoek formulier', mode: 'markdown', file: 'src/content/pages/urineonderzoek-formulier.md', fields: PAGE_FIELDS },
+          { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
+        ]
+      },
+      { type: 'separator' },
+      { label: 'Mededelingen', mode: 'blocks', folder: 'src/content/blocks', fields: BLOCK_FIELDS },
     ];
 
     // --- STATE ---
     let token = null;
-    let currentCollection = null;
-    let currentFile = null;
-    let currentSha = null;
-    let fileCaches = {};
-    let mde = null;
+    let currentMode = null;     // 'markdown' | 'staff' | 'blocks'
+    let currentNavItem = null;
+    let currentFile = null;     // { path, sha } for markdown mode
+    let mdeInstances = [];
+    let staffData = null;
+    let staffSha = null;
+    let currentStaffIndex = null;
+    let blockFiles = [];        // [{ path, sha, meta, body }, ...]
 
     // --- AUTH ---
     async function decrypt(password) {
@@ -553,13 +705,10 @@
     }
 
     async function listFiles(folder) {
-      if (fileCaches[folder]) return fileCaches[folder];
       const items = await ghFetch(folder);
-      const files = items
+      return items
         .filter(f => f.name.endsWith('.md'))
         .map(f => ({ name: f.name, path: f.path, sha: f.sha }));
-      fileCaches[folder] = files;
-      return files;
     }
 
     async function readFile(path) {
@@ -629,86 +778,144 @@
       return fm + body;
     }
 
-    // --- UI ---
+    // --- UI HELPERS ---
     function setStatus(text, type = '') {
       const el = document.getElementById('status');
       el.textContent = text;
       el.className = 'status' + (type ? ' ' + type : '');
     }
 
-    function renderCollections() {
-      const container = document.getElementById('collections');
-      container.innerHTML = '';
-      for (const col of COLLECTIONS) {
-        const btn = document.createElement('button');
-        btn.className = 'collection-btn';
-        btn.textContent = col.label;
-        btn.addEventListener('click', () => selectCollection(col));
-        container.appendChild(btn);
+    function destroyEditors() {
+      for (const inst of mdeInstances) {
+        try { inst.toTextArea(); } catch (e) {}
       }
+      mdeInstances = [];
     }
 
     function showView(view) {
       document.getElementById('no-selection').style.display = view === 'empty' ? 'flex' : 'none';
-      document.getElementById('file-grid').style.display = view === 'files' ? 'grid' : 'none';
-      document.getElementById('editor-panel').style.display = view === 'editor' ? 'block' : 'none';
+      document.getElementById('file-grid').style.display = view === 'staff-list' ? 'grid' : 'none';
+      document.getElementById('editor-panel').style.display =
+        (view === 'editor' || view === 'staff-detail') ? 'block' : 'none';
+      document.getElementById('markdown-wrap').style.display =
+        view === 'editor' ? 'block' : 'none';
+      document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
     }
 
-    async function selectCollection(col) {
-      currentCollection = col;
-      currentFile = null;
-      currentSha = null;
+    function setTopbar(title, subtitle, backFn) {
+      const fileEl = document.getElementById('topbar-file');
+      if (backFn) {
+        fileEl.innerHTML = '';
+        const backBtn = document.createElement('button');
+        backBtn.className = 'back-btn';
+        backBtn.innerHTML = '&larr; Terug';
+        backBtn.addEventListener('click', backFn);
+        fileEl.appendChild(backBtn);
+        fileEl.appendChild(document.createTextNode(title));
+      } else {
+        fileEl.textContent = title;
+      }
+      document.getElementById('topbar-collection').textContent = subtitle || '';
+    }
 
-      document.querySelectorAll('.collection-btn').forEach((b, i) => {
-        b.classList.toggle('active', COLLECTIONS[i] === col);
-      });
+    // --- SIDEBAR ---
+    function renderNav() {
+      const nav = document.getElementById('sidebar-nav');
+      nav.innerHTML = '';
 
+      for (const item of NAV_ITEMS) {
+        if (item.type === 'separator') {
+          const sep = document.createElement('div');
+          sep.className = 'nav-separator';
+          nav.appendChild(sep);
+          continue;
+        }
+
+        if (item.children) {
+          // Expandable group
+          const header = document.createElement('button');
+          header.className = 'nav-group-header';
+          header.innerHTML = `<span>${item.label}</span><span class="chevron">&#9654;</span>`;
+
+          const childContainer = document.createElement('div');
+          childContainer.className = 'nav-group-children';
+
+          for (const child of item.children) {
+            const btn = document.createElement('button');
+            btn.className = 'nav-item';
+            btn.textContent = child.label;
+            btn.dataset.navId = `${item.label}/${child.label}`;
+            btn.addEventListener('click', () => openItem(child));
+            childContainer.appendChild(btn);
+          }
+
+          header.addEventListener('click', () => {
+            header.classList.toggle('expanded');
+            childContainer.classList.toggle('expanded');
+          });
+
+          nav.appendChild(header);
+          nav.appendChild(childContainer);
+        } else {
+          // Leaf item
+          const btn = document.createElement('button');
+          btn.className = 'nav-item';
+          btn.textContent = item.label;
+          btn.dataset.navId = item.label;
+          btn.addEventListener('click', () => openItem(item));
+          nav.appendChild(btn);
+        }
+      }
+    }
+
+    function setActiveNav(item) {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      const id = item._navId || item.label;
+      const btn = document.querySelector(`.nav-item[data-nav-id="${id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+
+    // --- ITEM DISPATCHER ---
+    async function openItem(item) {
+      destroyEditors();
+      currentNavItem = item;
+
+      if (item.mode === 'markdown') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openMarkdownEditor(item);
+      } else if (item.mode === 'staff') {
+        // Find parent label for nav ID
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        setActiveNav(item);
+        await openStaffList(item);
+      } else if (item.mode === 'blocks') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openBlocksEditor(item);
+      }
+    }
+
+    // --- MARKDOWN EDITOR ---
+    async function openMarkdownEditor(item) {
+      currentMode = 'markdown';
       showView('empty');
-      document.getElementById('topbar-file').textContent = col.label;
-      document.getElementById('topbar-collection').textContent = '';
+      setTopbar(item.label, '');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
       try {
-        const files = await listFiles(col.folder);
-        const grid = document.getElementById('file-grid');
-        grid.innerHTML = '';
-        for (const file of files) {
-          const btn = document.createElement('button');
-          btn.className = 'file-card';
-          const slug = file.name.replace(/\.md$/, '');
-          btn.innerHTML = `<div class="file-name">${slug}</div><div class="file-slug">${file.path}</div>`;
-          btn.addEventListener('click', () => selectFile(col, file));
-          grid.appendChild(btn);
-        }
-        showView('files');
-        setStatus(`${files.length} bestanden`, '');
-      } catch (err) {
-        setStatus(`Fout: ${err.message}`, 'error');
-      }
-    }
-
-    function showFileList() {
-      if (currentCollection) selectCollection(currentCollection);
-    }
-
-    async function selectFile(col, file) {
-      currentFile = file;
-      setStatus('Laden...', 'saving');
-
-      const slug = file.name.replace(/\.md$/, '');
-      document.getElementById('topbar-file').innerHTML =
-        `<button id="back-btn" style="background:none;border:none;color:var(--sidebar-accent);cursor:pointer;font-family:var(--font);font-size:0.8125rem;padding:0;margin-right:0.5rem;">&larr; ${col.label}</button>${slug}`;
-      document.getElementById('back-btn').addEventListener('click', showFileList);
-      document.getElementById('topbar-collection').textContent = '';
-
-      try {
-        const { content, sha } = await readFile(file.path);
-        currentSha = sha;
+        const { content, sha } = await readFile(item.file);
+        currentFile = { path: item.file, sha };
         const { meta, body } = parseFrontmatter(content);
 
-        renderFields(col.fields, meta);
-        renderEditor(body);
+        renderFields(item.fields, meta);
+        renderMarkdownEditor(body);
 
         showView('editor');
         document.getElementById('save-btn').disabled = false;
@@ -718,17 +925,26 @@
       }
     }
 
-    function renderFields(fields, meta) {
-      const container = document.getElementById('fields');
-      container.innerHTML = '';
+    function renderFields(fields, values, prefix) {
+      const pfx = prefix || '';
+      const container = pfx ? null : document.getElementById('fields');
+      const target = container || document.createElement('div');
+      if (!pfx) target.innerHTML = '';
+      target.className = 'fields';
 
       for (const field of fields) {
         const div = document.createElement('div');
-        div.className = field.type === 'boolean' ? 'field field-checkbox' : 'field';
+        if (field.type === 'boolean') {
+          div.className = 'field field-checkbox';
+        } else if (field.wide) {
+          div.className = 'field field-wide';
+        } else {
+          div.className = 'field';
+        }
 
         const label = document.createElement('label');
         label.textContent = field.label;
-        label.htmlFor = `field-${field.name}`;
+        label.htmlFor = `${pfx}field-${field.name}`;
 
         let input;
         if (field.type === 'select') {
@@ -737,28 +953,34 @@
             const option = document.createElement('option');
             option.value = opt.value;
             option.textContent = opt.label;
-            if (meta[field.name] === opt.value) option.selected = true;
+            if (values[field.name] === opt.value) option.selected = true;
             input.appendChild(option);
           }
         } else if (field.type === 'boolean') {
           input = document.createElement('input');
           input.type = 'checkbox';
-          input.checked = meta[field.name] === true;
+          input.checked = values[field.name] === true;
         } else if (field.type === 'number') {
           input = document.createElement('input');
           input.type = 'number';
-          input.value = meta[field.name] ?? '';
-        } else if (field.type === 'date') {
+          input.value = values[field.name] ?? '';
+        } else if (field.type === 'textarea') {
+          input = document.createElement('textarea');
+          input.rows = 5;
+          input.value = values[field.name] ?? '';
+        } else if (field.type === 'tags') {
           input = document.createElement('input');
-          input.type = 'date';
-          input.value = meta[field.name] ?? '';
+          input.type = 'text';
+          const val = values[field.name];
+          input.value = Array.isArray(val) ? val.join(', ') : (val ?? '');
+          input.placeholder = 'maandag, dinsdag, woensdag...';
         } else {
           input = document.createElement('input');
           input.type = 'text';
-          input.value = meta[field.name] ?? '';
+          input.value = values[field.name] ?? '';
         }
 
-        input.id = `field-${field.name}`;
+        input.id = `${pfx}field-${field.name}`;
         input.dataset.fieldName = field.name;
         input.dataset.fieldType = field.type;
 
@@ -769,18 +991,17 @@
           div.appendChild(label);
           div.appendChild(input);
         }
-        container.appendChild(div);
+        target.appendChild(div);
       }
+
+      return target;
     }
 
-    function renderEditor(body) {
-      if (mde) {
-        mde.toTextArea();
-        mde = null;
-      }
-      document.getElementById('editor-textarea').value = body;
-      mde = new EasyMDE({
-        element: document.getElementById('editor-textarea'),
+    function renderMarkdownEditor(body) {
+      const textarea = document.getElementById('editor-textarea');
+      textarea.value = body;
+      const mde = new EasyMDE({
+        element: textarea,
         spellChecker: false,
         autofocus: false,
         status: false,
@@ -793,12 +1014,14 @@
         ],
         minHeight: '400px',
       });
+      mdeInstances.push(mde);
     }
 
-    function gatherContent() {
-      if (!currentCollection || !mde) return null;
+    function gatherMarkdownContent() {
+      if (!currentNavItem || !mdeInstances[0]) return null;
+      const fields = currentNavItem.fields || PAGE_FIELDS;
       const meta = {};
-      for (const field of currentCollection.fields) {
+      for (const field of fields) {
         const input = document.getElementById(`field-${field.name}`);
         if (!input) continue;
         if (field.type === 'boolean') {
@@ -809,25 +1032,228 @@
           meta[field.name] = input.value;
         }
       }
-      const body = mde.value();
-      return serializeFrontmatter(meta, body, currentCollection.fields);
+      const body = mdeInstances[0].value();
+      return serializeFrontmatter(meta, body, fields);
     }
 
-    async function handleSave() {
-      if (!currentFile || !currentSha) return;
-      const content = gatherContent();
-      if (!content) return;
+    // --- STAFF EDITOR ---
+    async function loadStaffData() {
+      if (staffData && staffSha) return;
+      const { content, sha } = await readFile(STAFF_PATH);
+      staffData = JSON.parse(content);
+      staffSha = sha;
+    }
 
+    async function openStaffList(item) {
+      currentMode = 'staff';
+      currentStaffIndex = null;
+      showView('empty');
+      setTopbar(item.label, 'Medewerkers');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        await loadStaffData();
+        const filterFn = STAFF_ROLE_FILTERS[item.filterKey];
+        const grid = document.getElementById('file-grid');
+        grid.innerHTML = '';
+
+        staffData.forEach((person, index) => {
+          if (!filterFn(person)) return;
+          const btn = document.createElement('button');
+          btn.className = 'file-card';
+          btn.innerHTML = `
+            <div class="file-name">${person.name}</div>
+            <div class="file-meta">${person.role}${person.team ? ' -- ' + person.team : ''}</div>
+            <div class="file-meta">${(person.workingDays || []).join(', ')}</div>
+          `;
+          btn.addEventListener('click', () => openStaffDetail(index, item));
+          grid.appendChild(btn);
+        });
+
+        showView('staff-list');
+        const count = grid.children.length;
+        setStatus(`${count} medewerker${count !== 1 ? 's' : ''}`, '');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function openStaffDetail(index, parentItem) {
+      currentMode = 'staff';
+      currentStaffIndex = index;
+      const person = staffData[index];
+
+      setTopbar(person.name, person.role, () => openStaffList(parentItem));
+
+      const container = document.getElementById('fields');
+      container.innerHTML = '';
+      const fieldsEl = renderFields(STAFF_FIELDS, person, '');
+      // renderFields already populates #fields since prefix is empty
+
+      showView('staff-detail');
+      document.getElementById('save-btn').disabled = false;
+      setStatus('');
+    }
+
+    function gatherStaffData() {
+      if (currentStaffIndex === null) return null;
+      const person = { ...staffData[currentStaffIndex] };
+      for (const field of STAFF_FIELDS) {
+        const input = document.getElementById(`field-${field.name}`);
+        if (!input) continue;
+        if (field.type === 'tags') {
+          person[field.name] = input.value.split(',').map(s => s.trim()).filter(Boolean);
+        } else if (field.type === 'boolean') {
+          person[field.name] = input.checked;
+        } else if (field.type === 'number') {
+          person[field.name] = parseInt(input.value, 10) || 0;
+        } else {
+          person[field.name] = input.value;
+        }
+      }
+      return person;
+    }
+
+    // --- BLOCKS EDITOR ---
+    async function openBlocksEditor(item) {
+      currentMode = 'blocks';
+      showView('empty');
+      setTopbar(item.label, '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const files = await listFiles(item.folder);
+        const loaded = await Promise.all(files.map(async f => {
+          const { content, sha } = await readFile(f.path);
+          const { meta, body } = parseFrontmatter(content);
+          return { path: f.path, sha, meta, body, name: f.name };
+        }));
+
+        // Sort by order field
+        loaded.sort((a, b) => (a.meta.order || 0) - (b.meta.order || 0));
+        blockFiles = loaded;
+
+        const panel = document.getElementById('blocks-panel');
+        panel.innerHTML = '';
+
+        loaded.forEach((block, i) => {
+          const section = document.createElement('div');
+          section.className = 'block-section';
+
+          const header = document.createElement('div');
+          header.className = 'block-section-header';
+          header.textContent = block.meta.title || block.name.replace('.md', '');
+          section.appendChild(header);
+
+          // Fields
+          const fieldsDiv = document.createElement('div');
+          fieldsDiv.className = 'fields';
+          for (const field of item.fields) {
+            const div = document.createElement('div');
+            if (field.type === 'boolean') {
+              div.className = 'field field-checkbox';
+            } else {
+              div.className = 'field';
+            }
+
+            const label = document.createElement('label');
+            label.textContent = field.label;
+            label.htmlFor = `block-${i}-field-${field.name}`;
+
+            let input;
+            if (field.type === 'select') {
+              input = document.createElement('select');
+              for (const opt of field.options) {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.label;
+                if (block.meta[field.name] === opt.value) option.selected = true;
+                input.appendChild(option);
+              }
+            } else if (field.type === 'boolean') {
+              input = document.createElement('input');
+              input.type = 'checkbox';
+              input.checked = block.meta[field.name] === true;
+            } else if (field.type === 'number') {
+              input = document.createElement('input');
+              input.type = 'number';
+              input.value = block.meta[field.name] ?? '';
+            } else {
+              input = document.createElement('input');
+              input.type = 'text';
+              input.value = block.meta[field.name] ?? '';
+            }
+
+            input.id = `block-${i}-field-${field.name}`;
+            input.dataset.fieldName = field.name;
+            input.dataset.fieldType = field.type;
+            input.dataset.blockIndex = i;
+
+            if (field.type === 'boolean') {
+              div.appendChild(input);
+              div.appendChild(label);
+            } else {
+              div.appendChild(label);
+              div.appendChild(input);
+            }
+            fieldsDiv.appendChild(div);
+          }
+          section.appendChild(fieldsDiv);
+
+          // Markdown editor
+          const wrap = document.createElement('div');
+          wrap.className = 'markdown-wrap';
+          const mdLabel = document.createElement('div');
+          mdLabel.className = 'markdown-label';
+          mdLabel.textContent = 'Inhoud';
+          wrap.appendChild(mdLabel);
+          const textarea = document.createElement('textarea');
+          textarea.id = `block-editor-${i}`;
+          textarea.value = block.body;
+          wrap.appendChild(textarea);
+          section.appendChild(wrap);
+
+          panel.appendChild(section);
+        });
+
+        showView('blocks');
+
+        // Create EasyMDE instances after DOM is visible
+        loaded.forEach((block, i) => {
+          const mde = new EasyMDE({
+            element: document.getElementById(`block-editor-${i}`),
+            spellChecker: false,
+            autofocus: false,
+            status: false,
+            toolbar: ['bold', 'italic', 'heading', '|', 'link', '|', 'preview'],
+            minHeight: '150px',
+          });
+          mdeInstances.push(mde);
+        });
+
+        document.getElementById('save-btn').disabled = false;
+        setStatus(`${loaded.length} mededelingen`, '');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    // --- SAVE ---
+    async function handleSave() {
       const saveBtn = document.getElementById('save-btn');
       saveBtn.disabled = true;
       setStatus('Opslaan...', 'saving');
 
       try {
-        const fileName = currentFile.name.replace(/\.md$/, '');
-        const msg = `Update ${currentCollection.label.toLowerCase()}: ${fileName}`;
-        currentSha = await saveFile(currentFile.path, content, currentSha, msg);
-        // Invalidate cache so next load gets fresh data
-        delete fileCaches[currentCollection.folder];
+        if (currentMode === 'markdown') {
+          await saveMarkdown();
+        } else if (currentMode === 'staff') {
+          await saveStaff();
+        } else if (currentMode === 'blocks') {
+          await saveAllBlocks();
+        }
         setStatus('Opgeslagen', 'saved');
         setTimeout(() => setStatus(''), 3000);
       } catch (err) {
@@ -837,13 +1263,58 @@
       }
     }
 
+    async function saveMarkdown() {
+      if (!currentFile) return;
+      const content = gatherMarkdownContent();
+      if (!content) return;
+      const slug = currentFile.path.split('/').pop().replace('.md', '');
+      const msg = `Update ${slug} via CMS`;
+      currentFile.sha = await saveFile(currentFile.path, content, currentFile.sha, msg);
+    }
+
+    async function saveStaff() {
+      if (currentStaffIndex === null) return;
+      const updated = gatherStaffData();
+      if (!updated) return;
+      staffData[currentStaffIndex] = updated;
+      const content = JSON.stringify(staffData, null, 2) + '\n';
+      const msg = `Update medewerker: ${updated.name} via CMS`;
+      staffSha = await saveFile(STAFF_PATH, content, staffSha, msg);
+    }
+
+    async function saveAllBlocks() {
+      const fields = currentNavItem.fields || BLOCK_FIELDS;
+      for (let i = 0; i < blockFiles.length; i++) {
+        const block = blockFiles[i];
+        const meta = {};
+        for (const field of fields) {
+          const input = document.getElementById(`block-${i}-field-${field.name}`);
+          if (!input) continue;
+          if (field.type === 'boolean') {
+            meta[field.name] = input.checked;
+          } else if (field.type === 'number') {
+            meta[field.name] = parseInt(input.value, 10) || 0;
+          } else {
+            meta[field.name] = input.value;
+          }
+        }
+        const body = mdeInstances[i] ? mdeInstances[i].value() : block.body;
+        const content = serializeFrontmatter(meta, body, fields);
+        const slug = block.path.split('/').pop().replace('.md', '');
+        const msg = `Update mededeling: ${slug} via CMS`;
+        block.sha = await saveFile(block.path, content, block.sha, msg);
+        block.meta = meta;
+        block.body = body;
+      }
+    }
+
     // --- INIT ---
     function initCMS(t) {
       token = t;
       document.getElementById('auth').style.display = 'none';
       document.body.style.background = 'var(--main-bg)';
       document.getElementById('cms').classList.add('active');
-      renderCollections();
+      renderNav();
       document.getElementById('save-btn').addEventListener('click', handleSave);
     }
 
