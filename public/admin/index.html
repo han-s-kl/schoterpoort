@@ -507,6 +507,112 @@
       min-height: 150px !important;
     }
 
+    /* Spreekuur editor */
+    .spreekuur-panel {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .spreekuur-section {
+      margin-bottom: 1.5rem;
+      background: var(--editor-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .spreekuur-section-header {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+      padding: 0.75rem 1.25rem;
+      background: #fafbfc;
+      border-bottom: 1px solid var(--border);
+    }
+    .spreekuur-section-body {
+      padding: 1rem 1.25rem;
+    }
+    .spreekuur-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .spreekuur-row input {
+      flex: 1;
+      padding: 0.4375rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+    }
+    .spreekuur-row input:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+    .spreekuur-row .row-key {
+      width: 40px;
+      text-align: center;
+      flex: none;
+    }
+    .spreekuur-row .row-label {
+      flex: 1;
+    }
+    .spreekuur-row .row-value {
+      flex: 1;
+    }
+    .row-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+      font-family: var(--font);
+      transition: all 0.1s;
+    }
+    .row-btn:hover { border-color: var(--sidebar-accent); color: var(--sidebar-accent); }
+    .row-btn-danger:hover { border-color: var(--error); color: var(--error); }
+    .add-row-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.625rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-family: var(--font);
+      cursor: pointer;
+      margin-top: 0.25rem;
+      transition: all 0.1s;
+    }
+    .add-row-btn:hover { border-color: var(--sidebar-accent); color: var(--sidebar-accent); }
+    .spreekuur-textarea {
+      width: 100%;
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+      min-height: 60px;
+      line-height: 1.5;
+    }
+    .spreekuur-textarea:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+
     /* Loading spinner */
     .loading {
       display: flex;
@@ -575,6 +681,7 @@
           </div>
         </div>
         <div class="blocks-panel" id="blocks-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="spreekuur-panel" style="display:none"></div>
       </div>
     </main>
   </div>
@@ -587,6 +694,7 @@
     const API = 'https://api.github.com';
     const ENCRYPTED = 'NGJVhe4KcEE+LEe9UCi6xcx4LVSlI+Mm1KtKTxm/QOJ/KSEtlGawaLZE3hmsUEiI66pshdgM/dK+ioE6bnRISB/KnW3RUANJFgAtIUyLQGXwLUxQ1+Sg5UVZELY0DirfnkFoO8MTXejSGnYRMqadl9XnngdO5EJdSVWg10KoZ8X4AgpynAHEHJY=';
     const STAFF_PATH = 'src/data/staff.json';
+    const SPREEKUUR_PATH = 'src/data/spreekuur.json';
 
     const PAGE_FIELDS = [
       { name: 'title', label: 'Titel', type: 'string' },
@@ -636,7 +744,7 @@
       },
       {
         label: 'Diensten', children: [
-          { label: 'Spreekuur & afspraken', mode: 'markdown', file: 'src/content/pages/spreekuur.md', fields: PAGE_FIELDS },
+          { label: 'Spreekuur & afspraken', mode: 'spreekuur' },
           { label: 'Herhaalrecept', mode: 'markdown', file: 'src/content/pages/herhaalrecept.md', fields: PAGE_FIELDS },
           { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
           { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
@@ -668,6 +776,7 @@
     let staffSha = null;
     let currentStaffIndex = null;
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
+    let spreekuurSha = null;
 
     // --- AUTH ---
     async function decrypt(password) {
@@ -800,6 +909,7 @@
       document.getElementById('markdown-wrap').style.display =
         view === 'editor' ? 'block' : 'none';
       document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
+      document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
     }
 
     function setTopbar(title, subtitle, backFn) {
@@ -898,6 +1008,15 @@
         item._navId = item.label;
         setActiveNav(item);
         await openBlocksEditor(item);
+      } else if (item.mode === 'spreekuur') {
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        setActiveNav(item);
+        await openSpreekuurEditor();
       }
     }
 
@@ -1253,6 +1372,8 @@
           await saveStaff();
         } else if (currentMode === 'blocks') {
           await saveAllBlocks();
+        } else if (currentMode === 'spreekuur') {
+          await saveSpreekuur();
         }
         setStatus('Opgeslagen', 'saved');
         setTimeout(() => setStatus(''), 3000);
@@ -1306,6 +1427,244 @@
         block.meta = meta;
         block.body = body;
       }
+    }
+
+    // --- SPREEKUUR EDITOR ---
+    const SPREEKUUR_SECTIONS = [
+      {
+        key: 'openingstijden', label: 'Openingstijden', type: 'table',
+        columns: [
+          { key: 'label', label: 'Dag/periode', className: 'row-label' },
+          { key: 'value', label: 'Tijden', className: 'row-value' },
+        ],
+        notes: true,
+      },
+      {
+        key: 'keuzemenu', label: 'Keuzemenu telefoon', type: 'table',
+        columns: [
+          { key: 'key', label: 'Nr', className: 'row-key' },
+          { key: 'label', label: 'Omschrijving', className: 'row-label' },
+        ],
+      },
+      { key: 'standaardConsult', label: 'Standaard consult', type: 'text' },
+      { key: 'spoedafspraak', label: 'Spoedafspraak', type: 'text' },
+      { key: 'dubbelConsult', label: 'Dubbel consult', type: 'text' },
+      { key: 'videoconsult', label: 'Videoconsult', type: 'text' },
+      { key: 'terugbelafspraken', label: 'Terugbelafspraken', type: 'text' },
+      { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
+      {
+        key: 'spoed', label: 'Spoed', type: 'list',
+      },
+    ];
+
+    async function openSpreekuurEditor() {
+      currentMode = 'spreekuur';
+      showView('empty');
+      setTopbar('Spreekuur & afspraken', 'Diensten');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(SPREEKUUR_PATH);
+        const data = JSON.parse(content);
+        spreekuurSha = sha;
+
+        const panel = document.getElementById('spreekuur-panel');
+        panel.innerHTML = '';
+
+        for (const section of SPREEKUUR_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+          body.dataset.sectionKey = section.key;
+
+          if (section.type === 'text') {
+            const textarea = document.createElement('textarea');
+            textarea.className = 'spreekuur-textarea';
+            textarea.dataset.key = section.key;
+            textarea.value = data[section.key] || '';
+            body.appendChild(textarea);
+          } else if (section.type === 'table') {
+            const rowsContainer = document.createElement('div');
+            rowsContainer.dataset.tableKey = section.key;
+            const items = section.key === 'openingstijden' ? data.openingstijden.rows : data[section.key];
+            (items || []).forEach((item, i) => {
+              rowsContainer.appendChild(createTableRow(section, item, i));
+            });
+            body.appendChild(rowsContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Rij toevoegen';
+            addBtn.addEventListener('click', () => {
+              const empty = {};
+              section.columns.forEach(c => { empty[c.key] = ''; });
+              const idx = rowsContainer.children.length;
+              rowsContainer.appendChild(createTableRow(section, empty, idx));
+            });
+            body.appendChild(addBtn);
+
+            if (section.notes) {
+              const notesLabel = document.createElement('div');
+              notesLabel.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-top:1rem;margin-bottom:0.375rem;';
+              notesLabel.textContent = 'Opmerkingen';
+              body.appendChild(notesLabel);
+
+              const notesContainer = document.createElement('div');
+              notesContainer.dataset.notesKey = section.key;
+              (data.openingstijden.notes || []).forEach((note, i) => {
+                notesContainer.appendChild(createNoteRow(note, i));
+              });
+              body.appendChild(notesContainer);
+
+              const addNoteBtn = document.createElement('button');
+              addNoteBtn.className = 'add-row-btn';
+              addNoteBtn.textContent = '+ Opmerking toevoegen';
+              addNoteBtn.addEventListener('click', () => {
+                notesContainer.appendChild(createNoteRow('', notesContainer.children.length));
+              });
+              body.appendChild(addNoteBtn);
+            }
+          } else if (section.type === 'list') {
+            const listContainer = document.createElement('div');
+            listContainer.dataset.listKey = section.key;
+            (data[section.key] || []).forEach((item, i) => {
+              listContainer.appendChild(createListRow(item, i));
+            });
+            body.appendChild(listContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              listContainer.appendChild(createListRow('', listContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        showView('spreekuur');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function createTableRow(section, item, index) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+      for (const col of section.columns) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = col.className;
+        input.value = item[col.key] || '';
+        input.dataset.col = col.key;
+        input.placeholder = col.label;
+        row.appendChild(input);
+      }
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    function createNoteRow(note, index) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'row-label';
+      input.value = note;
+      input.placeholder = 'Opmerking...';
+      row.appendChild(input);
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    function createListRow(text, index) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'row-label';
+      input.value = text;
+      input.placeholder = 'Item...';
+      row.appendChild(input);
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    function gatherSpreekuurData() {
+      const result = {};
+      for (const section of SPREEKUUR_SECTIONS) {
+        if (section.type === 'text') {
+          const textarea = document.querySelector(`textarea[data-key="${section.key}"]`);
+          result[section.key] = textarea ? textarea.value : '';
+        } else if (section.type === 'table') {
+          const container = document.querySelector(`[data-table-key="${section.key}"]`);
+          const rows = [];
+          if (container) {
+            for (const row of container.children) {
+              const item = {};
+              for (const input of row.querySelectorAll('input')) {
+                item[input.dataset.col] = input.value;
+              }
+              if (Object.values(item).some(v => v)) rows.push(item);
+            }
+          }
+          if (section.key === 'openingstijden') {
+            result.openingstijden = { rows };
+            const notesContainer = document.querySelector(`[data-notes-key="${section.key}"]`);
+            const notes = [];
+            if (notesContainer) {
+              for (const row of notesContainer.children) {
+                const input = row.querySelector('input');
+                if (input && input.value) notes.push(input.value);
+              }
+            }
+            result.openingstijden.notes = notes;
+          } else {
+            result[section.key] = rows;
+          }
+        } else if (section.type === 'list') {
+          const container = document.querySelector(`[data-list-key="${section.key}"]`);
+          const items = [];
+          if (container) {
+            for (const row of container.children) {
+              const input = row.querySelector('input');
+              if (input && input.value) items.push(input.value);
+            }
+          }
+          result[section.key] = items;
+        }
+      }
+      return result;
+    }
+
+    async function saveSpreekuur() {
+      const data = gatherSpreekuurData();
+      const content = JSON.stringify(data, null, 2) + '\n';
+      const msg = 'Update spreekuur via CMS';
+      spreekuurSha = await saveFile(SPREEKUUR_PATH, content, spreekuurSha, msg);
     }
 
     // --- INIT ---

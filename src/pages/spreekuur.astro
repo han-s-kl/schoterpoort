@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import practiceData from '../data/practices.json';
+import spreekuurData from '../data/spreekuur.json';
 import { url } from '../utils/url';
 
 const practices = practiceData.practices;
@@ -81,19 +82,20 @@ const practices = practiceData.practices;
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Openingstijden</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
-            <li class="flex justify-between"><span>Maandag t/m vrijdag</span> <span class="font-medium text-neutral-800">08:00 -- 17:00</span></li>
-            <li class="flex justify-between"><span>Avondspreekuur</span> <span class="font-medium text-neutral-800">17:00 -- 19:00 <span class="text-neutral-400">(1x/week)</span></span></li>
+            {spreekuurData.openingstijden.rows.map((row) => (
+              <li class="flex justify-between"><span>{row.label}</span> <span class="font-medium text-neutral-800">{row.value}</span></li>
+            ))}
           </ul>
-          <p class="text-xs text-neutral-400 mt-3">De dag van het avondspreekuur wisselt. De assistente kan bevestigen welke dag dit betreft.</p>
-          <p class="text-xs text-neutral-400 mt-1">Tussen 12:00-14:00 en 16:30-17:00 alleen spoed.</p>
+          {spreekuurData.openingstijden.notes.map((note, i) => (
+            <p class={`text-xs text-neutral-400 ${i === 0 ? 'mt-3' : 'mt-1'}`}>{note}</p>
+          ))}
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Keuzemenu telefoon</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">1</span> Spoednummer</li>
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">2</span> Receptenlijn</li>
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">3</span> Assistente</li>
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">4</span> Intercollegiaal artsenoverleg</li>
+            {spreekuurData.keuzemenu.map((item) => (
+              <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {item.label}</li>
+            ))}
           </ul>
         </div>
       </div>
@@ -103,47 +105,41 @@ const practices = practiceData.practices;
       <div class="grid sm:grid-cols-2 gap-4 mb-10">
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Standaard consult</h3>
-          <p class="text-sm text-neutral-600">15 minuten voor een klacht. Plan 1-2 dagen vooraf.</p>
+          <p class="text-sm text-neutral-600">{spreekuurData.standaardConsult}</p>
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Dubbel consult</h3>
-          <p class="text-sm text-neutral-600">Voor meerdere klachten of psychische problematiek. Vraag dit aan bij het maken van de afspraak.</p>
+          <p class="text-sm text-neutral-600">{spreekuurData.dubbelConsult}</p>
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Spoedafspraak</h3>
-          <p class="text-sm text-neutral-600">Dezelfde dag gegarandeerd bij noodgevallen. De assistente beoordeelt de urgentie. De praktijkassistentes zullen kort vragen naar de reden van uw bezoek om de urgentie en consultduur in te schatten. Zij hanteren professionele geheimhouding.</p>
+          <p class="text-sm text-neutral-600">{spreekuurData.spoedafspraak}</p>
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Videoconsult</h3>
-          <p class="text-sm text-neutral-600">Beschikbaar bij huisartsen en GGZ-praktijkondersteuners via beveiligde verbinding.</p>
+          <p class="text-sm text-neutral-600">{spreekuurData.videoconsult}</p>
         </div>
       </div>
 
       <!-- Terugbelafspraken -->
       <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200 mb-6">
         <h2 class="font-bold text-neutral-900 mb-2">Terugbelafspraken</h2>
-        <p class="text-sm text-neutral-600">
-          U kunt een terugbelafspraak aanvragen om wachttijd te vermijden. Spreek uw boodschap in op de voicemail en sluit af met <strong>#</strong>.
-          Het telefoonsysteem is 24 uur beschikbaar voor herhaalrecepten en afspraakannuleringen.
-        </p>
+        <p class="text-sm text-neutral-600">{spreekuurData.terugbelafspraken}</p>
       </div>
 
       <!-- Afzeggen -->
       <div class="bg-accent-50 rounded-xl p-6 border border-accent-200 mb-10">
         <h2 class="font-bold text-accent-800 mb-2">Afspraak afzeggen</h2>
-        <p class="text-sm text-accent-700">
-          Zeg uw afspraak minimaal <strong>24 uur</strong> van tevoren telefonisch af.
-          Voor afspraken bij de praktijkondersteuner GGZ: minimaal <strong>48 uur</strong> van tevoren.
-        </p>
+        <p class="text-sm text-accent-700">{spreekuurData.afspraakAfzeggen}</p>
       </div>
 
       <!-- Spoed -->
       <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-5">
         <h2 class="font-bold text-accent-800 mb-2">Spoed</h2>
         <ul class="text-sm text-accent-700 space-y-1">
-          <li>Tijdens kantooruren: bel uw huisarts, keuze 1</li>
-          <li>Na 17:00, weekenden en feestdagen: <a href="tel:023-7504567" class="font-semibold underline">023-750 45 67</a> (Spoedpost)</li>
-          <li>Levensbedreiging: <a href="tel:112" class="font-bold underline">112</a></li>
+          {spreekuurData.spoed.map((item) => (
+            <li>{item}</li>
+          ))}
         </ul>
       </div>
     </div>
