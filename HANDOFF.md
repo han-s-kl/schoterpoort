@@ -2,8 +2,9 @@
 
 ## Status: LIVE op GitHub Pages
 URL: https://han-s-kl.github.io/schoterpoort/
-Repo: https://github.com/han-s-kl/schoterpoort
-Branch: main (CMS werk op feature/cms-setup)
+CMS: https://han-s-kl.github.io/schoterpoort/admin/
+Repo: https://github.com/han-s-kl/schoterpoort (publiek)
+Branch: main
 88 pagina's (44 NL + 44 EN), build <1 seconde
 
 ## Wat is gedaan
@@ -19,47 +20,45 @@ Branch: main (CMS werk op feature/cms-setup)
 - SessionStart hook + git pre-commit hook (astro build)
 - CLAUDE.md, docs/refs/, HANDOFF.md ingericht
 
-## CMS -- Sveltia CMS (in progress, branch feature/cms-setup)
+## CMS -- Sveltia CMS (werkend op main)
 
-### Wat is gedaan (Fase 1 + 2)
-- **Sveltia CMS** vervangt Decap CMS (drop-in, betere UX, zelfde config formaat)
-- **Blocks content collectie** -- homepage mededelingen geextraheerd naar `src/content/blocks/` en `blocks-en/` (3 NL + 3 EN markdown bestanden)
-- Mededelingen op homepage renderen nu dynamisch vanuit de blocks collectie
-- Blocks schema: title, type (warning/info/neutral), visible, order
-- **config.yml** uitgebreid met 10 collecties:
-  - Editor: blocks, blocks-en, news, news-en, pages, pages-en (delete: false)
-  - Admin-only: staff, navigation-nl, navigation-en
-- **Editorial workflow** ingeschakeld (wijzigingen worden PRs)
-- Build: 88 pagina's, geen errors
+### Wat is gedaan
+- **Sveltia CMS** vervangt Decap CMS (betere UX, zelfde config formaat)
+- **Blocks content collectie** -- homepage mededelingen dynamisch vanuit `src/content/blocks/`
+- **Inline auth** -- wachtwoordformulier in index.html, versleuteld PAT (AES-256-GCM)
+  - Wachtwoord: `schoterpijnboomzaanen`
+  - PAT verloopt ~90 dagen na 2026-03-27, moet dan vernieuwd worden
+- **Alleen NL collecties** in CMS: Mededelingen (3), Nieuwsberichten (5), Pagina's (35), Medewerkers, Navigatie
+- EN collecties verwijderd -- worden straks automatisch vertaald via GitHub Action
+- **Routing refactored** -- topLevel whitelist vervangen door excluded blacklist (nieuwe pagina's werken automatisch)
+- GitHub Pages deploy workflow: `.github/workflows/deploy.yml`
+- `public/admin/auth.html` bestaat nog maar wordt niet meer gebruikt (inline auth in index.html)
 
-### Gekozen aanpak: Sveltia CMS + PHP auth proxy met bot-token
-- Editors loggen in met email/wachtwoord (geen GitHub account nodig)
-- PHP proxy op TransIP valideert credentials tegen MySQL
-- Bot-token (GitHub PAT) wordt gebruikt voor alle GitHub API calls
-- Rol-gefilterde config: editors zien alleen hun toegestane collecties
-- Zie plan: `.claude/plans/ancient-roaming-taco.md`
+### CMS editor UX issues
+- WYSIWYG editor toont loshangende iconen (afbeelding/embed) tussen toolbar en tekst
+- Onderzoek of dit oplosbaar is via config (toolbar buttons beperken, of markdown widget)
+- Overweeg of Sveltia CMS de juiste keuze blijft
 
-### Volgende stappen (wacht op TransIP hosting)
+## Volgende stappen
 
-**Fase 3: PHP auth proxy**
-- `cms-api/login.php` -- login formulier + sessie
-- `cms-api/callback.php` -- retourneert bot-token na auth
-- `cms-api/admin.php` -- gebruikersbeheer (CRUD)
-- MySQL tabel: cms_users (email, password_hash, display_name, role, allowed_collections)
-- GitHub PAT (fine-grained) aanmaken met repo-schrijfrechten
+### Prioriteit 1: CMS afmaken
+1. **Editor UX fixen** -- loshangende iconen in WYSIWYG editor oplossen
+2. **Test opslaan** -- wijziging via CMS -> commit op GitHub verificeren
+3. **auth.html opruimen** -- ongebruikt bestand verwijderen
 
-**Fase 4: Rol-gefilterde CMS config**
-- `cms-api/cms-config.php` -- genereert config.yml per gebruikersrol
-- Admin: alle collecties, Editor: alleen allowed_collections
+### Prioriteit 2: Auto-vertaling
+4. **Anthropic API key** aanmaken (nodig voor vertaling)
+5. **GitHub Action** -- `.github/workflows/translate.yml` + `scripts/translate.mjs`
+6. NL-wijziging via CMS -> Action vertaalt automatisch naar EN
 
-**Fase 5: Deploy pipeline**
-- GitHub Actions: astro build + SFTP deploy naar TransIP
-- astro.config.mjs: site URL en base path aanpassen voor eigen domein
+### Prioriteit 3: TransIP migratie (wacht op TransIP hosting)
+7. **PHP auth proxy** -- eigen login (email/wachtwoord), GitHub PAT server-side
+8. **Versleuteld PAT verwijderen** uit public/admin/index.html
+9. **Deploy pipeline** -- GitHub Actions SFTP naar TransIP
+10. **Base path** -- `/schoterpoort/` verwijderen, site URL aanpassen
 
 ## Overige openstaande punten
 1. **ZIVVER Conversation Starter** -- placeholder URL in contact-kinderen.astro
-2. **Build warnings** -- `en/[slug].astro` conflicteert met `/en/spreekuur` en `/en/telefoonnummers`. Verwijder die uit de topLevel array.
-3. **GitHub Pages base path** -- hardcoded `/schoterpoort/` prefix in markdown. Bij migratie naar eigen domein: base path verwijderen.
-4. **Git push** -- `gh auth switch --user han-s-kl` nodig
-5. **Klachtenformulier backend** -- mailto: -> PHP op TransIP. Zie docs/refs/formulieren-backend.md.
-6. **Contact-kinderen ZIVVER URL** -- ZIVVER Conversation Starter activeren.
+2. **GitHub Pages base path** -- hardcoded `/schoterpoort/` prefix in markdown
+3. **Klachtenformulier backend** -- mailto: -> PHP op TransIP. Zie docs/refs/formulieren-backend.md
+4. **Contact-kinderen ZIVVER URL** -- ZIVVER Conversation Starter activeren
