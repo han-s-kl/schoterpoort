@@ -51,14 +51,42 @@ Branch: main
 - Spreekuur velden slaan HTML direct op (set:html in .astro)
 
 **Niet in CMS (bewust):**
-- Home -- `index.astro` met complexe layout, mededelingen zijn WEL bewerkbaar via Mededelingen
 - Contact, Telefoonnummers, Contact kinderen -- .astro-only interactieve pagina's
-- Patientenomgeving -- .astro-only met portaal-links
 - Gezondheidsinfo -- categorie-indexpagina
 
 ## Volgende stappen
 
-### Prioriteit 1: Auto-vertaling
+### Prioriteit 1: Home en Patientenomgeving bewerkbaar maken via CMS
+
+Zelfde aanpak als spreekuur: JSON databestand + .astro template leest hieruit + CMS editor.
+
+**Home (`index.astro`)** -- maak `src/data/home.json`:
+- Mededelingen: KLAAR (blocks collection, al bewerkbaar via Mededelingen in CMS)
+- Telefonisch consult blokje: tekst (1 veld)
+- Afspraak afzeggen blokje: tekst (1 veld)
+- Kwaliteit: 3 blokjes (NPA-keurmerk titel+tekst, Ons artsenteam titel+tekst, onderste blok tekst)
+- Wist u dat?: 8 blokjes (elk tekst, icon blijft hardcoded)
+
+**Patientenomgeving (`patientenomgeving.astro`)** -- maak `src/data/patientenomgeving.json`:
+- Introductietekst (1 tekstveld + opsomming)
+- 4 portaal-links (titel + URL per stuk, gestructureerd)
+- Belangrijk: 3 blokjes in 2 opmaaktypes (tekst per blok + type indicator)
+- Mobiele app: link URL (1 veld)
+- Hulp nodig: telefoonnummer + website-link (2 velden)
+
+**Implementatie per pagina:**
+1. JSON databestand aanmaken met huidige hardcoded content
+2. .astro template aanpassen: `import data from '../data/xxx.json'` + data in template
+3. CMS NAV_ITEMS: nieuw item met mode 'home' / 'patientenomgeving'
+4. CMS editor functies: `openHomeEditor()` / `openPatientenomgevingEditor()`
+5. Gestructureerde velden met WYSIWYG contenteditable + bold/link knoppen
+
+**Referentie:** Spreekuur-implementatie als voorbeeld:
+- `src/data/spreekuur.json` -- datastructuur
+- `src/pages/spreekuur.astro` -- template leest uit JSON
+- `public/admin/index.html` -- `openSpreekuurEditor()`, `SPREEKUUR_SECTIONS`, `saveSpreekuur()`
+
+### Prioriteit 2: Auto-vertaling
 1. **Anthropic API key** aanmaken
 2. **GitHub Action** -- `.github/workflows/translate.yml` + `scripts/translate.mjs`
 3. NL-wijziging via CMS -> Action vertaalt automatisch naar EN
