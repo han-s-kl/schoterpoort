@@ -112,61 +112,69 @@ collections:
 
   - name: staff
     label: "Medewerkers"
-    label_singular: "Medewerker"
-    file: src/data/staff.json
     description: "Alleen admin -- medewerkergegevens beheren"
-    fields:
-      - label: Medewerkers
-        name: items
-        widget: list
+    files:
+      - name: staff-data
+        label: "Medewerkers"
+        file: src/data/staff.json
         fields:
-          - { label: Naam, name: name, widget: string }
-          - { label: Initialen, name: initials, widget: string }
-          - { label: Rol, name: role, widget: string }
-          - { label: BIG-nummer, name: bigNumber, widget: string, required: false }
-          - { label: Team, name: team, widget: string }
-          - { label: Telefoon, name: phone, widget: string }
-          - { label: Werkdagen, name: workingDays, widget: list, field: { label: Dag, name: dag, widget: string } }
-          - { label: "In dienst sinds", name: since, widget: string, required: false }
-          - { label: Achtergrond, name: background, widget: text }
-          - { label: Specialisaties, name: specializations, widget: list, required: false, field: { label: Specialisatie, name: spec, widget: string } }
-          - { label: Interesses, name: interests, widget: text, required: false }
-          - { label: Foto, name: photo, widget: image, required: false }
+          - label: Medewerkers
+            name: items
+            widget: list
+            fields:
+              - { label: Naam, name: name, widget: string }
+              - { label: Initialen, name: initials, widget: string }
+              - { label: Rol, name: role, widget: string }
+              - { label: BIG-nummer, name: bigNumber, widget: string, required: false }
+              - { label: Team, name: team, widget: string }
+              - { label: Telefoon, name: phone, widget: string }
+              - { label: Werkdagen, name: workingDays, widget: list, field: { label: Dag, name: dag, widget: string } }
+              - { label: "In dienst sinds", name: since, widget: string, required: false }
+              - { label: Achtergrond, name: background, widget: text }
+              - { label: Specialisaties, name: specializations, widget: list, required: false, field: { label: Specialisatie, name: spec, widget: string } }
+              - { label: Interesses, name: interests, widget: text, required: false }
+              - { label: Foto, name: photo, widget: image, required: false }
 
   - name: navigation-nl
     label: "Navigatie (NL)"
-    file: src/data/navigation.json
     description: "Alleen admin -- menustructuur beheren"
-    fields:
-      - label: "Menu-items"
-        name: items
-        widget: list
+    files:
+      - name: nav-nl
+        label: "Menu (NL)"
+        file: src/data/navigation.json
         fields:
-          - { label: Label, name: label, widget: string }
-          - { label: Link, name: href, widget: string }
-          - label: Submenu
-            name: children
+          - label: "Menu-items"
+            name: items
             widget: list
-            required: false
             fields:
               - { label: Label, name: label, widget: string }
               - { label: Link, name: href, widget: string }
+              - label: Submenu
+                name: children
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Link, name: href, widget: string }
 
   - name: navigation-en
     label: "Navigation (EN)"
-    file: src/data/navigation-en.json
     description: "Admin only -- manage menu structure"
-    fields:
-      - label: "Menu items"
-        name: items
-        widget: list
+    files:
+      - name: nav-en
+        label: "Menu (EN)"
+        file: src/data/navigation-en.json
         fields:
-          - { label: Label, name: label, widget: string }
-          - { label: Link, name: href, widget: string }
-          - label: Submenu
-            name: children
+          - label: "Menu items"
+            name: items
             widget: list
-            required: false
             fields:
               - { label: Label, name: label, widget: string }
               - { label: Link, name: href, widget: string }
+              - label: Submenu
+                name: children
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Link, name: href, widget: string }
