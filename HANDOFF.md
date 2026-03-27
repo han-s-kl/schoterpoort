@@ -20,10 +20,10 @@ Branch: main
 - SessionStart hook + git pre-commit hook (astro build)
 - CLAUDE.md, docs/refs/, HANDOFF.md ingericht
 
-## CMS -- Sveltia CMS (werkend op main)
+## CMS -- Decap CMS (werkend op main)
 
 ### Wat is gedaan
-- **Sveltia CMS** vervangt Decap CMS (betere UX, zelfde config formaat)
+- **Decap CMS** -- teruggeschakeld van Sveltia CMS vanwege toolbar bug (loshangende editor_components)
 - **Blocks content collectie** -- homepage mededelingen dynamisch vanuit `src/content/blocks/`
 - **Inline auth** -- wachtwoordformulier in index.html, versleuteld PAT (AES-256-GCM)
   - Wachtwoord: `schoterpijnboomzaanen`
@@ -32,19 +32,14 @@ Branch: main
 - EN collecties verwijderd -- worden straks automatisch vertaald via GitHub Action
 - **Routing refactored** -- topLevel whitelist vervangen door excluded blacklist (nieuwe pagina's werken automatisch)
 - GitHub Pages deploy workflow: `.github/workflows/deploy.yml`
-- `public/admin/auth.html` bestaat nog maar wordt niet meer gebruikt (inline auth in index.html)
-
-### CMS editor UX issues
-- WYSIWYG editor toont loshangende iconen (afbeelding/embed) tussen toolbar en tekst
-- Onderzoek of dit oplosbaar is via config (toolbar buttons beperken, of markdown widget)
-- Overweeg of Sveltia CMS de juiste keuze blijft
+- `public/admin/auth.html` verwijderd (was ongebruikt, inline auth in index.html)
 
 ## Volgende stappen
 
 ### Prioriteit 1: CMS afmaken
-1. **Editor UX fixen** -- loshangende iconen in WYSIWYG editor oplossen
+1. ~~**Editor UX fixen**~~ -- opgelost door switch naar Decap CMS
 2. **Test opslaan** -- wijziging via CMS -> commit op GitHub verificeren
-3. **auth.html opruimen** -- ongebruikt bestand verwijderen
+3. ~~**auth.html opruimen**~~ -- verwijderd
 
 ### Prioriteit 2: Auto-vertaling
 4. **Anthropic API key** aanmaken (nodig voor vertaling)
