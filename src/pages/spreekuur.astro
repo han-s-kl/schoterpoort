@@ -105,32 +105,32 @@ const practices = practiceData.practices;
       <div class="grid sm:grid-cols-2 gap-4 mb-10">
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Standaard consult</h3>
-          <p class="text-sm text-neutral-600">{spreekuurData.standaardConsult}</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.standaardConsult} />
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Dubbel consult</h3>
-          <p class="text-sm text-neutral-600">{spreekuurData.dubbelConsult}</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.dubbelConsult} />
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Spoedafspraak</h3>
-          <p class="text-sm text-neutral-600">{spreekuurData.spoedafspraak}</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.spoedafspraak} />
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Videoconsult</h3>
-          <p class="text-sm text-neutral-600">{spreekuurData.videoconsult}</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.videoconsult} />
         </div>
       </div>
 
       <!-- Terugbelafspraken -->
       <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200 mb-6">
         <h2 class="font-bold text-neutral-900 mb-2">Terugbelafspraken</h2>
-        <p class="text-sm text-neutral-600">{spreekuurData.terugbelafspraken}</p>
+        <p class="text-sm text-neutral-600" set:html={spreekuurData.terugbelafspraken} />
       </div>
 
       <!-- Afzeggen -->
       <div class="bg-accent-50 rounded-xl p-6 border border-accent-200 mb-10">
         <h2 class="font-bold text-accent-800 mb-2">Afspraak afzeggen</h2>
-        <p class="text-sm text-accent-700">{spreekuurData.afspraakAfzeggen}</p>
+        <p class="text-sm text-accent-700" set:html={spreekuurData.afspraakAfzeggen} />
       </div>
 
       <!-- Spoed -->
@@ -138,7 +138,7 @@ const practices = practiceData.practices;
         <h2 class="font-bold text-accent-800 mb-2">Spoed</h2>
         <ul class="text-sm text-accent-700 space-y-1">
           {spreekuurData.spoed.map((item) => (
-            <li>{item}</li>
+            <li set:html={item} />
           ))}
         </ul>
       </div>
