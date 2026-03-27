@@ -75,7 +75,7 @@
 
         if (window.opener) {
           window.opener.postMessage(
-            { token, provider: 'github' },
+            'authorization:github:success:' + JSON.stringify({ token, provider: 'github' }),
             window.location.origin
           );
           window.close();
