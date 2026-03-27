@@ -507,6 +507,34 @@
       min-height: 150px !important;
     }
 
+    /* Editable content (WYSIWYG) */
+    .editable-field {
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      min-height: 60px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-y: auto;
+      transition: border-color 0.15s;
+    }
+    .editable-field:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+    .editable-field a {
+      color: var(--sidebar-accent);
+      text-decoration: underline;
+    }
+    .editable-field strong, .editable-field b {
+      font-weight: 700;
+    }
+
     /* Mini toolbar (bold/link buttons) */
     .mini-toolbar {
       display: flex;
@@ -1220,16 +1248,11 @@
         const body = document.createElement('div');
         body.className = 'spreekuur-section-body';
 
-        const textarea = document.createElement('textarea');
-        textarea.className = 'spreekuur-textarea';
-        textarea.dataset.sectionIndex = i;
-        textarea.value = section.content;
-        // Auto-size based on content
-        const lineCount = (section.content.match(/\n/g) || []).length + 1;
-        textarea.rows = Math.max(3, Math.min(lineCount + 2, 20));
+        const editable = createEditableField(section.content, 'markdown');
+        editable.dataset.sectionIndex = i;
 
-        body.appendChild(createMiniToolbar(textarea));
-        body.appendChild(textarea);
+        body.appendChild(createMiniToolbar(editable));
+        body.appendChild(editable);
         el.appendChild(body);
         container.appendChild(el);
       });
@@ -1253,12 +1276,12 @@
         }
       }
 
-      // Gather sections from textareas
-      const textareas = document.querySelectorAll('.sections-container textarea[data-section-index]');
+      // Gather sections from editable fields
+      const editables = document.querySelectorAll('.sections-container .editable-field[data-section-index]');
       const sections = currentSections.map((s, i) => ({
         level: s.level,
         heading: s.heading,
-        content: textareas[i] ? textareas[i].value : s.content,
+        content: editables[i] ? htmlToMdInline(editables[i].innerHTML) : s.content,
       }));
       const body = reassembleMarkdown(sections);
       return serializeFrontmatter(meta, body, fields);
@@ -1538,21 +1561,38 @@
       }
     }
 
-    // --- MINI TOOLBAR (bold/link) ---
-    function wrapSelection(el, before, after) {
-      const start = el.selectionStart;
-      const end = el.selectionEnd;
-      const text = el.value;
-      const selected = text.slice(start, end);
-      if (!selected) return;
-      const replacement = before + selected + after;
-      el.value = text.slice(0, start) + replacement + text.slice(end);
-      el.focus();
-      el.selectionStart = start + before.length;
-      el.selectionEnd = start + before.length + selected.length;
+    // --- MARKDOWN <-> HTML CONVERSION ---
+    function mdInlineToHtml(md) {
+      let html = md;
+      // Bold: **text** -> <strong>text</strong>
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // Links: [text](url) -> <a href="url">text</a>
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      return html;
     }
 
-    function createMiniToolbar(targetEl) {
+    function htmlToMdInline(html) {
+      let md = html;
+      // Strong/bold -> **text**
+      md = md.replace(/<strong>(.*?)<\/strong>/gi, '**$1**');
+      md = md.replace(/<b>(.*?)<\/b>/gi, '**$1**');
+      // Links -> [text](url)
+      md = md.replace(/<a[^>]+href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
+      // BR -> newline
+      md = md.replace(/<br\s*\/?>/gi, '\n');
+      // Divs (contenteditable line wrapping) -> newline
+      md = md.replace(/<\/div>\s*<div[^>]*>/gi, '\n');
+      md = md.replace(/<div[^>]*>/gi, '\n');
+      md = md.replace(/<\/div>/gi, '');
+      // Strip remaining tags
+      md = md.replace(/<[^>]+>/g, '');
+      // Decode HTML entities
+      md = md.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
+      return md.trim();
+    }
+
+    // --- MINI TOOLBAR (bold/link) ---
+    function createMiniToolbar(editableEl) {
       const toolbar = document.createElement('div');
       toolbar.className = 'mini-toolbar';
 
@@ -1562,7 +1602,8 @@
       boldBtn.title = 'Selecteer tekst en klik voor vetgedrukt';
       boldBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        wrapSelection(targetEl, '<strong>', '</strong>');
+        editableEl.focus();
+        document.execCommand('bold');
       });
 
       const linkBtn = document.createElement('button');
@@ -1571,18 +1612,33 @@
       linkBtn.title = 'Selecteer tekst en klik om een link toe te voegen';
       linkBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const start = targetEl.selectionStart;
-        const end = targetEl.selectionEnd;
-        const selected = targetEl.value.slice(start, end);
-        if (!selected) { alert('Selecteer eerst de tekst die een link moet worden.'); return; }
+        const sel = window.getSelection();
+        if (!sel.rangeCount || sel.isCollapsed) {
+          alert('Selecteer eerst de tekst die een link moet worden.');
+          return;
+        }
         const url = prompt('Voer de URL in (bijv. tel:023-7504567 of https://...)');
         if (!url) return;
-        wrapSelection(targetEl, `<a href="${url}">`, '</a>');
+        editableEl.focus();
+        document.execCommand('createLink', false, url);
       });
 
       toolbar.appendChild(boldBtn);
       toolbar.appendChild(linkBtn);
       return toolbar;
+    }
+
+    function createEditableField(content, mode) {
+      // mode: 'html' (spreekuur) or 'markdown' (pages)
+      const el = document.createElement('div');
+      el.className = 'editable-field';
+      el.contentEditable = 'true';
+      if (mode === 'markdown') {
+        el.innerHTML = mdInlineToHtml(content).replace(/\n/g, '<br>');
+      } else {
+        el.innerHTML = content;
+      }
+      return el;
     }
 
     // --- SPREEKUUR EDITOR ---
@@ -1637,12 +1693,10 @@
           body.dataset.sectionKey = section.key;
 
           if (section.type === 'text') {
-            const textarea = document.createElement('textarea');
-            textarea.className = 'spreekuur-textarea';
-            textarea.dataset.key = section.key;
-            textarea.value = data[section.key] || '';
-            body.appendChild(createMiniToolbar(textarea));
-            body.appendChild(textarea);
+            const editable = createEditableField(data[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
           } else if (section.type === 'table') {
             const rowsContainer = document.createElement('div');
             rowsContainer.dataset.tableKey = section.key;
@@ -1755,19 +1809,21 @@
     function createListRow(text, index) {
       const row = document.createElement('div');
       row.className = 'spreekuur-row';
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'row-label';
-      input.value = text;
-      input.placeholder = 'Item...';
-      row.appendChild(input);
+
+      const editable = document.createElement('div');
+      editable.className = 'editable-field row-label';
+      editable.contentEditable = 'true';
+      editable.innerHTML = text;
+      editable.style.minHeight = '1.8em';
+      editable.style.flex = '1';
+      row.appendChild(editable);
 
       const boldBtn = document.createElement('button');
       boldBtn.type = 'button';
       boldBtn.className = 'row-btn';
       boldBtn.innerHTML = '<strong>B</strong>';
       boldBtn.title = 'Vetgedrukt';
-      boldBtn.addEventListener('click', (e) => { e.preventDefault(); wrapSelection(input, '<strong>', '</strong>'); });
+      boldBtn.addEventListener('click', (e) => { e.preventDefault(); editable.focus(); document.execCommand('bold'); });
       row.appendChild(boldBtn);
 
       const linkBtn = document.createElement('button');
@@ -1777,11 +1833,12 @@
       linkBtn.title = 'Link toevoegen';
       linkBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const s = input.selectionStart, end = input.selectionEnd;
-        if (s === end) { alert('Selecteer eerst de tekst die een link moet worden.'); return; }
+        const sel = window.getSelection();
+        if (!sel.rangeCount || sel.isCollapsed) { alert('Selecteer eerst de tekst die een link moet worden.'); return; }
         const url = prompt('Voer de URL in (bijv. tel:023-7504567 of https://...)');
         if (!url) return;
-        wrapSelection(input, `<a href="${url}">`, '</a>');
+        editable.focus();
+        document.execCommand('createLink', false, url);
       });
       row.appendChild(linkBtn);
 
@@ -1798,8 +1855,8 @@
       const result = {};
       for (const section of SPREEKUUR_SECTIONS) {
         if (section.type === 'text') {
-          const textarea = document.querySelector(`textarea[data-key="${section.key}"]`);
-          result[section.key] = textarea ? textarea.value : '';
+          const editable = document.querySelector(`.editable-field[data-key="${section.key}"]`);
+          result[section.key] = editable ? editable.innerHTML : '';
         } else if (section.type === 'table') {
           const container = document.querySelector(`[data-table-key="${section.key}"]`);
           const rows = [];
@@ -1831,8 +1888,8 @@
           const items = [];
           if (container) {
             for (const row of container.children) {
-              const input = row.querySelector('input');
-              if (input && input.value) items.push(input.value);
+              const editable = row.querySelector('.editable-field');
+              if (editable && editable.innerHTML.trim()) items.push(editable.innerHTML.trim());
             }
           }
           result[section.key] = items;
