@@ -35,8 +35,7 @@
       { "label": "Administration form", "href": "/en/administratieformulier" },
       { "label": "Urine test form", "href": "/en/urineonderzoek-formulier" },
       { "label": "Vacancies", "href": "/en/vacatures" },
-      { "label": "Health info", "href": "/en/gezondheid" },
-      { "label": "News", "href": "/en/nieuws" }
+      { "label": "Health info", "href": "/en/gezondheid" }
     ]
   }
 ]

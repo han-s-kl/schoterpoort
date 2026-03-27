@@ -123,8 +123,8 @@
 
     /* Sidebar */
     .sidebar {
-      width: 260px;
-      min-width: 260px;
+      width: 200px;
+      min-width: 200px;
       background: var(--sidebar-bg);
       display: flex;
       flex-direction: column;
@@ -148,7 +148,6 @@
     }
     .collections {
       padding: 0.5rem 0.75rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .collection-btn {
       display: block;
@@ -173,50 +172,39 @@
       background: rgba(92, 124, 250, 0.15);
       color: var(--sidebar-active);
     }
-    .collection-btn .count {
-      float: right;
-      font-size: 0.6875rem;
-      color: #5a6270;
-      font-weight: 400;
+
+    /* File list (in main area) */
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.75rem;
+      padding: 1.5rem;
+      max-width: 1100px;
     }
-    .file-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0.5rem 0.75rem;
-    }
-    .file-list::-webkit-scrollbar { width: 4px; }
-    .file-list::-webkit-scrollbar-thumb { background: #3a4250; border-radius: 2px; }
-    .file-item {
+    .file-card {
       display: block;
-      width: 100%;
-      text-align: left;
-      padding: 0.5rem 0.625rem;
-      border: none;
-      background: none;
-      color: var(--sidebar-text);
-      font-size: 0.8125rem;
-      font-family: var(--font);
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      background: var(--editor-bg);
       border-radius: var(--radius);
       cursor: pointer;
-      transition: all 0.1s;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      transition: all 0.15s;
+      font-family: var(--font);
+      text-align: left;
+      color: var(--text);
     }
-    .file-item:hover {
-      background: var(--sidebar-hover);
-      color: #d0d4dc;
+    .file-card:hover {
+      border-color: var(--sidebar-accent);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .file-item.active {
-      background: rgba(92, 124, 250, 0.12);
-      color: var(--sidebar-active);
+    .file-card .file-name {
+      font-size: 0.875rem;
+      font-weight: 600;
     }
-    .file-item .file-meta {
-      display: block;
-      font-size: 0.6875rem;
-      color: #5a6270;
-      font-weight: 400;
-      margin-top: 0.125rem;
+    .file-card .file-slug {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
     }
 
     /* Main area */
@@ -462,7 +450,6 @@
         <div class="version">Content beheer</div>
       </div>
       <nav class="collections" id="collections"></nav>
-      <div class="file-list" id="file-list"></div>
     </aside>
     <main class="main">
       <div class="topbar" id="topbar">
@@ -476,7 +463,8 @@
         </div>
       </div>
       <div class="editor-area" id="editor-area">
-        <div class="no-selection" id="no-selection">Kies een collectie en bestand om te bewerken</div>
+        <div class="no-selection" id="no-selection">Kies een collectie in het menu</div>
+        <div class="file-grid" id="file-grid" style="display:none"></div>
         <div class="editor-panel" id="editor-panel" style="display:none">
           <div class="fields" id="fields"></div>
           <div class="markdown-wrap">
@@ -660,6 +648,12 @@
       }
     }
 
+    function showView(view) {
+      document.getElementById('no-selection').style.display = view === 'empty' ? 'flex' : 'none';
+      document.getElementById('file-grid').style.display = view === 'files' ? 'grid' : 'none';
+      document.getElementById('editor-panel').style.display = view === 'editor' ? 'block' : 'none';
+    }
+
     async function selectCollection(col) {
       currentCollection = col;
       currentFile = null;
@@ -669,53 +663,44 @@
         b.classList.toggle('active', COLLECTIONS[i] === col);
       });
 
-      const fileList = document.getElementById('file-list');
-      fileList.innerHTML = '<div class="loading"><span class="spinner"></span>Laden...</div>';
-
-      document.getElementById('editor-panel').style.display = 'none';
-      document.getElementById('no-selection').style.display = 'flex';
-      document.getElementById('topbar-file').textContent = 'Selecteer een bestand';
-      document.getElementById('topbar-collection').textContent = col.label;
+      showView('empty');
+      document.getElementById('topbar-file').textContent = col.label;
+      document.getElementById('topbar-collection').textContent = '';
       document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
 
       try {
         const files = await listFiles(col.folder);
-        fileList.innerHTML = '';
+        const grid = document.getElementById('file-grid');
+        grid.innerHTML = '';
         for (const file of files) {
           const btn = document.createElement('button');
-          btn.className = 'file-item';
-          btn.textContent = file.name.replace(/\.md$/, '');
+          btn.className = 'file-card';
+          const slug = file.name.replace(/\.md$/, '');
+          btn.innerHTML = `<div class="file-name">${slug}</div><div class="file-slug">${file.path}</div>`;
           btn.addEventListener('click', () => selectFile(col, file));
-          fileList.appendChild(btn);
+          grid.appendChild(btn);
         }
-        // Update count
-        document.querySelectorAll('.collection-btn').forEach((b, i) => {
-          if (COLLECTIONS[i] === col) {
-            const countEl = b.querySelector('.count');
-            if (countEl) countEl.textContent = files.length;
-            else {
-              const span = document.createElement('span');
-              span.className = 'count';
-              span.textContent = files.length;
-              b.appendChild(span);
-            }
-          }
-        });
+        showView('files');
+        setStatus(`${files.length} bestanden`, '');
       } catch (err) {
-        fileList.innerHTML = `<div class="loading" style="color:var(--error)">Fout: ${err.message}</div>`;
+        setStatus(`Fout: ${err.message}`, 'error');
       }
+    }
+
+    function showFileList() {
+      if (currentCollection) selectCollection(currentCollection);
     }
 
     async function selectFile(col, file) {
       currentFile = file;
       setStatus('Laden...', 'saving');
 
-      document.querySelectorAll('.file-item').forEach(b => {
-        b.classList.toggle('active', b.textContent === file.name.replace(/\.md$/, ''));
-      });
-
-      document.getElementById('topbar-file').textContent = file.name.replace(/\.md$/, '');
-      document.getElementById('topbar-collection').textContent = col.label;
+      const slug = file.name.replace(/\.md$/, '');
+      document.getElementById('topbar-file').innerHTML =
+        `<button id="back-btn" style="background:none;border:none;color:var(--sidebar-accent);cursor:pointer;font-family:var(--font);font-size:0.8125rem;padding:0;margin-right:0.5rem;">&larr; ${col.label}</button>${slug}`;
+      document.getElementById('back-btn').addEventListener('click', showFileList);
+      document.getElementById('topbar-collection').textContent = '';
 
       try {
         const { content, sha } = await readFile(file.path);
@@ -725,8 +710,7 @@
         renderFields(col.fields, meta);
         renderEditor(body);
 
-        document.getElementById('no-selection').style.display = 'none';
-        document.getElementById('editor-panel').style.display = 'block';
+        showView('editor');
         document.getElementById('save-btn').disabled = false;
         setStatus('');
       } catch (err) {

@@ -9,15 +9,6 @@ const pages = defineCollection({
   }),
 });
 
-const news = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-  }),
-});
-
 const blocks = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blocks' }),
   schema: z.object({
@@ -46,13 +37,4 @@ const pagesEn = defineCollection({
   }),
 });
 
-const newsEn = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/news-en' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-  }),
-});
-
-export const collections = { pages, news, blocks, 'pages-en': pagesEn, 'news-en': newsEn, 'blocks-en': blocksEn };
+export const collections = { pages, blocks, 'pages-en': pagesEn, 'blocks-en': blocksEn };

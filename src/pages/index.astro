@@ -8,10 +8,6 @@ const allBlocks = (await getCollection('blocks'))
   .filter((b) => b.data.visible)
   .sort((a, b) => a.data.order - b.data.order);
 
-const news = (await getCollection('news'))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
-
 const practices = practiceData.practices;
 ---
 
@@ -182,30 +178,6 @@ const practices = practiceData.practices;
     </div>
   </section>
 
-  <!-- News -->
-  {news.length > 0 && (
-    <section class="py-16 lg:py-24 bg-neutral-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-3xl font-bold">Nieuws</h2>
-          <a href={url('/nieuws')} class="text-sm text-dark-600 hover:text-dark-700 no-underline font-medium">Alle berichten &rarr;</a>
-        </div>
-        <div class="grid md:grid-cols-3 gap-6">
-          {news.map((article) => (
-            <a
-              href={url(`/nieuws/${article.id}`)}
-              class="block bg-white rounded-xl border border-neutral-200 p-5 hover:border-primary-300 hover:shadow-md transition-all no-underline group"
-            >
-              <time class="text-xs text-neutral-400">
-                {article.data.date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}
-              </time>
-              <h3 class="font-bold text-neutral-900 group-hover:text-dark-600 mt-1 text-sm">{article.data.title}</h3>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
 
   <!-- Telefonisch consult & Afspraak afzeggen -->
   <section class="py-12 lg:py-16">
