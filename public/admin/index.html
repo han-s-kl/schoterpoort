@@ -1,12 +1,2520 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
-    <title>CMS - Huisartsenpraktijk Schoterpoort</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>CMS - Huisartsenpraktijk Schoterpoort</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+
+      /* Auth theme */
+      --auth-bg: #1a1a2e;
+      --auth-card: #16213e;
+      --auth-input: #0f3460;
+      --auth-accent: #5c7cfa;
+
+      /* CMS theme */
+      --sidebar-bg: #1e2433;
+      --sidebar-text: #a0a8b8;
+      --sidebar-active: #fff;
+      --sidebar-hover: #2a3142;
+      --sidebar-accent: #5c7cfa;
+      --main-bg: #f4f5f7;
+      --editor-bg: #fff;
+      --topbar-bg: #fff;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --border: #e2e4e8;
+      --save-bg: #16a34a;
+      --save-hover: #15803d;
+      --error: #dc2626;
+      --success: #16a34a;
+      --radius: 6px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--auth-bg);
+      color: #e0e0e0;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- AUTH --- */
+    .auth {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .auth-card {
+      background: var(--auth-card);
+      border-radius: 12px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    .auth-card h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+    .auth-card .subtitle {
+      font-size: 0.875rem;
+      color: #8890a0;
+      margin-bottom: 1.5rem;
+    }
+    .auth-card label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      margin-bottom: 0.375rem;
+      color: #b0b8c8;
+    }
+    .auth-card input {
+      width: 100%;
+      padding: 0.625rem 0.75rem;
+      border: 1px solid #2a3450;
+      border-radius: var(--radius);
+      font-size: 0.9375rem;
+      font-family: var(--font);
+      background: var(--auth-input);
+      color: #fff;
+      transition: border-color 0.15s;
+    }
+    .auth-card input:focus {
+      outline: none;
+      border-color: var(--auth-accent);
+    }
+    .auth-card button {
+      width: 100%;
+      padding: 0.625rem;
+      background: var(--auth-accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.15s;
+    }
+    .auth-card button:hover { background: #4c6ef5; }
+    .auth-card button:disabled { opacity: 0.5; cursor: wait; }
+    .auth-error {
+      color: #ff6b6b;
+      font-size: 0.8125rem;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
+    /* --- CMS LAYOUT --- */
+    .cms { display: none; height: 100vh; }
+    .cms.active { display: flex; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      min-width: 220px;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 1.25rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .sidebar-header h2 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .sidebar-header .version {
+      font-size: 0.6875rem;
+      color: #5a6270;
+      margin-top: 0.125rem;
+    }
+    .sidebar-nav {
+      padding: 0.5rem 0;
+      flex: 1;
+    }
+
+    /* Nav items */
+    .nav-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.4375rem 1rem;
+      border: none;
+      background: none;
+      color: var(--sidebar-text);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .nav-item:hover {
+      background: var(--sidebar-hover);
+      color: #d0d4dc;
+    }
+    .nav-item.active {
+      background: rgba(92, 124, 250, 0.15);
+      color: var(--sidebar-active);
+    }
+
+    /* Nav groups (expandable) */
+    .nav-group-header {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      padding: 0.4375rem 1rem;
+      border: none;
+      background: none;
+      color: var(--sidebar-text);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .nav-group-header:hover {
+      background: var(--sidebar-hover);
+      color: #d0d4dc;
+    }
+    .nav-group-header .chevron {
+      font-size: 0.5rem;
+      transition: transform 0.15s;
+      opacity: 0.5;
+    }
+    .nav-group-header.expanded .chevron {
+      transform: rotate(90deg);
+    }
+    .nav-group-children {
+      display: none;
+      padding-left: 0.5rem;
+    }
+    .nav-group-children.expanded {
+      display: block;
+    }
+    .nav-group-children .nav-item {
+      font-size: 0.75rem;
+      padding: 0.375rem 1rem;
+      color: #8890a0;
+    }
+    .nav-group-children .nav-item:hover {
+      color: #c0c8d8;
+    }
+    .nav-group-children .nav-item.active {
+      color: var(--sidebar-active);
+    }
+    .nav-separator {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0.375rem 1rem;
+    }
+
+    /* File list (in main area) */
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.75rem;
+      padding: 1.5rem;
+      max-width: 1100px;
+    }
+    .file-card {
+      display: block;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      background: var(--editor-bg);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+      text-align: left;
+      color: var(--text);
+    }
+    .file-card:hover {
+      border-color: var(--sidebar-accent);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .file-card .file-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    .file-card .file-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Main area */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--main-bg);
+      overflow: hidden;
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      background: var(--topbar-bg);
+      border-bottom: 1px solid var(--border);
+      min-height: 56px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+    .topbar-file {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-collection {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--main-bg);
+      padding: 0.125rem 0.5rem;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--sidebar-accent);
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      padding: 0;
+      margin-right: 0.5rem;
+    }
+    .back-btn:hover { text-decoration: underline; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .status.saving { color: var(--sidebar-accent); }
+    .status.saved { color: var(--success); }
+    .status.error { color: var(--error); }
+    .save-btn {
+      padding: 0.4375rem 1rem;
+      background: var(--save-bg);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .save-btn:hover { background: var(--save-hover); }
+    .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Editor area */
+    .editor-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+    .editor-panel {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .no-selection {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+    }
+
+    /* Frontmatter fields */
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      background: var(--editor-bg);
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+    .field-wide {
+      grid-column: 1 / -1;
+    }
+    .field label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.375rem;
+    }
+    .field input, .field select {
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+    .field textarea {
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+      transition: border-color 0.15s;
+    }
+    .field-checkbox {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .field-checkbox input {
+      width: auto;
+      accent-color: var(--sidebar-accent);
+    }
+    .field-checkbox label {
+      margin-bottom: 0;
+      text-transform: none;
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+
+    /* Markdown editor wrapper */
+    .markdown-wrap {
+      background: var(--editor-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .markdown-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 0.875rem 1.25rem 0;
+    }
+
+    /* EasyMDE overrides */
+    .EasyMDEContainer { border: none !important; }
+    .EasyMDEContainer .CodeMirror {
+      border: none !important;
+      border-top: 1px solid var(--border) !important;
+      border-radius: 0 !important;
+      font-family: var(--font) !important;
+      font-size: 0.9375rem !important;
+      min-height: 400px;
+      color: var(--text) !important;
+    }
+    .EasyMDEContainer .editor-toolbar {
+      border: none !important;
+      border-top: 1px solid var(--border) !important;
+      padding: 0.5rem 0.75rem !important;
+      background: #fafbfc;
+    }
+    .EasyMDEContainer .editor-toolbar button {
+      color: #6b7280 !important;
+      border: none !important;
+      border-radius: 4px !important;
+      width: 32px !important;
+      height: 32px !important;
+    }
+    .EasyMDEContainer .editor-toolbar button:hover {
+      background: var(--main-bg) !important;
+      color: var(--text) !important;
+    }
+    .EasyMDEContainer .editor-toolbar button.active {
+      background: rgba(92, 124, 250, 0.1) !important;
+      color: var(--sidebar-accent) !important;
+    }
+    .EasyMDEContainer .editor-toolbar i.separator {
+      border-left-color: var(--border) !important;
+    }
+    .EasyMDEContainer .editor-preview {
+      font-family: var(--font) !important;
+      padding: 1.25rem !important;
+    }
+    .EasyMDEContainer .cm-header { color: var(--text) !important; }
+
+    /* Blocks panel */
+    .blocks-panel {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .block-section {
+      margin-bottom: 2rem;
+    }
+    .block-section-header {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .block-section .markdown-wrap .CodeMirror {
+      min-height: 150px !important;
+    }
+
+    /* CMS table editor */
+    .cms-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0.5rem;
+      font-size: 0.8125rem;
+    }
+    .cms-table th {
+      background: #f0f1f3;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.6875rem;
+      letter-spacing: 0.03em;
+      padding: 0.4375rem 0.5rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .cms-table td {
+      padding: 0.125rem;
+      border: 1px solid var(--border);
+    }
+    .cms-table td .cell-editable {
+      width: 100%;
+      border: none;
+      padding: 0.375rem 0.5rem;
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: transparent;
+      min-height: 1.6em;
+      outline: none;
+      white-space: nowrap;
+    }
+    .cms-table td .cell-editable:focus {
+      background: rgba(92, 124, 250, 0.04);
+    }
+    .cms-table td .cell-editable a {
+      color: var(--sidebar-accent);
+      text-decoration: underline;
+    }
+    .cms-table .row-remove {
+      width: 28px;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+    .cms-table .row-remove button {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: none;
+      color: var(--border);
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: var(--radius);
+    }
+    .cms-table .row-remove button:hover {
+      color: var(--error);
+      background: rgba(220,38,38,0.06);
+    }
+
+    /* Editable content (WYSIWYG) */
+    .editable-field {
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      min-height: 60px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-y: auto;
+      transition: border-color 0.15s;
+    }
+    .editable-field:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+    .editable-field a {
+      color: var(--sidebar-accent);
+      text-decoration: underline;
+    }
+    .editable-field strong, .editable-field b {
+      font-weight: 700;
+    }
+
+    /* Mini toolbar (bold/link buttons) */
+    .mini-toolbar {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 0.375rem;
+    }
+    .mini-toolbar button {
+      padding: 0.1875rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+      font-family: var(--font);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .mini-toolbar button:hover {
+      border-color: var(--sidebar-accent);
+      color: var(--sidebar-accent);
+    }
+
+    /* Spreekuur editor */
+    .spreekuur-panel {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .spreekuur-section {
+      margin-bottom: 1.5rem;
+      background: var(--editor-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .spreekuur-section-header {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+      padding: 0.75rem 1.25rem;
+      background: #fafbfc;
+      border-bottom: 1px solid var(--border);
+    }
+    .spreekuur-section-body {
+      padding: 1rem 1.25rem;
+    }
+    .spreekuur-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .spreekuur-row input {
+      flex: 1;
+      padding: 0.4375rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+    }
+    .spreekuur-row input:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+    .spreekuur-row .row-key {
+      width: 40px;
+      text-align: center;
+      flex: none;
+    }
+    .spreekuur-row .row-label {
+      flex: 1;
+    }
+    .spreekuur-row .row-value {
+      flex: 1;
+    }
+    .row-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+      font-family: var(--font);
+      transition: all 0.1s;
+    }
+    .row-btn:hover { border-color: var(--sidebar-accent); color: var(--sidebar-accent); }
+    .row-btn-danger:hover { border-color: var(--error); color: var(--error); }
+    .add-row-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.625rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-family: var(--font);
+      cursor: pointer;
+      margin-top: 0.25rem;
+      transition: all 0.1s;
+    }
+    .add-row-btn:hover { border-color: var(--sidebar-accent); color: var(--sidebar-accent); }
+    .spreekuur-textarea {
+      width: 100%;
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+      min-height: 60px;
+      line-height: 1.5;
+    }
+    .spreekuur-textarea:focus {
+      outline: none;
+      border-color: var(--sidebar-accent);
+    }
+
+    /* Loading spinner */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--sidebar-accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- AUTH SCREEN -->
+  <div class="auth" id="auth">
+    <div class="auth-card">
+      <h1>CMS Schoterpoort</h1>
+      <p class="subtitle">Voer het wachtwoord in om in te loggen.</p>
+      <form id="auth-form">
+        <label for="password">Wachtwoord</label>
+        <input type="password" id="password" autocomplete="current-password" required autofocus />
+        <button type="submit" id="auth-btn">Inloggen</button>
+        <div class="auth-error" id="auth-error">Onjuist wachtwoord. Probeer opnieuw.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CMS SCREEN -->
+  <div class="cms" id="cms">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Schoterpoort CMS</h2>
+        <div class="version">Content beheer</div>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    </aside>
+    <main class="main">
+      <div class="topbar" id="topbar">
+        <div class="topbar-left">
+          <span class="topbar-file" id="topbar-file">Selecteer een pagina</span>
+          <span class="topbar-collection" id="topbar-collection"></span>
+        </div>
+        <div class="topbar-right">
+          <span class="status" id="status"></span>
+          <button class="save-btn" id="save-btn" disabled>Opslaan</button>
+        </div>
+      </div>
+      <div class="editor-area" id="editor-area">
+        <div class="no-selection" id="no-selection">Kies een pagina in het menu</div>
+        <div class="file-grid" id="file-grid" style="display:none"></div>
+        <div class="editor-panel" id="editor-panel" style="display:none">
+          <div class="fields" id="fields"></div>
+          <div class="markdown-wrap" id="markdown-wrap">
+            <div class="markdown-label">Inhoud</div>
+            <textarea id="editor-textarea"></textarea>
+          </div>
+        </div>
+        <div class="blocks-panel" id="blocks-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="spreekuur-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script>
+    // --- CONFIG ---
+    const REPO = 'han-s-kl/schoterpoort';
+    const BRANCH = 'main';
+    const API = 'https://api.github.com';
+    const ENCRYPTED = 'NGJVhe4KcEE+LEe9UCi6xcx4LVSlI+Mm1KtKTxm/QOJ/KSEtlGawaLZE3hmsUEiI66pshdgM/dK+ioE6bnRISB/KnW3RUANJFgAtIUyLQGXwLUxQ1+Sg5UVZELY0DirfnkFoO8MTXejSGnYRMqadl9XnngdO5EJdSVWg10KoZ8X4AgpynAHEHJY=';
+    const STAFF_PATH = 'src/data/staff.json';
+    const SPREEKUUR_PATH = 'src/data/spreekuur.json';
+    const HOME_PATH = 'src/data/home.json';
+    const PATIENTENOMGEVING_PATH = 'src/data/patientenomgeving.json';
+
+    const PAGE_FIELDS = [
+      { name: 'title', label: 'Titel', type: 'string' },
+      { name: 'description', label: 'Beschrijving', type: 'string' },
+    ];
+
+    const BLOCK_FIELDS = [
+      { name: 'title', label: 'Titel', type: 'string' },
+      { name: 'type', label: 'Type', type: 'select', options: [
+        { value: 'warning', label: 'Waarschuwing (geel)' },
+        { value: 'info', label: 'Informatie (blauw)' },
+        { value: 'neutral', label: 'Neutraal (grijs)' },
+      ]},
+      { name: 'visible', label: 'Zichtbaar', type: 'boolean' },
+      { name: 'order', label: 'Volgorde', type: 'number' },
+    ];
+
+    const STAFF_FIELDS = [
+      { name: 'name', label: 'Naam', type: 'string' },
+      { name: 'role', label: 'Rol', type: 'string' },
+      { name: 'team', label: 'Team', type: 'string' },
+      { name: 'phone', label: 'Telefoon', type: 'string' },
+      { name: 'workingDays', label: 'Werkdagen', type: 'tags' },
+      { name: 'since', label: 'Sinds', type: 'string' },
+      { name: 'background', label: 'Achtergrond', type: 'textarea', wide: true },
+      { name: 'interests', label: 'Interesses', type: 'textarea', wide: true },
+      { name: 'photo', label: 'Foto (pad)', type: 'string' },
+    ];
+
+    const STAFF_ROLE_FILTERS = {
+      'huisartsen': s => s.role === 'Huisarts',
+      'praktijkverpleegkundigen': s => /verpleegkundige|ondersteuner|Spreekuurondersteuner/i.test(s.role),
+      'praktijkassistenten': s => /Doktersassistente|Baliemedewerker|Praktijkmanager/i.test(s.role),
+      'huisartsen-in-opleiding': s => s.role === 'Huisarts in opleiding (HAIO)',
+    };
+
+    const NAV_ITEMS = [
+      { label: 'Home', mode: 'home' },
+      { label: 'Patientenomgeving', mode: 'patientenomgeving' },
+      { type: 'separator' },
+      {
+        label: 'Medewerkers', children: [
+          { label: 'Huisartsen', mode: 'staff', filterKey: 'huisartsen' },
+          { label: 'Praktijkverpleegkundigen', mode: 'staff', filterKey: 'praktijkverpleegkundigen' },
+          { label: 'Praktijkassistenten', mode: 'staff', filterKey: 'praktijkassistenten' },
+          { label: 'Huisartsen in opleiding', mode: 'staff', filterKey: 'huisartsen-in-opleiding' },
+        ]
+      },
+      {
+        label: 'Diensten', children: [
+          { label: 'Spreekuur & afspraken', mode: 'spreekuur' },
+          { label: 'Herhaalrecept', mode: 'markdown', file: 'src/content/pages/herhaalrecept.md', fields: PAGE_FIELDS },
+          { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
+          { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
+          { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS },
+        ]
+      },
+      {
+        label: 'Praktisch', children: [
+          { label: 'Tarieven 2025', mode: 'markdown', file: 'src/content/pages/tarieven.md', fields: PAGE_FIELDS },
+          { label: 'Eigen risico', mode: 'markdown', file: 'src/content/pages/eigen-risico.md', fields: PAGE_FIELDS },
+          { label: 'Klachtenregeling', mode: 'markdown', file: 'src/content/pages/klachtenregeling.md', fields: PAGE_FIELDS },
+          { label: 'Administratieformulier', mode: 'markdown', file: 'src/content/pages/administratieformulier.md', fields: PAGE_FIELDS },
+          { label: 'Urineonderzoek formulier', mode: 'markdown', file: 'src/content/pages/urineonderzoek-formulier.md', fields: PAGE_FIELDS },
+          { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
+        ]
+      },
+      { type: 'separator' },
+      { label: 'Mededelingen', mode: 'blocks', folder: 'src/content/blocks', fields: BLOCK_FIELDS },
+    ];
+
+    // --- STATE ---
+    let token = null;
+    let currentMode = null;     // 'markdown' | 'staff' | 'blocks'
+    let currentNavItem = null;
+    let currentFile = null;     // { path, sha } for markdown mode
+    let mdeInstances = [];
+    let staffData = null;
+    let staffSha = null;
+    let currentStaffIndex = null;
+    let blockFiles = [];        // [{ path, sha, meta, body }, ...]
+    let spreekuurSha = null;
+    let homeSha = null;
+    let patientenomgevingSha = null;
+    let currentSections = [];   // parsed markdown sections for section editor
+    let currentMeta = {};       // original frontmatter meta (preserved on save)
+
+    // --- AUTH ---
+    async function decrypt(password) {
+      const data = Uint8Array.from(atob(ENCRYPTED), c => c.charCodeAt(0));
+      const salt = data.slice(0, 16);
+      const iv = data.slice(16, 28);
+      const tag = data.slice(28, 44);
+      const ciphertext = data.slice(44);
+      const combined = new Uint8Array(ciphertext.length + tag.length);
+      combined.set(ciphertext);
+      combined.set(tag, ciphertext.length);
+      const keyMaterial = await crypto.subtle.importKey(
+        'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']
+      );
+      const key = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+        keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+      );
+      const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, combined);
+      return new TextDecoder().decode(decrypted);
+    }
+
+    // --- GITHUB API ---
+    async function ghFetch(path, opts = {}) {
+      const res = await fetch(`${API}/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+          ...opts.headers,
+        },
+        ...opts,
+      });
+      if (!res.ok) throw new Error(`GitHub API ${res.status}: ${res.statusText}`);
+      return res.json();
+    }
+
+    async function listFiles(folder) {
+      const items = await ghFetch(folder);
+      return items
+        .filter(f => f.name.endsWith('.md'))
+        .map(f => ({ name: f.name, path: f.path, sha: f.sha }));
+    }
+
+    async function readFile(path) {
+      const data = await ghFetch(path);
+      const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+      return { content, sha: data.sha };
+    }
+
+    async function saveFile(path, content, sha, message) {
+      const encoded = btoa(unescape(encodeURIComponent(content)));
+      const res = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          content: encoded,
+          sha,
+          branch: BRANCH,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Save failed: ${res.status}`);
+      }
+      const data = await res.json();
+      return data.content.sha;
+    }
+
+    // --- FRONTMATTER ---
+    function parseFrontmatter(raw) {
+      const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+      if (!match) return { meta: {}, body: raw };
+      const meta = {};
+      for (const line of match[1].split('\n')) {
+        const idx = line.indexOf(':');
+        if (idx === -1) continue;
+        const key = line.slice(0, idx).trim();
+        let val = line.slice(idx + 1).trim();
+        if ((val.startsWith('"') && val.endsWith('"')) ||
+            (val.startsWith("'") && val.endsWith("'"))) {
+          val = val.slice(1, -1);
+        }
+        if (val === 'true') val = true;
+        else if (val === 'false') val = false;
+        else if (/^\d+$/.test(val)) val = parseInt(val, 10);
+        meta[key] = val;
+      }
+      return { meta, body: match[2] };
+    }
+
+    function serializeFrontmatter(meta, body, fields) {
+      let fm = '---\n';
+      for (const field of fields) {
+        const val = meta[field.name];
+        if (val === undefined || val === null) continue;
+        if (typeof val === 'string') {
+          fm += `${field.name}: "${val}"\n`;
+        } else {
+          fm += `${field.name}: ${val}\n`;
+        }
+      }
+      fm += '---\n';
+      return fm + body;
+    }
+
+    // --- UI HELPERS ---
+    function setStatus(text, type = '') {
+      const el = document.getElementById('status');
+      el.textContent = text;
+      el.className = 'status' + (type ? ' ' + type : '');
+    }
+
+    function destroyEditors() {
+      for (const inst of mdeInstances) {
+        try { inst.toTextArea(); } catch (e) {}
+      }
+      mdeInstances = [];
+    }
+
+    function showView(view) {
+      document.getElementById('no-selection').style.display = view === 'empty' ? 'flex' : 'none';
+      document.getElementById('file-grid').style.display = view === 'staff-list' ? 'grid' : 'none';
+      document.getElementById('editor-panel').style.display =
+        (view === 'editor' || view === 'staff-detail') ? 'block' : 'none';
+      document.getElementById('markdown-wrap').style.display = 'none';
+      document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
+      document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
+      document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
+      document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
+    }
+
+    function setTopbar(title, subtitle, backFn) {
+      const fileEl = document.getElementById('topbar-file');
+      if (backFn) {
+        fileEl.innerHTML = '';
+        const backBtn = document.createElement('button');
+        backBtn.className = 'back-btn';
+        backBtn.innerHTML = '&larr; Terug';
+        backBtn.addEventListener('click', backFn);
+        fileEl.appendChild(backBtn);
+        fileEl.appendChild(document.createTextNode(title));
+      } else {
+        fileEl.textContent = title;
+      }
+      document.getElementById('topbar-collection').textContent = subtitle || '';
+    }
+
+    // --- SIDEBAR ---
+    function renderNav() {
+      const nav = document.getElementById('sidebar-nav');
+      nav.innerHTML = '';
+
+      for (const item of NAV_ITEMS) {
+        if (item.type === 'separator') {
+          const sep = document.createElement('div');
+          sep.className = 'nav-separator';
+          nav.appendChild(sep);
+          continue;
+        }
+
+        if (item.children) {
+          // Expandable group
+          const header = document.createElement('button');
+          header.className = 'nav-group-header';
+          header.innerHTML = `<span>${item.label}</span><span class="chevron">&#9654;</span>`;
+
+          const childContainer = document.createElement('div');
+          childContainer.className = 'nav-group-children expanded';
+          header.classList.add('expanded');
+
+          for (const child of item.children) {
+            const btn = document.createElement('button');
+            btn.className = 'nav-item';
+            btn.textContent = child.label;
+            btn.dataset.navId = `${item.label}/${child.label}`;
+            btn.addEventListener('click', () => openItem(child));
+            childContainer.appendChild(btn);
+          }
+
+          header.addEventListener('click', () => {
+            header.classList.toggle('expanded');
+            childContainer.classList.toggle('expanded');
+          });
+
+          nav.appendChild(header);
+          nav.appendChild(childContainer);
+        } else {
+          // Leaf item
+          const btn = document.createElement('button');
+          btn.className = 'nav-item';
+          btn.textContent = item.label;
+          btn.dataset.navId = item.label;
+          btn.addEventListener('click', () => openItem(item));
+          nav.appendChild(btn);
+        }
+      }
+    }
+
+    function setActiveNav(item) {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      const id = item._navId || item.label;
+      const btn = document.querySelector(`.nav-item[data-nav-id="${id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+
+    // --- ITEM DISPATCHER ---
+    async function openItem(item) {
+      destroyEditors();
+      currentNavItem = item;
+
+      if (item.mode === 'markdown') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openMarkdownEditor(item);
+      } else if (item.mode === 'staff') {
+        // Find parent label for nav ID
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        setActiveNav(item);
+        await openStaffList(item);
+      } else if (item.mode === 'blocks') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openBlocksEditor(item);
+      } else if (item.mode === 'spreekuur') {
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        setActiveNav(item);
+        await openSpreekuurEditor();
+      } else if (item.mode === 'home') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openHomeEditor();
+      } else if (item.mode === 'patientenomgeving') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openPatientenomgevingEditor();
+      }
+    }
+
+    // --- MARKDOWN EDITOR ---
+    async function openMarkdownEditor(item) {
+      currentMode = 'markdown';
+      showView('empty');
+      setTopbar(item.label, '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(item.file);
+        currentFile = { path: item.file, sha };
+        const { meta, body } = parseFrontmatter(content);
+
+        currentMeta = meta;
+        document.getElementById('fields').style.display = 'none';
+        currentSections = parseMarkdownSections(body);
+        renderSectionEditor(currentSections);
+
+        showView('editor');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function renderFields(fields, values, prefix) {
+      const pfx = prefix || '';
+      const container = pfx ? null : document.getElementById('fields');
+      const target = container || document.createElement('div');
+      if (!pfx) target.innerHTML = '';
+      target.className = 'fields';
+
+      for (const field of fields) {
+        const div = document.createElement('div');
+        if (field.type === 'boolean') {
+          div.className = 'field field-checkbox';
+        } else if (field.wide) {
+          div.className = 'field field-wide';
+        } else {
+          div.className = 'field';
+        }
+
+        const label = document.createElement('label');
+        label.textContent = field.label;
+        label.htmlFor = `${pfx}field-${field.name}`;
+
+        let input;
+        if (field.type === 'select') {
+          input = document.createElement('select');
+          for (const opt of field.options) {
+            const option = document.createElement('option');
+            option.value = opt.value;
+            option.textContent = opt.label;
+            if (values[field.name] === opt.value) option.selected = true;
+            input.appendChild(option);
+          }
+        } else if (field.type === 'boolean') {
+          input = document.createElement('input');
+          input.type = 'checkbox';
+          input.checked = values[field.name] === true;
+        } else if (field.type === 'number') {
+          input = document.createElement('input');
+          input.type = 'number';
+          input.value = values[field.name] ?? '';
+        } else if (field.type === 'textarea') {
+          input = document.createElement('textarea');
+          input.rows = 5;
+          input.value = values[field.name] ?? '';
+        } else if (field.type === 'tags') {
+          input = document.createElement('input');
+          input.type = 'text';
+          const val = values[field.name];
+          input.value = Array.isArray(val) ? val.join(', ') : (val ?? '');
+          input.placeholder = 'maandag, dinsdag, woensdag...';
+        } else {
+          input = document.createElement('input');
+          input.type = 'text';
+          input.value = values[field.name] ?? '';
+        }
+
+        input.id = `${pfx}field-${field.name}`;
+        input.dataset.fieldName = field.name;
+        input.dataset.fieldType = field.type;
+
+        if (field.type === 'boolean') {
+          div.appendChild(input);
+          div.appendChild(label);
+        } else {
+          div.appendChild(label);
+          div.appendChild(input);
+        }
+        target.appendChild(div);
+      }
+
+      return target;
+    }
+
+    function parseMarkdownSections(body) {
+      const lines = body.split('\n');
+      const sections = [];
+      let current = null;
+
+      for (const line of lines) {
+        const headingMatch = line.match(/^(#{1,3})\s+(.+)$/);
+        if (headingMatch) {
+          if (current) sections.push(current);
+          current = {
+            level: headingMatch[1].length,
+            heading: headingMatch[2],
+            contentLines: [],
+          };
+        } else {
+          if (!current) {
+            // Content before any heading (intro text)
+            current = { level: 0, heading: '', contentLines: [] };
+          }
+          current.contentLines.push(line);
+        }
+      }
+      if (current) sections.push(current);
+
+      // Trim leading/trailing empty lines from each section's content
+      for (const s of sections) {
+        const content = s.contentLines.join('\n');
+        s.content = content.replace(/^\n+/, '').replace(/\n+$/, '');
+        delete s.contentLines;
+      }
+      // Filter out empty sections (no heading and no content)
+      return sections.filter(s => s.heading || s.content);
+    }
+
+    function reassembleMarkdown(sections) {
+      const parts = [];
+      for (const s of sections) {
+        if (s.level > 0 && s.heading) {
+          parts.push('#'.repeat(s.level) + ' ' + s.heading);
+        }
+        if (s.content) {
+          parts.push(s.content);
+        }
+      }
+      return parts.join('\n\n') + '\n';
+    }
+
+    function renderSectionEditor(sections) {
+      // Use the editor-panel but hide the markdown-wrap
+      const panel = document.getElementById('editor-panel');
+      // Remove any previous section containers
+      const old = panel.querySelector('.sections-container');
+      if (old) old.remove();
+
+      const container = document.createElement('div');
+      container.className = 'sections-container';
+
+      sections.forEach((section, i) => {
+        const el = document.createElement('div');
+        el.className = 'spreekuur-section';
+
+        if (section.heading) {
+          const header = document.createElement('div');
+          header.className = 'spreekuur-section-header';
+          const prefix = section.level > 0 ? '#'.repeat(section.level) + ' ' : '';
+          header.textContent = prefix + section.heading;
+          el.appendChild(header);
+        } else {
+          const header = document.createElement('div');
+          header.className = 'spreekuur-section-header';
+          header.textContent = '(Introductie)';
+          el.appendChild(header);
+        }
+
+        const body = document.createElement('div');
+        body.className = 'spreekuur-section-body';
+        body.dataset.sectionIndex = i;
+
+        const parts = parseContentParts(section.content);
+        for (const part of parts) {
+          if (part.type === 'table') {
+            body.appendChild(renderTableEditor(part));
+          } else {
+            const editable = createEditableField(part.content, 'markdown');
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          }
+        }
+        if (!parts.length) {
+          const editable = createEditableField('', 'markdown');
+          body.appendChild(createMiniToolbar(editable));
+          body.appendChild(editable);
+        }
+
+        el.appendChild(body);
+        container.appendChild(el);
+      });
+
+      panel.appendChild(container);
+    }
+
+    function gatherMarkdownContent() {
+      if (!currentNavItem) return null;
+      const fields = currentNavItem.fields || PAGE_FIELDS;
+      const meta = currentMeta;
+
+      // Gather sections from editable fields and tables
+      const sectionBodies = document.querySelectorAll('.sections-container .spreekuur-section-body[data-section-index]');
+      const sections = currentSections.map((s, i) => {
+        const sectionBody = sectionBodies[i];
+        if (!sectionBody) return { level: s.level, heading: s.heading, content: s.content };
+
+        const contentParts = [];
+        for (const child of sectionBody.children) {
+          if (child.classList.contains('editable-field')) {
+            contentParts.push(htmlToMdInline(child.innerHTML));
+          } else if (child.querySelector('.cms-table')) {
+            const tableData = gatherTableData(child.querySelector('.cms-table'));
+            contentParts.push(serializeTable(tableData.headers, tableData.rows));
+          }
+          // skip toolbars, add-row buttons
+        }
+        return { level: s.level, heading: s.heading, content: contentParts.filter(Boolean).join('\n\n') };
+      });
+      const body = reassembleMarkdown(sections);
+      return serializeFrontmatter(meta, body, fields);
+    }
+
+    // --- STAFF EDITOR ---
+    async function loadStaffData() {
+      if (staffData && staffSha) return;
+      const { content, sha } = await readFile(STAFF_PATH);
+      staffData = JSON.parse(content);
+      staffSha = sha;
+    }
+
+    async function openStaffList(item) {
+      currentMode = 'staff';
+      currentStaffIndex = null;
+      showView('empty');
+      setTopbar(item.label, 'Medewerkers');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        await loadStaffData();
+        const filterFn = STAFF_ROLE_FILTERS[item.filterKey];
+        const grid = document.getElementById('file-grid');
+        grid.innerHTML = '';
+
+        staffData.forEach((person, index) => {
+          if (!filterFn(person)) return;
+          const btn = document.createElement('button');
+          btn.className = 'file-card';
+          btn.innerHTML = `
+            <div class="file-name">${person.name}</div>
+            <div class="file-meta">${person.role}${person.team ? ' -- ' + person.team : ''}</div>
+            <div class="file-meta">${(person.workingDays || []).join(', ')}</div>
+          `;
+          btn.addEventListener('click', () => openStaffDetail(index, item));
+          grid.appendChild(btn);
+        });
+
+        showView('staff-list');
+        const count = grid.children.length;
+        setStatus(`${count} medewerker${count !== 1 ? 's' : ''}`, '');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function openStaffDetail(index, parentItem) {
+      currentMode = 'staff';
+      currentStaffIndex = index;
+      const person = staffData[index];
+
+      setTopbar(person.name, person.role, () => openStaffList(parentItem));
+
+      const container = document.getElementById('fields');
+      container.innerHTML = '';
+      const fieldsEl = renderFields(STAFF_FIELDS, person, '');
+      // renderFields already populates #fields since prefix is empty
+
+      showView('staff-detail');
+      document.getElementById('save-btn').disabled = false;
+      setStatus('');
+    }
+
+    function gatherStaffData() {
+      if (currentStaffIndex === null) return null;
+      const person = { ...staffData[currentStaffIndex] };
+      for (const field of STAFF_FIELDS) {
+        const input = document.getElementById(`field-${field.name}`);
+        if (!input) continue;
+        if (field.type === 'tags') {
+          person[field.name] = input.value.split(',').map(s => s.trim()).filter(Boolean);
+        } else if (field.type === 'boolean') {
+          person[field.name] = input.checked;
+        } else if (field.type === 'number') {
+          person[field.name] = parseInt(input.value, 10) || 0;
+        } else {
+          person[field.name] = input.value;
+        }
+      }
+      return person;
+    }
+
+    // --- BLOCKS EDITOR ---
+    async function openBlocksEditor(item) {
+      currentMode = 'blocks';
+      showView('empty');
+      setTopbar(item.label, '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const files = await listFiles(item.folder);
+        const loaded = await Promise.all(files.map(async f => {
+          const { content, sha } = await readFile(f.path);
+          const { meta, body } = parseFrontmatter(content);
+          return { path: f.path, sha, meta, body, name: f.name };
+        }));
+
+        // Sort by order field
+        loaded.sort((a, b) => (a.meta.order || 0) - (b.meta.order || 0));
+        blockFiles = loaded;
+
+        const panel = document.getElementById('blocks-panel');
+        panel.innerHTML = '';
+
+        loaded.forEach((block, i) => {
+          const section = document.createElement('div');
+          section.className = 'block-section';
+
+          const header = document.createElement('div');
+          header.className = 'block-section-header';
+          header.textContent = block.meta.title || block.name.replace('.md', '');
+          section.appendChild(header);
+
+          // Fields
+          const fieldsDiv = document.createElement('div');
+          fieldsDiv.className = 'fields';
+          for (const field of item.fields) {
+            const div = document.createElement('div');
+            if (field.type === 'boolean') {
+              div.className = 'field field-checkbox';
+            } else {
+              div.className = 'field';
+            }
+
+            const label = document.createElement('label');
+            label.textContent = field.label;
+            label.htmlFor = `block-${i}-field-${field.name}`;
+
+            let input;
+            if (field.type === 'select') {
+              input = document.createElement('select');
+              for (const opt of field.options) {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.label;
+                if (block.meta[field.name] === opt.value) option.selected = true;
+                input.appendChild(option);
+              }
+            } else if (field.type === 'boolean') {
+              input = document.createElement('input');
+              input.type = 'checkbox';
+              input.checked = block.meta[field.name] === true;
+            } else if (field.type === 'number') {
+              input = document.createElement('input');
+              input.type = 'number';
+              input.value = block.meta[field.name] ?? '';
+            } else {
+              input = document.createElement('input');
+              input.type = 'text';
+              input.value = block.meta[field.name] ?? '';
+            }
+
+            input.id = `block-${i}-field-${field.name}`;
+            input.dataset.fieldName = field.name;
+            input.dataset.fieldType = field.type;
+            input.dataset.blockIndex = i;
+
+            if (field.type === 'boolean') {
+              div.appendChild(input);
+              div.appendChild(label);
+            } else {
+              div.appendChild(label);
+              div.appendChild(input);
+            }
+            fieldsDiv.appendChild(div);
+          }
+          section.appendChild(fieldsDiv);
+
+          // Markdown editor
+          const wrap = document.createElement('div');
+          wrap.className = 'markdown-wrap';
+          const mdLabel = document.createElement('div');
+          mdLabel.className = 'markdown-label';
+          mdLabel.textContent = 'Inhoud';
+          wrap.appendChild(mdLabel);
+          const textarea = document.createElement('textarea');
+          textarea.id = `block-editor-${i}`;
+          textarea.value = block.body;
+          wrap.appendChild(textarea);
+          section.appendChild(wrap);
+
+          panel.appendChild(section);
+        });
+
+        showView('blocks');
+
+        // Create EasyMDE instances after DOM is visible
+        loaded.forEach((block, i) => {
+          const mde = new EasyMDE({
+            element: document.getElementById(`block-editor-${i}`),
+            spellChecker: false,
+            autofocus: false,
+            status: false,
+            toolbar: ['bold', 'italic', 'heading', '|', 'link', '|', 'preview'],
+            minHeight: '150px',
+          });
+          mdeInstances.push(mde);
+        });
+
+        document.getElementById('save-btn').disabled = false;
+        setStatus(`${loaded.length} mededelingen`, '');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    // --- SAVE ---
+    async function handleSave() {
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      setStatus('Opslaan...', 'saving');
+
+      try {
+        if (currentMode === 'markdown') {
+          await saveMarkdown();
+        } else if (currentMode === 'staff') {
+          await saveStaff();
+        } else if (currentMode === 'blocks') {
+          await saveAllBlocks();
+        } else if (currentMode === 'spreekuur') {
+          await saveSpreekuur();
+        } else if (currentMode === 'home') {
+          await saveHome();
+        } else if (currentMode === 'patientenomgeving') {
+          await savePatientenomgeving();
+        }
+        setStatus('Opgeslagen', 'saved');
+        setTimeout(() => setStatus(''), 3000);
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    async function saveMarkdown() {
+      if (!currentFile) return;
+      const content = gatherMarkdownContent();
+      if (!content) return;
+      const slug = currentFile.path.split('/').pop().replace('.md', '');
+      const msg = `Update ${slug} via CMS`;
+      currentFile.sha = await saveFile(currentFile.path, content, currentFile.sha, msg);
+    }
+
+    async function saveStaff() {
+      if (currentStaffIndex === null) return;
+      const updated = gatherStaffData();
+      if (!updated) return;
+      staffData[currentStaffIndex] = updated;
+      const content = JSON.stringify(staffData, null, 2) + '\n';
+      const msg = `Update medewerker: ${updated.name} via CMS`;
+      staffSha = await saveFile(STAFF_PATH, content, staffSha, msg);
+    }
+
+    async function saveAllBlocks() {
+      const fields = currentNavItem.fields || BLOCK_FIELDS;
+      for (let i = 0; i < blockFiles.length; i++) {
+        const block = blockFiles[i];
+        const meta = {};
+        for (const field of fields) {
+          const input = document.getElementById(`block-${i}-field-${field.name}`);
+          if (!input) continue;
+          if (field.type === 'boolean') {
+            meta[field.name] = input.checked;
+          } else if (field.type === 'number') {
+            meta[field.name] = parseInt(input.value, 10) || 0;
+          } else {
+            meta[field.name] = input.value;
+          }
+        }
+        const body = mdeInstances[i] ? mdeInstances[i].value() : block.body;
+        const content = serializeFrontmatter(meta, body, fields);
+        const slug = block.path.split('/').pop().replace('.md', '');
+        const msg = `Update mededeling: ${slug} via CMS`;
+        block.sha = await saveFile(block.path, content, block.sha, msg);
+        block.meta = meta;
+        block.body = body;
+      }
+    }
+
+    // --- MARKDOWN <-> HTML CONVERSION ---
+    function mdInlineToHtml(md) {
+      let html = md;
+      // Bold: **text** -> <strong>text</strong>
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // Links: [text](url) -> <a href="url">text</a>
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      return html;
+    }
+
+    function htmlToMdInline(html) {
+      let md = html;
+      // Strong/bold -> **text**
+      md = md.replace(/<strong>(.*?)<\/strong>/gi, '**$1**');
+      md = md.replace(/<b>(.*?)<\/b>/gi, '**$1**');
+      // Links -> [text](url)
+      md = md.replace(/<a[^>]+href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
+      // BR -> newline
+      md = md.replace(/<br\s*\/?>/gi, '\n');
+      // Divs (contenteditable line wrapping) -> newline
+      md = md.replace(/<\/div>\s*<div[^>]*>/gi, '\n');
+      md = md.replace(/<div[^>]*>/gi, '\n');
+      md = md.replace(/<\/div>/gi, '');
+      // Strip remaining tags
+      md = md.replace(/<[^>]+>/g, '');
+      // Decode HTML entities
+      md = md.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
+      return md.trim();
+    }
+
+    // --- MINI TOOLBAR (bold/link) ---
+    function createMiniToolbar(editableEl) {
+      const toolbar = document.createElement('div');
+      toolbar.className = 'mini-toolbar';
+
+      const boldBtn = document.createElement('button');
+      boldBtn.type = 'button';
+      boldBtn.innerHTML = '<strong>B</strong> Vet';
+      boldBtn.title = 'Selecteer tekst en klik voor vetgedrukt';
+      boldBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        editableEl.focus();
+        document.execCommand('bold');
+      });
+
+      const linkBtn = document.createElement('button');
+      linkBtn.type = 'button';
+      linkBtn.innerHTML = '&#128279; Link';
+      linkBtn.title = 'Selecteer tekst en klik om een link toe te voegen';
+      linkBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sel = window.getSelection();
+        if (!sel.rangeCount || sel.isCollapsed) {
+          alert('Selecteer eerst de tekst die een link moet worden.');
+          return;
+        }
+        const url = prompt('Voer de URL in (bijv. tel:023-7504567 of https://...)');
+        if (!url) return;
+        editableEl.focus();
+        document.execCommand('createLink', false, url);
+      });
+
+      toolbar.appendChild(boldBtn);
+      toolbar.appendChild(linkBtn);
+      return toolbar;
+    }
+
+    function createEditableField(content, mode) {
+      // mode: 'html' (spreekuur) or 'markdown' (pages)
+      const el = document.createElement('div');
+      el.className = 'editable-field';
+      el.contentEditable = 'true';
+      if (mode === 'markdown') {
+        el.innerHTML = mdInlineToHtml(content).replace(/\n/g, '<br>');
+      } else {
+        el.innerHTML = content;
+      }
+      return el;
+    }
+
+    // --- TABLE EDITOR ---
+    function parseContentParts(content) {
+      const lines = content.split('\n');
+      const parts = [];
+      let textLines = [];
+      let tableLines = [];
+      let inTable = false;
+
+      for (const line of lines) {
+        const isTableLine = line.trim().startsWith('|') && line.trim().includes('|', 1);
+        if (isTableLine) {
+          if (!inTable && textLines.length) {
+            parts.push({ type: 'text', content: textLines.join('\n').trim() });
+            textLines = [];
+          }
+          inTable = true;
+          tableLines.push(line);
+        } else {
+          if (inTable && tableLines.length) {
+            parts.push(parseTableLines(tableLines));
+            tableLines = [];
+          }
+          inTable = false;
+          textLines.push(line);
+        }
+      }
+      if (tableLines.length) parts.push(parseTableLines(tableLines));
+      if (textLines.length) {
+        const t = textLines.join('\n').trim();
+        if (t) parts.push({ type: 'text', content: t });
+      }
+      return parts;
+    }
+
+    function parseTableLines(lines) {
+      const headers = lines[0].split('|').map(s => s.trim()).filter(Boolean);
+      // Skip separator line (index 1, contains ---)
+      const startIdx = (lines[1] && lines[1].includes('---')) ? 2 : 1;
+      const rows = lines.slice(startIdx).map(line =>
+        line.split('|').map(s => s.trim()).filter(Boolean)
+      );
+      return { type: 'table', headers, rows };
+    }
+
+    function renderTableEditor(tablePart) {
+      const wrapper = document.createElement('div');
+      const table = document.createElement('table');
+      table.className = 'cms-table';
+
+      // Header row
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      for (const h of tablePart.headers) {
+        const th = document.createElement('th');
+        th.textContent = h;
+        headerRow.appendChild(th);
+      }
+      const thRemove = document.createElement('th');
+      thRemove.style.width = '28px';
+      headerRow.appendChild(thRemove);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Body rows
+      const tbody = document.createElement('tbody');
+      for (const row of tablePart.rows) {
+        tbody.appendChild(createTableDataRow(row, tablePart.headers.length));
+      }
+      table.appendChild(tbody);
+      wrapper.appendChild(table);
+
+      // Add row button
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-row-btn';
+      addBtn.textContent = '+ Rij toevoegen';
+      addBtn.addEventListener('click', () => {
+        const empty = new Array(tablePart.headers.length).fill('');
+        tbody.appendChild(createTableDataRow(empty, tablePart.headers.length));
+      });
+      wrapper.appendChild(addBtn);
+
+      return wrapper;
+    }
+
+    function createTableDataRow(cells, colCount) {
+      const tr = document.createElement('tr');
+      for (let i = 0; i < colCount; i++) {
+        const td = document.createElement('td');
+        const cell = document.createElement('div');
+        cell.className = 'cell-editable';
+        cell.contentEditable = 'true';
+        cell.innerHTML = mdInlineToHtml(cells[i] || '');
+        td.appendChild(cell);
+        tr.appendChild(td);
+      }
+      const tdRemove = document.createElement('td');
+      tdRemove.className = 'row-remove';
+      const removeBtn = document.createElement('button');
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Rij verwijderen';
+      removeBtn.addEventListener('click', () => tr.remove());
+      tdRemove.appendChild(removeBtn);
+      tr.appendChild(tdRemove);
+      return tr;
+    }
+
+    function gatherTableData(tableEl) {
+      const headers = [];
+      for (const th of tableEl.querySelectorAll('thead th')) {
+        if (th.style.width === '28px') continue; // skip remove column
+        headers.push(th.textContent);
+      }
+      const rows = [];
+      for (const tr of tableEl.querySelectorAll('tbody tr')) {
+        const cells = [];
+        for (const cell of tr.querySelectorAll('td .cell-editable')) {
+          cells.push(htmlToMdInline(cell.innerHTML));
+        }
+        if (cells.some(c => c)) rows.push(cells);
+      }
+      return { headers, rows };
+    }
+
+    function serializeTable(headers, rows) {
+      const sep = headers.map(() => '--------').join('|');
+      const headerLine = '| ' + headers.join(' | ') + ' |';
+      const sepLine = '|' + sep + '|';
+      const rowLines = rows.map(r => '| ' + r.join(' | ') + ' |');
+      return [headerLine, sepLine, ...rowLines].join('\n');
+    }
+
+    // --- SPREEKUUR EDITOR ---
+    const SPREEKUUR_SECTIONS = [
+      {
+        key: 'openingstijden', label: 'Openingstijden', type: 'table',
+        columns: [
+          { key: 'label', label: 'Dag/periode', className: 'row-label' },
+          { key: 'value', label: 'Tijden', className: 'row-value' },
+        ],
+        notes: true,
+      },
+      {
+        key: 'keuzemenu', label: 'Keuzemenu telefoon', type: 'table',
+        columns: [
+          { key: 'key', label: 'Nr', className: 'row-key' },
+          { key: 'label', label: 'Omschrijving', className: 'row-label' },
+        ],
+      },
+      { key: 'standaardConsult', label: 'Standaard consult', type: 'text' },
+      { key: 'spoedafspraak', label: 'Spoedafspraak', type: 'text' },
+      { key: 'dubbelConsult', label: 'Dubbel consult', type: 'text' },
+      { key: 'videoconsult', label: 'Videoconsult', type: 'text' },
+      { key: 'terugbelafspraken', label: 'Terugbelafspraken', type: 'text' },
+      { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
+      {
+        key: 'spoed', label: 'Spoed', type: 'list',
+      },
+    ];
+
+    async function openSpreekuurEditor() {
+      currentMode = 'spreekuur';
+      showView('empty');
+      setTopbar('Spreekuur & afspraken', 'Diensten');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(SPREEKUUR_PATH);
+        const data = JSON.parse(content);
+        spreekuurSha = sha;
+
+        const panel = document.getElementById('spreekuur-panel');
+        panel.innerHTML = '';
+
+        for (const section of SPREEKUUR_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+          body.dataset.sectionKey = section.key;
+
+          if (section.type === 'text') {
+            const editable = createEditableField(data[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          } else if (section.type === 'table') {
+            const rowsContainer = document.createElement('div');
+            rowsContainer.dataset.tableKey = section.key;
+            const items = section.key === 'openingstijden' ? data.openingstijden.rows : data[section.key];
+            (items || []).forEach((item, i) => {
+              rowsContainer.appendChild(createTableRow(section, item, i));
+            });
+            body.appendChild(rowsContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Rij toevoegen';
+            addBtn.addEventListener('click', () => {
+              const empty = {};
+              section.columns.forEach(c => { empty[c.key] = ''; });
+              const idx = rowsContainer.children.length;
+              rowsContainer.appendChild(createTableRow(section, empty, idx));
+            });
+            body.appendChild(addBtn);
+
+            if (section.notes) {
+              const notesLabel = document.createElement('div');
+              notesLabel.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-top:1rem;margin-bottom:0.375rem;';
+              notesLabel.textContent = 'Opmerkingen';
+              body.appendChild(notesLabel);
+
+              const notesContainer = document.createElement('div');
+              notesContainer.dataset.notesKey = section.key;
+              (data.openingstijden.notes || []).forEach((note, i) => {
+                notesContainer.appendChild(createNoteRow(note, i));
+              });
+              body.appendChild(notesContainer);
+
+              const addNoteBtn = document.createElement('button');
+              addNoteBtn.className = 'add-row-btn';
+              addNoteBtn.textContent = '+ Opmerking toevoegen';
+              addNoteBtn.addEventListener('click', () => {
+                notesContainer.appendChild(createNoteRow('', notesContainer.children.length));
+              });
+              body.appendChild(addNoteBtn);
+            }
+          } else if (section.type === 'list') {
+            const listContainer = document.createElement('div');
+            listContainer.dataset.listKey = section.key;
+            (data[section.key] || []).forEach((item, i) => {
+              listContainer.appendChild(createListRow(item, i));
+            });
+            body.appendChild(listContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              listContainer.appendChild(createListRow('', listContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        showView('spreekuur');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function createTableRow(section, item, index) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+      for (const col of section.columns) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = col.className;
+        input.value = item[col.key] || '';
+        input.dataset.col = col.key;
+        input.placeholder = col.label;
+        row.appendChild(input);
+      }
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    function createNoteRow(note, index) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'row-label';
+      input.value = note;
+      input.placeholder = 'Opmerking...';
+      row.appendChild(input);
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    function createListRow(text, index) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+
+      const editable = document.createElement('div');
+      editable.className = 'editable-field row-label';
+      editable.contentEditable = 'true';
+      editable.innerHTML = text;
+      editable.style.minHeight = '1.8em';
+      editable.style.flex = '1';
+      row.appendChild(editable);
+
+      const boldBtn = document.createElement('button');
+      boldBtn.type = 'button';
+      boldBtn.className = 'row-btn';
+      boldBtn.innerHTML = '<strong>B</strong>';
+      boldBtn.title = 'Vetgedrukt';
+      boldBtn.addEventListener('click', (e) => { e.preventDefault(); editable.focus(); document.execCommand('bold'); });
+      row.appendChild(boldBtn);
+
+      const linkBtn = document.createElement('button');
+      linkBtn.type = 'button';
+      linkBtn.className = 'row-btn';
+      linkBtn.innerHTML = '&#128279;';
+      linkBtn.title = 'Link toevoegen';
+      linkBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sel = window.getSelection();
+        if (!sel.rangeCount || sel.isCollapsed) { alert('Selecteer eerst de tekst die een link moet worden.'); return; }
+        const url = prompt('Voer de URL in (bijv. tel:023-7504567 of https://...)');
+        if (!url) return;
+        editable.focus();
+        document.execCommand('createLink', false, url);
+      });
+      row.appendChild(linkBtn);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    function gatherSpreekuurData() {
+      const result = {};
+      for (const section of SPREEKUUR_SECTIONS) {
+        if (section.type === 'text') {
+          const editable = document.querySelector(`.editable-field[data-key="${section.key}"]`);
+          result[section.key] = editable ? editable.innerHTML : '';
+        } else if (section.type === 'table') {
+          const container = document.querySelector(`[data-table-key="${section.key}"]`);
+          const rows = [];
+          if (container) {
+            for (const row of container.children) {
+              const item = {};
+              for (const input of row.querySelectorAll('input')) {
+                item[input.dataset.col] = input.value;
+              }
+              if (Object.values(item).some(v => v)) rows.push(item);
+            }
+          }
+          if (section.key === 'openingstijden') {
+            result.openingstijden = { rows };
+            const notesContainer = document.querySelector(`[data-notes-key="${section.key}"]`);
+            const notes = [];
+            if (notesContainer) {
+              for (const row of notesContainer.children) {
+                const input = row.querySelector('input');
+                if (input && input.value) notes.push(input.value);
+              }
+            }
+            result.openingstijden.notes = notes;
+          } else {
+            result[section.key] = rows;
+          }
+        } else if (section.type === 'list') {
+          const container = document.querySelector(`[data-list-key="${section.key}"]`);
+          const items = [];
+          if (container) {
+            for (const row of container.children) {
+              const editable = row.querySelector('.editable-field');
+              if (editable && editable.innerHTML.trim()) items.push(editable.innerHTML.trim());
+            }
+          }
+          result[section.key] = items;
+        }
+      }
+      return result;
+    }
+
+    async function saveSpreekuur() {
+      const data = gatherSpreekuurData();
+      const content = JSON.stringify(data, null, 2) + '\n';
+      const msg = 'Update spreekuur via CMS';
+      spreekuurSha = await saveFile(SPREEKUUR_PATH, content, spreekuurSha, msg);
+    }
+
+    // --- HOME EDITOR ---
+    const HOME_SECTIONS = [
+      { key: 'telefonischConsult', label: 'Telefonisch consult', type: 'text' },
+      { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
+      { key: 'kwaliteit', label: 'Kwaliteit', type: 'blocks', fields: ['title', 'text'] },
+      { key: 'wistUDat', label: 'Wist u dat?', type: 'list' },
+    ];
+
+    async function openHomeEditor() {
+      currentMode = 'home';
+      showView('empty');
+      setTopbar('Home', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(HOME_PATH);
+        const data = JSON.parse(content);
+        homeSha = sha;
+
+        const panel = document.getElementById('home-panel');
+        panel.innerHTML = '';
+
+        for (const section of HOME_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+          body.dataset.sectionKey = section.key;
+
+          if (section.type === 'text') {
+            const editable = createEditableField(data[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            editable.dataset.editor = 'home';
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          } else if (section.type === 'blocks') {
+            const blocksContainer = document.createElement('div');
+            blocksContainer.dataset.blocksKey = section.key;
+            (data[section.key] || []).forEach((item, i) => {
+              blocksContainer.appendChild(createBlockRow(item, i));
+            });
+            body.appendChild(blocksContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Blok toevoegen';
+            addBtn.addEventListener('click', () => {
+              const empty = { title: '', text: '' };
+              blocksContainer.appendChild(createBlockRow(empty, blocksContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          } else if (section.type === 'list') {
+            const listContainer = document.createElement('div');
+            listContainer.dataset.listKey = section.key;
+            listContainer.dataset.editor = 'home';
+            (data[section.key] || []).forEach((item, i) => {
+              listContainer.appendChild(createListRow(item, i));
+            });
+            body.appendChild(listContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              listContainer.appendChild(createListRow('', listContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        showView('home');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function createBlockRow(item, index) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'spreekuur-section';
+      wrapper.style.marginBottom = '0.75rem';
+
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.className = 'row-label';
+      titleInput.value = item.title || '';
+      titleInput.placeholder = 'Titel (leeg laten voor blok zonder titel)';
+      titleInput.dataset.field = 'title';
+      titleInput.style.marginBottom = '0.5rem';
+      wrapper.appendChild(titleInput);
+
+      const editable = createEditableField(item.text || '', 'html');
+      editable.dataset.field = 'text';
+      wrapper.appendChild(createMiniToolbar(editable));
+      wrapper.appendChild(editable);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times; Verwijderen';
+      removeBtn.style.marginTop = '0.375rem';
+      removeBtn.addEventListener('click', () => wrapper.remove());
+      wrapper.appendChild(removeBtn);
+
+      return wrapper;
+    }
+
+    function gatherHomeData() {
+      const result = {};
+      for (const section of HOME_SECTIONS) {
+        if (section.type === 'text') {
+          const editable = document.querySelector(`#home-panel .editable-field[data-key="${section.key}"]`);
+          result[section.key] = editable ? editable.innerHTML : '';
+        } else if (section.type === 'blocks') {
+          const container = document.querySelector(`[data-blocks-key="${section.key}"]`);
+          const blocks = [];
+          if (container) {
+            for (const wrapper of container.children) {
+              const titleInput = wrapper.querySelector('input[data-field="title"]');
+              const textEditable = wrapper.querySelector('.editable-field[data-field="text"]');
+              if (textEditable) {
+                blocks.push({
+                  title: titleInput ? titleInput.value : '',
+                  text: textEditable.innerHTML.trim(),
+                });
+              }
+            }
+          }
+          result[section.key] = blocks;
+        } else if (section.type === 'list') {
+          const container = document.querySelector(`#home-panel [data-list-key="${section.key}"]`);
+          const items = [];
+          if (container) {
+            for (const row of container.children) {
+              const editable = row.querySelector('.editable-field');
+              if (editable && editable.innerHTML.trim()) items.push(editable.innerHTML.trim());
+            }
+          }
+          result[section.key] = items;
+        }
+      }
+      return result;
+    }
+
+    async function saveHome() {
+      const data = gatherHomeData();
+      const content = JSON.stringify(data, null, 2) + '\n';
+      const msg = 'Update home via CMS';
+      homeSha = await saveFile(HOME_PATH, content, homeSha, msg);
+    }
+
+    // --- PATIENTENOMGEVING EDITOR ---
+    const PATIENTENOMGEVING_SECTIONS = [
+      { key: 'intro', label: 'Introductietekst', type: 'text' },
+      {
+        key: 'portals', label: 'Portaal-links', type: 'table',
+        columns: [
+          { key: 'name', label: 'Naam', className: 'row-label' },
+          { key: 'href', label: 'URL', className: 'row-value' },
+        ],
+      },
+      { key: 'belangrijk', label: 'Belangrijk', type: 'belangrijk' },
+      { key: 'appUrl', label: 'App URL', type: 'simple' },
+      { key: 'helpTelefoon', label: 'Helpdesk telefoon', type: 'simple' },
+      { key: 'helpWebsite', label: 'Helpdesk website', type: 'simple' },
+    ];
+
+    async function openPatientenomgevingEditor() {
+      currentMode = 'patientenomgeving';
+      showView('empty');
+      setTopbar('Patientenomgeving', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(PATIENTENOMGEVING_PATH);
+        const data = JSON.parse(content);
+        patientenomgevingSha = sha;
+
+        const panel = document.getElementById('patientenomgeving-panel');
+        panel.innerHTML = '';
+
+        for (const section of PATIENTENOMGEVING_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+          body.dataset.sectionKey = section.key;
+
+          if (section.type === 'text') {
+            const editable = createEditableField(data[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            editable.dataset.editor = 'pat';
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          } else if (section.type === 'simple') {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'row-label';
+            input.value = data[section.key] || '';
+            input.dataset.key = section.key;
+            input.dataset.editor = 'pat';
+            input.style.width = '100%';
+            body.appendChild(input);
+          } else if (section.type === 'table') {
+            const rowsContainer = document.createElement('div');
+            rowsContainer.dataset.tableKey = section.key;
+            rowsContainer.dataset.editor = 'pat';
+            (data[section.key] || []).forEach((item, i) => {
+              rowsContainer.appendChild(createTableRow(section, item, i));
+            });
+            body.appendChild(rowsContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Rij toevoegen';
+            addBtn.addEventListener('click', () => {
+              const empty = {};
+              section.columns.forEach(c => { empty[c.key] = ''; });
+              rowsContainer.appendChild(createTableRow(section, empty, rowsContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          } else if (section.type === 'belangrijk') {
+            const container = document.createElement('div');
+            container.dataset.belangrijk = 'true';
+            (data[section.key] || []).forEach((item, i) => {
+              container.appendChild(createBelangrijkRow(item, i));
+            });
+            body.appendChild(container);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              container.appendChild(createBelangrijkRow({ type: 'warning', text: '' }, container.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        showView('patientenomgeving');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function createBelangrijkRow(item, index) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'spreekuur-row';
+      wrapper.style.flexDirection = 'column';
+      wrapper.style.alignItems = 'stretch';
+      wrapper.style.gap = '0.375rem';
+
+      const topRow = document.createElement('div');
+      topRow.style.display = 'flex';
+      topRow.style.gap = '0.5rem';
+      topRow.style.alignItems = 'center';
+
+      const select = document.createElement('select');
+      select.dataset.field = 'type';
+      select.style.cssText = 'padding:0.375rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.8125rem;background:#fff;';
+      ['warning', 'info'].forEach(val => {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val === 'warning' ? 'Waarschuwing (geel)' : 'Info (blauw)';
+        if (item.type === val) opt.selected = true;
+        select.appendChild(opt);
+      });
+      topRow.appendChild(select);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.style.marginLeft = 'auto';
+      removeBtn.addEventListener('click', () => wrapper.remove());
+      topRow.appendChild(removeBtn);
+      wrapper.appendChild(topRow);
+
+      const editable = createEditableField(item.text || '', 'html');
+      editable.dataset.field = 'text';
+      wrapper.appendChild(createMiniToolbar(editable));
+      wrapper.appendChild(editable);
+
+      return wrapper;
+    }
+
+    function gatherPatientenomgevingData() {
+      const result = {};
+      for (const section of PATIENTENOMGEVING_SECTIONS) {
+        if (section.type === 'text') {
+          const editable = document.querySelector(`#patientenomgeving-panel .editable-field[data-key="${section.key}"]`);
+          result[section.key] = editable ? editable.innerHTML : '';
+        } else if (section.type === 'simple') {
+          const input = document.querySelector(`#patientenomgeving-panel input[data-key="${section.key}"]`);
+          result[section.key] = input ? input.value : '';
+        } else if (section.type === 'table') {
+          const container = document.querySelector(`#patientenomgeving-panel [data-table-key="${section.key}"]`);
+          const rows = [];
+          if (container) {
+            for (const row of container.children) {
+              const item = {};
+              for (const input of row.querySelectorAll('input')) {
+                item[input.dataset.col] = input.value;
+              }
+              if (Object.values(item).some(v => v)) rows.push(item);
+            }
+          }
+          result[section.key] = rows;
+        } else if (section.type === 'belangrijk') {
+          const container = document.querySelector('#patientenomgeving-panel [data-belangrijk]');
+          const items = [];
+          if (container) {
+            for (const wrapper of container.children) {
+              const select = wrapper.querySelector('select[data-field="type"]');
+              const editable = wrapper.querySelector('.editable-field[data-field="text"]');
+              if (editable) {
+                items.push({
+                  type: select ? select.value : 'warning',
+                  text: editable.innerHTML.trim(),
+                });
+              }
+            }
+          }
+          result[section.key] = items;
+        }
+      }
+      return result;
+    }
+
+    async function savePatientenomgeving() {
+      const data = gatherPatientenomgevingData();
+      const content = JSON.stringify(data, null, 2) + '\n';
+      const msg = 'Update patientenomgeving via CMS';
+      patientenomgevingSha = await saveFile(PATIENTENOMGEVING_PATH, content, patientenomgevingSha, msg);
+    }
+
+    // --- INIT ---
+    function initCMS(t) {
+      token = t;
+      document.getElementById('auth').style.display = 'none';
+      document.body.style.background = 'var(--main-bg)';
+      document.getElementById('cms').classList.add('active');
+      renderNav();
+      document.getElementById('save-btn').addEventListener('click', handleSave);
+    }
+
+    // Check session
+    const stored = sessionStorage.getItem('cms-token');
+    if (stored) {
+      initCMS(stored);
+    }
+
+    // Login form
+    document.getElementById('auth-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('auth-btn');
+      const errorEl = document.getElementById('auth-error');
+      errorEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Bezig...';
+      try {
+        const t = await decrypt(document.getElementById('password').value);
+        sessionStorage.setItem('cms-token', t);
+        initCMS(t);
+      } catch {
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Inloggen';
+      }
+    });
+  </script>
+</body>
 </html>

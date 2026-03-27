@@ -1,0 +1,147 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import practiceData from '../data/practices.json';
+import spreekuurData from '../data/spreekuur.json';
+import { url } from '../utils/url';
+
+const practices = practiceData.practices;
+---
+
+<PageLayout title="Spreekuur & afspraken" description="Maak een afspraak bij Huisartsenpraktijk Schoterpoort Haarlem.">
+  <section class="py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl lg:text-4xl font-bold mb-8">Spreekuur & afspraken</h1>
+
+      <!-- Hoe maakt u een afspraak -->
+      <div class="bg-primary-50 rounded-xl p-6 border border-primary-200 mb-10">
+        <h2 class="text-xl font-bold text-neutral-900 mb-4">Hoe maakt u een afspraak?</h2>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-neutral-900">Telefonisch</p>
+              <p class="text-sm text-neutral-600">Bel het directe nummer van uw eigen huisarts (zie hieronder).</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-neutral-900">Via de patientenomgeving</p>
+              <p class="text-sm text-neutral-600">
+                Online afspraken plannen, e-consulten sturen en uitslagen bekijken.
+                <a href={url('/patientenomgeving')} class="text-dark-600 font-medium">Naar patientenomgeving &rarr;</a>
+              </p>
+            </div>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 ml-11">
+            <p class="text-xs text-amber-800">Aan de balie kunnen geen afspraken worden ingepland, ter bescherming van uw privacy.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Praktijkkaarten met telefoonnummers -->
+      <h2 class="text-xl font-bold mb-4">Bel uw huisarts</h2>
+      <div class="grid sm:grid-cols-2 gap-4 mb-8">
+        {practices.map((practice) => (
+          <div class="bg-white rounded-xl p-5 shadow-sm border border-neutral-200 border-t-4 border-t-primary-400">
+            <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
+            <div class="text-sm text-neutral-500 mb-3">
+              {practice.doctors.map((doc) => {
+                const parts = doc.name.split(' ');
+                const lastName = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+                const displayName = `${doc.initials} ${lastName}`;
+                return (
+                  <span class="block">{displayName}
+                    {doc.workingDays.length > 0 && (
+                      <span class="text-neutral-400"> -- {doc.workingDays.join(', ')}</span>
+                    )}
+                  </span>
+                );
+              })}
+            </div>
+            <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="inline-flex items-center gap-2 bg-dark-700 text-white font-semibold px-4 py-2 rounded-lg no-underline hover:bg-dark-800 transition-colors text-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              {practice.phone}
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <!-- Openingstijden -->
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white rounded-xl p-5 border border-neutral-200">
+          <h3 class="font-bold text-neutral-900 mb-3">Openingstijden</h3>
+          <ul class="text-sm text-neutral-600 space-y-2">
+            {spreekuurData.openingstijden.rows.map((row) => (
+              <li class="flex justify-between"><span>{row.label}</span> <span class="font-medium text-neutral-800">{row.value}</span></li>
+            ))}
+          </ul>
+          {spreekuurData.openingstijden.notes.map((note, i) => (
+            <p class={`text-xs text-neutral-400 ${i === 0 ? 'mt-3' : 'mt-1'}`}>{note}</p>
+          ))}
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-neutral-200">
+          <h3 class="font-bold text-neutral-900 mb-3">Keuzemenu telefoon</h3>
+          <ul class="text-sm text-neutral-600 space-y-2">
+            {spreekuurData.keuzemenu.map((item) => (
+              <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {item.label}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Soorten afspraken -->
+      <h2 class="text-xl font-bold mb-4">Soorten afspraken</h2>
+      <div class="grid sm:grid-cols-2 gap-4 mb-10">
+        <div class="bg-white rounded-xl p-5 border border-neutral-200">
+          <h3 class="font-semibold text-neutral-900 text-sm mb-1">Standaard consult</h3>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.standaardConsult} />
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-neutral-200">
+          <h3 class="font-semibold text-neutral-900 text-sm mb-1">Dubbel consult</h3>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.dubbelConsult} />
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-neutral-200">
+          <h3 class="font-semibold text-neutral-900 text-sm mb-1">Spoedafspraak</h3>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.spoedafspraak} />
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-neutral-200">
+          <h3 class="font-semibold text-neutral-900 text-sm mb-1">Videoconsult</h3>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.videoconsult} />
+        </div>
+      </div>
+
+      <!-- Terugbelafspraken -->
+      <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200 mb-6">
+        <h2 class="font-bold text-neutral-900 mb-2">Terugbelafspraken</h2>
+        <p class="text-sm text-neutral-600" set:html={spreekuurData.terugbelafspraken} />
+      </div>
+
+      <!-- Afzeggen -->
+      <div class="bg-accent-50 rounded-xl p-6 border border-accent-200 mb-10">
+        <h2 class="font-bold text-accent-800 mb-2">Afspraak afzeggen</h2>
+        <p class="text-sm text-accent-700" set:html={spreekuurData.afspraakAfzeggen} />
+      </div>
+
+      <!-- Spoed -->
+      <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-5">
+        <h2 class="font-bold text-accent-800 mb-2">Spoed</h2>
+        <ul class="text-sm text-accent-700 space-y-1">
+          {spreekuurData.spoed.map((item) => (
+            <li set:html={item} />
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</PageLayout>

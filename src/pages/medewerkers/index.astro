@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import { url } from '../../utils/url';
 
 const sections = [
   { label: 'Huisartsen', href: '/medewerkers/huisartsen', desc: '8 huisartsen in 4 duo-praktijken' },
@@ -19,7 +20,7 @@ const sections = [
       <div class="grid gap-4">
         {sections.map((section) => (
           <a
-            href={section.href}
+            href={url(section.href)}
             class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-5 hover:border-primary-300 hover:shadow-sm transition-all no-underline group"
           >
             <div>

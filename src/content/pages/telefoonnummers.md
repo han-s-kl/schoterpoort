@@ -13,19 +13,19 @@ Pijnboomstraat 19
 
 ## Artsen en telefoonnummers
 
-### Praktijk M. Louwet
+### Praktijk Louwet
 In samenwerking met Natasja Moes (di, wo, do)
 **Telefoon:** [023 -- 525 43 02](tel:0235254302)
 
-### Praktijk M.M. Duijn
+### Praktijk Duijn
 In samenwerking met Britt Schouten (ma, di, do)
 **Telefoon:** [023 -- 525 54 03](tel:0235255403)
 
-### Praktijk W.H. (Willemijn) Steketee
+### Praktijk Steketee
 In samenwerking met Willemijn Schaap (ma, wo, do)
 **Telefoon:** [023 -- 525 62 31](tel:0235256231)
 
-### Praktijk L. (Lisette) van der Eem
+### Praktijk Van der Eem
 In samenwerking met Sandra Bosch (di, do, vr)
 **Telefoon:** [023 -- 525 33 04](tel:0235253304)
 

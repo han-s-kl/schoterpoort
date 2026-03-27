@@ -1,15 +1,29 @@
 ---
-import navigation from '../../data/navigation.json';
+import navigationNl from '../../data/navigation.json';
+import navigationEn from '../../data/navigation-en.json';
+import { url } from '../../utils/url';
 
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const navigation = lang === 'en' ? navigationEn : navigationNl;
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
+
+// Language switch URL: swap /en/ prefix
+const switchUrl = lang === 'en'
+  ? url(currentPath.replace(/\/en(\/|$)/, '/').replace(base, '') || '/')
+  : url(`/en${currentPath.replace(base, '') || '/'}`);
 ---
 
 <header>
   <!-- Logo banner -->
   <div class="bg-[#c2ac57]">
-    <a href="/" class="block no-underline max-w-7xl mx-auto">
+    <a href={url('/')} class="block no-underline max-w-7xl mx-auto">
       <img
-        src="/images/logo.png"
+        src={`${base}/images/logo.png`}
         alt="Huisartsenpraktijk Schoterpoort -- M.M. Duijn, L. van der Eem, M. Louwet, W.H. Steketee"
         class="block h-20 sm:h-28 lg:h-32 w-auto"
       />
@@ -27,9 +41,6 @@ const currentPath = Astro.url.pathname;
           </svg>
           023-541 03 45
         </a>
-        <a href="tel:023-7504567" class="text-accent-300 font-semibold hover:text-accent-200 no-underline flex items-center gap-1.5 text-xs sm:text-sm">
-          Spoed: 023-750 45 67
-        </a>
       </div>
     </div>
   </div>
@@ -44,7 +55,7 @@ const currentPath = Astro.url.pathname;
           {navigation.map((item) => (
             <li class="relative group" role="none">
               <a
-                href={item.href}
+                href={url(item.href)}
                 role="menuitem"
                 class:list={[
                   'px-3 py-2 rounded-lg text-sm font-medium no-underline transition-colors',
@@ -67,7 +78,7 @@ const currentPath = Astro.url.pathname;
                   <li class="bg-white rounded-lg shadow-lg border border-neutral-200 py-1 min-w-56">
                     {item.children.map((child) => (
                       <a
-                        href={child.href}
+                        href={url(child.href)}
                         role="menuitem"
                         class:list={[
                           'block px-4 py-2 text-sm no-underline transition-colors',
@@ -86,8 +97,22 @@ const currentPath = Astro.url.pathname;
           ))}
         </ul>
 
+        <!-- Language switch (desktop) -->
+        <a
+          href={switchUrl}
+          class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium no-underline border border-neutral-200 hover:bg-neutral-50 transition-colors"
+        >
+          <span class:list={[lang === 'nl' ? 'font-bold text-neutral-900' : 'text-neutral-400 opacity-60']}>
+            <svg class="inline w-4 h-3 mr-0.5" viewBox="0 0 640 480"><rect width="640" height="160" fill="#AE1C28"/><rect y="160" width="640" height="160" fill="#FFF"/><rect y="320" width="640" height="160" fill="#21468B"/></svg>NL
+          </span>
+          <span class="text-neutral-300">|</span>
+          <span class:list={[lang === 'en' ? 'font-bold text-neutral-900' : 'text-neutral-400 opacity-60']}>
+            <svg class="inline w-4 h-3 mr-0.5" viewBox="0 0 640 480"><rect width="640" height="480" fill="#012169"/><path d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z" fill="#FFF"/><path d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z" fill="#C8102E"/><path d="M241 0v480h160V0H241zM0 160v160h640V160H0z" fill="#FFF"/><path d="M273 0v480h96V0h-96zM0 192v96h640v-96H0z" fill="#C8102E"/></svg>EN
+          </span>
+        </a>
+
         <!-- Mobile: small logo + hamburger -->
-        <a href="/" class="lg:hidden flex items-center no-underline">
+        <a href={url(lang === 'en' ? '/en' : '/')} class="lg:hidden flex items-center no-underline">
           <span class="text-sm font-bold text-neutral-900">Schoterpoort</span>
         </a>
 
@@ -117,7 +142,7 @@ const currentPath = Astro.url.pathname;
           {navigation.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={url(item.href)}
                 class:list={[
                   'block px-3 py-2.5 rounded-lg text-sm font-medium no-underline',
                   currentPath === item.href
@@ -132,7 +157,7 @@ const currentPath = Astro.url.pathname;
                   {item.children.map((child) => (
                     <li>
                       <a
-                        href={child.href}
+                        href={url(child.href)}
                         class:list={[
                           'block px-3 py-2 rounded-lg text-sm no-underline',
                           currentPath === child.href
@@ -149,9 +174,18 @@ const currentPath = Astro.url.pathname;
             </li>
           ))}
         </ul>
-        <div class="mt-3 pt-3 border-t border-neutral-200 px-3 flex gap-4">
-          <a href="tel:023-5410345" class="text-dark-600 font-medium text-sm no-underline">023-541 03 45</a>
-          <a href="tel:023-7504567" class="text-accent-600 font-semibold text-sm no-underline">Spoed: 023-750 45 67</a>
+        <div class="mt-3 pt-3 border-t border-neutral-200 px-3 flex justify-between items-center">
+          <div class="flex gap-4">
+            <a href="tel:023-5410345" class="text-dark-600 font-medium text-sm no-underline">023-541 03 45</a>
+            <a href="tel:023-7504567" class="text-accent-600 font-semibold text-sm no-underline">Spoed: 023-750 45 67</a>
+          </div>
+          <a href={switchUrl} class="flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium no-underline border border-neutral-200">
+            {lang === 'nl' ? (
+              <Fragment><svg class="inline w-4 h-3 mr-0.5" viewBox="0 0 640 480"><rect width="640" height="480" fill="#012169"/><path d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z" fill="#FFF"/><path d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z" fill="#C8102E"/><path d="M241 0v480h160V0H241zM0 160v160h640V160H0z" fill="#FFF"/><path d="M273 0v480h96V0h-96zM0 192v96h640v-96H0z" fill="#C8102E"/></svg> EN</Fragment>
+            ) : (
+              <Fragment><svg class="inline w-4 h-3 mr-0.5" viewBox="0 0 640 480"><rect width="640" height="160" fill="#AE1C28"/><rect y="160" width="640" height="160" fill="#FFF"/><rect y="320" width="640" height="160" fill="#21468B"/></svg> NL</Fragment>
+            )}
+          </a>
         </div>
       </div>
     </div>

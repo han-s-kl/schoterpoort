@@ -49,10 +49,10 @@ Patienten kunnen terugbelafspraken aanvragen om wachttijd te vermijden. Voicemai
 
 ## Huisartsen
 
-- Praktijk M. (Margot) Louwet met Natasja Moes (di, wo, do) -- Tel: 023-525 43 02
-- Praktijk M.M. (Marina) Duijn met Britt Schouten (ma, di, do) -- Tel: 023-525 54 03
-- Praktijk W.H. (Willemijn) Steketee met Willemijn Schaap (ma, wo, do) -- Tel: 023-525 62 31
-- Praktijk L. (Lisette) van der Eem met Sandra Bosch (di, do, vr) -- Tel: 023-525 33 04
+- Praktijk Louwet met Natasja Moes (di, wo, do) -- Tel: 023-525 43 02
+- Praktijk Duijn met Britt Schouten (ma, di, do) -- Tel: 023-525 54 03
+- Praktijk Steketee met Willemijn Schaap (ma, wo, do) -- Tel: 023-525 62 31
+- Praktijk Van der Eem met Sandra Bosch (di, do, vr) -- Tel: 023-525 33 04
 
 Algemeen nummer Schoterpoort: 023-541 03 45
 
@@ -80,7 +80,7 @@ Wij verzoeken u dringend om uw afspraak uiterlijk 24 uur van tevoren telefonisch
 
 De praktijk heeft sinds 2006 het NPA-kwaliteitskeurmerk, begin 2025 opnieuw verlengd voor drie jaar. Patienttevredenheidsscores zijn consequent 8,5 tot 9 uit 10 voor artsen, personeel, service en organisatie.
 
-De vier huisartsen (Louwet, Duijn, Steketee, Van der Eem) vormen een maatschap met 4 huisartsen in loondienst en 2 huisartsen in opleiding, in totaal 10 artsen. De praktijk is een erkende opleidingspraktijk voor AMC (UMC Amsterdam) huisartsen in opleiding en coassistenten.
+De vier huisartsen (Louwet, Duijn, Steketee, Van der Eem) vormen een maatschap met 4 huisartsen in loondienst en 2 huisartsen in opleiding, in totaal 10 artsen. De praktijk is een erkende opleidingspraktijk voor UMC Amsterdam huisartsen in opleiding en coassistenten.
 
 De praktijk legt de nadruk op servicegerichtheid, samenwerking en het bieden van patientenzorg op hoog niveau. Patienten worden ingeschreven bij een van de vier praktijkhouders en werken met een vast team van huisarts, assistente en praktijkverpleegkundige. De praktijk coordineert zorg met specialisten, ziekenhuizen, apothekers, fysiotherapeuten, psychologen en wijkverpleegkundigen. Avond-, weekend- en nachtdiensten worden verzorgd via de Huisartsen-Spoedpost.
 

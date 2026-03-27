@@ -1,0 +1,29 @@
+{
+  "openingstijden": {
+    "rows": [
+      { "label": "Maandag t/m vrijdag", "value": "08:00 -- 17:00" },
+      { "label": "Avondspreekuur", "value": "17:00 -- 19:00 (1x/week)" }
+    ],
+    "notes": [
+      "De dag van het avondspreekuur wisselt. De assistente kan bevestigen welke dag dit betreft.",
+      "Tussen 12:00-14:00 en 16:30-17:00 alleen spoed."
+    ]
+  },
+  "keuzemenu": [
+    { "key": "1", "label": "Spoednummer" },
+    { "key": "2", "label": "Receptenlijn" },
+    { "key": "3", "label": "Assistente" },
+    { "key": "4", "label": "Intercollegiaal artsenoverleg" }
+  ],
+  "standaardConsult": "15 minuten voor een klacht. Plan 1-2 dagen vooraf.",
+  "spoedafspraak": "Dezelfde dag gegarandeerd bij noodgevallen. De assistente beoordeelt de urgentie. De praktijkassistentes zullen kort vragen naar de reden van uw bezoek om de urgentie en consultduur in te schatten. Zij hanteren professionele geheimhouding.",
+  "dubbelConsult": "Voor meerdere klachten of psychische problematiek. Vraag dit aan bij het maken van de afspraak.",
+  "videoconsult": "Beschikbaar bij huisartsen en GGZ-praktijkondersteuners via beveiligde verbinding.",
+  "terugbelafspraken": "U kunt een terugbelafspraak aanvragen om wachttijd te vermijden. Spreek uw boodschap in op de voicemail en sluit af met <strong>#</strong>. Het telefoonsysteem is 24 uur beschikbaar voor herhaalrecepten en afspraakannuleringen.",
+  "afspraakAfzeggen": "Zeg uw afspraak minimaal <strong>24 uur</strong> van tevoren telefonisch af. Voor afspraken bij de praktijkondersteuner GGZ: minimaal <strong>48 uur</strong> van tevoren.",
+  "spoed": [
+    "Tijdens kantooruren: bel uw huisarts, keuze 1",
+    "Na 17:00, weekenden en feestdagen: <a href=\"tel:023-7504567\" class=\"font-semibold underline\">023-750 45 67</a> (Spoedpost)",
+    "Levensbedreiging: <a href=\"tel:112\" class=\"font-bold underline\">112</a>"
+  ]
+}

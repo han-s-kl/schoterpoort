@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import practiceData from '../data/practices.json';
+import { url } from '../utils/url';
 ---
 
 <PageLayout title="Contact voor kinderen" description="Beveiligd contactformulier voor ouders van kinderen jonger dan 16 jaar bij Huisartsenpraktijk Schoterpoort.">
@@ -14,7 +15,7 @@ import practiceData from '../data/practices.json';
           <p class="text-sm text-accent-800 font-semibold">Bij spoed: bel direct uw huisarts of buiten kantooruren de Spoedpost (<a href="tel:023-7504567" class="underline">023-750 45 67</a>). Dit formulier is niet bedoeld voor spoedvragen.</p>
         </div>
         <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
-          <p class="text-sm text-blue-800">Is uw kind <strong>16 jaar of ouder</strong>? Dan kan uw kind zelf een vraag stellen via de <a href="/patientenomgeving" class="underline font-medium">patientenomgeving</a>.</p>
+          <p class="text-sm text-blue-800">Is uw kind <strong>16 jaar of ouder</strong>? Dan kan uw kind zelf een vraag stellen via de <a href={url('/patientenomgeving')} class="underline font-medium">patientenomgeving</a>.</p>
         </div>
         <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
           <p class="text-sm text-amber-800"><strong>Belangrijk:</strong> Log niet in op uw eigen patientenportaal om een vraag voor uw kind te stellen. Uw portaal is gekoppeld aan uw eigen dossier, niet dat van uw kind.</p>

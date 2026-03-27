@@ -19,4 +19,4 @@ Komt u er samen niet uit? Dan kunt u terecht bij de onafhankelijke klachtencommi
 - **DOkH** (De Onafhankelijke klachtencommissie voor Huisartsen)
 - Website: [www.dokh.nl](https://www.dokh.nl)
 
-Meer informatie vindt u op onze [klachtenregeling](/klachtenregeling) pagina.
+Meer informatie vindt u op onze [klachtenregeling](/schoterpoort/klachtenregeling) pagina.

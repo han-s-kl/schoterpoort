@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
+import { url } from '../../utils/url';
 
 const healthPageIds = [
   'reizigersadvisering', 'soa', 'spiraal', 'tekenbeet',
@@ -24,7 +25,7 @@ const healthPages = pages.filter((p) => healthPageIds.includes(p.id));
       <div class="grid gap-3">
         {healthPages.map((page) => (
           <a
-            href={`/gezondheid/${page.id}`}
+            href={url(`/gezondheid/${page.id}`)}
             class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-4 hover:border-primary-300 hover:shadow-sm transition-all no-underline group"
           >
             <div>

@@ -12,7 +12,6 @@
       { "label": "Huisartsen in opleiding", "href": "/medewerkers/huisartsen-in-opleiding" }
     ]
   },
-  { "label": "Information", "href": "/information" },
   {
     "label": "Diensten",
     "href": "#",
@@ -36,8 +35,7 @@
       { "label": "Administratieformulier", "href": "/administratieformulier" },
       { "label": "Urineonderzoek formulier", "href": "/urineonderzoek-formulier" },
       { "label": "Vacatures", "href": "/vacatures" },
-      { "label": "Gezondheidsinfo", "href": "/gezondheid" },
-      { "label": "Nieuws", "href": "/nieuws" }
+      { "label": "Gezondheidsinfo", "href": "/gezondheid" }
     ]
   }
 ]

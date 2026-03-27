@@ -2,31 +2,24 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection, render } from 'astro:content';
 
-const topLevelPages = [
-  'spreekuur', 'huisbezoek', 'tarieven', 'eigen-risico', 'apotheek',
-  'spoedpost', 'klachtenregeling', 'privacy', 'medisch-dossier',
-  'information', 'vacatures', 'herhaalrecept',
-  'minderjarigen-wilsonbekwamen',
-];
-
-// Also page IDs that are used as staff pages (handled by /medewerkers/[slug])
-const staffPageIds = ['huisartsen', 'praktijkverpleegkundigen', 'praktijkassistenten', 'huisartsen-in-opleiding'];
-
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
-  const topLevel = [
-    'spreekuur', 'huisbezoek', 'tarieven', 'eigen-risico', 'apotheek',
-    'spoedpost', 'klachtenregeling', 'privacy', 'medisch-dossier',
-    'information', 'vacatures', 'formulieren',
-    'klachtenformulier', 'administratieformulier', 'urineonderzoek-formulier',
-    'minderjarigen-wilsonbekwamen', 'cookiewetgeving',
-    'aanmelding-nieuwe-patienten', 'ik-geef-toestemming',
-    'routebeschrijving', 'beeldbellen-videoconsult',
-    'patientenomgeving', 'herhaalrecept',
+
+  // Slugs handled by fixed .astro files or sub-routes (/gezondheid/, /medewerkers/)
+  const excluded = [
+    // Fixed routes (have their own .astro file)
+    'home', 'contact', 'contact-kinderen', 'spreekuur', 'telefoonnummers',
+    'patientenomgeving', 'klachtenformulier',
+    // /gezondheid/[slug]
+    'reizigersadvisering', 'soa', 'spiraal', 'tekenbeet',
+    'wrattenspreekuur', 'urineweginfecties', 'zwangerschap',
+    // /medewerkers/[slug]
+    'huisartsen', 'praktijkverpleegkundigen', 'praktijkassistenten',
+    'huisartsen-in-opleiding',
   ];
 
   return pages
-    .filter((p) => topLevel.includes(p.id))
+    .filter((p) => !excluded.includes(p.id))
     .map((page) => ({
       params: { slug: page.id },
       props: { page },

@@ -10,7 +10,7 @@ import practiceData from '../data/practices.json';
 
       <!-- Main number -->
       <div class="bg-primary-50 rounded-xl p-6 border border-primary-200 mb-8">
-        <h2 class="font-bold text-lg text-neutral-900 mb-2">Hoofdlijn</h2>
+        <h2 class="font-bold text-lg text-neutral-900 mb-2">Algemeen nummer</h2>
         <a href="tel:023-5410345" class="text-2xl font-bold text-dark-700 no-underline hover:text-dark-800">
           023-541 03 45
         </a>
@@ -24,7 +24,11 @@ import practiceData from '../data/practices.json';
           <div class="bg-white rounded-xl border border-neutral-200 p-5">
             <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
             <p class="text-sm text-neutral-500 mb-3">
-              {practice.doctors.map((d) => d.name).join(' & ')}
+              {practice.doctors.map((d) => {
+                const parts = d.name.split(' ');
+                const lastName = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+                return `${d.initials} ${lastName}`;
+              }).join(' & ')}
             </p>
             <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="text-lg font-semibold text-dark-600 no-underline hover:text-dark-700">
               {practice.phone}
