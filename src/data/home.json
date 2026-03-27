@@ -4,15 +4,18 @@
   "kwaliteit": [
     {
       "title": "NPA-keurmerk sinds 2006",
-      "text": "De praktijk heeft sinds 2006 het NPA-kwaliteitskeurmerk, begin 2025 opnieuw verlengd voor drie jaar. Patienttevredenheidsscores zijn consequent 8,5 tot 9 uit 10 voor artsen, personeel, service en organisatie."
+      "text": "De praktijk heeft sinds 2006 het NPA-kwaliteitskeurmerk, begin 2025 opnieuw verlengd voor drie jaar. Patienttevredenheidsscores zijn consequent 8,5 tot 9 uit 10 voor artsen, personeel, service en organisatie.",
+      "visible": true
     },
     {
       "title": "Ons artsenteam",
-      "text": "De huisartsen Louwet, Duijn, Steketee en Van der Eem vormen samen de maatschap Huisartsenpraktijk Schoterpoort. Bij de maatschap werken 4 huisartsen in dienstverband en 2 huisartsen in opleiding, in totaal bestaat het artsenteam uit 10 (huis)artsen. De praktijk is een erkende opleidingspraktijk voor UMC Amsterdam huisartsen in opleiding en coassistenten."
+      "text": "De huisartsen Louwet, Duijn, Steketee en Van der Eem vormen samen de maatschap Huisartsenpraktijk Schoterpoort. Bij de maatschap werken 4 huisartsen in dienstverband en 2 huisartsen in opleiding, in totaal bestaat het artsenteam uit 10 (huis)artsen. De praktijk is een erkende opleidingspraktijk voor UMC Amsterdam huisartsen in opleiding en coassistenten.",
+      "visible": true
     },
     {
       "title": "",
-      "text": "De praktijk legt de nadruk op servicegerichtheid, samenwerking en het bieden van patientenzorg op hoog niveau. Patienten worden ingeschreven bij een van de vier praktijkhouders en werken met een vast team van huisarts, assistente en praktijkverpleegkundige. De praktijk coordineert zorg met specialisten, ziekenhuizen, apothekers, fysiotherapeuten, psychologen en wijkverpleegkundigen. Avond-, weekend- en nachtdiensten worden verzorgd via de Huisartsen-Spoedpost."
+      "text": "De praktijk legt de nadruk op servicegerichtheid, samenwerking en het bieden van patientenzorg op hoog niveau. Patienten worden ingeschreven bij een van de vier praktijkhouders en werken met een vast team van huisarts, assistente en praktijkverpleegkundige. De praktijk coordineert zorg met specialisten, ziekenhuizen, apothekers, fysiotherapeuten, psychologen en wijkverpleegkundigen. Avond-, weekend- en nachtdiensten worden verzorgd via de Huisartsen-Spoedpost.",
+      "visible": true
     }
   ],
   "wistUDat": [

@@ -224,14 +224,14 @@ const practices = practiceData.practices;
       </div>
       <div class="max-w-4xl mx-auto space-y-6">
         <div class="flex flex-col md:flex-row gap-6">
-          {homeData.kwaliteit.slice(0, 2).map((item, i) => (
+          {homeData.kwaliteit.filter(k => k.visible !== false).slice(0, 2).map((item, i) => (
             <div class={`flex-1 rounded-xl p-6 border ${i === 0 ? 'bg-primary-50 border-primary-100' : 'bg-neutral-50 border-neutral-200'}`}>
               {item.title && <h3 class="font-bold text-neutral-900 mb-2">{item.title}</h3>}
               <p class="text-sm text-neutral-700" set:html={item.text} />
             </div>
           ))}
         </div>
-        {homeData.kwaliteit.slice(2).map((item) => (
+        {homeData.kwaliteit.filter(k => k.visible !== false).slice(2).map((item) => (
           <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200">
             {item.title && <h3 class="font-bold text-neutral-900 mb-2">{item.title}</h3>}
             <p class="text-sm text-neutral-700" set:html={item.text} />

@@ -882,8 +882,6 @@
           { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
         ]
       },
-      { type: 'separator' },
-      { label: 'Mededelingen', mode: 'blocks', folder: 'src/content/blocks', fields: BLOCK_FIELDS },
     ];
 
     // --- STATE ---
@@ -2135,6 +2133,7 @@
 
     // --- HOME EDITOR ---
     const HOME_SECTIONS = [
+      { key: 'mededelingen', label: 'Actuele mededelingen', type: 'mededelingen' },
       { key: 'telefonischConsult', label: 'Telefonisch consult', type: 'text' },
       { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
       { key: 'kwaliteit', label: 'Kwaliteit', type: 'blocks', fields: ['title', 'text'] },
@@ -2149,9 +2148,21 @@
       setStatus('Laden...', 'saving');
 
       try {
-        const { content, sha } = await readFile(HOME_PATH);
-        const data = JSON.parse(content);
-        homeSha = sha;
+        // Load home.json and blocks in parallel
+        const [homeResult, blocksResult] = await Promise.all([
+          readFile(HOME_PATH),
+          listFiles('src/content/blocks'),
+        ]);
+        const data = JSON.parse(homeResult.content);
+        homeSha = homeResult.sha;
+
+        const loaded = await Promise.all(blocksResult.map(async f => {
+          const { content, sha } = await readFile(f.path);
+          const { meta, body } = parseFrontmatter(content);
+          return { path: f.path, sha, meta, body, name: f.name };
+        }));
+        loaded.sort((a, b) => (a.meta.order || 0) - (b.meta.order || 0));
+        blockFiles = loaded;
 
         const panel = document.getElementById('home-panel');
         panel.innerHTML = '';
@@ -2164,7 +2175,81 @@
           body.className = 'spreekuur-section-body';
           body.dataset.sectionKey = section.key;
 
-          if (section.type === 'text') {
+          if (section.type === 'mededelingen') {
+            loaded.forEach((block, i) => {
+              const blockEl = document.createElement('div');
+              blockEl.className = 'block-section';
+              blockEl.style.marginBottom = '1rem';
+
+              const header = document.createElement('div');
+              header.className = 'block-section-header';
+              header.textContent = block.meta.title || block.name.replace('.md', '');
+              blockEl.appendChild(header);
+
+              const fieldsDiv = document.createElement('div');
+              fieldsDiv.className = 'fields';
+              for (const field of BLOCK_FIELDS) {
+                const div = document.createElement('div');
+                div.className = field.type === 'boolean' ? 'field field-checkbox' : 'field';
+
+                const label = document.createElement('label');
+                label.textContent = field.label;
+                label.htmlFor = `block-${i}-field-${field.name}`;
+
+                let input;
+                if (field.type === 'select') {
+                  input = document.createElement('select');
+                  for (const opt of field.options) {
+                    const option = document.createElement('option');
+                    option.value = opt.value;
+                    option.textContent = opt.label;
+                    if (block.meta[field.name] === opt.value) option.selected = true;
+                    input.appendChild(option);
+                  }
+                } else if (field.type === 'boolean') {
+                  input = document.createElement('input');
+                  input.type = 'checkbox';
+                  input.checked = block.meta[field.name] === true;
+                } else if (field.type === 'number') {
+                  input = document.createElement('input');
+                  input.type = 'number';
+                  input.value = block.meta[field.name] ?? '';
+                } else {
+                  input = document.createElement('input');
+                  input.type = 'text';
+                  input.value = block.meta[field.name] ?? '';
+                }
+                input.id = `block-${i}-field-${field.name}`;
+                input.dataset.fieldName = field.name;
+                input.dataset.fieldType = field.type;
+                input.dataset.blockIndex = i;
+
+                if (field.type === 'boolean') {
+                  div.appendChild(input);
+                  div.appendChild(label);
+                } else {
+                  div.appendChild(label);
+                  div.appendChild(input);
+                }
+                fieldsDiv.appendChild(div);
+              }
+              blockEl.appendChild(fieldsDiv);
+
+              const wrap = document.createElement('div');
+              wrap.className = 'markdown-wrap';
+              const mdLabel = document.createElement('div');
+              mdLabel.className = 'markdown-label';
+              mdLabel.textContent = 'Inhoud';
+              wrap.appendChild(mdLabel);
+              const textarea = document.createElement('textarea');
+              textarea.id = `block-editor-${i}`;
+              textarea.value = block.body;
+              wrap.appendChild(textarea);
+              blockEl.appendChild(wrap);
+
+              body.appendChild(blockEl);
+            });
+          } else if (section.type === 'text') {
             const editable = createEditableField(data[section.key] || '', 'html');
             editable.dataset.key = section.key;
             editable.dataset.editor = 'home';
@@ -2177,15 +2262,6 @@
               blocksContainer.appendChild(createBlockRow(item, i));
             });
             body.appendChild(blocksContainer);
-
-            const addBtn = document.createElement('button');
-            addBtn.className = 'add-row-btn';
-            addBtn.textContent = '+ Blok toevoegen';
-            addBtn.addEventListener('click', () => {
-              const empty = { title: '', text: '' };
-              blocksContainer.appendChild(createBlockRow(empty, blocksContainer.children.length));
-            });
-            body.appendChild(addBtn);
           } else if (section.type === 'list') {
             const listContainer = document.createElement('div');
             listContainer.dataset.listKey = section.key;
@@ -2209,6 +2285,20 @@
         }
 
         showView('home');
+
+        // Create EasyMDE instances for blocks after DOM is visible
+        loaded.forEach((block, i) => {
+          const mde = new EasyMDE({
+            element: document.getElementById(`block-editor-${i}`),
+            spellChecker: false,
+            autofocus: false,
+            status: false,
+            toolbar: ['bold', 'italic', 'heading', '|', 'link', '|', 'preview'],
+            minHeight: '150px',
+          });
+          mdeInstances.push(mde);
+        });
+
         document.getElementById('save-btn').disabled = false;
         setStatus('');
       } catch (err) {
@@ -2220,6 +2310,20 @@
       const wrapper = document.createElement('div');
       wrapper.className = 'spreekuur-section';
       wrapper.style.marginBottom = '0.75rem';
+
+      const topRow = document.createElement('div');
+      topRow.style.cssText = 'display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;';
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = item.visible !== false;
+      checkbox.dataset.field = 'visible';
+      checkbox.style.cssText = 'width:1rem;height:1rem;cursor:pointer;';
+      const checkLabel = document.createElement('span');
+      checkLabel.textContent = 'Zichtbaar';
+      checkLabel.style.cssText = 'font-size:0.75rem;color:var(--text-muted);';
+      topRow.appendChild(checkbox);
+      topRow.appendChild(checkLabel);
+      wrapper.appendChild(topRow);
 
       const titleInput = document.createElement('input');
       titleInput.type = 'text';
@@ -2234,13 +2338,6 @@
       editable.dataset.field = 'text';
       wrapper.appendChild(createMiniToolbar(editable));
       wrapper.appendChild(editable);
-
-      const removeBtn = document.createElement('button');
-      removeBtn.className = 'row-btn row-btn-danger';
-      removeBtn.innerHTML = '&times; Verwijderen';
-      removeBtn.style.marginTop = '0.375rem';
-      removeBtn.addEventListener('click', () => wrapper.remove());
-      wrapper.appendChild(removeBtn);
 
       return wrapper;
     }
@@ -2258,10 +2355,12 @@
             for (const wrapper of container.children) {
               const titleInput = wrapper.querySelector('input[data-field="title"]');
               const textEditable = wrapper.querySelector('.editable-field[data-field="text"]');
+              const visibleCheckbox = wrapper.querySelector('input[data-field="visible"]');
               if (textEditable) {
                 blocks.push({
                   title: titleInput ? titleInput.value : '',
                   text: textEditable.innerHTML.trim(),
+                  visible: visibleCheckbox ? visibleCheckbox.checked : true,
                 });
               }
             }
@@ -2283,10 +2382,35 @@
     }
 
     async function saveHome() {
+      // Save home.json
       const data = gatherHomeData();
       const content = JSON.stringify(data, null, 2) + '\n';
       const msg = 'Update home via CMS';
       homeSha = await saveFile(HOME_PATH, content, homeSha, msg);
+
+      // Save blocks (mededelingen)
+      for (let i = 0; i < blockFiles.length; i++) {
+        const block = blockFiles[i];
+        const meta = {};
+        for (const field of BLOCK_FIELDS) {
+          const input = document.getElementById(`block-${i}-field-${field.name}`);
+          if (!input) continue;
+          if (field.type === 'boolean') {
+            meta[field.name] = input.checked;
+          } else if (field.type === 'number') {
+            meta[field.name] = parseInt(input.value, 10) || 0;
+          } else {
+            meta[field.name] = input.value;
+          }
+        }
+        const body = mdeInstances[i] ? mdeInstances[i].value() : block.body;
+        const blockContent = serializeFrontmatter(meta, body, BLOCK_FIELDS);
+        const slug = block.path.split('/').pop().replace('.md', '');
+        const blockMsg = `Update mededeling: ${slug} via CMS`;
+        block.sha = await saveFile(block.path, blockContent, block.sha, blockMsg);
+        block.meta = meta;
+        block.body = body;
+      }
     }
 
     // --- PATIENTENOMGEVING EDITOR ---
