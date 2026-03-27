@@ -74,11 +74,12 @@
         const token = new TextDecoder().decode(decrypted);
 
         if (window.opener) {
-          window.opener.postMessage(
-            'authorization:github:success:' + JSON.stringify({ token, provider: 'github' }),
-            window.location.origin
-          );
-          window.close();
+          const msg = 'authorization:github:success:' + JSON.stringify({ token, provider: 'github' });
+          window.opener.postMessage(msg, '*');
+          setTimeout(() => window.close(), 200);
+        } else {
+          errorEl.textContent = 'Popup-venster niet correct geopend. Probeer opnieuw.';
+          errorEl.style.display = 'block';
         }
       } catch {
         errorEl.style.display = 'block';
