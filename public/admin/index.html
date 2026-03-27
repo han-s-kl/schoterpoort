@@ -62,7 +62,7 @@
     }
 
     function loadCMS(token) {
-      // Store token so Sveltia CMS picks it up as already authenticated
+      // Store token so Decap CMS picks it up as already authenticated
       const user = JSON.stringify({
         backendName: 'github',
         token: token,
@@ -71,8 +71,10 @@
       });
       localStorage.setItem('netlify-cms-user', user);
 
-      // Hide login, load CMS
+      // Hide login, reset styles for Decap CMS, load CMS
       document.getElementById('auth').style.display = 'none';
+      document.body.style.background = '#fff';
+      document.body.style.color = '#333';
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/decap-cms-app@latest/dist/decap-cms.js';
       document.body.appendChild(script);
