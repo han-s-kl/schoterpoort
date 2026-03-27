@@ -1202,7 +1202,8 @@
         s.content = content.replace(/^\n+/, '').replace(/\n+$/, '');
         delete s.contentLines;
       }
-      return sections;
+      // Filter out empty sections (no heading and no content)
+      return sections.filter(s => s.heading || s.content);
     }
 
     function reassembleMarkdown(sections) {
