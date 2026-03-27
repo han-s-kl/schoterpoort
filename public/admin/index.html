@@ -1059,7 +1059,8 @@
           header.innerHTML = `<span>${item.label}</span><span class="chevron">&#9654;</span>`;
 
           const childContainer = document.createElement('div');
-          childContainer.className = 'nav-group-children';
+          childContainer.className = 'nav-group-children expanded';
+          header.classList.add('expanded');
 
           for (const child of item.children) {
             const btn = document.createElement('button');
