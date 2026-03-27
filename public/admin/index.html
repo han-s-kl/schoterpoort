@@ -798,6 +798,8 @@
         </div>
         <div class="blocks-panel" id="blocks-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="spreekuur-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
       </div>
     </main>
   </div>
@@ -811,6 +813,8 @@
     const ENCRYPTED = 'NGJVhe4KcEE+LEe9UCi6xcx4LVSlI+Mm1KtKTxm/QOJ/KSEtlGawaLZE3hmsUEiI66pshdgM/dK+ioE6bnRISB/KnW3RUANJFgAtIUyLQGXwLUxQ1+Sg5UVZELY0DirfnkFoO8MTXejSGnYRMqadl9XnngdO5EJdSVWg10KoZ8X4AgpynAHEHJY=';
     const STAFF_PATH = 'src/data/staff.json';
     const SPREEKUUR_PATH = 'src/data/spreekuur.json';
+    const HOME_PATH = 'src/data/home.json';
+    const PATIENTENOMGEVING_PATH = 'src/data/patientenomgeving.json';
 
     const PAGE_FIELDS = [
       { name: 'title', label: 'Titel', type: 'string' },
@@ -848,6 +852,8 @@
     };
 
     const NAV_ITEMS = [
+      { label: 'Home', mode: 'home' },
+      { label: 'Patientenomgeving', mode: 'patientenomgeving' },
       { type: 'separator' },
       {
         label: 'Medewerkers', children: [
@@ -891,6 +897,8 @@
     let currentStaffIndex = null;
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
     let spreekuurSha = null;
+    let homeSha = null;
+    let patientenomgevingSha = null;
     let currentSections = [];   // parsed markdown sections for section editor
     let currentMeta = {};       // original frontmatter meta (preserved on save)
 
@@ -1025,6 +1033,8 @@
       document.getElementById('markdown-wrap').style.display = 'none';
       document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
       document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
+      document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
+      document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
     }
 
     function setTopbar(title, subtitle, backFn) {
@@ -1133,6 +1143,14 @@
         }
         setActiveNav(item);
         await openSpreekuurEditor();
+      } else if (item.mode === 'home') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openHomeEditor();
+      } else if (item.mode === 'patientenomgeving') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openPatientenomgevingEditor();
       }
     }
 
@@ -1581,6 +1599,10 @@
           await saveAllBlocks();
         } else if (currentMode === 'spreekuur') {
           await saveSpreekuur();
+        } else if (currentMode === 'home') {
+          await saveHome();
+        } else if (currentMode === 'patientenomgeving') {
+          await savePatientenomgeving();
         }
         setStatus('Opgeslagen', 'saved');
         setTimeout(() => setStatus(''), 3000);
@@ -2109,6 +2131,354 @@
       const content = JSON.stringify(data, null, 2) + '\n';
       const msg = 'Update spreekuur via CMS';
       spreekuurSha = await saveFile(SPREEKUUR_PATH, content, spreekuurSha, msg);
+    }
+
+    // --- HOME EDITOR ---
+    const HOME_SECTIONS = [
+      { key: 'telefonischConsult', label: 'Telefonisch consult', type: 'text' },
+      { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
+      { key: 'kwaliteit', label: 'Kwaliteit', type: 'blocks', fields: ['title', 'text'] },
+      { key: 'wistUDat', label: 'Wist u dat?', type: 'list' },
+    ];
+
+    async function openHomeEditor() {
+      currentMode = 'home';
+      showView('empty');
+      setTopbar('Home', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(HOME_PATH);
+        const data = JSON.parse(content);
+        homeSha = sha;
+
+        const panel = document.getElementById('home-panel');
+        panel.innerHTML = '';
+
+        for (const section of HOME_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+          body.dataset.sectionKey = section.key;
+
+          if (section.type === 'text') {
+            const editable = createEditableField(data[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            editable.dataset.editor = 'home';
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          } else if (section.type === 'blocks') {
+            const blocksContainer = document.createElement('div');
+            blocksContainer.dataset.blocksKey = section.key;
+            (data[section.key] || []).forEach((item, i) => {
+              blocksContainer.appendChild(createBlockRow(item, i));
+            });
+            body.appendChild(blocksContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Blok toevoegen';
+            addBtn.addEventListener('click', () => {
+              const empty = { title: '', text: '' };
+              blocksContainer.appendChild(createBlockRow(empty, blocksContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          } else if (section.type === 'list') {
+            const listContainer = document.createElement('div');
+            listContainer.dataset.listKey = section.key;
+            listContainer.dataset.editor = 'home';
+            (data[section.key] || []).forEach((item, i) => {
+              listContainer.appendChild(createListRow(item, i));
+            });
+            body.appendChild(listContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              listContainer.appendChild(createListRow('', listContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        showView('home');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function createBlockRow(item, index) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'spreekuur-section';
+      wrapper.style.marginBottom = '0.75rem';
+
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.className = 'row-label';
+      titleInput.value = item.title || '';
+      titleInput.placeholder = 'Titel (leeg laten voor blok zonder titel)';
+      titleInput.dataset.field = 'title';
+      titleInput.style.marginBottom = '0.5rem';
+      wrapper.appendChild(titleInput);
+
+      const editable = createEditableField(item.text || '', 'html');
+      editable.dataset.field = 'text';
+      wrapper.appendChild(createMiniToolbar(editable));
+      wrapper.appendChild(editable);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times; Verwijderen';
+      removeBtn.style.marginTop = '0.375rem';
+      removeBtn.addEventListener('click', () => wrapper.remove());
+      wrapper.appendChild(removeBtn);
+
+      return wrapper;
+    }
+
+    function gatherHomeData() {
+      const result = {};
+      for (const section of HOME_SECTIONS) {
+        if (section.type === 'text') {
+          const editable = document.querySelector(`#home-panel .editable-field[data-key="${section.key}"]`);
+          result[section.key] = editable ? editable.innerHTML : '';
+        } else if (section.type === 'blocks') {
+          const container = document.querySelector(`[data-blocks-key="${section.key}"]`);
+          const blocks = [];
+          if (container) {
+            for (const wrapper of container.children) {
+              const titleInput = wrapper.querySelector('input[data-field="title"]');
+              const textEditable = wrapper.querySelector('.editable-field[data-field="text"]');
+              if (textEditable) {
+                blocks.push({
+                  title: titleInput ? titleInput.value : '',
+                  text: textEditable.innerHTML.trim(),
+                });
+              }
+            }
+          }
+          result[section.key] = blocks;
+        } else if (section.type === 'list') {
+          const container = document.querySelector(`#home-panel [data-list-key="${section.key}"]`);
+          const items = [];
+          if (container) {
+            for (const row of container.children) {
+              const editable = row.querySelector('.editable-field');
+              if (editable && editable.innerHTML.trim()) items.push(editable.innerHTML.trim());
+            }
+          }
+          result[section.key] = items;
+        }
+      }
+      return result;
+    }
+
+    async function saveHome() {
+      const data = gatherHomeData();
+      const content = JSON.stringify(data, null, 2) + '\n';
+      const msg = 'Update home via CMS';
+      homeSha = await saveFile(HOME_PATH, content, homeSha, msg);
+    }
+
+    // --- PATIENTENOMGEVING EDITOR ---
+    const PATIENTENOMGEVING_SECTIONS = [
+      { key: 'intro', label: 'Introductietekst', type: 'text' },
+      {
+        key: 'portals', label: 'Portaal-links', type: 'table',
+        columns: [
+          { key: 'name', label: 'Naam', className: 'row-label' },
+          { key: 'href', label: 'URL', className: 'row-value' },
+        ],
+      },
+      { key: 'belangrijk', label: 'Belangrijk', type: 'belangrijk' },
+      { key: 'appUrl', label: 'App URL', type: 'simple' },
+      { key: 'helpTelefoon', label: 'Helpdesk telefoon', type: 'simple' },
+      { key: 'helpWebsite', label: 'Helpdesk website', type: 'simple' },
+    ];
+
+    async function openPatientenomgevingEditor() {
+      currentMode = 'patientenomgeving';
+      showView('empty');
+      setTopbar('Patientenomgeving', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(PATIENTENOMGEVING_PATH);
+        const data = JSON.parse(content);
+        patientenomgevingSha = sha;
+
+        const panel = document.getElementById('patientenomgeving-panel');
+        panel.innerHTML = '';
+
+        for (const section of PATIENTENOMGEVING_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+          body.dataset.sectionKey = section.key;
+
+          if (section.type === 'text') {
+            const editable = createEditableField(data[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            editable.dataset.editor = 'pat';
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          } else if (section.type === 'simple') {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'row-label';
+            input.value = data[section.key] || '';
+            input.dataset.key = section.key;
+            input.dataset.editor = 'pat';
+            input.style.width = '100%';
+            body.appendChild(input);
+          } else if (section.type === 'table') {
+            const rowsContainer = document.createElement('div');
+            rowsContainer.dataset.tableKey = section.key;
+            rowsContainer.dataset.editor = 'pat';
+            (data[section.key] || []).forEach((item, i) => {
+              rowsContainer.appendChild(createTableRow(section, item, i));
+            });
+            body.appendChild(rowsContainer);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Rij toevoegen';
+            addBtn.addEventListener('click', () => {
+              const empty = {};
+              section.columns.forEach(c => { empty[c.key] = ''; });
+              rowsContainer.appendChild(createTableRow(section, empty, rowsContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          } else if (section.type === 'belangrijk') {
+            const container = document.createElement('div');
+            container.dataset.belangrijk = 'true';
+            (data[section.key] || []).forEach((item, i) => {
+              container.appendChild(createBelangrijkRow(item, i));
+            });
+            body.appendChild(container);
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              container.appendChild(createBelangrijkRow({ type: 'warning', text: '' }, container.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        showView('patientenomgeving');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    function createBelangrijkRow(item, index) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'spreekuur-row';
+      wrapper.style.flexDirection = 'column';
+      wrapper.style.alignItems = 'stretch';
+      wrapper.style.gap = '0.375rem';
+
+      const topRow = document.createElement('div');
+      topRow.style.display = 'flex';
+      topRow.style.gap = '0.5rem';
+      topRow.style.alignItems = 'center';
+
+      const select = document.createElement('select');
+      select.dataset.field = 'type';
+      select.style.cssText = 'padding:0.375rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.8125rem;background:#fff;';
+      ['warning', 'info'].forEach(val => {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val === 'warning' ? 'Waarschuwing (geel)' : 'Info (blauw)';
+        if (item.type === val) opt.selected = true;
+        select.appendChild(opt);
+      });
+      topRow.appendChild(select);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.style.marginLeft = 'auto';
+      removeBtn.addEventListener('click', () => wrapper.remove());
+      topRow.appendChild(removeBtn);
+      wrapper.appendChild(topRow);
+
+      const editable = createEditableField(item.text || '', 'html');
+      editable.dataset.field = 'text';
+      wrapper.appendChild(createMiniToolbar(editable));
+      wrapper.appendChild(editable);
+
+      return wrapper;
+    }
+
+    function gatherPatientenomgevingData() {
+      const result = {};
+      for (const section of PATIENTENOMGEVING_SECTIONS) {
+        if (section.type === 'text') {
+          const editable = document.querySelector(`#patientenomgeving-panel .editable-field[data-key="${section.key}"]`);
+          result[section.key] = editable ? editable.innerHTML : '';
+        } else if (section.type === 'simple') {
+          const input = document.querySelector(`#patientenomgeving-panel input[data-key="${section.key}"]`);
+          result[section.key] = input ? input.value : '';
+        } else if (section.type === 'table') {
+          const container = document.querySelector(`#patientenomgeving-panel [data-table-key="${section.key}"]`);
+          const rows = [];
+          if (container) {
+            for (const row of container.children) {
+              const item = {};
+              for (const input of row.querySelectorAll('input')) {
+                item[input.dataset.col] = input.value;
+              }
+              if (Object.values(item).some(v => v)) rows.push(item);
+            }
+          }
+          result[section.key] = rows;
+        } else if (section.type === 'belangrijk') {
+          const container = document.querySelector('#patientenomgeving-panel [data-belangrijk]');
+          const items = [];
+          if (container) {
+            for (const wrapper of container.children) {
+              const select = wrapper.querySelector('select[data-field="type"]');
+              const editable = wrapper.querySelector('.editable-field[data-field="text"]');
+              if (editable) {
+                items.push({
+                  type: select ? select.value : 'warning',
+                  text: editable.innerHTML.trim(),
+                });
+              }
+            }
+          }
+          result[section.key] = items;
+        }
+      }
+      return result;
+    }
+
+    async function savePatientenomgeving() {
+      const data = gatherPatientenomgevingData();
+      const content = JSON.stringify(data, null, 2) + '\n';
+      const msg = 'Update patientenomgeving via CMS';
+      patientenomgevingSha = await saveFile(PATIENTENOMGEVING_PATH, content, patientenomgevingSha, msg);
     }
 
     // --- INIT ---

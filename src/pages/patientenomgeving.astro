@@ -1,16 +1,9 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import practiceData from '../data/practices.json';
+import patData from '../data/patientenomgeving.json';
 import { url } from '../utils/url';
 
 const base = import.meta.env.BASE_URL;
-
-const portals = [
-  { name: 'Praktijk Louwet / Moes', href: 'https://praktijklouwet.uwzorgonline.nl' },
-  { name: 'Praktijk Duijn / Schouten', href: 'https://praktijkduijn.uwzorgonline.nl' },
-  { name: 'Praktijk Van der Eem / Bosch', href: 'https://praktijkvandereem.uwzorgonline.nl' },
-  { name: 'Praktijk Steketee / Schaap', href: 'https://praktijksteketee.uwzorgonline.nl' },
-];
 ---
 
 <PageLayout title="Patientenomgeving" description="Toegang tot uw online patientenportaal bij Huisartsenpraktijk Schoterpoort.">
@@ -18,15 +11,12 @@ const portals = [
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-3xl lg:text-4xl font-bold mb-6">Patientenomgeving</h1>
 
-      <p class="text-neutral-600 mb-8">
-        Via de patientenomgeving kunt u veilig en eenvoudig online zaken regelen met uw huisartsenpraktijk:
-        afspraken maken, herhaalrecepten aanvragen, e-consulten sturen, uitslagen bekijken en uw medisch dossier inzien.
-      </p>
+      <p class="text-neutral-600 mb-8" set:html={patData.intro} />
 
       <!-- Portal buttons -->
       <h2 class="text-xl font-bold mb-4">Inloggen op uw portaal</h2>
       <div class="grid sm:grid-cols-2 gap-3 mb-10">
-        {portals.map((portal) => (
+        {patData.portals.map((portal) => (
           <a
             href={portal.href}
             target="_blank"
@@ -44,24 +34,21 @@ const portals = [
       <!-- Belangrijk -->
       <h2 class="text-xl font-bold mb-4">Belangrijk</h2>
       <div class="space-y-3 mb-10">
-        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
-          <p class="text-sm text-amber-800"><strong>Let op:</strong> Kies de juiste praktijk/huisarts. Anders kunnen we uw aanmelding niet in behandeling nemen.</p>
-        </div>
-        <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
-          <p class="text-sm text-blue-800">De patientenomgeving is beschikbaar voor patienten van <strong>16 jaar en ouder</strong>.</p>
-        </div>
-        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
-          <p class="text-sm text-amber-800">
-            <strong>Kind jonger dan 16?</strong> Gebruik het
-            <a href={url('/contact-kinderen')} class="font-medium underline">contactformulier voor kinderen</a>
-            om beveiligd een bericht te sturen. Log niet in op uw eigen portaal voor uw kind.
-          </p>
-        </div>
+        {patData.belangrijk.map((item) => {
+          const colors = item.type === 'info'
+            ? { bg: 'bg-blue-50', border: 'border-blue-400', text: 'text-blue-800' }
+            : { bg: 'bg-amber-50', border: 'border-amber-400', text: 'text-amber-800' };
+          return (
+            <div class={`${colors.bg} border-l-4 ${colors.border} rounded-r-lg p-4`}>
+              <p class={`text-sm ${colors.text}`} set:html={item.text} />
+            </div>
+          );
+        })}
       </div>
 
       <!-- App -->
       <div class="flex items-center gap-5 bg-neutral-50 rounded-xl p-5 border border-neutral-200 mb-6">
-        <a href="https://uwzorgonline.nl/consumenten/app" target="_blank" rel="noopener">
+        <a href={patData.appUrl} target="_blank" rel="noopener">
           <img
             src={`${base}/images/uwzorgonline-app.png`}
             alt="UwZorgOnline app"
@@ -71,7 +58,7 @@ const portals = [
         <div>
           <h3 class="font-bold text-neutral-900 text-sm">Mobiele app</h3>
           <p class="text-sm text-neutral-600 mt-0.5">De patientenomgeving is ook beschikbaar als app.</p>
-          <a href="https://uwzorgonline.nl/consumenten/app" target="_blank" rel="noopener" class="text-xs text-dark-600 font-medium no-underline hover:underline mt-1 inline-block">
+          <a href={patData.appUrl} target="_blank" rel="noopener" class="text-xs text-dark-600 font-medium no-underline hover:underline mt-1 inline-block">
             Bekijk de installatiehandleiding &rarr;
           </a>
         </div>
@@ -84,13 +71,13 @@ const portals = [
           Problemen met inloggen of uw account aanmaken? Neem contact op met de Helpdesk Digitale Zorg:
         </p>
         <div class="flex flex-wrap gap-4 text-sm">
-          <a href="tel:085-1304575" class="inline-flex items-center gap-1.5 text-dark-600 font-medium no-underline hover:text-dark-700">
+          <a href={`tel:${patData.helpTelefoon.replace(/\s/g, '')}`} class="inline-flex items-center gap-1.5 text-dark-600 font-medium no-underline hover:text-dark-700">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
             </svg>
-            085-130 45 75
+            {patData.helpTelefoon}
           </a>
-          <a href="https://helpdeskdigitalezorg.nl/zorginstelling/huisartsen-zuid-kennemerland/" target="_blank" rel="noopener" class="text-dark-600 font-medium no-underline hover:text-dark-700">
+          <a href={patData.helpWebsite} target="_blank" rel="noopener" class="text-dark-600 font-medium no-underline hover:text-dark-700">
             helpdeskdigitalezorg.nl &rarr;
           </a>
         </div>
