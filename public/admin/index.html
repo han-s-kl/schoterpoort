@@ -69,14 +69,12 @@
         name: 'Editor',
         login: 'editor',
       });
-      // Try both possible localStorage keys
       localStorage.setItem('netlify-cms-user', user);
-      localStorage.setItem('sveltia-cms.user', user);
 
       // Hide login, load CMS
       document.getElementById('auth').style.display = 'none';
       const script = document.createElement('script');
-      script.src = 'https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js';
+      script.src = 'https://unpkg.com/decap-cms-app@latest/dist/decap-cms.js';
       document.body.appendChild(script);
     }
 
