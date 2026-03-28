@@ -1,11 +1,11 @@
 # Handoff -- Schoterpoort website rebuild
 
-## Status: LIVE op GitHub Pages
+## Status: LIVE op GitHub Pages (2026-03-28)
 URL: https://han-s-kl.github.io/schoterpoort/
 CMS: https://han-s-kl.github.io/schoterpoort/admin/
 Repo: https://github.com/han-s-kl/schoterpoort (publiek)
-Branch: main
-77 pagina's (NL + EN), build <1 seconde
+Branch: main (5 commits voor op feature/initial-site)
+77 pagina's (NL + EN), build ~1 seconde, working tree clean
 
 ## Wat is gedaan
 
@@ -95,7 +95,7 @@ In het CMS moeten niet-bewerkbare/dynamische blokken ook getoond worden (read-on
 
 ### Prioriteit 1: TransIP migratie (wacht op TransIP hosting)
 1. **PHP auth proxy** -- eigen login (email/wachtwoord), GitHub PAT server-side
-2. **Versleuteld PAT verwijderen** uit public/admin/index.html
+2. **Versleuteld PAT verwijderen** uit public/admin/index.html (PAT verloopt ~90 dagen na 2026-03-27)
 3. **Deploy pipeline** -- GitHub Actions SFTP naar TransIP
 4. **Base path** -- `/schoterpoort/` verwijderen, site URL aanpassen
 5. **Mail aan UwZorgOnline** -- concept staat in sessie-historie (vraag om migratie-instructies)
@@ -104,4 +104,5 @@ In het CMS moeten niet-bewerkbare/dynamische blokken ook getoond worden (read-on
 1. **ZIVVER Conversation Starter** -- placeholder URL in contact-kinderen.astro
 2. **GitHub Pages base path** -- hardcoded `/schoterpoort/` prefix in markdown links
 3. **Klachtenformulier backend** -- mailto: -> PHP op TransIP. Zie docs/refs/formulieren-backend.md
-4. **GitHub default branch** -- `feature/initial-site` is default op GitHub, `main` is deploy branch. Overweeg synchronisatie
+4. **GitHub default branch** -- `feature/initial-site` is default op GitHub, `main` is deploy branch (main is 5 commits voor). Overweeg synchronisatie
+5. **Nieuws** -- volledig verwijderd, geen nieuwspagina's of RSS feed
