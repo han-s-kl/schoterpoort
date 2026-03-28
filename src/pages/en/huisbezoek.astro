@@ -6,6 +6,9 @@ import practiceData from '../../data/practices.json';
 const pages = await getCollection('pages-en');
 const page = pages.find((p) => p.id === 'huisbezoek');
 const { Content } = await render(page!);
+
+const spoedItem = practiceData.keuzemenu.find((item: any) => /spoed/i.test(item.label));
+const spoedKey = spoedItem?.key || '1';
 ---
 
 <PageLayout title={page!.data.title} description={page!.data.description} lang="en">
@@ -39,7 +42,7 @@ const { Content } = await render(page!);
         <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-5">
           <h2 class="text-lg font-bold text-accent-800 mb-2">Emergencies</h2>
           <ul class="text-sm text-accent-700 space-y-1">
-            <li>During office hours: your GP's number followed by 1</li>
+            <li>During office hours: your GP's number followed by {spoedKey}</li>
             <li>After 17:00 and at weekends: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">Emergency Post {practiceData.phoneEmergency}</a></li>
             <li>In emergencies: <a href="tel:112" class="font-semibold underline">112</a></li>
           </ul>
