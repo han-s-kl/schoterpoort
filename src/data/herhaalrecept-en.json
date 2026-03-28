@@ -8,5 +8,11 @@
     "Street and house number of the home address",
     "Name(s) of the medication you are ordering (have the boxes to hand!)",
     "Name of your pharmacy"
+  ],
+  "welkeMedicijnen": "You can only request prescriptions for medication that you use <strong>chronically</strong> (usually daily) on the advice of your GP or specialist.<br><br>If you wish to request medication for newly occurring complaints or temporary medication -- which you received for a specific period -- you <strong>cannot</strong> order these through the prescription line or website. For this, you can call the practice assistant during office hours; if necessary, your GP will be consulted about the request.",
+  "wanneerKlaar": "If you leave a message on the prescription line or order a prescription via the website <strong>before 12:00 noon</strong>, you can collect your medication from your pharmacy <strong>2 working days later</strong> (they will be ready from 15:00).",
+  "wanneerKlaarVoorbeelden": [
+    "If you call/email on Tuesday evening, your medication will be ready at the pharmacy on <strong>Friday</strong>.",
+    "If you call/email on Friday afternoon after 12:00 or at the weekend, you can collect your medication on <strong>Wednesday after 15:00</strong>."
   ]
 }
