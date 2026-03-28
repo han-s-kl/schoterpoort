@@ -2307,7 +2307,7 @@
     }
 
     function createEditableField(content, mode) {
-      // mode: 'html' (spreekuur) or 'markdown' (pages)
+      // mode: 'html' (spreekuur/JSON editors) or 'markdown' (pages)
       const el = document.createElement('div');
       el.className = 'editable-field';
       el.contentEditable = 'true';
@@ -2315,6 +2315,10 @@
         el.innerHTML = mdInlineToHtml(content).replace(/\n/g, '<br>');
       } else {
         el.innerHTML = content;
+        // Block Enter in JSON editor fields (no line breaks in JSON string values)
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') e.preventDefault();
+        });
       }
       return el;
     }
