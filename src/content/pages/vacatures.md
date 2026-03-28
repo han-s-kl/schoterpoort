@@ -5,7 +5,7 @@ description: "Openstaande vacatures bij Schoterpoort Huisartsenpraktijken"
 
 # Vacatures
 
-## Vacatures Januari 2025
+## Vacatures
 
 Er is momenteel een vacature beschikbaar voor doktersassistent(e).
 

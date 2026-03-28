@@ -5,7 +5,7 @@ description: "Current vacancies at Schoterpoort Huisartsenpraktijken"
 
 # Vacancies
 
-## Vacancies January 2025
+## Vacancies
 
 There is currently a vacancy available for a medical assistant.
 
