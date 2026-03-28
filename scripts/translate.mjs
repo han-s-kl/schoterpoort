@@ -4,6 +4,34 @@ import { basename, dirname } from 'path';
 
 const client = new Anthropic();
 
+function extractJSON(text) {
+  let cleaned = text.trim();
+  // Strip markdown code fences
+  cleaned = cleaned.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();
+  try {
+    JSON.parse(cleaned);
+    return cleaned;
+  } catch {
+    // Try extracting from first { to last }
+    const start = cleaned.indexOf('{');
+    const end = cleaned.lastIndexOf('}');
+    if (start !== -1 && end > start) {
+      const extracted = cleaned.slice(start, end + 1);
+      JSON.parse(extracted); // will throw if still invalid
+      return extracted;
+    }
+    // Try first [ to last ]
+    const startArr = cleaned.indexOf('[');
+    const endArr = cleaned.lastIndexOf(']');
+    if (startArr !== -1 && endArr > startArr) {
+      const extracted = cleaned.slice(startArr, endArr + 1);
+      JSON.parse(extracted);
+      return extracted;
+    }
+    throw new Error('Could not extract valid JSON from response');
+  }
+}
+
 const SYSTEM_PROMPT = `You are a professional translator for a Dutch GP practice (huisartsenpraktijk) website. Translate Dutch to English.
 
 Rules:
@@ -41,7 +69,7 @@ async function translateJSON(nlContent) {
 
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 4096,
+    max_tokens: 8192,
     system: SYSTEM_PROMPT,
     messages: [{
       role: 'user',
@@ -53,7 +81,7 @@ ${nlContent}`
     }],
   });
 
-  return response.content[0].text;
+  return extractJSON(response.content[0].text);
 }
 
 const STAFF_EN_FIELDS = [
@@ -99,7 +127,7 @@ ${JSON.stringify(toTranslate, null, 2)}`
     }],
   });
 
-  const translations = JSON.parse(response.content[0].text);
+  const translations = JSON.parse(extractJSON(response.content[0].text));
 
   // Write translations back into staff array
   for (const [key, enValue] of Object.entries(translations)) {
@@ -173,8 +201,6 @@ async function main() {
       enContent = await translateStaffJSON(nlContent);
     } else if (isJSON) {
       enContent = await translateJSON(nlContent);
-      // Validate JSON
-      JSON.parse(enContent);
       // Ensure trailing newline
       if (!enContent.endsWith('\n')) enContent += '\n';
     } else {
