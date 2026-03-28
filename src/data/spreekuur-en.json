@@ -14,10 +14,5 @@
   "dubbelConsult": "For multiple complaints or mental health issues. Request this when booking the appointment.",
   "videoconsult": "Available with GPs and mental health practice nurses via a secure connection.",
   "terugbelafspraken": "You can request a callback appointment to avoid waiting times. Leave your message on the voicemail and end with <strong>#</strong>. The phone system is available 24 hours for repeat prescriptions and appointment cancellations.",
-  "afspraakAfzeggen": "Cancel your appointment by phone at least <strong>24 hours</strong> in advance. For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance.",
-  "spoed": [
-    "During office hours: call your GP, option 1",
-    "After 17:00, weekends and holidays: <a href=\"tel:023-7504567\" class=\"font-semibold underline\">023-750 45 67</a> (Emergency GP Post)",
-    "Life-threatening: <a href=\"tel:112\" class=\"font-bold underline\">112</a>"
-  ]
+  "afspraakAfzeggen": "Cancel your appointment by phone at least <strong>24 hours</strong> in advance. For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance."
 }
