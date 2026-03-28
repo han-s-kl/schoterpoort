@@ -1181,6 +1181,8 @@
       // Clean up richtext container
       const rt = document.querySelector('.richtext-container');
       if (rt) rt.remove();
+      // Clean up read-only context blocks
+      document.querySelectorAll('.readonly-context-block').forEach(b => b.remove());
     }
 
     function showView(view) {
