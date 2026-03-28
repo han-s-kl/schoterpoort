@@ -1,5 +1,5 @@
 {
-  "intro": "Herhaalrecepten voor chronische medicatie kunt u 24 uur per dag (ook in het weekend) op 2 manieren aanvragen:",
+  "intro": "Hier staat veel nuttige informatie. <div>Herhaalrecepten voor chronische medicatie kunt u 24 uur per dag (ook in het weekend) op 2 manieren aanvragen:</div>",
   "patientenomgeving": "U kunt via de <a href=\"/schoterpoort/patientenomgeving\">patientenomgeving</a> op de website online herhaalrecepten aanvragen. U dient zich dan wel eerst aan te melden. Houdt u er rekening mee dat het na het aanmaken van een account nog tot maximaal 7 dagen duurt voordat het account werkzaam is.",
   "receptenlijn": "Bel het praktijk-telefoonnummer van uw eigen huisarts en kies voor de keuzetoets van de receptenlijn.",
   "receptenlijnVragen": [
@@ -12,7 +12,7 @@
   "welkeMedicijnen": "U kunt alleen recepten aanvragen voor medicijnen die u op advies van uw huisarts of specialist <strong>chronisch</strong> (meestal dagelijks) gebruikt.<br><br>Wilt u medicijnen voor nieuw opgetreden klachten aanvragen of tijdelijke medicijnen -- die u voor een bepaalde periode hebt gekregen -- opnieuw aanvragen, dan kunt u deze geneesmiddelen <strong>niet</strong> via de receptenlijn of website bestellen. Hiervoor kunt u overdag met de praktijkassistente bellen, zo nodig wordt met uw huisarts overlegd over de aanvraag.",
   "wanneerKlaar": "Indien u de receptenlijn inspreekt of een recept bestelt via de website <strong>voor 12:00 uur 's middags</strong>, dan kunt u <strong>2 werkdagen later</strong> uw medicijnen afhalen bij uw eigen apotheek (vanaf 15:00 liggen zij gereed).",
   "wanneerKlaarVoorbeelden": [
-    "Belt/mailt u dinsdagavond, dan liggen uw medicijnen <strong>vrijdag</strong> bij de apotheek klaar.",
-    "Belt/mailt u vrijdagmiddag na 12:00 uur of in het weekend, dan kunt u uw medicijnen <strong>woensdag na 15:00 uur</strong> afhalen."
+    "Belt/mailt u dinsdagavond, dan liggen uw medicijnen vrijdag bij de apotheek klaar.",
+    "Belt/mailt u vrijdagmiddag na 12:00 uur of in het weekend, dan kunt u uw medicijnen woensdag na 15:00 uur afhalen."
   ]
 }
