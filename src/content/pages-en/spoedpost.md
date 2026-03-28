@@ -3,20 +3,6 @@ title: "Emergency post / Out-of-hours care"
 description: "Information about emergency care and out-of-hours service"
 ---
 
-# Emergency post / Out-of-hours care
-
-## During office hours (Mon-Fri 08:00-17:00)
-
-Call the number of your own GP. Press 1 for life-threatening situations.
-
-In case of immediate danger: call 112.
-
-## Outside office hours
-
-After 17:00 and at weekends, call the GP Emergency Post: **023-750 4567**
-
-The Emergency Post provides care for health problems that need to be assessed within a few hours and cannot wait until the next working day. Only walk in without an appointment for serious injuries or complaints.
-
 ### Locations
 
 **Spaarne Gasthuis Haarlem Noord**

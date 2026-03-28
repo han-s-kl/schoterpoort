@@ -3,20 +3,6 @@ title: "Spoedpost/Waarneming"
 description: "Informatie over spoedeisende hulp en waarneming buiten kantooruren"
 ---
 
-# Spoedpost / Waarneming
-
-## Tijdens kantooruren (ma-vr 08:00-17:00)
-
-Bel het nummer van uw eigen huisarts. Druk op 1 voor levensbedreigende situaties.
-
-Bij direct gevaar: bel 112.
-
-## Buiten kantooruren
-
-Na 17:00 en in het weekend belt u de Huisartsen/Spoedpost: **023-750 4567**
-
-De Spoedpost biedt zorg voor gezondheidsproblemen die binnen enkele uren beoordeeld moeten worden en niet tot de eerstvolgende werkdag kunnen wachten. Loop alleen zonder afspraak binnen bij ernstige verwondingen of klachten.
-
 ### Locaties
 
 **Spaarne Gasthuis Haarlem Noord**
