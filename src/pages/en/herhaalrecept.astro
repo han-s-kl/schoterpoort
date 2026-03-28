@@ -15,7 +15,11 @@ const receptKey = recept?.key || '2';
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <Content />
+        <h1>Requesting a repeat prescription</h1>
+        <p>Repeat prescriptions for chronic medication can be requested 24 hours a day (including weekends) in 2 ways:</p>
+
+        <h2>1. Via the patient portal</h2>
+        <p>You can request repeat prescriptions online via the <a href="/schoterpoort/en/patientenomgeving">patient portal</a> on the website. You will need to register first. Please note that after creating an account, it may take up to 7 days before the account is active.</p>
 
         <h2>2. Via the prescription line (telephone)</h2>
         <p>Call the practice phone number of your own GP and select <strong>option {receptKey}</strong>.</p>
@@ -24,7 +28,6 @@ const receptKey = recept?.key || '2';
             <li>{practice.name}: <a href={`tel:${practice.phone.replace(/[\s-]/g, '')}`}>{practice.phone}</a></li>
           ))}
         </ul>
-
         <p>The prescription line will automatically ask you the following questions:</p>
         <ul>
           <li>The name of your GP</li>
@@ -34,17 +37,7 @@ const receptKey = recept?.key || '2';
           <li>Name of your pharmacy</li>
         </ul>
 
-        <h2>Which medication can you request?</h2>
-        <p>You can only request prescriptions for medication that you use <strong>chronically</strong> (usually daily) on the advice of your GP or specialist.</p>
-        <p>If you wish to request medication for newly occurring complaints or temporary medication -- which you received for a specific period -- you <strong>cannot</strong> order these through the prescription line or website. For this, you can call the practice assistant during office hours; if necessary, your GP will be consulted about the request.</p>
-
-        <h2>When will your medication be ready?</h2>
-        <p>If you leave a message on the prescription line or order a prescription via the website <strong>before 12:00 noon</strong>, you can collect your medication from your pharmacy <strong>2 working days later</strong> (they will be ready from 15:00).</p>
-        <p>Examples:</p>
-        <ul>
-          <li>If you call/email on Tuesday evening, your medication will be ready at the pharmacy on <strong>Friday</strong>.</li>
-          <li>If you call/email on Friday afternoon after 12:00 or at the weekend, you can collect your medication on <strong>Wednesday after 15:00</strong>.</li>
-        </ul>
+        <Content />
       </article>
     </div>
   </section>

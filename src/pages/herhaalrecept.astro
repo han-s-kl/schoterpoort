@@ -15,7 +15,11 @@ const receptKey = recept?.key || '2';
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <Content />
+        <h1>Herhaalrecept aanvragen</h1>
+        <p>Herhaalrecepten voor chronische medicatie kunt u 24 uur per dag (ook in het weekend) op 2 manieren aanvragen:</p>
+
+        <h2>1. Via de patientenomgeving</h2>
+        <p>U kunt via de <a href="/schoterpoort/patientenomgeving">patientenomgeving</a> op de website online herhaalrecepten aanvragen. U dient zich dan wel eerst aan te melden. Houdt u er rekening mee dat het na het aanmaken van een account nog tot maximaal 7 dagen duurt voordat het account werkzaam is.</p>
 
         <h2>2. Via de receptenlijn (telefoon)</h2>
         <p>Bel het praktijk-telefoonnummer van uw eigen huisarts en kies voor <strong>keuzetoets {receptKey}</strong>.</p>
@@ -24,7 +28,6 @@ const receptKey = recept?.key || '2';
             <li>{practice.name}: <a href={`tel:${practice.phone.replace(/[\s-]/g, '')}`}>{practice.phone}</a></li>
           ))}
         </ul>
-
         <p>Op de receptenlijn worden automatisch de volgende vragen aan u gesteld:</p>
         <ul>
           <li>De naam van uw huisarts</li>
@@ -34,17 +37,7 @@ const receptKey = recept?.key || '2';
           <li>Naam van uw eigen apotheek</li>
         </ul>
 
-        <h2>Welke medicijnen kunt u aanvragen?</h2>
-        <p>U kunt alleen recepten aanvragen voor medicijnen die u op advies van uw huisarts of specialist <strong>chronisch</strong> (meestal dagelijks) gebruikt.</p>
-        <p>Wilt u medicijnen voor nieuw opgetreden klachten aanvragen of tijdelijke medicijnen -- die u voor een bepaalde periode hebt gekregen -- opnieuw aanvragen, dan kunt u deze geneesmiddelen <strong>niet</strong> via de receptenlijn of website bestellen. Hiervoor kunt u overdag met de praktijkassistente bellen, zo nodig wordt met uw huisarts overlegd over de aanvraag.</p>
-
-        <h2>Wanneer liggen uw medicijnen klaar?</h2>
-        <p>Indien u de receptenlijn inspreekt of een recept bestelt via de website <strong>voor 12:00 uur 's middags</strong>, dan kunt u <strong>2 werkdagen later</strong> uw medicijnen afhalen bij uw eigen apotheek (vanaf 15:00 liggen zij gereed).</p>
-        <p>Voorbeelden:</p>
-        <ul>
-          <li>Belt/mailt u dinsdagavond, dan liggen uw medicijnen <strong>vrijdag</strong> bij de apotheek klaar.</li>
-          <li>Belt/mailt u vrijdagmiddag na 12:00 uur of in het weekend, dan kunt u uw medicijnen <strong>woensdag na 15:00 uur</strong> afhalen.</li>
-        </ul>
+        <Content />
       </article>
     </div>
   </section>
