@@ -1,0 +1,31 @@
+{
+  "telefonischConsult": "Morning callback appointments for a phone consultation with the GP later in the day.",
+  "afspraakAfzeggen": "We kindly ask you to cancel your appointment by phone at least 24 hours in advance. For appointments with the mental health practice nurse: at least 48 hours in advance.",
+  "kwaliteit": [
+    {
+      "title": "NPA accreditation since 2006",
+      "text": "The practice has held the NPA quality accreditation since 2006, most recently renewed for three years in early 2025. Patient satisfaction scores are consistently 8.5 to 9 out of 10 for doctors, staff, service and organisation.",
+      "visible": true
+    },
+    {
+      "title": "10 doctors, 1 team",
+      "text": "The four GPs (Louwet, Duijn, Steketee, Van der Eem) form a partnership with 4 employed GPs and 2 GP trainees, totalling 10 doctors. The practice is an accredited training practice for UMC Amsterdam GP trainees and medical students.",
+      "visible": true
+    },
+    {
+      "title": "",
+      "text": "The practice emphasises service orientation, collaboration and providing high-quality patient care. Patients are registered with one of the four practice owners and work with a dedicated team of GP, assistant and practice nurse. The practice coordinates care with specialists, hospitals, pharmacists, physiotherapists, psychologists and district nurses. Evening, weekend and night shifts are handled by the Emergency GP Post.",
+      "visible": true
+    }
+  ],
+  "wistUDat": [
+    "You do not need to check in at the reception desk for scheduled appointments; please wait in the waiting room of your GP or practitioner",
+    "Patient portal available for ordering prescriptions, e-consultations and booking appointments",
+    "Appointments only by phone or via the patient portal to protect your privacy",
+    "Assistants are trained in triage to provide appropriate care at the right time",
+    "A national shortage of medical assistants may cause longer telephone waiting times; the team appreciates your patience",
+    "A standard consultation is 15 minutes for one complaint; request a double consultation for multiple complaints or mental health issues",
+    "If you suspect a urinary tract infection: leave a urine sample in the cooler at the entrance with a completed form",
+    "Reliable health information at thuisarts.nl; use moetiknaardedokter.nl to assess whether a GP visit is necessary"
+  ]
+}

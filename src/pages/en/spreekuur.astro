@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import practiceData from '../../data/practices.json';
+import spreekuurData from '../../data/spreekuur-en.json';
 import { url } from '../../utils/url';
 
 const practices = practiceData.practices;
@@ -76,19 +77,20 @@ const practices = practiceData.practices;
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Opening hours</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
-            <li class="flex justify-between"><span>Monday to Friday</span> <span class="font-medium text-neutral-800">08:00 -- 17:00</span></li>
-            <li class="flex justify-between"><span>Evening consultation</span> <span class="font-medium text-neutral-800">17:00 -- 19:00 <span class="text-neutral-400">(1x/week)</span></span></li>
+            {spreekuurData.openingstijden.rows.map((row) => (
+              <li class="flex justify-between"><span>{row.label}</span> <span class="font-medium text-neutral-800">{row.value}</span></li>
+            ))}
           </ul>
-          <p class="text-xs text-neutral-400 mt-3">The day of the evening consultation varies. The assistant can confirm which day this applies to.</p>
-          <p class="text-xs text-neutral-400 mt-1">Between 12:00-14:00 and 16:30-17:00 emergencies only.</p>
+          {spreekuurData.openingstijden.notes.map((note, i) => (
+            <p class={`text-xs text-neutral-400 ${i === 0 ? 'mt-3' : 'mt-1'}`}>{note}</p>
+          ))}
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Phone menu</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">1</span> Emergency line</li>
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">2</span> Prescription line</li>
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">3</span> Assistant</li>
-            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">4</span> Inter-collegial physician consultation</li>
+            {spreekuurData.keuzemenu.map((item) => (
+              <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {item.label}</li>
+            ))}
           </ul>
         </div>
       </div>
@@ -98,47 +100,41 @@ const practices = practiceData.practices;
       <div class="grid sm:grid-cols-2 gap-4 mb-10">
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Standard consultation</h3>
-          <p class="text-sm text-neutral-600">15 minutes for one complaint. Book 1-2 days in advance.</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.standaardConsult} />
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Double consultation</h3>
-          <p class="text-sm text-neutral-600">For multiple complaints or mental health issues. Request this when booking the appointment.</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.dubbelConsult} />
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Urgent appointment</h3>
-          <p class="text-sm text-neutral-600">Same-day guaranteed for emergencies. The assistant assesses the urgency. The practice assistants will briefly ask about the reason for your visit to estimate the urgency and consultation duration. They maintain professional confidentiality.</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.spoedafspraak} />
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-semibold text-neutral-900 text-sm mb-1">Video consultation</h3>
-          <p class="text-sm text-neutral-600">Available with GPs and mental health practice nurses via a secure connection.</p>
+          <p class="text-sm text-neutral-600" set:html={spreekuurData.videoconsult} />
         </div>
       </div>
 
       <!-- Callback appointments -->
       <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200 mb-6">
         <h2 class="font-bold text-neutral-900 mb-2">Callback appointments</h2>
-        <p class="text-sm text-neutral-600">
-          You can request a callback appointment to avoid waiting times. Leave your message on the voicemail and end with <strong>#</strong>.
-          The phone system is available 24 hours for repeat prescriptions and appointment cancellations.
-        </p>
+        <p class="text-sm text-neutral-600" set:html={spreekuurData.terugbelafspraken} />
       </div>
 
       <!-- Cancel appointment -->
       <div class="bg-accent-50 rounded-xl p-6 border border-accent-200 mb-10">
         <h2 class="font-bold text-accent-800 mb-2">Cancel an appointment</h2>
-        <p class="text-sm text-accent-700">
-          Cancel your appointment by phone at least <strong>24 hours</strong> in advance.
-          For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance.
-        </p>
+        <p class="text-sm text-accent-700" set:html={spreekuurData.afspraakAfzeggen} />
       </div>
 
       <!-- Emergency -->
       <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-5">
         <h2 class="font-bold text-accent-800 mb-2">Emergency</h2>
         <ul class="text-sm text-accent-700 space-y-1">
-          <li>During office hours: call your GP, option 1</li>
-          <li>After 17:00, weekends and holidays: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">{practiceData.phoneEmergency}</a> (Emergency GP Post)</li>
-          <li>Life-threatening: <a href="tel:112" class="font-bold underline">112</a></li>
+          {spreekuurData.spoed.map((item) => (
+            <li set:html={item} />
+          ))}
         </ul>
       </div>
     </div>

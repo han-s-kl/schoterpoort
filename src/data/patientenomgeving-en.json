@@ -1,0 +1,17 @@
+{
+  "intro": "Through the patient portal you can safely and easily arrange matters with your GP practice online: book appointments, request repeat prescriptions, send e-consultations, view results and access your medical record.",
+  "portals": [
+    { "name": "Practice Louwet / Moes", "href": "https://praktijklouwet.uwzorgonline.nl" },
+    { "name": "Practice Duijn / Schouten", "href": "https://praktijkduijn.uwzorgonline.nl" },
+    { "name": "Practice Van der Eem / Bosch", "href": "https://praktijkvandereem.uwzorgonline.nl" },
+    { "name": "Practice Steketee / Schaap", "href": "https://praktijksteketee.uwzorgonline.nl" }
+  ],
+  "belangrijk": [
+    { "type": "warning", "text": "<strong>Please note:</strong> Choose the correct practice/GP. Otherwise we cannot process your request." },
+    { "type": "info", "text": "The patient portal is available for patients aged <strong>16 and older</strong>." },
+    { "type": "warning", "text": "<strong>Child under 16?</strong> Use the <a href=\"/schoterpoort/en/contact-kinderen\" class=\"font-medium underline\">contact form for children</a> to send a secure message. Do not log in to your own portal for your child." }
+  ],
+  "appUrl": "https://uwzorgonline.nl/consumenten/app",
+  "helpTelefoon": "085-130 45 75",
+  "helpWebsite": "https://helpdeskdigitalezorg.nl/zorginstelling/huisartsen-zuid-kennemerland/"
+}

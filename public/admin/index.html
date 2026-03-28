@@ -817,6 +817,9 @@
     const HOME_PATH = 'src/data/home.json';
     const PATIENTENOMGEVING_PATH = 'src/data/patientenomgeving.json';
     const PRACTICES_PATH = 'src/data/practices.json';
+    const HOME_EN_PATH = 'src/data/home-en.json';
+    const SPREEKUUR_EN_PATH = 'src/data/spreekuur-en.json';
+    const PATIENTENOMGEVING_EN_PATH = 'src/data/patientenomgeving-en.json';
 
     const PAGE_FIELDS = [
       { name: 'title', label: 'Titel', type: 'string' },
@@ -856,7 +859,9 @@
     const NAV_ITEMS = [
       { label: 'Algemene gegevens', mode: 'practice-info' },
       { label: 'Home', mode: 'home' },
+      { label: 'Home (EN)', mode: 'home', lang: 'en' },
       { label: 'Patientenomgeving', mode: 'patientenomgeving' },
+      { label: 'Patientenomgeving (EN)', mode: 'patientenomgeving', lang: 'en' },
       { type: 'separator' },
       {
         label: 'Medewerkers', children: [
@@ -869,20 +874,31 @@
       {
         label: 'Diensten', children: [
           { label: 'Spreekuur & afspraken', mode: 'spreekuur' },
+          { label: 'Spreekuur (EN)', mode: 'spreekuur', lang: 'en' },
           { label: 'Herhaalrecept', mode: 'markdown', file: 'src/content/pages/herhaalrecept.md', fields: PAGE_FIELDS },
+          { label: 'Herhaalrecept (EN)', mode: 'markdown', file: 'src/content/pages-en/herhaalrecept.md', fields: PAGE_FIELDS },
           { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
+          { label: 'Apotheek (EN)', mode: 'markdown', file: 'src/content/pages-en/apotheek.md', fields: PAGE_FIELDS },
           { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
+          { label: 'Huisbezoek (EN)', mode: 'markdown', file: 'src/content/pages-en/huisbezoek.md', fields: PAGE_FIELDS },
           { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS },
+          { label: 'Spoedpost (EN)', mode: 'markdown', file: 'src/content/pages-en/spoedpost.md', fields: PAGE_FIELDS },
         ]
       },
       {
         label: 'Praktisch', children: [
           { label: 'Tarieven 2025', mode: 'markdown', file: 'src/content/pages/tarieven.md', fields: PAGE_FIELDS },
+          { label: 'Tarieven (EN)', mode: 'markdown', file: 'src/content/pages-en/tarieven.md', fields: PAGE_FIELDS },
           { label: 'Eigen risico', mode: 'markdown', file: 'src/content/pages/eigen-risico.md', fields: PAGE_FIELDS },
+          { label: 'Eigen risico (EN)', mode: 'markdown', file: 'src/content/pages-en/eigen-risico.md', fields: PAGE_FIELDS },
           { label: 'Klachtenregeling', mode: 'markdown', file: 'src/content/pages/klachtenregeling.md', fields: PAGE_FIELDS },
+          { label: 'Klachtenregeling (EN)', mode: 'markdown', file: 'src/content/pages-en/klachtenregeling.md', fields: PAGE_FIELDS },
           { label: 'Administratieformulier', mode: 'markdown', file: 'src/content/pages/administratieformulier.md', fields: PAGE_FIELDS },
+          { label: 'Administratieformulier (EN)', mode: 'markdown', file: 'src/content/pages-en/administratieformulier.md', fields: PAGE_FIELDS },
           { label: 'Urineonderzoek formulier', mode: 'markdown', file: 'src/content/pages/urineonderzoek-formulier.md', fields: PAGE_FIELDS },
+          { label: 'Urineonderzoek (EN)', mode: 'markdown', file: 'src/content/pages-en/urineonderzoek-formulier.md', fields: PAGE_FIELDS },
           { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
+          { label: 'Vacatures (EN)', mode: 'markdown', file: 'src/content/pages-en/vacatures.md', fields: PAGE_FIELDS },
         ]
       },
     ];
@@ -901,6 +917,7 @@
     let homeSha = null;
     let patientenomgevingSha = null;
     let practicesSha = null;
+    let currentLang = null; // 'en' or null (NL)
     let currentSections = [];   // parsed markdown sections for section editor
     let currentMeta = {};       // original frontmatter meta (preserved on save)
 
@@ -1145,7 +1162,7 @@
           }
         }
         setActiveNav(item);
-        await openSpreekuurEditor();
+        await openSpreekuurEditor(item.lang);
       } else if (item.mode === 'practice-info') {
         item._navId = item.label;
         setActiveNav(item);
@@ -1153,11 +1170,11 @@
       } else if (item.mode === 'home') {
         item._navId = item.label;
         setActiveNav(item);
-        await openHomeEditor();
+        await openHomeEditor(item.lang);
       } else if (item.mode === 'patientenomgeving') {
         item._navId = item.label;
         setActiveNav(item);
-        await openPatientenomgevingEditor();
+        await openPatientenomgevingEditor(item.lang);
       }
     }
 
@@ -1905,15 +1922,17 @@
       },
     ];
 
-    async function openSpreekuurEditor() {
+    async function openSpreekuurEditor(lang) {
       currentMode = 'spreekuur';
+      currentLang = lang || null;
       showView('empty');
-      setTopbar('Spreekuur & afspraken', 'Diensten');
+      setTopbar(lang === 'en' ? 'Spreekuur (EN)' : 'Spreekuur & afspraken', 'Diensten');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
       try {
-        const { content, sha } = await readFile(SPREEKUUR_PATH);
+        const spreekuurPath = currentLang === 'en' ? SPREEKUUR_EN_PATH : SPREEKUUR_PATH;
+        const { content, sha } = await readFile(spreekuurPath);
         const data = JSON.parse(content);
         spreekuurSha = sha;
 
@@ -2137,8 +2156,9 @@
     async function saveSpreekuur() {
       const data = gatherSpreekuurData();
       const content = JSON.stringify(data, null, 2) + '\n';
-      const msg = 'Update spreekuur via CMS';
-      spreekuurSha = await saveFile(SPREEKUUR_PATH, content, spreekuurSha, msg);
+      const spreekuurPath = currentLang === 'en' ? SPREEKUUR_EN_PATH : SPREEKUUR_PATH;
+      const msg = `Update spreekuur${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+      spreekuurSha = await saveFile(spreekuurPath, content, spreekuurSha, msg);
     }
 
     // --- PRACTICE INFO EDITOR ---
@@ -2218,18 +2238,21 @@
       { key: 'wistUDat', label: 'Wist u dat?', type: 'list' },
     ];
 
-    async function openHomeEditor() {
+    async function openHomeEditor(lang) {
       currentMode = 'home';
+      currentLang = lang || null;
       showView('empty');
-      setTopbar('Home', '');
+      setTopbar(lang === 'en' ? 'Home (EN)' : 'Home', '');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
       try {
+        const homePath = currentLang === 'en' ? HOME_EN_PATH : HOME_PATH;
+        const blocksFolder = currentLang === 'en' ? 'src/content/blocks-en' : 'src/content/blocks';
         // Load home.json and blocks in parallel
         const [homeResult, blocksResult] = await Promise.all([
-          readFile(HOME_PATH),
-          listFiles('src/content/blocks'),
+          readFile(homePath),
+          listFiles(blocksFolder),
         ]);
         const data = JSON.parse(homeResult.content);
         homeSha = homeResult.sha;
@@ -2461,8 +2484,9 @@
       // Save home.json
       const data = gatherHomeData();
       const content = JSON.stringify(data, null, 2) + '\n';
-      const msg = 'Update home via CMS';
-      homeSha = await saveFile(HOME_PATH, content, homeSha, msg);
+      const homePath = currentLang === 'en' ? HOME_EN_PATH : HOME_PATH;
+      const msg = `Update home${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+      homeSha = await saveFile(homePath, content, homeSha, msg);
 
       // Save blocks (mededelingen)
       for (let i = 0; i < blockFiles.length; i++) {
@@ -2506,15 +2530,17 @@
       { key: 'helpWebsite', label: 'Helpdesk website', type: 'simple' },
     ];
 
-    async function openPatientenomgevingEditor() {
+    async function openPatientenomgevingEditor(lang) {
       currentMode = 'patientenomgeving';
+      currentLang = lang || null;
       showView('empty');
-      setTopbar('Patientenomgeving', '');
+      setTopbar(lang === 'en' ? 'Patientenomgeving (EN)' : 'Patientenomgeving', '');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
       try {
-        const { content, sha } = await readFile(PATIENTENOMGEVING_PATH);
+        const patPath = currentLang === 'en' ? PATIENTENOMGEVING_EN_PATH : PATIENTENOMGEVING_PATH;
+        const { content, sha } = await readFile(patPath);
         const data = JSON.parse(content);
         patientenomgevingSha = sha;
 
@@ -2678,8 +2704,9 @@
     async function savePatientenomgeving() {
       const data = gatherPatientenomgevingData();
       const content = JSON.stringify(data, null, 2) + '\n';
-      const msg = 'Update patientenomgeving via CMS';
-      patientenomgevingSha = await saveFile(PATIENTENOMGEVING_PATH, content, patientenomgevingSha, msg);
+      const patPath = currentLang === 'en' ? PATIENTENOMGEVING_EN_PATH : PATIENTENOMGEVING_PATH;
+      const msg = `Update patientenomgeving${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+      patientenomgevingSha = await saveFile(patPath, content, patientenomgevingSha, msg);
     }
 
     // --- INIT ---

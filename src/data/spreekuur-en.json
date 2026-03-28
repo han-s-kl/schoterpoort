@@ -1,0 +1,29 @@
+{
+  "openingstijden": {
+    "rows": [
+      { "label": "Monday to Friday", "value": "08:00 -- 17:00" },
+      { "label": "Evening consultation", "value": "17:00 -- 19:00 (1x/week)" }
+    ],
+    "notes": [
+      "The day of the evening consultation varies. The assistant can confirm which day this applies to.",
+      "Between 12:00-14:00 and 16:30-17:00 emergencies only."
+    ]
+  },
+  "keuzemenu": [
+    { "key": "1", "label": "Emergency line" },
+    { "key": "2", "label": "Prescription line" },
+    { "key": "3", "label": "Assistant" },
+    { "key": "4", "label": "Inter-collegial physician consultation" }
+  ],
+  "standaardConsult": "15 minutes for one complaint. Book 1-2 days in advance.",
+  "spoedafspraak": "Same-day guaranteed for emergencies. The assistant assesses the urgency. The practice assistants will briefly ask about the reason for your visit to estimate the urgency and consultation duration. They maintain professional confidentiality.",
+  "dubbelConsult": "For multiple complaints or mental health issues. Request this when booking the appointment.",
+  "videoconsult": "Available with GPs and mental health practice nurses via a secure connection.",
+  "terugbelafspraken": "You can request a callback appointment to avoid waiting times. Leave your message on the voicemail and end with <strong>#</strong>. The phone system is available 24 hours for repeat prescriptions and appointment cancellations.",
+  "afspraakAfzeggen": "Cancel your appointment by phone at least <strong>24 hours</strong> in advance. For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance.",
+  "spoed": [
+    "During office hours: call your GP, option 1",
+    "After 17:00, weekends and holidays: <a href=\"tel:023-7504567\" class=\"font-semibold underline\">023-750 45 67</a> (Emergency GP Post)",
+    "Life-threatening: <a href=\"tel:112\" class=\"font-bold underline\">112</a>"
+  ]
+}
