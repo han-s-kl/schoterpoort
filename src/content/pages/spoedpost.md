@@ -2,7 +2,6 @@
 title: "Spoedpost/Waarneming"
 description: "Informatie over spoedeisende hulp en waarneming buiten kantooruren"
 ---
-
 ### Locaties
 
 **Spaarne Gasthuis Haarlem Noord**
@@ -21,7 +20,7 @@ Op basis van uw afspraak wordt bepaald naar welke locatie u wordt verwezen.
 
 ## Inzage medisch dossier
 
-Waarnemende en dienstdoende artsen kunnen -- conform privacyregels -- inzage krijgen in essentiële medische gegevens. U kunt bezwaar maken tegen (gedeeltelijke) inzage; dit wordt vastgelegd in uw dossier en is op elk moment aanpasbaar.
+De Huisartsen/Spoedpost (dienstdoende huisarts) en overdag waarnemende huisartsen kunnen zo nodig de belangrijkste medische gegevens van uw Schoterpoortdossier inzien, conform de regels van privacywetgeving. Uw dossier kan voor de dienstdoende huisarts op de Spoedpost op verzoek deels of geheel afgeschermd worden. Wij noteren in ons informatie- systeem of u toestemming geeft voor het raadplegen van uw dossier, u kunt uw besluit natuurlijk altijd weer wijzigen.
 
 ## Waarneming bij vakantie of afwezigheid
 
