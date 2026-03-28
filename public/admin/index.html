@@ -2569,11 +2569,12 @@
           } else if (section.type === 'simple') {
             const input = document.createElement('input');
             input.type = 'text';
-            input.className = 'row-label';
             input.value = data[section.key] || '';
             input.dataset.key = section.key;
             input.dataset.editor = 'pat';
-            input.style.width = '100%';
+            input.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.8125rem;font-family:var(--font);color:var(--text);background:var(--bg);outline:none;';
+            input.addEventListener('focus', () => input.style.borderColor = 'var(--sidebar-accent)');
+            input.addEventListener('blur', () => input.style.borderColor = 'var(--border)');
             body.appendChild(input);
           } else if (section.type === 'table') {
             const rowsContainer = document.createElement('div');
