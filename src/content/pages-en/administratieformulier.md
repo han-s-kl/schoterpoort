@@ -13,7 +13,6 @@ For administrative requests, you can also contact the practice:
 
 - **Telephone:** [023-541 03 45](tel:023-5410345) (option 3 for the assistant)
 - **Email:** [info@schoterpoort.com](mailto:info@schoterpoort.com)
-- **Practice manager:** Eefje van der Burgh (Monday, Tuesday, Thursday and Friday)
 
 ## Common requests
 
