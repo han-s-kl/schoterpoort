@@ -4,7 +4,7 @@
 URL: https://han-s-kl.github.io/schoterpoort/
 CMS: https://han-s-kl.github.io/schoterpoort/admin/
 Repo: https://github.com/han-s-kl/schoterpoort (publiek)
-Branch: main (5 commits voor op feature/initial-site)
+Branch: main (20+ commits voor op feature/initial-site)
 77 pagina's (NL + EN), build ~1 seconde, working tree clean
 
 ## Wat is gedaan
@@ -22,6 +22,7 @@ Branch: main (5 commits voor op feature/initial-site)
 - SessionStart hook + git pre-commit hook (astro build)
 - CLAUDE.md, docs/refs/, HANDOFF.md ingericht
 - Nieuwssectie volledig verwijderd (was thuisarts.nl content, niet relevant)
+- CSS fix: h2 direct na h1 krijgt geen border-top meer (prose styling)
 
 ### CMS -- Volledig tweetalig (2026-03-28, bijgewerkt)
 
@@ -34,27 +35,45 @@ Branch: main (5 commits voor op feature/initial-site)
 **Sidebar (alleen NL, EN wordt automatisch vertaald):**
 - Algemene gegevens (adres, e-mail, telefoonnummers, openingstijden, avondspreekuur toggle, keuzemenu)
 - Home
-- Patientenomgeving
-- Medewerkers > 4 categorieën (staff.json editor, alleen NL velden)
-- Diensten > Spreekuur, Herhaalrecept, Apotheek, Huisbezoek, Spoedpost
+- Medewerkers > 4 categorieen (staff.json editor, alleen NL velden)
+- Diensten > Spreekuur, Herhaalrecept, Apotheek, Huisbezoek, Spoedpost, Patientenomgeving
 - Praktisch > Tarieven, Eigen risico, Klachtenregeling, Administratieformulier, Urineonderzoek, Vacatures
+  - Gezondheidsinfo > 7 pagina's (reizigersadvisering, soa, spiraal, tekenbeet, urineweginfecties, wrattenspreekuur, zwangerschap)
 
 **Editor types:**
 1. **Algemene gegevens** -- adres, e-mail, telefoonnummers, openingstijden + avondspreekuur toggle, keuzemenu (practices.json)
-2. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, WYSIWYG contenteditable per sectie
-3. **Home-editor** (JSON) -- mededelingen (kleurcodes amber/blauw/grijs), telefonisch consult, afspraak afzeggen, kwaliteit-blokken, wist-u-dat items
-4. **Spreekuur-editor** (JSON) -- 5 consulttype-blokken, afspraak afzeggen (rood accent)
-5. **Herhaalrecept-editor** (JSON) -- 7 secties: intro, patientenomgeving, receptenlijn, vragen, welke medicijnen, wanneer klaar, voorbeelden
-6. **Patientenomgeving-editor** (JSON) -- intro, portaal-links, belangrijk-items (kleurcodes), app URL, helpdesk
-7. **Staff-editor** (JSON) -- lijst/detail views, EN-velden verborgen (auto-vertaald)
-8. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
+2. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, WYSIWYG contenteditable per sectie. Lege h1-secties worden overgeslagen.
+3. **WYSIWYG richtext-editor** (gezondheidsinfo pagina's) -- enkele contentEditable div met volledige markdown round-trip. Headings, bold, italic, links, lijsten, afbeeldingen visueel weergegeven. H1 wordt gestript (komt van paginatitel). Floating toolbar: B, I, H (cyclet h2->h3->p), Link.
+4. **Home-editor** (JSON) -- mededelingen (kleurcodes amber/blauw/grijs), telefonisch consult, afspraak afzeggen, kwaliteit-blokken, wist-u-dat items
+5. **Spreekuur-editor** (JSON) -- 5 consulttype-blokken, afspraak afzeggen (rood accent)
+6. **Herhaalrecept-editor** (JSON) -- 7 secties: intro, patientenomgeving, receptenlijn, vragen, welke medicijnen, wanneer klaar, voorbeelden
+7. **Patientenomgeving-editor** (JSON) -- intro, portaal-links, belangrijk-items (kleurcodes), app URL, helpdesk
+8. **Staff-editor** (JSON) -- lijst/detail views, EN-velden verborgen (auto-vertaald)
+9. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
 
 **WYSIWYG features:**
 - Contenteditable velden (geen raw HTML/markdown zichtbaar)
-- Floating selection toolbar: selecteer tekst -> popup met **Vet** en **Link** knoppen
-- Markdown <-> HTML conversie bij laden/opslaan
+- Floating selection toolbar: selecteer tekst -> popup met **B Vet**, **I**, **H**, **Link** knoppen
+- Markdown <-> HTML conversie bij laden/opslaan (inline + block-level voor richtext)
 - Kleurcodes: rood (spoed/afzeggen), amber (waarschuwing), blauw (info), grijs (neutraal)
 - Avondspreekuur toggle verbergt/toont gerelateerde velden
+- Titel bewerkbaar via potlood-icoon in topbar (alle markdown pagina's)
+
+**Read-only context blokken (2026-03-28):**
+- Grijze, niet-bewerkbare blokken die practices.json data tonen zodat de redacteur context heeft
+- Link "Beheer via Algemene gegevens" navigeert direct naar practice-info editor
+- Per pagina:
+  - Spreekuur: praktijkkaarten, openingstijden, keuzemenu, spoed
+  - Herhaalrecept: receptenlijn keuzetoets + 4 praktijknummers
+  - Spoedpost: tijdens/buiten kantooruren blokken
+  - Huisbezoek: contact + keuzemenu + spoed (ContactSpoedBlock)
+  - Administratieformulier: telefoon + email + praktijkmanager
+- Blokken worden correct opgeruimd bij navigatie (destroyEditors)
+
+**Geneste sidebar-navigatie:**
+- Ondersteuning voor sub-groepen (children binnen children)
+- Gezondheidsinfo als sub-groep onder Praktisch, standaard opengeklapt
+- NavId-lookup werkt voor 3 niveaus diep
 
 **Data-architectuur:**
 - Elke pagina heeft eigen .astro template (geen generieke catch-all meer)
@@ -67,7 +86,7 @@ Branch: main (5 commits voor op feature/initial-site)
 
 **Niet in CMS (bewust):**
 - Contact, Telefoonnummers, Contact kinderen -- .astro-only interactieve pagina's
-- Gezondheidsinfo -- categorie-indexpagina
+- Gezondheidsinfo indexpagina -- categorie-overzicht, geen bewerkbare tekst
 - Routebeschrijving -- alleen ContactSpoedBlock, geen bewerkbare tekst
 
 ### Auto-vertaling (2026-03-28)
@@ -77,19 +96,6 @@ Branch: main (5 commits voor op feature/initial-site)
 - Trigger: push naar main met wijzigingen in NL JSON/markdown bestanden
 - Vertaalt automatisch naar EN en commit resultaat
 - Secret: `ANTHROPIC_API_KEY` in GitHub repo settings
-
-## Eerstvolgende taak: CMS read-only blokken
-
-In het CMS moeten niet-bewerkbare/dynamische blokken ook getoond worden (read-only, grijs) zodat de redacteur context heeft bij de bewerkbare blokken.
-
-**Aanpak:** `renderReadOnlyBlock(label, content)` functie in CMS die een grijs, niet-bewerkbaar blok rendert. Per editor toevoegen op de juiste plek.
-
-**Voorbeelden per pagina:**
-- Herhaalrecept: praktijknummers + keuzetoets als grijs blok
-- Spreekuur: openingstijden + keuzemenu + spoed-info als grijs blok
-- Spoedpost: "Tijdens kantooruren" en "Buiten kantooruren" als grijs blok
-- Huisbezoek/Routebeschrijving/Aanmelding: ContactSpoedBlock info als grijs blok
-- Administratieformulier: telefoon/email/praktijkmanager als grijs blok
 
 ## Volgende stappen
 
@@ -104,5 +110,5 @@ In het CMS moeten niet-bewerkbare/dynamische blokken ook getoond worden (read-on
 1. **ZIVVER Conversation Starter** -- placeholder URL in contact-kinderen.astro
 2. **GitHub Pages base path** -- hardcoded `/schoterpoort/` prefix in markdown links
 3. **Klachtenformulier backend** -- mailto: -> PHP op TransIP. Zie docs/refs/formulieren-backend.md
-4. **GitHub default branch** -- `feature/initial-site` is default op GitHub, `main` is deploy branch (main is 5 commits voor). Overweeg synchronisatie
+4. **GitHub default branch** -- `feature/initial-site` is default op GitHub, `main` is deploy branch (20+ commits voor). Overweeg synchronisatie
 5. **Nieuws** -- volledig verwijderd, geen nieuwspagina's of RSS feed
