@@ -1,17 +1,12 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { getCollection, render } from 'astro:content';
 import ContactSpoedBlock from '../components/ContactSpoedBlock.astro';
-
-const pages = await getCollection('pages');
-const page = pages.find((p) => p.id === 'routebeschrijving');
-const { Content } = await render(page!);
 ---
 
-<PageLayout title={page!.data.title} description={page!.data.description}>
+<PageLayout title="Routebeschrijving" description="Routebeschrijving en adresgegevens van Huisartsenpraktijk Schoterpoort">
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-neutral-900 mb-8">{page!.data.title}</h1>
+      <h1 class="text-3xl font-bold text-neutral-900 mb-8">Routebeschrijving</h1>
       <ContactSpoedBlock />
     </div>
   </section>
