@@ -1946,9 +1946,9 @@
       { key: 'dubbelConsult', label: 'Dubbel consult', type: 'text' },
       { key: 'videoconsult', label: 'Videoconsult', type: 'text' },
       { key: 'terugbelafspraken', label: 'Terugbelafspraken', type: 'text' },
-      { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
+      { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text', accent: 'red' },
       {
-        key: 'spoed', label: 'Spoed', type: 'list',
+        key: 'spoed', label: 'Spoed', type: 'list', accent: 'red',
       },
     ];
 
@@ -1972,7 +1972,14 @@
         for (const section of SPREEKUUR_SECTIONS) {
           const el = document.createElement('div');
           el.className = 'spreekuur-section';
-          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          if (section.accent === 'red') {
+            el.style.cssText = 'background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:0.75rem;';
+          }
+          const header = document.createElement('div');
+          header.className = 'spreekuur-section-header';
+          header.textContent = section.label;
+          if (section.accent === 'red') header.style.color = '#991b1b';
+          el.appendChild(header);
           const body = document.createElement('div');
           body.className = 'spreekuur-section-body';
           body.dataset.sectionKey = section.key;
