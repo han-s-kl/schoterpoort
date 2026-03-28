@@ -11,8 +11,8 @@ import practiceData from '../data/practices.json';
       <!-- Main number -->
       <div class="bg-primary-50 rounded-xl p-6 border border-primary-200 mb-8">
         <h2 class="font-bold text-lg text-neutral-900 mb-2">Algemeen nummer</h2>
-        <a href="tel:023-5410345" class="text-2xl font-bold text-dark-700 no-underline hover:text-dark-800">
-          023-541 03 45
+        <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="text-2xl font-bold text-dark-700 no-underline hover:text-dark-800">
+          {practiceData.phoneGeneral}
         </a>
         <p class="text-sm text-neutral-600 mt-2">Ma-vr 08:00 -- 17:00. Tussen 12:00-14:00 en 16:30-17:00 alleen voor spoedgevallen.</p>
       </div>

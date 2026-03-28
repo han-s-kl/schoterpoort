@@ -798,6 +798,7 @@
         </div>
         <div class="blocks-panel" id="blocks-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="spreekuur-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="practice-info-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
       </div>
@@ -815,6 +816,7 @@
     const SPREEKUUR_PATH = 'src/data/spreekuur.json';
     const HOME_PATH = 'src/data/home.json';
     const PATIENTENOMGEVING_PATH = 'src/data/patientenomgeving.json';
+    const PRACTICES_PATH = 'src/data/practices.json';
 
     const PAGE_FIELDS = [
       { name: 'title', label: 'Titel', type: 'string' },
@@ -852,6 +854,7 @@
     };
 
     const NAV_ITEMS = [
+      { label: 'Algemene gegevens', mode: 'practice-info' },
       { label: 'Home', mode: 'home' },
       { label: 'Patientenomgeving', mode: 'patientenomgeving' },
       { type: 'separator' },
@@ -897,6 +900,7 @@
     let spreekuurSha = null;
     let homeSha = null;
     let patientenomgevingSha = null;
+    let practicesSha = null;
     let currentSections = [];   // parsed markdown sections for section editor
     let currentMeta = {};       // original frontmatter meta (preserved on save)
 
@@ -1031,6 +1035,7 @@
       document.getElementById('markdown-wrap').style.display = 'none';
       document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
       document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
+      document.getElementById('practice-info-panel').style.display = view === 'practice-info' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
     }
@@ -1141,6 +1146,10 @@
         }
         setActiveNav(item);
         await openSpreekuurEditor();
+      } else if (item.mode === 'practice-info') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openPracticeInfoEditor();
       } else if (item.mode === 'home') {
         item._navId = item.label;
         setActiveNav(item);
@@ -1596,6 +1605,8 @@
           await saveAllBlocks();
         } else if (currentMode === 'spreekuur') {
           await saveSpreekuur();
+        } else if (currentMode === 'practice-info') {
+          await savePracticeInfo();
         } else if (currentMode === 'home') {
           await saveHome();
         } else if (currentMode === 'patientenomgeving') {
@@ -2128,6 +2139,74 @@
       const content = JSON.stringify(data, null, 2) + '\n';
       const msg = 'Update spreekuur via CMS';
       spreekuurSha = await saveFile(SPREEKUUR_PATH, content, spreekuurSha, msg);
+    }
+
+    // --- PRACTICE INFO EDITOR ---
+    const PRACTICE_INFO_FIELDS = [
+      { key: 'address', label: 'Adres' },
+      { key: 'email', label: 'E-mailadres' },
+      { key: 'phoneGeneral', label: 'Algemeen telefoonnummer' },
+      { key: 'phoneEmergency', label: 'Spoedpost telefoonnummer' },
+      { key: 'phoneNurses', label: 'Verpleegkundigenlijn' },
+    ];
+
+    let practicesData = null;
+
+    async function openPracticeInfoEditor() {
+      currentMode = 'practice-info';
+      showView('empty');
+      setTopbar('Algemene gegevens', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(PRACTICES_PATH);
+        practicesData = JSON.parse(content);
+        practicesSha = sha;
+
+        const panel = document.getElementById('practice-info-panel');
+        panel.innerHTML = '';
+
+        const section = document.createElement('div');
+        section.className = 'spreekuur-section';
+        section.innerHTML = '<div class="spreekuur-section-header">Contactgegevens</div>';
+        const body = document.createElement('div');
+        body.className = 'spreekuur-section-body';
+
+        for (const field of PRACTICE_INFO_FIELDS) {
+          const label = document.createElement('div');
+          label.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
+          label.textContent = field.label;
+          body.appendChild(label);
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = practicesData[field.key] || '';
+          input.dataset.key = field.key;
+          input.dataset.editor = 'practice-info';
+          input.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+          body.appendChild(input);
+        }
+
+        section.appendChild(body);
+        panel.appendChild(section);
+
+        showView('practice-info');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    async function savePracticeInfo() {
+      const inputs = document.querySelectorAll('#practice-info-panel input[data-editor="practice-info"]');
+      for (const input of inputs) {
+        practicesData[input.dataset.key] = input.value;
+      }
+      const content = JSON.stringify(practicesData, null, 2) + '\n';
+      const msg = 'Update contactgegevens via CMS';
+      practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
     }
 
     // --- HOME EDITOR ---

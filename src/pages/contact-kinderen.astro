@@ -12,7 +12,7 @@ import { url } from '../utils/url';
       <!-- Warnings -->
       <div class="space-y-3 mb-10">
         <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-4">
-          <p class="text-sm text-accent-800 font-semibold">Bij spoed: bel direct uw huisarts of buiten kantooruren de Spoedpost (<a href="tel:023-7504567" class="underline">023-750 45 67</a>). Dit formulier is niet bedoeld voor spoedvragen.</p>
+          <p class="text-sm text-accent-800 font-semibold">Bij spoed: bel direct uw huisarts of buiten kantooruren de Spoedpost (<a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="underline">{practiceData.phoneEmergency}</a>). Dit formulier is niet bedoeld voor spoedvragen.</p>
         </div>
         <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
           <p class="text-sm text-blue-800">Is uw kind <strong>16 jaar of ouder</strong>? Dan kan uw kind zelf een vraag stellen via de <a href={url('/patientenomgeving')} class="underline font-medium">patientenomgeving</a>.</p>
