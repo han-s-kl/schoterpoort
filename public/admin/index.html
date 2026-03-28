@@ -2224,6 +2224,31 @@
         section.appendChild(body);
         panel.appendChild(section);
 
+        // Keuzemenu telefoon
+        const menuSection = document.createElement('div');
+        menuSection.className = 'spreekuur-section';
+        const menuHeader = document.createElement('div');
+        menuHeader.className = 'spreekuur-section-header';
+        menuHeader.textContent = 'Keuzemenu telefoon';
+        menuSection.appendChild(menuHeader);
+        const menuBody = document.createElement('div');
+        menuBody.className = 'spreekuur-section-body';
+        const menuContainer = document.createElement('div');
+        menuContainer.id = 'keuzemenu-rows';
+        (practicesData.keuzemenu || []).forEach((item) => {
+          menuContainer.appendChild(createKeuzemenuRow(item));
+        });
+        menuBody.appendChild(menuContainer);
+        const addMenuBtn = document.createElement('button');
+        addMenuBtn.className = 'add-row-btn';
+        addMenuBtn.textContent = '+ Keuze toevoegen';
+        addMenuBtn.addEventListener('click', () => {
+          menuContainer.appendChild(createKeuzemenuRow({ key: '', label: '' }));
+        });
+        menuBody.appendChild(addMenuBtn);
+        menuSection.appendChild(menuBody);
+        panel.appendChild(menuSection);
+
         showView('practice-info');
         document.getElementById('save-btn').disabled = false;
         setStatus('');
@@ -2232,10 +2257,47 @@
       }
     }
 
+    function createKeuzemenuRow(item) {
+      const row = document.createElement('div');
+      row.className = 'spreekuur-row';
+      const keyInput = document.createElement('input');
+      keyInput.type = 'text';
+      keyInput.value = item.key || '';
+      keyInput.placeholder = 'Nr';
+      keyInput.dataset.col = 'key';
+      keyInput.style.cssText = 'width:3rem;text-align:center;flex:none;padding:0.375rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.8125rem;font-family:var(--font);';
+      row.appendChild(keyInput);
+      const labelInput = document.createElement('input');
+      labelInput.type = 'text';
+      labelInput.value = item.label || '';
+      labelInput.placeholder = 'Beschrijving';
+      labelInput.dataset.col = 'label';
+      labelInput.style.cssText = 'flex:1;padding:0.375rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.8125rem;font-family:var(--font);';
+      row.appendChild(labelInput);
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'row-btn row-btn-danger';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Verwijderen';
+      removeBtn.addEventListener('click', () => row.remove());
+      row.appendChild(removeBtn);
+      return row;
+    }
+
     async function savePracticeInfo() {
       const inputs = document.querySelectorAll('#practice-info-panel input[data-editor="practice-info"]');
       for (const input of inputs) {
         practicesData[input.dataset.key] = input.value;
+      }
+      // Gather keuzemenu
+      const menuContainer = document.getElementById('keuzemenu-rows');
+      if (menuContainer) {
+        const items = [];
+        for (const row of menuContainer.children) {
+          const key = row.querySelector('[data-col="key"]')?.value || '';
+          const label = row.querySelector('[data-col="label"]')?.value || '';
+          if (key || label) items.push({ key, label });
+        }
+        practicesData.keuzemenu = items;
       }
       const content = JSON.stringify(practicesData, null, 2) + '\n';
       const msg = 'Update contactgegevens via CMS';

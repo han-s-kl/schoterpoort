@@ -9,12 +9,6 @@
       "Tussen 12:00-14:00 en 16:30-17:00 alleen spoed."
     ]
   },
-  "keuzemenu": [
-    { "key": "1", "label": "Spoednummer" },
-    { "key": "2", "label": "Receptenlijn" },
-    { "key": "3", "label": "Assistente" },
-    { "key": "4", "label": "Intercollegiaal artsenoverleg" }
-  ],
   "standaardConsult": "15 minuten voor een klacht. Plan 1-2 dagen vooraf.",
   "spoedafspraak": "Dezelfde dag gegarandeerd bij noodgevallen. De assistente beoordeelt de urgentie. De praktijkassistentes zullen kort vragen naar de reden van uw bezoek om de urgentie en consultduur in te schatten. Zij hanteren professionele geheimhouding.",
   "dubbelConsult": "Voor meerdere klachten of psychische problematiek. Vraag dit aan bij het maken van de afspraak.",

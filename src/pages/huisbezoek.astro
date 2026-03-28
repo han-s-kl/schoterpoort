@@ -1,0 +1,50 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { getCollection, render } from 'astro:content';
+import practiceData from '../data/practices.json';
+
+const pages = await getCollection('pages');
+const page = pages.find((p) => p.id === 'huisbezoek');
+const { Content } = await render(page!);
+---
+
+<PageLayout title={page!.data.title} description={page!.data.description}>
+  <section class="py-12 lg:py-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
+        <Content />
+      </article>
+
+      <div class="mt-10 space-y-6">
+        <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200">
+          <h2 class="text-lg font-bold text-neutral-900 mb-3">Contact</h2>
+          <p class="text-sm text-neutral-700 font-semibold">Schoterpoort huisartsenpraktijken</p>
+          <p class="text-sm text-neutral-600">{practiceData.address}</p>
+          <p class="text-sm text-neutral-600 mt-2">
+            Telefoon: <a href={`tel:${practiceData.phoneGeneral.replace(/\s/g, '')}`} class="text-dark-600 no-underline hover:underline">{practiceData.phoneGeneral}</a>
+          </p>
+          <p class="text-sm text-neutral-600">
+            E-mail: <a href={`mailto:${practiceData.email}`} class="text-dark-600 no-underline hover:underline">{practiceData.email}</a>
+          </p>
+          <div class="mt-3 text-sm text-neutral-600">
+            <p class="font-medium mb-1">Keuzemenu:</p>
+            <ul class="list-disc list-inside space-y-0.5">
+              {practiceData.keuzemenu.map((item) => (
+                <li>Keuze {item.key}: {item.label}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-5">
+          <h2 class="text-lg font-bold text-accent-800 mb-2">Spoed</h2>
+          <ul class="text-sm text-accent-700 space-y-1">
+            <li>Tijdens kantooruren: nummer van uw huisarts gevolgd door 1</li>
+            <li>Na 17:00 en in het weekend: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">Spoedpost {practiceData.phoneEmergency}</a></li>
+            <li>In noodgevallen: <a href="tel:112" class="font-semibold underline">112</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

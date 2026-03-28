@@ -5,6 +5,12 @@
   "phoneEmergency": "023-750 45 67",
   "phoneNurses": "023-525 69 83",
   "emergencyNote": "Bel 023-750 45 67 buiten openingstijden (na 17:00, weekenden en feestdagen). Bel 112 bij levensbedreigende situaties.",
+  "keuzemenu": [
+    { "key": "1", "label": "Spoednummer" },
+    { "key": "2", "label": "Receptenlijn" },
+    { "key": "3", "label": "Assistente" },
+    { "key": "4", "label": "Intercollegiaal artsenoverleg" }
+  ],
   "practices": [
     {
       "name": "Praktijk Louwet",
