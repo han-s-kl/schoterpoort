@@ -29,9 +29,7 @@ const ot = practiceData.openingstijden;
           <h2 class="font-bold text-accent-800 mb-2">Outside office hours</h2>
           <p class="text-sm text-accent-700">After {ot.close} and at weekends, call the GP Emergency Post: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">{practiceData.phoneEmergency}</a></p>
           <p class="text-sm text-accent-600 mt-2">The Emergency Post provides care for health problems that need to be assessed within a few hours and cannot wait until the next working day. Only walk in without an appointment for serious injuries or complaints.</p>
-        </div>
-        <div class="bg-red-50 border-2 border-red-300 rounded-xl p-5 text-center">
-          <p class="text-sm font-bold text-red-800">Life-threatening emergencies: always call <a href="tel:112" class="underline">112</a></p>
+          <p class="text-sm font-bold text-accent-800 mt-3">Life-threatening emergencies: always call <a href="tel:112" class="underline">112</a></p>
         </div>
       </div>
 
