@@ -1,18 +1,18 @@
 {
-  "intro": "You can request repeat prescriptions for chronic medications 24 hours a day (including weekends) in 2 ways:",
-  "patientenomgeving": "You can request repeat prescriptions online via the <a href=\"/schoterpoort/patientenomgeving\">patient environment</a> on the website. However, you must register first. Please note that it may take up to 7 days after creating an account before it becomes active.",
-  "receptenlijn": "Call your own GP's practice telephone number and select the prescription line option from the menu.",
+  "intro": "Tomorrow we are closed.<br>You can request repeat prescriptions for chronic medication 24 hours a day (including weekends) in 2 ways:",
+  "patientenomgeving": "You can request repeat prescriptions online via the <a href=\"/schoterpoort/patientenomgeving\">patient environment</a> on the website. You must first register. Please note that after creating an account it can take up to 7 days before the account is active.",
+  "receptenlijn": "Call your own GP's practice phone number and select the prescription line option on the menu.",
   "receptenlijnVragen": [
     "The name of your GP",
     "Name and date of birth of the person the prescription is for",
     "Street and house number of your home address",
-    "Name or names of the medicines you are ordering (keep the boxes handy!)",
-    "Name of your own pharmacy"
+    "Name or names of the medications you are ordering (have the boxes at hand!)",
+    "Name of your pharmacy"
   ],
-  "welkeMedicijnen": "You can only request prescriptions for medicines that you use on the advice of your GP or specialist <strong>chronically</strong> (usually daily).<br><br>If you want to request medicines for newly occurring complaints or temporary medicines -- that you received for a specific period -- and wish to reorder them, you cannot order these medicines <strong>not</strong> via the prescription line or website. For this you can call the practice assistant during office hours; if necessary, your GP will be consulted about your request.",
-  "wanneerKlaar": "If you leave a message on the prescription line or order a prescription via the website <strong>before 12:00 noon</strong>, you can <strong>2 working days later</strong> collect your medicines from your own pharmacy (they will be ready from 15:00).",
+  "welkeMedicijnen": "You can only request prescriptions for medications that you use on the advice of your GP or specialist <strong>chronically</strong> (usually daily).<br><br>If you want to request medication for newly occurring complaints or temporary medications -- that you received for a specific period -- you cannot order these medications <strong>via the prescription line or website. For this you can call the practice assistant during office hours, and if necessary your GP will be consulted about your request.",
+  "wanneerKlaar": "If you call the prescription line or order a prescription via the website <strong>before 12:00 noon</strong>, you can collect your medications from your pharmacy <strong>2 working days later</strong> (from 15:00 they will be ready).",
   "wanneerKlaarVoorbeelden": [
-    "If you call/email Tuesday evening, your medicines will be ready at the pharmacy on Friday.",
-    "If you call/email Friday afternoon after 12:00 or during the weekend, you can collect your medicines on Wednesday after 15:00."
+    "If you call/email on Tuesday evening, your medications will be ready at the pharmacy on Friday.",
+    "If you call/email on Friday afternoon after 12:00 or during the weekend, you can collect your medications on Wednesday after 15:00."
   ]
 }
