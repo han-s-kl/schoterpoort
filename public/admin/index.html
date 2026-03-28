@@ -1314,8 +1314,7 @@
         if (section.heading) {
           const header = document.createElement('div');
           header.className = 'spreekuur-section-header';
-          const prefix = section.level > 0 ? '#'.repeat(section.level) + ' ' : '';
-          header.textContent = prefix + section.heading;
+          header.textContent = section.heading;
           el.appendChild(header);
         } else {
           const header = document.createElement('div');
@@ -2290,34 +2289,53 @@
       wrapper.className = 'spreekuur-section';
       wrapper.style.marginBottom = '0.75rem';
 
-      const topRow = document.createElement('div');
-      topRow.style.cssText = 'display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;';
+      // Header with checkbox
+      const header = document.createElement('div');
+      header.className = 'spreekuur-section-header';
+      header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;';
+      const headerLabel = document.createElement('span');
+      headerLabel.textContent = `Blok ${index + 1}`;
+      header.appendChild(headerLabel);
+      const checkWrap = document.createElement('label');
+      checkWrap.style.cssText = 'display:flex;align-items:center;gap:0.375rem;font-size:0.75rem;font-weight:400;color:var(--text-muted);cursor:pointer;';
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.checked = item.visible !== false;
       checkbox.dataset.field = 'visible';
-      checkbox.style.cssText = 'width:1rem;height:1rem;cursor:pointer;';
-      const checkLabel = document.createElement('span');
-      checkLabel.textContent = 'Zichtbaar';
-      checkLabel.style.cssText = 'font-size:0.75rem;color:var(--text-muted);';
-      topRow.appendChild(checkbox);
-      topRow.appendChild(checkLabel);
-      wrapper.appendChild(topRow);
+      checkbox.style.cssText = 'width:0.875rem;height:0.875rem;cursor:pointer;';
+      checkWrap.appendChild(checkbox);
+      checkWrap.appendChild(document.createTextNode('Zichtbaar'));
+      header.appendChild(checkWrap);
+      wrapper.appendChild(header);
+
+      // Body
+      const body = document.createElement('div');
+      body.className = 'spreekuur-section-body';
+
+      const titleLabel = document.createElement('div');
+      titleLabel.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;';
+      titleLabel.textContent = 'Titel';
+      body.appendChild(titleLabel);
 
       const titleInput = document.createElement('input');
       titleInput.type = 'text';
-      titleInput.className = 'row-label';
       titleInput.value = item.title || '';
       titleInput.placeholder = 'Titel (leeg laten voor blok zonder titel)';
       titleInput.dataset.field = 'title';
-      titleInput.style.marginBottom = '0.5rem';
-      wrapper.appendChild(titleInput);
+      titleInput.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);margin-bottom:0.75rem;';
+      body.appendChild(titleInput);
+
+      const textLabel = document.createElement('div');
+      textLabel.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;';
+      textLabel.textContent = 'Tekst';
+      body.appendChild(textLabel);
 
       const editable = createEditableField(item.text || '', 'html');
       editable.dataset.field = 'text';
-      wrapper.appendChild(createMiniToolbar(editable));
-      wrapper.appendChild(editable);
+      body.appendChild(createMiniToolbar(editable));
+      body.appendChild(editable);
 
+      wrapper.appendChild(body);
       return wrapper;
     }
 
