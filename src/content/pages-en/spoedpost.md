@@ -26,7 +26,3 @@ On-call and duty doctors can -- in accordance with privacy regulations -- access
 ## Cover during holidays or absence
 
 During holidays or training, other GPs at Schoterpoort take over care. The practice remains reachable by telephone. Non-urgent matters can potentially wait until your own GP returns.
-
-## Life-threatening emergencies
-
-Always call **112**.
