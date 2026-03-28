@@ -1,14 +1,4 @@
 {
-  "openingstijden": {
-    "rows": [
-      { "label": "Maandag t/m vrijdag", "value": "08:00 -- 17:00" },
-      { "label": "Avondspreekuur", "value": "17:00 -- 19:00 (1x/week)" }
-    ],
-    "notes": [
-      "De dag van het avondspreekuur wisselt. De assistente kan bevestigen welke dag dit betreft.",
-      "Tussen 12:00-14:00 en 16:30-17:00 alleen spoed."
-    ]
-  },
   "standaardConsult": "15 minuten voor een klacht. Plan 1-2 dagen vooraf.",
   "spoedafspraak": "Dezelfde dag gegarandeerd bij noodgevallen. De assistente beoordeelt de urgentie. De praktijkassistentes zullen kort vragen naar de reden van uw bezoek om de urgentie en consultduur in te schatten. Zij hanteren professionele geheimhouding.",
   "dubbelConsult": "Voor meerdere klachten of psychische problematiek. Vraag dit aan bij het maken van de afspraak.",

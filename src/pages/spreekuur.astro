@@ -84,13 +84,15 @@ const spoedKey = spoedItem?.key || '1';
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Openingstijden</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
-            {spreekuurData.openingstijden.rows.map((row) => (
-              <li class="flex justify-between"><span>{row.label}</span> <span class="font-medium text-neutral-800">{row.value}</span></li>
-            ))}
+            <li class="flex justify-between"><span>{practiceData.openingstijden.days}</span> <span class="font-medium text-neutral-800">{practiceData.openingstijden.open} -- {practiceData.openingstijden.close}</span></li>
+            {practiceData.avondspreekuur.enabled && (
+              <li class="flex justify-between"><span>Avondspreekuur</span> <span class="font-medium text-neutral-800">{practiceData.avondspreekuur.time} ({practiceData.avondspreekuur.frequency})</span></li>
+            )}
           </ul>
-          {spreekuurData.openingstijden.notes.map((note, i) => (
-            <p class={`text-xs text-neutral-400 ${i === 0 ? 'mt-3' : 'mt-1'}`}>{note}</p>
-          ))}
+          {practiceData.avondspreekuur.enabled && (
+            <p class="text-xs text-neutral-400 mt-3">{practiceData.avondspreekuur.note}</p>
+          )}
+          <p class="text-xs text-neutral-400 mt-1">{practiceData.openingstijden.lunchNote}</p>
         </div>
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Keuzemenu telefoon</h3>

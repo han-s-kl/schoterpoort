@@ -1,14 +1,4 @@
 {
-  "openingstijden": {
-    "rows": [
-      { "label": "Monday to Friday", "value": "08:00 -- 17:00" },
-      { "label": "Evening consultation", "value": "17:00 -- 19:00 (1x/week)" }
-    ],
-    "notes": [
-      "The day of the evening consultation varies. The assistant can confirm which day this applies to.",
-      "Between 12:00-14:00 and 16:30-17:00 emergencies only."
-    ]
-  },
   "standaardConsult": "15 minutes for one complaint. Book 1-2 days in advance.",
   "spoedafspraak": "Same-day guaranteed for emergencies. The assistant assesses the urgency. The practice assistants will briefly ask about the reason for your visit to estimate the urgency and consultation duration. They maintain professional confidentiality.",
   "dubbelConsult": "For multiple complaints or mental health issues. Request this when booking the appointment.",

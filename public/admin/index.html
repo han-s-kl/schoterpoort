@@ -1926,14 +1926,6 @@
 
     // --- SPREEKUUR EDITOR ---
     const SPREEKUUR_SECTIONS = [
-      {
-        key: 'openingstijden', label: 'Openingstijden', type: 'table',
-        columns: [
-          { key: 'label', label: 'Dag/periode', className: 'row-label' },
-          { key: 'value', label: 'Tijden', className: 'row-value' },
-        ],
-        notes: true,
-      },
       { key: 'standaardConsult', label: 'Standaard consult', type: 'text' },
       { key: 'spoedafspraak', label: 'Spoedafspraak', type: 'text' },
       { key: 'dubbelConsult', label: 'Dubbel consult', type: 'text' },
@@ -2214,6 +2206,88 @@
         section.appendChild(body);
         panel.appendChild(section);
 
+        // Openingstijden
+        const hoursSection = document.createElement('div');
+        hoursSection.className = 'spreekuur-section';
+        const hoursHeader = document.createElement('div');
+        hoursHeader.className = 'spreekuur-section-header';
+        hoursHeader.textContent = 'Openingstijden';
+        hoursSection.appendChild(hoursHeader);
+        const hoursBody = document.createElement('div');
+        hoursBody.className = 'spreekuur-section-body';
+        const ot = practicesData.openingstijden || {};
+        const hoursFields = [
+          { key: 'days', label: 'Dagen', value: ot.days || '' },
+          { key: 'open', label: 'Open', value: ot.open || '' },
+          { key: 'close', label: 'Sluit', value: ot.close || '' },
+          { key: 'lunchNote', label: 'Opmerking lunchpauze', value: ot.lunchNote || '' },
+        ];
+        for (const f of hoursFields) {
+          const lbl = document.createElement('div');
+          lbl.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
+          lbl.textContent = f.label;
+          hoursBody.appendChild(lbl);
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.value = f.value;
+          inp.dataset.hoursKey = f.key;
+          inp.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+          hoursBody.appendChild(inp);
+        }
+
+        // Avondspreekuur toggle
+        const av = practicesData.avondspreekuur || {};
+        const avLabel = document.createElement('div');
+        avLabel.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:1rem;';
+        avLabel.textContent = 'Avondspreekuur';
+        hoursBody.appendChild(avLabel);
+
+        const avRow = document.createElement('div');
+        avRow.style.cssText = 'display:flex;align-items:center;gap:0.75rem;';
+        const avCheck = document.createElement('input');
+        avCheck.type = 'checkbox';
+        avCheck.id = 'avondspreekuur-enabled';
+        avCheck.checked = av.enabled !== false;
+        avRow.appendChild(avCheck);
+        const avCheckLabel = document.createElement('label');
+        avCheckLabel.htmlFor = 'avondspreekuur-enabled';
+        avCheckLabel.textContent = 'Avondspreekuur actief';
+        avCheckLabel.style.cssText = 'font-size:0.8125rem;';
+        avRow.appendChild(avCheckLabel);
+        hoursBody.appendChild(avRow);
+
+        const avFields = [
+          { key: 'time', label: 'Tijd', value: av.time || '' },
+          { key: 'frequency', label: 'Frequentie', value: av.frequency || '' },
+          { key: 'note', label: 'Opmerking', value: av.note || '' },
+        ];
+        const avFieldEls = [];
+        for (const f of avFields) {
+          const lbl = document.createElement('div');
+          lbl.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
+          lbl.textContent = f.label;
+          hoursBody.appendChild(lbl);
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.value = f.value;
+          inp.dataset.avondKey = f.key;
+          inp.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+          hoursBody.appendChild(inp);
+          avFieldEls.push({ lbl, inp });
+        }
+        function toggleAvondFields() {
+          const show = avCheck.checked;
+          for (const { lbl, inp } of avFieldEls) {
+            lbl.style.display = show ? '' : 'none';
+            inp.style.display = show ? '' : 'none';
+          }
+        }
+        avCheck.addEventListener('change', toggleAvondFields);
+        toggleAvondFields();
+
+        hoursSection.appendChild(hoursBody);
+        panel.appendChild(hoursSection);
+
         // Keuzemenu telefoon
         const menuSection = document.createElement('div');
         menuSection.className = 'spreekuur-section';
@@ -2277,6 +2351,18 @@
       const inputs = document.querySelectorAll('#practice-info-panel input[data-editor="practice-info"]');
       for (const input of inputs) {
         practicesData[input.dataset.key] = input.value;
+      }
+      // Gather openingstijden
+      if (!practicesData.openingstijden) practicesData.openingstijden = {};
+      for (const inp of document.querySelectorAll('#practice-info-panel input[data-hours-key]')) {
+        practicesData.openingstijden[inp.dataset.hoursKey] = inp.value;
+      }
+      // Gather avondspreekuur
+      if (!practicesData.avondspreekuur) practicesData.avondspreekuur = {};
+      const avEnabled = document.getElementById('avondspreekuur-enabled');
+      practicesData.avondspreekuur.enabled = avEnabled ? avEnabled.checked : true;
+      for (const inp of document.querySelectorAll('#practice-info-panel input[data-avond-key]')) {
+        practicesData.avondspreekuur[inp.dataset.avondKey] = inp.value;
       }
       // Gather keuzemenu
       const menuContainer = document.getElementById('keuzemenu-rows');

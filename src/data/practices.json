@@ -5,6 +5,23 @@
   "phoneEmergency": "023-750 45 67",
   "phoneNurses": "023-525 69 83",
   "emergencyNote": "Bel 023-750 45 67 buiten openingstijden (na 17:00, weekenden en feestdagen). Bel 112 bij levensbedreigende situaties.",
+  "openingstijden": {
+    "days": "Maandag t/m vrijdag",
+    "daysEn": "Monday to Friday",
+    "daysShort": "Ma-vr",
+    "daysShortEn": "Mon-Fri",
+    "open": "08:00",
+    "close": "17:00",
+    "lunchNote": "Tussen 12:00-14:00 en 16:30-17:00 alleen spoed.",
+    "lunchNoteEn": "Between 12:00-14:00 and 16:30-17:00 emergencies only."
+  },
+  "avondspreekuur": {
+    "enabled": true,
+    "time": "17:00 -- 19:00",
+    "frequency": "1x/week",
+    "note": "De dag van het avondspreekuur wisselt. De assistente kan bevestigen welke dag dit betreft.",
+    "noteEn": "The day of the evening consultation varies. The assistant can confirm which day this applies to."
+  },
   "keuzemenu": [
     { "key": "1", "label": "Spoednummer" },
     { "key": "2", "label": "Receptenlijn" },

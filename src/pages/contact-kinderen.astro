@@ -102,7 +102,7 @@ import { url } from '../utils/url';
       <!-- Alternative -->
       <div class="mt-8 text-sm text-neutral-500">
         <h3 class="font-semibold text-neutral-700 mb-2">Lukt het niet via ZIVVER?</h3>
-        <p>Bel de praktijk van uw huisarts tijdens kantooruren (ma-vr 08:00 -- 17:00):</p>
+        <p>Bel de praktijk van uw huisarts tijdens kantooruren ({practiceData.openingstijden.daysShort} {practiceData.openingstijden.open} -- {practiceData.openingstijden.close}):</p>
         <ul class="mt-2 space-y-1">
           {practiceData.practices.map((practice) => (
             <li>

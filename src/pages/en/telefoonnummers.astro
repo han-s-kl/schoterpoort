@@ -14,7 +14,7 @@ import practiceData from '../../data/practices.json';
         <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="text-2xl font-bold text-dark-700 no-underline hover:text-dark-800">
           {practiceData.phoneGeneral}
         </a>
-        <p class="text-sm text-neutral-600 mt-2">Mon-Fri 08:00 -- 17:00. Between 12:00-14:00 and 16:30-17:00 for emergencies only.</p>
+        <p class="text-sm text-neutral-600 mt-2">{practiceData.openingstijden.daysShortEn} {practiceData.openingstijden.open} -- {practiceData.openingstijden.close}. {practiceData.openingstijden.lunchNoteEn}</p>
       </div>
 
       <!-- Practice numbers -->
