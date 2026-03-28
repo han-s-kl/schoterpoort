@@ -9,12 +9,7 @@ Repeat prescriptions for chronic medication can be requested 24 hours a day (inc
 
 ## 1. Via the prescription line (telephone)
 
-Call the practice phone number of your own GP and select **option 2**.
-
-- Practice M. Louwet: [023 -- 525 43 02](tel:0235254302)
-- Practice M.M. Duijn: [023 -- 525 54 03](tel:0235255403)
-- Practice W.H. Steketee: [023 -- 525 62 31](tel:0235256231)
-- Practice L. van der Eem: [023 -- 525 33 04](tel:0235253304)
+Call the practice phone number of your own GP and select the option for the prescription line.
 
 The prescription line will automatically ask you the following questions:
 

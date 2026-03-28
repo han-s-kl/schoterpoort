@@ -17,7 +17,7 @@ Uiteraard is de praktijkverpleegkundige bereid om patienten die, door een handic
 
 Zij werken van maandag t/m vrijdag met een spreekuur volgens afspraak.
 
-**Voor vragen** kunt u 's morgens met de praktijkassistente van uw eigen huisarts bellen, u wordt dan doorverbonden of teruggebeld. Zij zelf zijn direct telefonisch bereikbaar tussen 11 en 12 uur op nummer **023-525 69 83**.
+**Voor vragen** kunt u 's morgens met de praktijkassistente van uw eigen huisarts bellen, u wordt dan doorverbonden of teruggebeld.
 
 ## Spreekuurondersteuner
 

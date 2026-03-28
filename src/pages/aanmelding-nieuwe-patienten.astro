@@ -4,7 +4,7 @@ import { getCollection, render } from 'astro:content';
 import ContactSpoedBlock from '../components/ContactSpoedBlock.astro';
 
 const pages = await getCollection('pages');
-const page = pages.find((p) => p.id === 'huisbezoek');
+const page = pages.find((p) => p.id === 'aanmelding-nieuwe-patienten');
 const { Content } = await render(page!);
 ---
 

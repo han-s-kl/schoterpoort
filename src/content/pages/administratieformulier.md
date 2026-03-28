@@ -9,11 +9,6 @@ Dit formulier is bedoeld om gewijzigde adres- en verzekeringsgegevens door te ge
 
 [Download het administratieformulier (PDF)](/schoterpoort/documents/Administratieformulier.pdf)
 
-Voor administratieve verzoeken kunt u ook contact opnemen met de praktijk:
-
-- **Telefoon:** [023-541 03 45](tel:023-5410345) (keuze 3 voor de assistente)
-- **E-mail:** [info@schoterpoort.com](mailto:info@schoterpoort.com)
-
 ## Veelvoorkomende verzoeken
 
 - Overdracht medisch dossier (zie [Medisch dossier](/schoterpoort/medisch-dossier))

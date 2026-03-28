@@ -17,7 +17,7 @@ The practice nurse is of course willing to visit patients at home who, due to a 
 
 They work Monday to Friday with consultations by appointment.
 
-**For questions**, call your own GP's practice assistant in the morning -- you will be transferred or called back. They can be reached directly by telephone between 11:00 and 12:00 on **023-525 69 83**.
+**For questions**, call your own GP's practice assistant in the morning -- you will be transferred or called back.
 
 ## Consultation support
 

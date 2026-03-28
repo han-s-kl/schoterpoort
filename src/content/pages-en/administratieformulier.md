@@ -9,11 +9,6 @@ This form is intended to report changed address and insurance details to the pra
 
 [Download the administration form (PDF)](/schoterpoort/documents/Administratieformulier.pdf)
 
-For administrative requests, you can also contact the practice:
-
-- **Telephone:** [023-541 03 45](tel:023-5410345) (option 3 for the assistant)
-- **Email:** [info@schoterpoort.com](mailto:info@schoterpoort.com)
-
 ## Common requests
 
 - Transfer of medical records (see [Medical records](/schoterpoort/en/medisch-dossier))
