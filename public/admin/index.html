@@ -2103,30 +2103,6 @@
       editable.style.flex = '1';
       row.appendChild(editable);
 
-      const boldBtn = document.createElement('button');
-      boldBtn.type = 'button';
-      boldBtn.className = 'row-btn';
-      boldBtn.innerHTML = '<strong>B</strong>';
-      boldBtn.title = 'Vetgedrukt';
-      boldBtn.addEventListener('click', (e) => { e.preventDefault(); editable.focus(); document.execCommand('bold'); });
-      row.appendChild(boldBtn);
-
-      const linkBtn = document.createElement('button');
-      linkBtn.type = 'button';
-      linkBtn.className = 'row-btn';
-      linkBtn.innerHTML = '&#128279;';
-      linkBtn.title = 'Link toevoegen';
-      linkBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const sel = window.getSelection();
-        if (!sel.rangeCount || sel.isCollapsed) { alert('Selecteer eerst de tekst die een link moet worden.'); return; }
-        const url = prompt('Voer de URL in (bijv. tel:023-7504567 of https://...)');
-        if (!url) return;
-        editable.focus();
-        document.execCommand('createLink', false, url);
-      });
-      row.appendChild(linkBtn);
-
       const removeBtn = document.createElement('button');
       removeBtn.className = 'row-btn row-btn-danger';
       removeBtn.innerHTML = '&times;';
