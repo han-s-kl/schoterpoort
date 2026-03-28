@@ -1574,6 +1574,9 @@
       container.className = 'sections-container';
 
       sections.forEach((section, i) => {
+        // Skip h1 sections with no content (title-only, rendered by template)
+        if (section.level === 1 && !section.content.trim()) return;
+
         const el = document.createElement('div');
         el.className = 'spreekuur-section';
 
