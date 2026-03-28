@@ -1,4 +1,5 @@
 ---
+import practiceData from '../../data/practices.json';
 import { url } from '../../utils/url';
 
 interface Props {
@@ -20,7 +21,7 @@ const prefix = lang === 'en' ? '/en' : '';
         <address class="not-italic space-y-2 text-sm">
           <p>Pijnboomstraat 19<br />2023 VN Haarlem</p>
           <p>
-            <a href="tel:023-5410345" class="text-white hover:text-primary-300 no-underline">023-541 03 45</a>
+            <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="text-white hover:text-primary-300 no-underline">{practiceData.phoneGeneral}</a>
           </p>
           <p>
             <a href="mailto:info@schoterpoort.com" class="text-dark-300 hover:text-white no-underline">info@schoterpoort.com</a>
@@ -31,7 +32,7 @@ const prefix = lang === 'en' ? '/en' : '';
           </p>
           <p class="pt-2">
             <strong class="text-accent-400">Spoed buiten kantooruren:</strong><br />
-            <a href="tel:023-7504567" class="text-white hover:text-accent-300 no-underline font-semibold">023-750 45 67</a>
+            <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="text-white hover:text-accent-300 no-underline font-semibold">{practiceData.phoneEmergency}</a>
             <br /><span class="text-xs text-dark-400">Spoedpost Haarlem</span>
           </p>
         </address>
