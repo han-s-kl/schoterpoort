@@ -16,8 +16,6 @@ Boerhaavelaan 22, Haarlem (Schalkwijk)
 - Spoedeisende Hulp (SEH): 24 uur per dag, 7 dagen per week
 - Huisartsenpost: avond, nacht, weekend en feestdagen
 
-Op basis van uw afspraak wordt bepaald naar welke locatie u wordt verwezen.
-
 ## Inzage medisch dossier
 
 De Huisartsen/Spoedpost (dienstdoende huisarts) en overdag waarnemende huisartsen kunnen zo nodig de belangrijkste medische gegevens van uw Schoterpoortdossier inzien, conform de regels van privacywetgeving. Uw dossier kan voor de dienstdoende huisarts op de Spoedpost op verzoek deels of geheel afgeschermd worden. Wij noteren in ons informatiesysteem of u toestemming geeft voor het raadplegen van uw dossier, u kunt uw besluit natuurlijk altijd weer wijzigen.
