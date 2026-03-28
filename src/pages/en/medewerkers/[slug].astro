@@ -45,7 +45,8 @@ const dayMap: Record<string, string> = {
   'donderdag': 'Thursday', 'donderdagochtend': 'Thursday morning',
   'vrijdag': 'Friday', 'zaterdag': 'Saturday', 'zondag': 'Sunday',
 };
-const roleTranslations: Record<string, string> = {
+// Fallback map for roles not yet auto-translated
+const roleTranslationsFallback: Record<string, string> = {
   'Huisarts': 'GP',
   'Praktijkverpleegkundige somatiek': 'Practice nurse (somatic)',
   'Spreekuurondersteuner': 'Consultation support',
@@ -56,8 +57,8 @@ const roleTranslations: Record<string, string> = {
   'Doktersassistente': 'Medical assistant',
   'Huisarts in opleiding (HAIO)': 'GP trainee (HAIO)',
 };
-function translateRole(role: string): string {
-  return roleTranslations[role] || role;
+function translateRole(member: any): string {
+  return (member as any).roleEn || roleTranslationsFallback[member.role] || member.role;
 }
 function translateDays(days?: string[]): string[] | undefined {
   return days?.map((d) => dayMap[d] || d);
@@ -84,7 +85,7 @@ const hasStaffCards = staffForPage.length > 0;
           {staffForPage.map((member) => (
             <StaffCard
               name={member.name}
-              role={translateRole(overrides[member.role] || member.role)}
+              role={overrides[member.role] ? (roleTranslationsFallback[overrides[member.role]] || overrides[member.role]) : translateRole(member)}
               team={member.team}
               photo={(member as any).photo}
               workingDays={translateDays(member.workingDays)}

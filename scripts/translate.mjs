@@ -57,6 +57,7 @@ ${nlContent}`
 }
 
 const STAFF_EN_FIELDS = [
+  { nl: 'role', en: 'roleEn' },
   { nl: 'background', en: 'backgroundEn' },
   { nl: 'interests', en: 'interestsEn' },
   { nl: 'since', en: 'sinceEn' },
