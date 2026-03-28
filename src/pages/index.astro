@@ -6,8 +6,7 @@ import { getCollection, render } from 'astro:content';
 import { url } from '../utils/url';
 
 const allBlocks = (await getCollection('blocks'))
-  .filter((b) => b.data.visible)
-  .sort((a, b) => a.data.order - b.data.order);
+  .filter((b) => b.data.visible);
 
 const practices = practiceData.practices;
 ---

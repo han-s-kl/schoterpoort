@@ -855,7 +855,6 @@
         { value: 'neutral', label: 'Neutraal (grijs)' },
       ]},
       { name: 'visible', label: 'Zichtbaar', type: 'boolean' },
-      { name: 'order', label: 'Volgorde', type: 'number' },
     ];
 
     const STAFF_FIELDS = [
@@ -1507,8 +1506,6 @@
           return { path: f.path, sha, meta, body, name: f.name };
         }));
 
-        // Sort by order field
-        loaded.sort((a, b) => (a.meta.order || 0) - (b.meta.order || 0));
         blockFiles = loaded;
 
         const panel = document.getElementById('blocks-panel');
@@ -2272,7 +2269,6 @@
           const { meta, body } = parseFrontmatter(content);
           return { path: f.path, sha, meta, body, name: f.name };
         }));
-        loaded.sort((a, b) => (a.meta.order || 0) - (b.meta.order || 0));
         blockFiles = loaded;
 
         const panel = document.getElementById('home-panel');
