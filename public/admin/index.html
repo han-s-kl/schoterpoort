@@ -528,6 +528,7 @@
     .cms-table td {
       padding: 0.125rem;
       border: 1px solid var(--border);
+      position: relative;
     }
     .cms-table td .cell-editable {
       width: 100%;
@@ -539,7 +540,27 @@
       background: transparent;
       min-height: 1.6em;
       outline: none;
-      white-space: nowrap;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .cms-table td .mini-toolbar {
+      position: absolute;
+      top: -1.75rem;
+      left: 0;
+      z-index: 10;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.125rem;
+      display: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .cms-table td .mini-toolbar button {
+      font-size: 0.7rem;
+      padding: 0.125rem 0.375rem;
+    }
+    .cms-table td:focus-within .mini-toolbar {
+      display: flex;
     }
     .cms-table td .cell-editable:focus {
       background: rgba(92, 124, 250, 0.04);
@@ -1860,6 +1881,7 @@
         cell.className = 'cell-editable';
         cell.contentEditable = 'true';
         cell.innerHTML = mdInlineToHtml(cells[i] || '');
+        td.appendChild(createMiniToolbar(cell));
         td.appendChild(cell);
         tr.appendChild(td);
       }
