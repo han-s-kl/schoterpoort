@@ -222,6 +222,19 @@
     .nav-group-children .nav-item.active {
       color: var(--sidebar-active);
     }
+    .nav-group-children .nav-group-header {
+      font-size: 0.75rem;
+      padding: 0.375rem 1rem;
+      color: #8890a0;
+    }
+    .nav-group-children .nav-group-children {
+      padding-left: 0.5rem;
+    }
+    .nav-group-children .nav-group-children .nav-item {
+      font-size: 0.6875rem;
+      padding: 0.3125rem 1rem;
+      color: #787f90;
+    }
     .nav-separator {
       height: 1px;
       background: rgba(255,255,255,0.06);
@@ -938,6 +951,17 @@
           { label: 'Administratieformulier', mode: 'markdown', file: 'src/content/pages/administratieformulier.md', fields: PAGE_FIELDS },
           { label: 'Urineonderzoek formulier', mode: 'markdown', file: 'src/content/pages/urineonderzoek-formulier.md', fields: PAGE_FIELDS },
           { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
+          {
+            label: 'Gezondheidsinfo', collapsed: true, children: [
+              { label: 'Reizigersadvisering', mode: 'markdown', file: 'src/content/pages/reizigersadvisering.md', fields: PAGE_FIELDS },
+              { label: 'SOA', mode: 'markdown', file: 'src/content/pages/soa.md', fields: PAGE_FIELDS },
+              { label: 'Spiraal', mode: 'markdown', file: 'src/content/pages/spiraal.md', fields: PAGE_FIELDS },
+              { label: 'Tekenbeet', mode: 'markdown', file: 'src/content/pages/tekenbeet.md', fields: PAGE_FIELDS },
+              { label: 'Urineweginfecties', mode: 'markdown', file: 'src/content/pages/urineweginfecties.md', fields: PAGE_FIELDS },
+              { label: 'Wrattenspreekuur', mode: 'markdown', file: 'src/content/pages/wrattenspreekuur.md', fields: PAGE_FIELDS },
+              { label: 'Zwangerschap', mode: 'markdown', file: 'src/content/pages/zwangerschap.md', fields: PAGE_FIELDS },
+            ]
+          },
         ]
       },
     ];
@@ -1137,12 +1161,36 @@
           header.classList.add('expanded');
 
           for (const child of item.children) {
-            const btn = document.createElement('button');
-            btn.className = 'nav-item';
-            btn.textContent = child.label;
-            btn.dataset.navId = `${item.label}/${child.label}`;
-            btn.addEventListener('click', () => openItem(child));
-            childContainer.appendChild(btn);
+            if (child.children) {
+              // Sub-group (e.g. Gezondheidsinfo under Praktisch)
+              const subHeader = document.createElement('button');
+              subHeader.className = 'nav-group-header';
+              subHeader.innerHTML = `<span>${child.label}</span><span class="chevron">&#9654;</span>`;
+              const subContainer = document.createElement('div');
+              subContainer.className = child.collapsed ? 'nav-group-children' : 'nav-group-children expanded';
+              if (!child.collapsed) subHeader.classList.add('expanded');
+              for (const subChild of child.children) {
+                const subBtn = document.createElement('button');
+                subBtn.className = 'nav-item';
+                subBtn.textContent = subChild.label;
+                subBtn.dataset.navId = `${item.label}/${child.label}/${subChild.label}`;
+                subBtn.addEventListener('click', () => openItem(subChild));
+                subContainer.appendChild(subBtn);
+              }
+              subHeader.addEventListener('click', () => {
+                subHeader.classList.toggle('expanded');
+                subContainer.classList.toggle('expanded');
+              });
+              childContainer.appendChild(subHeader);
+              childContainer.appendChild(subContainer);
+            } else {
+              const btn = document.createElement('button');
+              btn.className = 'nav-item';
+              btn.textContent = child.label;
+              btn.dataset.navId = `${item.label}/${child.label}`;
+              btn.addEventListener('click', () => openItem(child));
+              childContainer.appendChild(btn);
+            }
           }
 
           header.addEventListener('click', () => {
@@ -1177,7 +1225,22 @@
       currentNavItem = item;
 
       if (item.mode === 'markdown') {
+        // Find navId by searching NAV_ITEMS (supports nested sub-groups)
         item._navId = item.label;
+        for (const nav of NAV_ITEMS) {
+          if (nav.children) {
+            if (nav.children.includes(item)) {
+              item._navId = `${nav.label}/${item.label}`;
+              break;
+            }
+            for (const child of nav.children) {
+              if (child.children && child.children.includes(item)) {
+                item._navId = `${nav.label}/${child.label}/${item.label}`;
+                break;
+              }
+            }
+          }
+        }
         setActiveNav(item);
         await openMarkdownEditor(item);
       } else if (item.mode === 'staff') {
