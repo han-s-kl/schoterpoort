@@ -639,6 +639,51 @@
     .editable-field strong, .editable-field b {
       font-weight: 700;
     }
+    .editable-field.richtext-field {
+      min-height: 400px;
+      padding: 1rem 1.25rem;
+      font-size: 0.875rem;
+      white-space: normal;
+    }
+    .editable-field.richtext-field h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 1.5em 0 0.5em;
+      padding-top: 0.75em;
+      border-top: 1px solid var(--border);
+    }
+    .editable-field.richtext-field h2:first-child {
+      margin-top: 0;
+      border-top: none;
+      padding-top: 0;
+    }
+    .editable-field.richtext-field h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #555;
+      margin: 1.25em 0 0.4em;
+    }
+    .editable-field.richtext-field p {
+      margin: 0.5em 0;
+    }
+    .editable-field.richtext-field ul {
+      margin: 0.5em 0;
+      padding-left: 1.5rem;
+      list-style: disc;
+    }
+    .editable-field.richtext-field li {
+      margin: 0.25em 0;
+    }
+    .editable-field.richtext-field em, .editable-field.richtext-field i {
+      font-style: italic;
+    }
+    .editable-field.richtext-field img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin: 0.5em 0;
+    }
 
     /* Floating selection toolbar */
     .floating-toolbar {
@@ -1133,6 +1178,9 @@
         try { inst.toTextArea(); } catch (e) {}
       }
       mdeInstances = [];
+      // Clean up richtext container
+      const rt = document.querySelector('.richtext-container');
+      if (rt) rt.remove();
     }
 
     function showView(view) {
@@ -1386,24 +1434,22 @@
         if (meta.title) setTopbar(meta.title, '');
 
         if (item.editor === 'richtext') {
-          // Rich-text mode: single EasyMDE editor for the full body
+          // WYSIWYG rich-text mode: contentEditable div
           const bodyWithoutH1 = body.replace(/^#\s+.+\n*/, '');
           document.getElementById('fields').style.display = 'none';
-          const textarea = document.getElementById('editor-textarea');
-          textarea.value = bodyWithoutH1;
+          const panel = document.getElementById('editor-panel');
+          // Remove previous richtext container if any
+          const oldRt = panel.querySelector('.richtext-container');
+          if (oldRt) oldRt.remove();
+          const container = document.createElement('div');
+          container.className = 'richtext-container';
+          const editable = document.createElement('div');
+          editable.className = 'editable-field richtext-field';
+          editable.contentEditable = 'true';
+          editable.innerHTML = mdToHtml(bodyWithoutH1);
+          container.appendChild(editable);
+          panel.appendChild(container);
           showView('editor');
-          // Show markdown-wrap AFTER showView (which hides it by default)
-          document.getElementById('markdown-wrap').style.display = 'block';
-
-          const mde = new EasyMDE({
-            element: textarea,
-            spellChecker: false,
-            autofocus: false,
-            status: false,
-            toolbar: ['bold', 'italic', 'heading-2', 'heading-3', '|', 'unordered-list', '|', 'link', 'image', '|', 'preview'],
-            minHeight: '400px',
-          });
-          mdeInstances.push(mde);
         } else {
           // Section-based editor for regular markdown pages
           document.getElementById('fields').style.display = 'none';
@@ -1722,12 +1768,14 @@
       const fields = currentNavItem.fields || PAGE_FIELDS;
       const meta = currentMeta;
 
-      // Rich-text mode: get content from EasyMDE
-      if (currentNavItem.editor === 'richtext' && mdeInstances.length > 0) {
-        const mdBody = mdeInstances[0].value();
+      // Rich-text mode: get content from contentEditable div
+      if (currentNavItem.editor === 'richtext') {
+        const rtField = document.querySelector('.richtext-field');
+        if (!rtField) return null;
+        const mdBody = htmlToMd(rtField.innerHTML);
         const h1 = currentSections.find(s => s.level === 1);
         const h1Line = h1 ? `# ${h1.heading}\n\n` : '';
-        return serializeFrontmatter(meta, h1Line + mdBody + '\n', fields);
+        return serializeFrontmatter(meta, h1Line + mdBody, fields);
       }
 
       // Gather sections from editable fields and tables
@@ -2033,10 +2081,82 @@
     }
 
     // --- MARKDOWN <-> HTML CONVERSION ---
+
+    // Full markdown to HTML (for richtext editor)
+    function mdToHtml(md) {
+      const lines = md.split('\n');
+      let html = '';
+      let inList = false;
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        // Headings
+        const h3 = line.match(/^###\s+(.+)$/);
+        if (h3) { if (inList) { html += '</ul>'; inList = false; } html += `<h3>${mdInlineToHtml(h3[1])}</h3>`; continue; }
+        const h2 = line.match(/^##\s+(.+)$/);
+        if (h2) { if (inList) { html += '</ul>'; inList = false; } html += `<h2>${mdInlineToHtml(h2[1])}</h2>`; continue; }
+        // List items
+        const li = line.match(/^[-*]\s+(.+)$/);
+        if (li) { if (!inList) { html += '<ul>'; inList = true; } html += `<li>${mdInlineToHtml(li[1])}</li>`; continue; }
+        // Indented list items (nested)
+        const liNested = line.match(/^\s{2,}[-*]\s+(.+)$/);
+        if (liNested) { if (!inList) { html += '<ul>'; inList = true; } html += `<li>${mdInlineToHtml(liNested[1])}</li>`; continue; }
+        // Close list if open
+        if (inList) { html += '</ul>'; inList = false; }
+        // Empty line
+        if (!line.trim()) continue;
+        // Image line
+        const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (img) { html += `<p><img src="${img[2]}" alt="${img[1]}"></p>`; continue; }
+        // Regular paragraph
+        html += `<p>${mdInlineToHtml(line)}</p>`;
+      }
+      if (inList) html += '</ul>';
+      return html;
+    }
+
+    // Full HTML to markdown (from richtext editor)
+    function htmlToMd(html) {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      let md = '';
+      function inlineToMd(el) {
+        let text = '';
+        for (const node of el.childNodes) {
+          if (node.nodeType === 3) { text += node.textContent; continue; }
+          if (node.nodeName === 'BR') { text += '\n'; continue; }
+          if (node.nodeName === 'STRONG' || node.nodeName === 'B') { text += `**${inlineToMd(node)}**`; continue; }
+          if (node.nodeName === 'EM' || node.nodeName === 'I') { text += `*${inlineToMd(node)}*`; continue; }
+          if (node.nodeName === 'A') { text += `[${inlineToMd(node)}](${node.getAttribute('href') || ''})`; continue; }
+          if (node.nodeName === 'IMG') { text += `![${node.alt || ''}](${node.src || ''})`; continue; }
+          text += inlineToMd(node);
+        }
+        return text;
+      }
+      for (const node of div.children) {
+        const tag = node.nodeName;
+        if (tag === 'H2') { md += `\n## ${inlineToMd(node)}\n\n`; }
+        else if (tag === 'H3') { md += `\n### ${inlineToMd(node)}\n\n`; }
+        else if (tag === 'UL') {
+          for (const li of node.children) {
+            if (li.nodeName === 'LI') md += `- ${inlineToMd(li)}\n`;
+          }
+          md += '\n';
+        }
+        else if (tag === 'P') { md += `${inlineToMd(node)}\n\n`; }
+        else if (tag === 'DIV') { md += `${inlineToMd(node)}\n\n`; }
+        else { md += `${inlineToMd(node)}\n\n`; }
+      }
+      return md.replace(/\n{3,}/g, '\n\n').trim() + '\n';
+    }
+
     function mdInlineToHtml(md) {
       let html = md;
       // Bold: **text** -> <strong>text</strong>
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // Italic: *text* -> <em>text</em> (but not inside ** pairs)
+      html = html.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
+      // Images: ![alt](url) -> <img>
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
       // Links: [text](url) -> <a href="url">text</a>
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
       return html;
@@ -2098,7 +2218,39 @@
       hideFloatingToolbar();
     });
 
+    const ftItalic = document.createElement('button');
+    ftItalic.type = 'button';
+    ftItalic.innerHTML = '<em>I</em>';
+    ftItalic.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+      document.execCommand('italic');
+      hideFloatingToolbar();
+    });
+
+    const ftHeading = document.createElement('button');
+    ftHeading.type = 'button';
+    ftHeading.innerHTML = 'H';
+    ftHeading.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+      // Toggle: normal -> h2 -> h3 -> normal
+      const sel = window.getSelection();
+      const node = sel.anchorNode?.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
+      const block = node?.closest('h2, h3, p, div, li') || node;
+      if (block?.nodeName === 'H2') {
+        document.execCommand('formatBlock', false, 'h3');
+      } else if (block?.nodeName === 'H3') {
+        document.execCommand('formatBlock', false, 'p');
+      } else {
+        document.execCommand('formatBlock', false, 'h2');
+      }
+      hideFloatingToolbar();
+    });
+
     floatingToolbar.appendChild(ftBold);
+    floatingToolbar.appendChild(ftItalic);
+    floatingToolbar.appendChild(ftHeading);
     floatingToolbar.appendChild(ftLink);
     document.body.appendChild(floatingToolbar);
 
