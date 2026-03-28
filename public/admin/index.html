@@ -654,6 +654,49 @@
     .spreekuur-section-body {
       padding: 1rem 1.25rem;
     }
+    .readonly-context-block {
+      margin-bottom: 1.5rem;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: var(--radius);
+      overflow: hidden;
+      opacity: 0.85;
+    }
+    .readonly-context-block .spreekuur-section-header {
+      background: #e5e7eb;
+      color: #6b7280;
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .readonly-context-block .readonly-badge {
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #d1d5db;
+      color: #374151;
+      padding: 0.125rem 0.5rem;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+    .readonly-context-block .spreekuur-section-body {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.8125rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    .readonly-context-block .readonly-manage-link {
+      display: inline-block;
+      font-size: 0.6875rem;
+      color: var(--sidebar-accent);
+      margin-top: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .readonly-context-block .readonly-manage-link:hover {
+      text-decoration: underline;
+    }
     .spreekuur-row {
       display: flex;
       gap: 0.5rem;
@@ -1202,6 +1245,24 @@
         currentSections = parseMarkdownSections(body);
         renderSectionEditor(currentSections);
 
+        // Read-only context blocks for specific markdown pages
+        await ensurePracticesLoaded();
+        const panel = document.getElementById('editor-panel');
+        const sectionsContainer = panel.querySelector('.sections-container');
+        const filePath = currentFile.path;
+        if (filePath.includes('spoedpost.md')) {
+          sectionsContainer.parentNode.insertBefore(
+            buildSpoedpostReadOnlyBlock(practicesData), sectionsContainer
+          );
+        } else if (filePath.includes('huisbezoek.md')) {
+          sectionsContainer.parentNode.appendChild(
+            buildContactSpoedReadOnlyBlock(practicesData)
+          );
+        } else if (filePath.includes('administratieformulier.md')) {
+          const adminBlock = await buildAdminformulierReadOnlyBlock(practicesData);
+          sectionsContainer.parentNode.appendChild(adminBlock);
+        }
+
         showView('editor');
         document.getElementById('save-btn').disabled = false;
         setStatus('');
@@ -1327,6 +1388,110 @@
         }
       }
       return parts.join('\n\n') + '\n';
+    }
+
+    function renderReadOnlyBlock(label, contentHtml) {
+      const block = document.createElement('div');
+      block.className = 'readonly-context-block';
+      const header = document.createElement('div');
+      header.className = 'spreekuur-section-header';
+      header.innerHTML = `<span>${label}</span><span class="readonly-badge">Alleen lezen</span>`;
+      block.appendChild(header);
+      const body = document.createElement('div');
+      body.className = 'spreekuur-section-body';
+      body.innerHTML = contentHtml +
+        '<br><a class="readonly-manage-link">Beheer via Algemene gegevens &rarr;</a>';
+      block.appendChild(body);
+      body.querySelector('.readonly-manage-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        const navItem = NAV_ITEMS.find(n => n.mode === 'practice-info');
+        if (navItem) openItem(navItem);
+      });
+      return block;
+    }
+
+    function buildSpreekuurReadOnlyBlocks(pd) {
+      const blocks = [];
+      // Practice cards
+      let practiceHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">';
+      for (const p of pd.practices) {
+        const doctors = p.doctors.map(d => {
+          const parts = d.name.split(' ');
+          const lastName = parts.slice(1).join(' ') || parts[0];
+          return `${d.initials} ${lastName} (${d.workingDays.join(', ')})`;
+        }).join('<br>');
+        practiceHtml += `<div style="background:#fff;padding:0.5rem;border:1px solid #e5e7eb;border-radius:4px;">
+          <strong>${p.name}</strong><br>
+          <span style="font-size:0.75rem;">${doctors}</span><br>
+          <span>Tel: ${p.phone}</span></div>`;
+      }
+      practiceHtml += '</div>';
+      blocks.push(renderReadOnlyBlock('Praktijken & telefoonnummers', practiceHtml));
+      // Opening hours
+      const ot = pd.openingstijden;
+      const av = pd.avondspreekuur;
+      let hoursHtml = `<strong>${ot.days}</strong>: ${ot.open} - ${ot.close}`;
+      if (av && av.enabled) {
+        hoursHtml += `<br>Avondspreekuur: ${av.time} (${av.frequency})`;
+        if (av.note) hoursHtml += `<br><em style="font-size:0.75rem;">${av.note}</em>`;
+      }
+      if (ot.lunchNote) hoursHtml += `<br><em style="font-size:0.75rem;">${ot.lunchNote}</em>`;
+      blocks.push(renderReadOnlyBlock('Openingstijden', hoursHtml));
+      // Keuzemenu
+      let menuHtml = '<ul style="margin:0;padding-left:1.25rem;">';
+      for (const item of pd.keuzemenu) menuHtml += `<li><strong>${item.key}</strong> ${item.label}</li>`;
+      menuHtml += '</ul>';
+      blocks.push(renderReadOnlyBlock('Keuzemenu telefoon', menuHtml));
+      // Spoed
+      const spoedItem = pd.keuzemenu.find(i => /spoed/i.test(i.label));
+      const spoedKey = spoedItem?.key || '1';
+      blocks.push(renderReadOnlyBlock('Spoed', `<ul style="margin:0;padding-left:1.25rem;">
+        <li>Tijdens kantooruren: keuze ${spoedKey}</li>
+        <li>Na 17:00: ${pd.phoneEmergency} (Spoedpost)</li>
+        <li>Noodgevallen: 112</li></ul>`));
+      return blocks;
+    }
+
+    function buildHerhaalreceptReadOnlyBlock(pd) {
+      const recept = pd.keuzemenu.find(i => /recept/i.test(i.label));
+      const receptKey = recept?.key || '2';
+      let html = `<p>Keuzetoets receptenlijn: <strong>${receptKey}</strong></p>`;
+      html += '<p style="margin-top:0.5rem;">Telefoonnummers per praktijk:</p>';
+      html += '<ul style="margin:0;padding-left:1.25rem;">';
+      for (const p of pd.practices) html += `<li>${p.name}: ${p.phone}</li>`;
+      html += '</ul>';
+      return renderReadOnlyBlock('Receptenlijn gegevens', html);
+    }
+
+    function buildSpoedpostReadOnlyBlock(pd) {
+      const ot = pd.openingstijden;
+      const spoedItem = pd.keuzemenu.find(i => /spoed/i.test(i.label));
+      const spoedKey = spoedItem?.key || '1';
+      return renderReadOnlyBlock('Spoedpost gegevens', `<strong>Tijdens kantooruren</strong> (${ot.daysShort} ${ot.open}-${ot.close}): keuze ${spoedKey}<br>
+        <strong>Buiten kantooruren</strong> (na ${ot.close}): ${pd.phoneEmergency}<br>
+        Noodgevallen: 112`);
+    }
+
+    function buildContactSpoedReadOnlyBlock(pd) {
+      const spoedItem = pd.keuzemenu.find(i => /spoed/i.test(i.label));
+      const spoedKey = spoedItem?.key || '1';
+      let html = `<p><strong>Contact:</strong> ${pd.address}<br>Telefoon: ${pd.phoneGeneral} | E-mail: ${pd.email}</p>`;
+      html += '<p style="margin-top:0.5rem;"><strong>Keuzemenu:</strong></p><ul style="margin:0;padding-left:1.25rem;">';
+      for (const item of pd.keuzemenu) html += `<li>Keuze ${item.key}: ${item.label}</li>`;
+      html += '</ul>';
+      html += `<p style="margin-top:0.5rem;"><strong>Spoed:</strong> keuze ${spoedKey} | Na kantooruren: ${pd.phoneEmergency} | 112</p>`;
+      return renderReadOnlyBlock('Contact & spoedgegevens', html);
+    }
+
+    async function buildAdminformulierReadOnlyBlock(pd) {
+      await loadStaffData();
+      const manager = staffData.find(s => s.role === 'Praktijkmanager');
+      const assistItem = pd.keuzemenu.find(i => /assistent/i.test(i.label));
+      const assistKey = assistItem?.key || '3';
+      let html = `<p>Telefoon: ${pd.phoneGeneral} (keuze ${assistKey} voor assistente)</p>`;
+      html += `<p>E-mail: ${pd.email}</p>`;
+      if (manager) html += `<p>Praktijkmanager: ${manager.name} (${(manager.workingDays || []).join(', ')})</p>`;
+      return renderReadOnlyBlock('Contactgegevens', html);
     }
 
     function renderSectionEditor(sections) {
@@ -1964,6 +2129,11 @@
         const panel = document.getElementById('spreekuur-panel');
         panel.innerHTML = '';
 
+        if (currentLang !== 'en') {
+          await ensurePracticesLoaded();
+          for (const block of buildSpreekuurReadOnlyBlocks(practicesData)) panel.appendChild(block);
+        }
+
         for (const section of SPREEKUUR_SECTIONS) {
           const el = document.createElement('div');
           el.className = 'spreekuur-section';
@@ -2179,6 +2349,13 @@
     ];
 
     let practicesData = null;
+
+    async function ensurePracticesLoaded() {
+      if (practicesData) return;
+      const { content, sha } = await readFile(PRACTICES_PATH);
+      practicesData = JSON.parse(content);
+      practicesSha = sha;
+    }
 
     async function openPracticeInfoEditor() {
       currentMode = 'practice-info';
@@ -2423,6 +2600,8 @@
         const panel = document.getElementById('herhaalrecept-panel');
         panel.innerHTML = '';
 
+        await ensurePracticesLoaded();
+
         for (const section of HERHAALRECEPT_SECTIONS) {
           const el = document.createElement('div');
           el.className = 'spreekuur-section';
@@ -2455,6 +2634,10 @@
 
           el.appendChild(body);
           panel.appendChild(el);
+
+          if (section.key === 'receptenlijn') {
+            panel.appendChild(buildHerhaalreceptReadOnlyBlock(practicesData));
+          }
         }
 
         showView('herhaalrecept');
