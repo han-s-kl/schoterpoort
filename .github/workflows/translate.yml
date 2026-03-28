@@ -7,6 +7,7 @@ on:
       - 'src/data/home.json'
       - 'src/data/spreekuur.json'
       - 'src/data/patientenomgeving.json'
+      - 'src/data/herhaalrecept.json'
       - 'src/data/staff.json'
       - 'src/content/pages/**.md'
       - 'src/content/blocks/**.md'
@@ -35,6 +36,7 @@ jobs:
             'src/data/home.json' \
             'src/data/spreekuur.json' \
             'src/data/patientenomgeving.json' \
+            'src/data/herhaalrecept.json' \
             'src/data/staff.json' \
             'src/content/pages/*.md' \
             'src/content/blocks/*.md')

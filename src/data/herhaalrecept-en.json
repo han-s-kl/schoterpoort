@@ -1,0 +1,12 @@
+{
+  "intro": "Repeat prescriptions for chronic medication can be requested 24 hours a day (including weekends) in 2 ways:",
+  "patientenomgeving": "You can request repeat prescriptions online via the <a href=\"/schoterpoort/en/patientenomgeving\">patient portal</a> on the website. You will need to register first. Please note that after creating an account, it may take up to 7 days before the account is active.",
+  "receptenlijn": "Call the practice phone number of your own GP and select the option for the prescription line.",
+  "receptenlijnVragen": [
+    "The name of your GP",
+    "Name and date of birth of the person the prescription is intended for",
+    "Street and house number of the home address",
+    "Name(s) of the medication you are ordering (have the boxes to hand!)",
+    "Name of your pharmacy"
+  ]
+}

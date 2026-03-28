@@ -809,6 +809,7 @@
         <div class="spreekuur-panel" id="practice-info-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="herhaalrecept-panel" style="display:none"></div>
       </div>
     </main>
   </div>
@@ -880,7 +881,7 @@
       {
         label: 'Diensten', children: [
           { label: 'Spreekuur & afspraken', mode: 'spreekuur' },
-          { label: 'Herhaalrecept', mode: 'markdown', file: 'src/content/pages/herhaalrecept.md', fields: PAGE_FIELDS },
+          { label: 'Herhaalrecept', mode: 'herhaalrecept' },
           { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
           { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
           { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS },
@@ -1050,6 +1051,7 @@
       document.getElementById('practice-info-panel').style.display = view === 'practice-info' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
+      document.getElementById('herhaalrecept-panel').style.display = view === 'herhaalrecept' ? 'block' : 'none';
     }
 
     function setTopbar(title, subtitle, backFn) {
@@ -1170,6 +1172,15 @@
         item._navId = item.label;
         setActiveNav(item);
         await openPatientenomgevingEditor(item.lang);
+      } else if (item.mode === 'herhaalrecept') {
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        setActiveNav(item);
+        await openHerhaalreceptEditor();
       }
     }
 
@@ -1621,6 +1632,8 @@
           await saveHome();
         } else if (currentMode === 'patientenomgeving') {
           await savePatientenomgeving();
+        } else if (currentMode === 'herhaalrecept') {
+          await saveHerhaalrecept();
         }
         setStatus('Opgeslagen', 'saved');
         setTimeout(() => setStatus(''), 3000);
@@ -2378,6 +2391,140 @@
       const content = JSON.stringify(practicesData, null, 2) + '\n';
       const msg = 'Update contactgegevens via CMS';
       practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
+    }
+
+    // --- HERHAALRECEPT EDITOR ---
+    const HERHAALRECEPT_PATH = 'src/data/herhaalrecept.json';
+    const HERHAALRECEPT_MD_PATH = 'src/content/pages/herhaalrecept.md';
+    let herhaalreceptData = null;
+    let herhaalreceptSha = null;
+    let herhaalreceptMdSha = null;
+
+    const HERHAALRECEPT_SECTIONS = [
+      { key: 'intro', label: 'Introductietekst', type: 'text' },
+      { key: 'patientenomgeving', label: '1. Via de patientenomgeving', type: 'text' },
+      { key: 'receptenlijn', label: '2. Via de receptenlijn (telefoon)', type: 'text' },
+      { key: 'receptenlijnVragen', label: 'Vragen receptenlijn', type: 'list' },
+    ];
+
+    async function openHerhaalreceptEditor() {
+      currentMode = 'herhaalrecept';
+      showView('empty');
+      setTopbar('Herhaalrecept', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content: jsonContent, sha: jSha } = await readFile(HERHAALRECEPT_PATH);
+        herhaalreceptData = JSON.parse(jsonContent);
+        herhaalreceptSha = jSha;
+
+        const { content: mdContent, sha: mSha } = await readFile(HERHAALRECEPT_MD_PATH);
+        herhaalreceptMdSha = mSha;
+
+        const panel = document.getElementById('herhaalrecept-panel');
+        panel.innerHTML = '';
+
+        // JSON sections
+        for (const section of HERHAALRECEPT_SECTIONS) {
+          const el = document.createElement('div');
+          el.className = 'spreekuur-section';
+          el.innerHTML = `<div class="spreekuur-section-header">${section.label}</div>`;
+          const body = document.createElement('div');
+          body.className = 'spreekuur-section-body';
+
+          if (section.type === 'text') {
+            const editable = createEditableField(herhaalreceptData[section.key] || '', 'html');
+            editable.dataset.key = section.key;
+            editable.dataset.editor = 'herhaalrecept';
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+          } else if (section.type === 'list') {
+            const listContainer = document.createElement('div');
+            listContainer.dataset.listKey = section.key;
+            listContainer.dataset.editor = 'herhaalrecept';
+            (herhaalreceptData[section.key] || []).forEach((item, i) => {
+              listContainer.appendChild(createListRow(item, i));
+            });
+            body.appendChild(listContainer);
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Item toevoegen';
+            addBtn.addEventListener('click', () => {
+              listContainer.appendChild(createListRow('', listContainer.children.length));
+            });
+            body.appendChild(addBtn);
+          }
+
+          el.appendChild(body);
+          panel.appendChild(el);
+        }
+
+        // Markdown sections
+        const parts = parseContentParts(mdContent.split('---').slice(2).join('---').trim());
+        for (const part of parts) {
+          if (part.type === 'text') {
+            const el = document.createElement('div');
+            el.className = 'spreekuur-section';
+            const editable = createEditableField(part.content, 'markdown');
+            editable.dataset.editor = 'herhaalrecept-md';
+            const body = document.createElement('div');
+            body.className = 'spreekuur-section-body';
+            body.appendChild(createMiniToolbar(editable));
+            body.appendChild(editable);
+            el.appendChild(body);
+            panel.appendChild(el);
+          } else if (part.type === 'table') {
+            panel.appendChild(renderTableEditor(part));
+          }
+        }
+
+        showView('herhaalrecept');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    async function saveHerhaalrecept() {
+      // Gather JSON data
+      for (const section of HERHAALRECEPT_SECTIONS) {
+        if (section.type === 'text') {
+          const editable = document.querySelector(`#herhaalrecept-panel .editable-field[data-key="${section.key}"]`);
+          herhaalreceptData[section.key] = editable ? editable.innerHTML : '';
+        } else if (section.type === 'list') {
+          const container = document.querySelector(`#herhaalrecept-panel [data-list-key="${section.key}"]`);
+          const items = [];
+          if (container) {
+            for (const row of container.children) {
+              const editable = row.querySelector('.editable-field');
+              if (editable) {
+                const text = editable.textContent.trim();
+                if (text) items.push(text);
+              }
+            }
+          }
+          herhaalreceptData[section.key] = items;
+        }
+      }
+      const jsonContent = JSON.stringify(herhaalreceptData, null, 2) + '\n';
+      herhaalreceptSha = await saveFile(HERHAALRECEPT_PATH, jsonContent, herhaalreceptSha, 'Update herhaalrecept via CMS');
+
+      // Gather markdown
+      const mdEditables = document.querySelectorAll('#herhaalrecept-panel .editable-field[data-editor="herhaalrecept-md"]');
+      const mdParts = [];
+      for (const editable of mdEditables) {
+        mdParts.push(htmlToMdInline(editable.innerHTML));
+      }
+      // Also gather tables if any
+      const tables = document.querySelectorAll('#herhaalrecept-panel .cms-table');
+      // Reconstruct markdown
+      const { content: origMd } = await readFile(HERHAALRECEPT_MD_PATH);
+      const frontmatter = origMd.split('---').slice(0, 2).join('---') + '---\n\n';
+      const bodyContent = mdParts.join('\n\n');
+      const mdContent = frontmatter + bodyContent + '\n';
+      herhaalreceptMdSha = await saveFile(HERHAALRECEPT_MD_PATH, mdContent, herhaalreceptMdSha, 'Update herhaalrecept content via CMS');
     }
 
     // --- HOME EDITOR ---

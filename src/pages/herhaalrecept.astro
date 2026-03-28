@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection, render } from 'astro:content';
 import practiceData from '../data/practices.json';
+import data from '../data/herhaalrecept.json';
 
 const pages = await getCollection('pages');
 const page = pages.find((p) => p.id === 'herhaalrecept');
@@ -16,13 +17,13 @@ const receptKey = recept?.key || '2';
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
         <h1>Herhaalrecept aanvragen</h1>
-        <p>Herhaalrecepten voor chronische medicatie kunt u 24 uur per dag (ook in het weekend) op 2 manieren aanvragen:</p>
+        <p>{data.intro}</p>
 
         <h2>1. Via de patientenomgeving</h2>
-        <p>U kunt via de <a href="/schoterpoort/patientenomgeving">patientenomgeving</a> op de website online herhaalrecepten aanvragen. U dient zich dan wel eerst aan te melden. Houdt u er rekening mee dat het na het aanmaken van een account nog tot maximaal 7 dagen duurt voordat het account werkzaam is.</p>
+        <p set:html={data.patientenomgeving} />
 
         <h2>2. Via de receptenlijn (telefoon)</h2>
-        <p>Bel het praktijk-telefoonnummer van uw eigen huisarts en kies voor <strong>keuzetoets {receptKey}</strong>.</p>
+        <p>{data.receptenlijn} Kies voor <strong>keuzetoets {receptKey}</strong>.</p>
         <ul>
           {practiceData.practices.map((practice: any) => (
             <li>{practice.name}: <a href={`tel:${practice.phone.replace(/[\s-]/g, '')}`}>{practice.phone}</a></li>
@@ -30,11 +31,7 @@ const receptKey = recept?.key || '2';
         </ul>
         <p>Op de receptenlijn worden automatisch de volgende vragen aan u gesteld:</p>
         <ul>
-          <li>De naam van uw huisarts</li>
-          <li>Naam en geboortedatum van degene waarvoor het recept bedoeld is</li>
-          <li>Straat en huisnummer woonadres</li>
-          <li>Naam of namen van de medicijnen die u bestelt (houd de doosjes bij de hand!)</li>
-          <li>Naam van uw eigen apotheek</li>
+          {data.receptenlijnVragen.map((v: string) => <li>{v}</li>)}
         </ul>
 
         <Content />
