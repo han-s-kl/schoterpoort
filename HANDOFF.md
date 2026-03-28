@@ -23,7 +23,7 @@ Branch: main
 - CLAUDE.md, docs/refs/, HANDOFF.md ingericht
 - Nieuwssectie volledig verwijderd (was thuisarts.nl content, niet relevant)
 
-### CMS -- Volledig tweetalig (2026-03-28)
+### CMS -- Volledig tweetalig (2026-03-28, bijgewerkt)
 
 **Architectuur:** Single-file CMS in `public/admin/index.html`
 - GitHub Contents API voor lezen/opslaan (direct commits)
@@ -31,40 +31,44 @@ Branch: main
   - Wachtwoord: `schoterpijnboomzaanen`
   - PAT verloopt ~90 dagen na 2026-03-27, moet dan vernieuwd worden
 
-**Sidebar (alle menu's standaard open):**
-- Algemene gegevens (adres, e-mail, 3 telefoonnummers)
-- Home + Home (EN)
-- Patientenomgeving + Patientenomgeving (EN)
-- Medewerkers > 4 categorieën (staff.json editor)
-- Diensten > Spreekuur + (EN), Herhaalrecept + (EN), Apotheek + (EN), Huisbezoek + (EN), Spoedpost + (EN)
-- Praktisch > Tarieven + (EN), Eigen risico + (EN), Klachtenregeling + (EN), Administratieformulier + (EN), Urineonderzoek + (EN), Vacatures + (EN)
+**Sidebar (alleen NL, EN wordt automatisch vertaald):**
+- Algemene gegevens (adres, e-mail, telefoonnummers, openingstijden, avondspreekuur toggle, keuzemenu)
+- Home
+- Patientenomgeving
+- Medewerkers > 4 categorieën (staff.json editor, alleen NL velden)
+- Diensten > Spreekuur, Herhaalrecept, Apotheek, Huisbezoek, Spoedpost
+- Praktisch > Tarieven, Eigen risico, Klachtenregeling, Administratieformulier, Urineonderzoek, Vacatures
 
 **Editor types:**
-1. **Algemene gegevens** -- simpele invoervelden voor adres, e-mail, telefoonnummers (practices.json)
-2. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, WYSIWYG contenteditable per sectie. Kopjes zijn labels (niet bewerkbaar)
-3. **Home-editor** (JSON) -- mededelingen (WYSIWYG), telefonisch consult, afspraak afzeggen, 3 kwaliteit-blokken (titel+tekst+zichtbaar), 8 wist-u-dat items
-4. **Spreekuur-editor** (JSON) -- openingstijden (rijen + noten), keuzemenu, 6 tekstblokken, spoed-items
-5. **Patientenomgeving-editor** (JSON) -- intro, 4 portaal-links, 3 belangrijk-items, app URL, helpdesk
-6. **Staff-editor** (JSON) -- lijst/detail views voor staff.json, filter op role
-7. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
+1. **Algemene gegevens** -- adres, e-mail, telefoonnummers, openingstijden + avondspreekuur toggle, keuzemenu (practices.json)
+2. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, WYSIWYG contenteditable per sectie
+3. **Home-editor** (JSON) -- mededelingen (kleurcodes amber/blauw/grijs), telefonisch consult, afspraak afzeggen, kwaliteit-blokken, wist-u-dat items
+4. **Spreekuur-editor** (JSON) -- 5 consulttype-blokken, afspraak afzeggen (rood accent)
+5. **Herhaalrecept-editor** (JSON) -- 7 secties: intro, patientenomgeving, receptenlijn, vragen, welke medicijnen, wanneer klaar, voorbeelden
+6. **Patientenomgeving-editor** (JSON) -- intro, portaal-links, belangrijk-items (kleurcodes), app URL, helpdesk
+7. **Staff-editor** (JSON) -- lijst/detail views, EN-velden verborgen (auto-vertaald)
+8. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
 
 **WYSIWYG features:**
 - Contenteditable velden (geen raw HTML/markdown zichtbaar)
-- **B Vet** en **Link** knoppen op alle tekstvelden en tabel-cellen
+- Floating selection toolbar: selecteer tekst -> popup met **Vet** en **Link** knoppen
 - Markdown <-> HTML conversie bij laden/opslaan
-- Geen `#`/`##` prefix bij kopjes
-- Kwaliteit-blokken: vast aantal met zichtbaar/verborgen checkbox
+- Kleurcodes: rood (spoed/afzeggen), amber (waarschuwing), blauw (info), grijs (neutraal)
+- Avondspreekuur toggle verbergt/toont gerelateerde velden
 
 **Data-architectuur:**
-- JSON-backed pagina's: `home.json`, `spreekuur.json`, `patientenomgeving.json` + EN varianten (`*-en.json`)
-- Markdown pagina's: `src/content/pages/*.md` + `src/content/pages-en/*.md`
+- Elke pagina heeft eigen .astro template (geen generieke catch-all meer)
+- JSON-backed pagina's: `home.json`, `spreekuur.json`, `patientenomgeving.json`, `herhaalrecept.json` + EN varianten
+- Markdown pagina's: `src/content/pages/*.md` + `src/content/pages-en/*.md` (21 NL + 21 EN)
 - Blocks (mededelingen): `src/content/blocks/*.md` + `src/content/blocks-en/*.md`
-- Gedeelde data: `practices.json` (telefoonnummers, adres), `staff.json`, `navigation.json`
-- Alle telefoonnummers/adres/e-mail lezen uit practices.json (single source of truth)
+- Gedeelde data: `practices.json` (SSOT voor telefoonnummers, adres, openingstijden, keuzemenu), `staff.json` (SSOT voor medewerkers incl. EN vertalingen)
+- `ContactSpoedBlock.astro` -- herbruikbaar component voor contact+spoed info
+- Auto-vertaling: staff.json EN-velden (role, background, interests, since, specializations) + alle JSON/markdown
 
 **Niet in CMS (bewust):**
 - Contact, Telefoonnummers, Contact kinderen -- .astro-only interactieve pagina's
 - Gezondheidsinfo -- categorie-indexpagina
+- Routebeschrijving -- alleen ContactSpoedBlock, geen bewerkbare tekst
 
 ### Auto-vertaling (2026-03-28)
 
@@ -73,6 +77,19 @@ Branch: main
 - Trigger: push naar main met wijzigingen in NL JSON/markdown bestanden
 - Vertaalt automatisch naar EN en commit resultaat
 - Secret: `ANTHROPIC_API_KEY` in GitHub repo settings
+
+## Eerstvolgende taak: CMS read-only blokken
+
+In het CMS moeten niet-bewerkbare/dynamische blokken ook getoond worden (read-only, grijs) zodat de redacteur context heeft bij de bewerkbare blokken.
+
+**Aanpak:** `renderReadOnlyBlock(label, content)` functie in CMS die een grijs, niet-bewerkbaar blok rendert. Per editor toevoegen op de juiste plek.
+
+**Voorbeelden per pagina:**
+- Herhaalrecept: praktijknummers + keuzetoets als grijs blok
+- Spreekuur: openingstijden + keuzemenu + spoed-info als grijs blok
+- Spoedpost: "Tijdens kantooruren" en "Buiten kantooruren" als grijs blok
+- Huisbezoek/Routebeschrijving/Aanmelding: ContactSpoedBlock info als grijs blok
+- Administratieformulier: telefoon/email/praktijkmanager als grijs blok
 
 ## Volgende stappen
 
