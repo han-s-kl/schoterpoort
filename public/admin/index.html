@@ -2291,6 +2291,21 @@
       return document.createDocumentFragment();
     }
 
+    // Clean HTML from contentEditable (strip divs, normalize line breaks)
+    function cleanHtml(html) {
+      let h = html;
+      // Convert </div><div> to <br>
+      h = h.replace(/<\/div>\s*<div[^>]*>/gi, '<br>');
+      // Strip remaining div tags
+      h = h.replace(/<div[^>]*>/gi, '<br>');
+      h = h.replace(/<\/div>/gi, '');
+      // Collapse multiple <br>
+      h = h.replace(/(<br\s*\/?>){3,}/gi, '<br><br>');
+      // Trim leading/trailing <br>
+      h = h.replace(/^(<br\s*\/?>)+/i, '').replace(/(<br\s*\/?>)+$/i, '');
+      return h.trim();
+    }
+
     function createEditableField(content, mode) {
       // mode: 'html' (spreekuur) or 'markdown' (pages)
       const el = document.createElement('div');
@@ -2623,7 +2638,7 @@
       for (const section of SPREEKUUR_SECTIONS) {
         if (section.type === 'text') {
           const editable = document.querySelector(`.editable-field[data-key="${section.key}"]`);
-          result[section.key] = editable ? editable.innerHTML : '';
+          result[section.key] = editable ? cleanHtml(editable.innerHTML) : '';
         } else if (section.type === 'table') {
           const container = document.querySelector(`[data-table-key="${section.key}"]`);
           const rows = [];
@@ -2656,7 +2671,7 @@
           if (container) {
             for (const row of container.children) {
               const editable = row.querySelector('.editable-field');
-              if (editable && editable.innerHTML.trim()) items.push(editable.innerHTML.trim());
+              if (editable && editable.innerHTML.trim()) items.push(cleanHtml(editable.innerHTML));
             }
           }
           result[section.key] = items;
@@ -2987,7 +3002,7 @@
       for (const section of HERHAALRECEPT_SECTIONS) {
         if (section.type === 'text') {
           const editable = document.querySelector(`#herhaalrecept-panel .editable-field[data-key="${section.key}"]`);
-          herhaalreceptData[section.key] = editable ? editable.innerHTML : '';
+          herhaalreceptData[section.key] = editable ? cleanHtml(editable.innerHTML) : '';
         } else if (section.type === 'list') {
           const container = document.querySelector(`#herhaalrecept-panel [data-list-key="${section.key}"]`);
           const items = [];
@@ -3247,7 +3262,7 @@
       for (const section of HOME_SECTIONS) {
         if (section.type === 'text') {
           const editable = document.querySelector(`#home-panel .editable-field[data-key="${section.key}"]`);
-          result[section.key] = editable ? editable.innerHTML : '';
+          result[section.key] = editable ? cleanHtml(editable.innerHTML) : '';
         } else if (section.type === 'blocks') {
           const container = document.querySelector(`[data-blocks-key="${section.key}"]`);
           const blocks = [];
@@ -3272,7 +3287,7 @@
           if (container) {
             for (const row of container.children) {
               const editable = row.querySelector('.editable-field');
-              if (editable && editable.innerHTML.trim()) items.push(editable.innerHTML.trim());
+              if (editable && editable.innerHTML.trim()) items.push(cleanHtml(editable.innerHTML));
             }
           }
           result[section.key] = items;
@@ -3475,7 +3490,7 @@
       for (const section of PATIENTENOMGEVING_SECTIONS) {
         if (section.type === 'text') {
           const editable = document.querySelector(`#patientenomgeving-panel .editable-field[data-key="${section.key}"]`);
-          result[section.key] = editable ? editable.innerHTML : '';
+          result[section.key] = editable ? cleanHtml(editable.innerHTML) : '';
         } else if (section.type === 'simple') {
           const input = document.querySelector(`#patientenomgeving-panel input[data-key="${section.key}"]`);
           result[section.key] = input ? input.value : '';
@@ -3502,7 +3517,7 @@
               if (editable) {
                 items.push({
                   type: select ? select.value : 'warning',
-                  text: editable.innerHTML.trim(),
+                  text: cleanHtml(editable.innerHTML),
                 });
               }
             }
