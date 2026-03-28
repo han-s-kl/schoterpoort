@@ -1435,7 +1435,7 @@
 
         if (item.editor === 'richtext') {
           // WYSIWYG rich-text mode: contentEditable div
-          const bodyWithoutH1 = body.replace(/^#\s+.+\n*/, '');
+          const bodyWithoutH1 = body.replace(/^\s*#\s+.+\n*/, '');
           document.getElementById('fields').style.display = 'none';
           const panel = document.getElementById('editor-panel');
           // Remove previous richtext container if any
