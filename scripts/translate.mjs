@@ -17,6 +17,10 @@ Rules:
 - Return ONLY the translated content, no explanations`;
 
 function getEnPath(nlPath) {
+  // src/data/staff.json -> same file (EN fields are inline)
+  if (nlPath === 'src/data/staff.json') {
+    return nlPath;
+  }
   // src/data/home.json -> src/data/home-en.json
   if (nlPath.startsWith('src/data/') && nlPath.endsWith('.json')) {
     return nlPath.replace('.json', '-en.json');
@@ -50,6 +54,67 @@ ${nlContent}`
   });
 
   return response.content[0].text;
+}
+
+const STAFF_EN_FIELDS = [
+  { nl: 'background', en: 'backgroundEn' },
+  { nl: 'interests', en: 'interestsEn' },
+  { nl: 'since', en: 'sinceEn' },
+  { nl: 'specializations', en: 'specializationsEn' },
+];
+
+async function translateStaffJSON(nlContent) {
+  const staff = JSON.parse(nlContent);
+
+  // Collect all NL texts that need translation
+  const toTranslate = {};
+  for (let i = 0; i < staff.length; i++) {
+    for (const { nl } of STAFF_EN_FIELDS) {
+      const val = staff[i][nl];
+      if (!val || (Array.isArray(val) && val.length === 0)) continue;
+      const key = `${i}.${nl}`;
+      toTranslate[key] = Array.isArray(val) ? val.join(' || ') : val;
+    }
+  }
+
+  if (Object.keys(toTranslate).length === 0) {
+    console.log('No staff fields to translate');
+    return nlContent;
+  }
+
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 8192,
+    system: SYSTEM_PROMPT,
+    messages: [{
+      role: 'user',
+      content: `Translate these Dutch text values to English. Return a JSON object with the same keys and the translated values. For values that contain " || " separators, translate each part separately and keep the " || " separators.
+
+Do not translate proper nouns (doctor names, practice names like "Praktijk Louwet", "Schoterpoort", "UwZorgOnline"). Keep the first-person voice if the original uses it.
+
+Return ONLY valid JSON, no markdown code fences.
+
+${JSON.stringify(toTranslate, null, 2)}`
+    }],
+  });
+
+  const translations = JSON.parse(response.content[0].text);
+
+  // Write translations back into staff array
+  for (const [key, enValue] of Object.entries(translations)) {
+    const [indexStr, nlField] = key.split('.');
+    const index = parseInt(indexStr);
+    const enField = STAFF_EN_FIELDS.find(f => f.nl === nlField)?.en;
+    if (enField === undefined) continue;
+
+    if (nlField === 'specializations') {
+      staff[index][enField] = enValue.split(' || ').map(s => s.trim());
+    } else {
+      staff[index][enField] = enValue;
+    }
+  }
+
+  return JSON.stringify(staff, null, 2) + '\n';
 }
 
 async function translateMarkdown(nlContent) {
@@ -99,9 +164,13 @@ async function main() {
 
   console.log(`Translating: ${filePath} -> ${enPath}`);
 
+  const isStaff = filePath === 'src/data/staff.json';
+
   try {
     let enContent;
-    if (isJSON) {
+    if (isStaff) {
+      enContent = await translateStaffJSON(nlContent);
+    } else if (isJSON) {
       enContent = await translateJSON(nlContent);
       // Validate JSON
       JSON.parse(enContent);

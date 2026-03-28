@@ -7,6 +7,7 @@ on:
       - 'src/data/home.json'
       - 'src/data/spreekuur.json'
       - 'src/data/patientenomgeving.json'
+      - 'src/data/staff.json'
       - 'src/content/pages/**.md'
       - 'src/content/blocks/**.md'
 
@@ -34,6 +35,7 @@ jobs:
             'src/data/home.json' \
             'src/data/spreekuur.json' \
             'src/data/patientenomgeving.json' \
+            'src/data/staff.json' \
             'src/content/pages/*.md' \
             'src/content/blocks/*.md')
           echo "files<<EOF" >> $GITHUB_OUTPUT
@@ -63,7 +65,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/data/*-en.json src/content/pages-en/ src/content/blocks-en/
+          git add src/data/*-en.json src/data/staff.json src/content/pages-en/ src/content/blocks-en/
           if git diff --staged --quiet; then
             echo "No translation changes to commit"
           else
