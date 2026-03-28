@@ -1440,9 +1440,11 @@
           const bodyWithoutH1 = body.replace(/^\s*#\s+.+\n*/, '');
           document.getElementById('fields').style.display = 'none';
           const panel = document.getElementById('editor-panel');
-          // Remove previous richtext container if any
+          // Remove previous containers
           const oldRt = panel.querySelector('.richtext-container');
           if (oldRt) oldRt.remove();
+          const oldSc = panel.querySelector('.sections-container');
+          if (oldSc) oldSc.remove();
           const container = document.createElement('div');
           container.className = 'richtext-container';
           const editable = document.createElement('div');
