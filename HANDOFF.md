@@ -12,10 +12,10 @@ Branch: main
 ### Website
 - Volledige rebuild van schoterpoort.com (WordPress -> Astro + Tailwind)
 - 77 pagina's (NL + EN) met alle content, links, afbeeldingen, PDFs
-- Engelse vertaling (NL is SSOT, EN gegenereerd)
+- Engelse vertaling (NL is SSOT, EN automatisch vertaald)
 - Contact-flow met triage (spoed/afspraak/bericht)
 - ZIVVER formulier voor kinderen <16
-- Spreekuur + patientenomgeving als styled Astro pagina's (practices.json SSOT)
+- Spreekuur + patientenomgeving als styled Astro pagina's (JSON SSOT)
 - Klachtenformulier (HTML form, mailto: tijdelijk)
 - Taalwissel NL/EN met SVG vlaggetjes
 - Staff bios: letterlijke originele tekst, initialen buiten bio's
@@ -23,7 +23,7 @@ Branch: main
 - CLAUDE.md, docs/refs/, HANDOFF.md ingericht
 - Nieuwssectie volledig verwijderd (was thuisarts.nl content, niet relevant)
 
-### CMS -- Volledig herstructureerd (2026-03-27)
+### CMS -- Volledig tweetalig (2026-03-28)
 
 **Architectuur:** Single-file CMS in `public/admin/index.html`
 - GitHub Contents API voor lezen/opslaan (direct commits)
@@ -31,67 +31,52 @@ Branch: main
   - Wachtwoord: `schoterpijnboomzaanen`
   - PAT verloopt ~90 dagen na 2026-03-27, moet dan vernieuwd worden
 
-**Sidebar -- navigatie-gebaseerd (alle menu's standaard open):**
+**Sidebar (alle menu's standaard open):**
+- Algemene gegevens (adres, e-mail, 3 telefoonnummers)
+- Home + Home (EN)
+- Patientenomgeving + Patientenomgeving (EN)
 - Medewerkers > 4 categorieën (staff.json editor)
-- Diensten > Spreekuur (JSON editor), Herhaalrecept, Apotheek, Huisbezoek, Spoedpost
-- Praktisch > Tarieven, Eigen risico, Klachtenregeling, Administratieformulier, Urineonderzoek, Vacatures
-- Mededelingen (3 blokken gestapeld)
+- Diensten > Spreekuur + (EN), Herhaalrecept + (EN), Apotheek + (EN), Huisbezoek + (EN), Spoedpost + (EN)
+- Praktisch > Tarieven + (EN), Eigen risico + (EN), Klachtenregeling + (EN), Administratieformulier + (EN), Urineonderzoek + (EN), Vacatures + (EN)
 
 **Editor types:**
-1. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, toont elk als apart bewerkbaar veld. Kopjes zijn labels (niet bewerkbaar), tekst is WYSIWYG contenteditable
-2. **Spreekuur-editor** (JSON) -- gestructureerde velden: openingstijden (rijen + noten), keuzemenu, 6 tekstblokken, spoed-items. Bron: `src/data/spreekuur.json`, `spreekuur.astro` leest hieruit
-3. **Staff-editor** (JSON) -- lijst/detail views voor `src/data/staff.json`, filter op role
-4. **Blocks-editor** (mededelingen) -- alle 3 blokken gestapeld met EasyMDE
-5. **Tabel-editor** -- markdown tabellen worden visueel als tabel met invoervelden getoond (apotheek, tarieven)
+1. **Algemene gegevens** -- simpele invoervelden voor adres, e-mail, telefoonnummers (practices.json)
+2. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, WYSIWYG contenteditable per sectie. Kopjes zijn labels (niet bewerkbaar)
+3. **Home-editor** (JSON) -- mededelingen (WYSIWYG), telefonisch consult, afspraak afzeggen, 3 kwaliteit-blokken (titel+tekst+zichtbaar), 8 wist-u-dat items
+4. **Spreekuur-editor** (JSON) -- openingstijden (rijen + noten), keuzemenu, 6 tekstblokken, spoed-items
+5. **Patientenomgeving-editor** (JSON) -- intro, 4 portaal-links, 3 belangrijk-items, app URL, helpdesk
+6. **Staff-editor** (JSON) -- lijst/detail views voor staff.json, filter op role
+7. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
 
 **WYSIWYG features:**
 - Contenteditable velden (geen raw HTML/markdown zichtbaar)
-- **B Vet** en **Link** knoppen (execCommand) op alle tekstvelden en tabel-cellen
-- Markdown <-> HTML conversie bij laden/opslaan (bold, links)
-- Spreekuur velden slaan HTML direct op (set:html in .astro)
+- **B Vet** en **Link** knoppen op alle tekstvelden en tabel-cellen
+- Markdown <-> HTML conversie bij laden/opslaan
+- Geen `#`/`##` prefix bij kopjes
+- Kwaliteit-blokken: vast aantal met zichtbaar/verborgen checkbox
+
+**Data-architectuur:**
+- JSON-backed pagina's: `home.json`, `spreekuur.json`, `patientenomgeving.json` + EN varianten (`*-en.json`)
+- Markdown pagina's: `src/content/pages/*.md` + `src/content/pages-en/*.md`
+- Blocks (mededelingen): `src/content/blocks/*.md` + `src/content/blocks-en/*.md`
+- Gedeelde data: `practices.json` (telefoonnummers, adres), `staff.json`, `navigation.json`
+- Alle telefoonnummers/adres/e-mail lezen uit practices.json (single source of truth)
 
 **Niet in CMS (bewust):**
 - Contact, Telefoonnummers, Contact kinderen -- .astro-only interactieve pagina's
 - Gezondheidsinfo -- categorie-indexpagina
 
+### Auto-vertaling (2026-03-28)
+
+- GitHub Action `.github/workflows/translate.yml`
+- Script `scripts/translate.mjs` -- Claude API (Haiku model)
+- Trigger: push naar main met wijzigingen in NL JSON/markdown bestanden
+- Vertaalt automatisch naar EN en commit resultaat
+- Secret: `ANTHROPIC_API_KEY` in GitHub repo settings
+
 ## Volgende stappen
 
-### Prioriteit 1: Home en Patientenomgeving bewerkbaar maken via CMS
-
-Zelfde aanpak als spreekuur: JSON databestand + .astro template leest hieruit + CMS editor.
-
-**Home (`index.astro`)** -- maak `src/data/home.json`:
-- Mededelingen: KLAAR (blocks collection, al bewerkbaar via Mededelingen in CMS)
-- Telefonisch consult blokje: tekst (1 veld)
-- Afspraak afzeggen blokje: tekst (1 veld)
-- Kwaliteit: 3 blokjes (NPA-keurmerk titel+tekst, Ons artsenteam titel+tekst, onderste blok tekst)
-- Wist u dat?: 8 blokjes (elk tekst, icon blijft hardcoded)
-
-**Patientenomgeving (`patientenomgeving.astro`)** -- maak `src/data/patientenomgeving.json`:
-- Introductietekst (1 tekstveld + opsomming)
-- 4 portaal-links (titel + URL per stuk, gestructureerd)
-- Belangrijk: 3 blokjes in 2 opmaaktypes (tekst per blok + type indicator)
-- Mobiele app: link URL (1 veld)
-- Hulp nodig: telefoonnummer + website-link (2 velden)
-
-**Implementatie per pagina:**
-1. JSON databestand aanmaken met huidige hardcoded content
-2. .astro template aanpassen: `import data from '../data/xxx.json'` + data in template
-3. CMS NAV_ITEMS: nieuw item met mode 'home' / 'patientenomgeving'
-4. CMS editor functies: `openHomeEditor()` / `openPatientenomgevingEditor()`
-5. Gestructureerde velden met WYSIWYG contenteditable + bold/link knoppen
-
-**Referentie:** Spreekuur-implementatie als voorbeeld:
-- `src/data/spreekuur.json` -- datastructuur
-- `src/pages/spreekuur.astro` -- template leest uit JSON
-- `public/admin/index.html` -- `openSpreekuurEditor()`, `SPREEKUUR_SECTIONS`, `saveSpreekuur()`
-
-### Prioriteit 2: Auto-vertaling
-1. **Anthropic API key** aanmaken
-2. **GitHub Action** -- `.github/workflows/translate.yml` + `scripts/translate.mjs`
-3. NL-wijziging via CMS -> Action vertaalt automatisch naar EN
-
-### Prioriteit 2: TransIP migratie (wacht op TransIP hosting)
+### Prioriteit 1: TransIP migratie (wacht op TransIP hosting)
 1. **PHP auth proxy** -- eigen login (email/wachtwoord), GitHub PAT server-side
 2. **Versleuteld PAT verwijderen** uit public/admin/index.html
 3. **Deploy pipeline** -- GitHub Actions SFTP naar TransIP
@@ -102,3 +87,4 @@ Zelfde aanpak als spreekuur: JSON databestand + .astro template leest hieruit + 
 1. **ZIVVER Conversation Starter** -- placeholder URL in contact-kinderen.astro
 2. **GitHub Pages base path** -- hardcoded `/schoterpoort/` prefix in markdown links
 3. **Klachtenformulier backend** -- mailto: -> PHP op TransIP. Zie docs/refs/formulieren-backend.md
+4. **GitHub default branch** -- `feature/initial-site` is default op GitHub, `main` is deploy branch. Overweeg synchronisatie
