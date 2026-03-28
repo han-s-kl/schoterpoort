@@ -1,0 +1,72 @@
+name: Auto-translate NL to EN
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/home.json'
+      - 'src/data/spreekuur.json'
+      - 'src/data/patientenomgeving.json'
+      - 'src/content/pages/**.md'
+      - 'src/content/blocks/**.md'
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    # Skip if the commit was made by this action (prevent loops)
+    if: "!contains(github.event.head_commit.message, 'Auto-translate')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Find changed NL files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only HEAD~1 HEAD -- \
+            'src/data/home.json' \
+            'src/data/spreekuur.json' \
+            'src/data/patientenomgeving.json' \
+            'src/content/pages/*.md' \
+            'src/content/blocks/*.md')
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          if [ -z "$FILES" ]; then
+            echo "No NL files changed"
+          else
+            echo "Changed files:"
+            echo "$FILES"
+          fi
+
+      - name: Translate changed files
+        if: steps.changed.outputs.files != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          while IFS= read -r file; do
+            if [ -n "$file" ]; then
+              echo "Translating: $file"
+              node scripts/translate.mjs "$file"
+            fi
+          done <<< "${{ steps.changed.outputs.files }}"
+
+      - name: Commit and push translations
+        if: steps.changed.outputs.files != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/*-en.json src/content/pages-en/ src/content/blocks-en/
+          if git diff --staged --quiet; then
+            echo "No translation changes to commit"
+          else
+            git commit -m "Auto-translate NL content to EN"
+            git push
+          fi
