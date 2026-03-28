@@ -924,7 +924,6 @@
     const NAV_ITEMS = [
       { label: 'Algemene gegevens', mode: 'practice-info' },
       { label: 'Home', mode: 'home' },
-      { label: 'Patientenomgeving', mode: 'patientenomgeving' },
       { type: 'separator' },
       {
         label: 'Medewerkers', children: [
@@ -941,6 +940,7 @@
           { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
           { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
           { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS },
+          { label: 'Patientenomgeving', mode: 'patientenomgeving' },
         ]
       },
       {
@@ -1275,7 +1275,13 @@
         setActiveNav(item);
         await openHomeEditor(item.lang);
       } else if (item.mode === 'patientenomgeving') {
-        item._navId = item.label;
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        if (!item._navId) item._navId = item.label;
         setActiveNav(item);
         await openPatientenomgevingEditor(item.lang);
       } else if (item.mode === 'herhaalrecept') {
