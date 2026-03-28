@@ -2235,17 +2235,10 @@
               }
               blockEl.appendChild(fieldsDiv);
 
-              const wrap = document.createElement('div');
-              wrap.className = 'markdown-wrap';
-              const mdLabel = document.createElement('div');
-              mdLabel.className = 'markdown-label';
-              mdLabel.textContent = 'Inhoud';
-              wrap.appendChild(mdLabel);
-              const textarea = document.createElement('textarea');
-              textarea.id = `block-editor-${i}`;
-              textarea.value = block.body;
-              wrap.appendChild(textarea);
-              blockEl.appendChild(wrap);
+              const editable = createEditableField(block.body, 'markdown');
+              editable.dataset.blockIndex = i;
+              blockEl.appendChild(createMiniToolbar(editable));
+              blockEl.appendChild(editable);
 
               body.appendChild(blockEl);
             });
@@ -2285,20 +2278,6 @@
         }
 
         showView('home');
-
-        // Create EasyMDE instances for blocks after DOM is visible
-        loaded.forEach((block, i) => {
-          const mde = new EasyMDE({
-            element: document.getElementById(`block-editor-${i}`),
-            spellChecker: false,
-            autofocus: false,
-            status: false,
-            toolbar: ['bold', 'italic', 'heading', '|', 'link', '|', 'preview'],
-            minHeight: '150px',
-          });
-          mdeInstances.push(mde);
-        });
-
         document.getElementById('save-btn').disabled = false;
         setStatus('');
       } catch (err) {
@@ -2403,7 +2382,8 @@
             meta[field.name] = input.value;
           }
         }
-        const body = mdeInstances[i] ? mdeInstances[i].value() : block.body;
+        const blockEditable = document.querySelector(`#home-panel .editable-field[data-block-index="${i}"]`);
+        const body = blockEditable ? htmlToMdInline(blockEditable.innerHTML) : block.body;
         const blockContent = serializeFrontmatter(meta, body, BLOCK_FIELDS);
         const slug = block.path.split('/').pop().replace('.md', '');
         const blockMsg = `Update mededeling: ${slug} via CMS`;
