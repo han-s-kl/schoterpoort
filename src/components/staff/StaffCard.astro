@@ -11,9 +11,11 @@ interface Props {
   interests?: string;
   phone?: string;
   bigNumber?: string;
+  lang?: string;
 }
 
-const { name, role, photo, team, workingDays, since, background, specializations, interests, phone, bigNumber } = Astro.props;
+const { name, role, photo, team, workingDays, since, background, specializations, interests, phone, bigNumber, lang = 'nl' } = Astro.props;
+const isEn = lang === 'en';
 const base = import.meta.env.BASE_URL;
 const photoUrl = photo ? `${base}${photo}` : undefined;
 
@@ -31,7 +33,7 @@ const initials = name
     {photoUrl ? (
       <img
         src={photoUrl}
-        alt={`Foto van ${name}`}
+        alt={isEn ? `Photo of ${name}` : `Foto van ${name}`}
         class="w-16 h-16 rounded-full object-cover shrink-0 border-2 border-primary-100"
         loading="lazy"
       />
@@ -56,12 +58,12 @@ const initials = name
 
       {workingDays && workingDays.length > 0 && (
         <p class="text-xs text-neutral-500 mt-2">
-          <span class="font-medium">Werkdagen:</span> {workingDays.join(', ')}
+          <span class="font-medium">{isEn ? 'Working days:' : 'Werkdagen:'}</span> {workingDays.join(', ')}
         </p>
       )}
 
       {since && (
-        <p class="text-xs text-neutral-400 mt-1">Werkzaam sinds {since}</p>
+        <p class="text-xs text-neutral-400 mt-1">{isEn ? `Active since ${since}` : `Werkzaam sinds ${since}`}</p>
       )}
 
       {background && (
@@ -77,7 +79,7 @@ const initials = name
       )}
 
       {interests && (
-        <p class="text-xs text-neutral-400 mt-2 italic">Interesses: {interests}</p>
+        <p class="text-xs text-neutral-400 mt-2 italic">{isEn ? 'Interests:' : 'Interesses:'} {interests}</p>
       )}
 
       {bigNumber && (

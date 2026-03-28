@@ -51,7 +51,11 @@ const hasStaffCards = staffForPage.length > 0;
 
       <h1 class="text-3xl lg:text-4xl font-bold mb-8">{page.data.title}</h1>
 
-      {hasStaffCards ? (
+      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-8">
+        <Content />
+      </article>
+
+      {hasStaffCards && (
         <div class="grid gap-4">
           {staffForPage.map((member) => (
             <StaffCard
@@ -69,10 +73,6 @@ const hasStaffCards = staffForPage.length > 0;
             />
           ))}
         </div>
-      ) : (
-        <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-          <Content />
-        </article>
       )}
     </div>
   </section>
