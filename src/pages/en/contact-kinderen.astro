@@ -12,7 +12,7 @@ import { url } from '../../utils/url';
       <!-- Warnings -->
       <div class="space-y-3 mb-10">
         <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-4">
-          <p class="text-sm text-accent-800 font-semibold">In case of emergency: call your GP directly or outside office hours the Emergency Post (<a href="tel:023-7504567" class="underline">023-750 45 67</a>). This form is not intended for urgent questions.</p>
+          <p class="text-sm text-accent-800 font-semibold">In case of emergency: call your GP directly or outside office hours the Emergency Post (<a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="underline">{practiceData.phoneEmergency}</a>). This form is not intended for urgent questions.</p>
         </div>
         <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
           <p class="text-sm text-blue-800">Is your child <strong>16 years or older</strong>? Then your child can ask a question themselves via the <a href={url('/en/patientenomgeving')} class="underline font-medium">patient portal</a>.</p>

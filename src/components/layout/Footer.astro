@@ -19,12 +19,12 @@ const prefix = lang === 'en' ? '/en' : '';
       <div>
         <h2 class="text-white font-semibold text-lg mb-4">Contact</h2>
         <address class="not-italic space-y-2 text-sm">
-          <p>Pijnboomstraat 19<br />2023 VN Haarlem</p>
+          <p set:html={practiceData.address.replace(',', '<br />')} />
           <p>
             <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="text-white hover:text-primary-300 no-underline">{practiceData.phoneGeneral}</a>
           </p>
           <p>
-            <a href="mailto:info@schoterpoort.com" class="text-dark-300 hover:text-white no-underline">info@schoterpoort.com</a>
+            <a href={`mailto:${practiceData.email}`} class="text-dark-300 hover:text-white no-underline">{practiceData.email}</a>
           </p>
           <p class="pt-2">
             <strong class="text-white">Openingstijden:</strong><br />

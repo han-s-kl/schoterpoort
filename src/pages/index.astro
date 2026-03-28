@@ -147,8 +147,8 @@ const practices = practiceData.practices;
           <strong>Open:</strong> Ma-vr 08:00 -- 17:00 (avondspreekuur op afspraak)
         </p>
         <p class="text-sm text-neutral-500">
-          <strong>Adres:</strong> Pijnboomstraat 19, 2023 VN Haarlem &nbsp;|&nbsp;
-          <strong>E-mail:</strong> <a href="mailto:info@schoterpoort.com" class="no-underline hover:underline">info@schoterpoort.com</a>
+          <strong>Adres:</strong> {practiceData.address} &nbsp;|&nbsp;
+          <strong>E-mail:</strong> <a href={`mailto:${practiceData.email}`} class="no-underline hover:underline">{practiceData.email}</a>
         </p>
       </div>
     </div>

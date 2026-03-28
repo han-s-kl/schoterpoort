@@ -150,12 +150,12 @@ const practices = practiceData.practices;
 
       <div class="mt-8 text-center space-y-1">
         <p class="text-sm text-neutral-500">
-          <strong>General number:</strong> <a href="tel:023-5410345" class="no-underline hover:underline">023-541 03 45</a> &nbsp;|&nbsp;
+          <strong>General number:</strong> <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="no-underline hover:underline">{practiceData.phoneGeneral}</a> &nbsp;|&nbsp;
           <strong>Open:</strong> Mon-Fri 08:00 -- 17:00 (evening consultations by appointment)
         </p>
         <p class="text-sm text-neutral-500">
-          <strong>Address:</strong> Pijnboomstraat 19, 2023 VN Haarlem &nbsp;|&nbsp;
-          <strong>Email:</strong> <a href="mailto:info@schoterpoort.com" class="no-underline hover:underline">info@schoterpoort.com</a>
+          <strong>Address:</strong> {practiceData.address} &nbsp;|&nbsp;
+          <strong>Email:</strong> <a href={`mailto:${practiceData.email}`} class="no-underline hover:underline">{practiceData.email}</a>
         </p>
       </div>
     </div>
@@ -176,10 +176,10 @@ const practices = practiceData.practices;
             Call the Haarlem Emergency GP Post for evening, night and weekend care. Life-threatening emergency: call 112.
           </p>
           <a
-            href="tel:023-7504567"
+            href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`}
             class="inline-flex items-center gap-2 bg-accent-600 text-white font-semibold px-5 py-2.5 rounded-lg no-underline hover:bg-accent-700 transition-colors"
           >
-            Call 023-750 45 67
+            Call {practiceData.phoneEmergency}
           </a>
         </div>
       </div>

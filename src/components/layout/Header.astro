@@ -34,7 +34,7 @@ const switchUrl = lang === 'en'
   <!-- Contact bar -->
   <div class="bg-dark-800 text-white text-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1.5 sm:py-2 flex justify-between items-center gap-2">
-      <span class="text-white hidden sm:inline">Pijnboomstraat 19, 2023 VN Haarlem</span>
+      <span class="text-white hidden sm:inline">{practiceData.address}</span>
       <div class="flex items-center gap-3 sm:gap-4">
         <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="text-white font-medium hover:text-primary-300 no-underline flex items-center gap-1.5 text-xs sm:text-sm">
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
