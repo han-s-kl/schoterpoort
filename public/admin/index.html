@@ -953,13 +953,13 @@
           { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
           {
             label: 'Gezondheidsinfo', collapsed: true, children: [
-              { label: 'Reizigersadvisering', mode: 'markdown', file: 'src/content/pages/reizigersadvisering.md', fields: PAGE_FIELDS },
-              { label: 'SOA', mode: 'markdown', file: 'src/content/pages/soa.md', fields: PAGE_FIELDS },
-              { label: 'Spiraal', mode: 'markdown', file: 'src/content/pages/spiraal.md', fields: PAGE_FIELDS },
-              { label: 'Tekenbeet', mode: 'markdown', file: 'src/content/pages/tekenbeet.md', fields: PAGE_FIELDS },
-              { label: 'Urineweginfecties', mode: 'markdown', file: 'src/content/pages/urineweginfecties.md', fields: PAGE_FIELDS },
-              { label: 'Wrattenspreekuur', mode: 'markdown', file: 'src/content/pages/wrattenspreekuur.md', fields: PAGE_FIELDS },
-              { label: 'Zwangerschap', mode: 'markdown', file: 'src/content/pages/zwangerschap.md', fields: PAGE_FIELDS },
+              { label: 'Reizigersadvisering', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/reizigersadvisering.md', fields: PAGE_FIELDS },
+              { label: 'SOA', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/soa.md', fields: PAGE_FIELDS },
+              { label: 'Spiraal', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/spiraal.md', fields: PAGE_FIELDS },
+              { label: 'Tekenbeet', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/tekenbeet.md', fields: PAGE_FIELDS },
+              { label: 'Urineweginfecties', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/urineweginfecties.md', fields: PAGE_FIELDS },
+              { label: 'Wrattenspreekuur', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/wrattenspreekuur.md', fields: PAGE_FIELDS },
+              { label: 'Zwangerschap', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/zwangerschap.md', fields: PAGE_FIELDS },
             ]
           },
         ]
@@ -1310,29 +1310,53 @@
         const { meta, body } = parseFrontmatter(content);
 
         currentMeta = meta;
-        document.getElementById('fields').style.display = 'none';
         currentSections = parseMarkdownSections(body);
-        renderSectionEditor(currentSections);
 
-        // Read-only context blocks for specific markdown pages
-        await ensurePracticesLoaded();
-        const panel = document.getElementById('editor-panel');
-        const sectionsContainer = panel.querySelector('.sections-container');
-        const filePath = currentFile.path;
-        if (filePath.includes('spoedpost.md')) {
-          sectionsContainer.parentNode.insertBefore(
-            buildSpoedpostReadOnlyBlock(practicesData), sectionsContainer
-          );
-        } else if (filePath.includes('huisbezoek.md')) {
-          sectionsContainer.parentNode.appendChild(
-            buildContactSpoedReadOnlyBlock(practicesData)
-          );
-        } else if (filePath.includes('administratieformulier.md')) {
-          const adminBlock = await buildAdminformulierReadOnlyBlock(practicesData);
-          sectionsContainer.parentNode.appendChild(adminBlock);
+        if (item.editor === 'richtext') {
+          // Rich-text mode: single EasyMDE editor for the full body
+          const bodyWithoutH1 = body.replace(/^#\s+.+\n*/, '');
+          document.getElementById('fields').style.display = 'none';
+          const textarea = document.getElementById('editor-textarea');
+          textarea.value = bodyWithoutH1;
+          showView('editor');
+          // Show markdown-wrap AFTER showView (which hides it by default)
+          document.getElementById('markdown-wrap').style.display = 'block';
+
+          const mde = new EasyMDE({
+            element: textarea,
+            spellChecker: false,
+            autofocus: false,
+            status: false,
+            toolbar: ['bold', 'italic', 'heading-2', 'heading-3', '|', 'unordered-list', '|', 'link', 'image', '|', 'preview'],
+            minHeight: '400px',
+          });
+          mdeInstances.push(mde);
+        } else {
+          // Section-based editor for regular markdown pages
+          document.getElementById('fields').style.display = 'none';
+          renderSectionEditor(currentSections);
+
+          // Read-only context blocks for specific markdown pages
+          await ensurePracticesLoaded();
+          const panel = document.getElementById('editor-panel');
+          const sectionsContainer = panel.querySelector('.sections-container');
+          const filePath = currentFile.path;
+          if (filePath.includes('spoedpost.md')) {
+            sectionsContainer.parentNode.insertBefore(
+              buildSpoedpostReadOnlyBlock(practicesData), sectionsContainer
+            );
+          } else if (filePath.includes('huisbezoek.md')) {
+            sectionsContainer.parentNode.appendChild(
+              buildContactSpoedReadOnlyBlock(practicesData)
+            );
+          } else if (filePath.includes('administratieformulier.md')) {
+            const adminBlock = await buildAdminformulierReadOnlyBlock(practicesData);
+            sectionsContainer.parentNode.appendChild(adminBlock);
+          }
+
+          showView('editor');
         }
 
-        showView('editor');
         document.getElementById('save-btn').disabled = false;
         setStatus('');
       } catch (err) {
@@ -1623,6 +1647,14 @@
       if (!currentNavItem) return null;
       const fields = currentNavItem.fields || PAGE_FIELDS;
       const meta = currentMeta;
+
+      // Rich-text mode: get content from EasyMDE
+      if (currentNavItem.editor === 'richtext' && mdeInstances.length > 0) {
+        const mdBody = mdeInstances[0].value();
+        const h1 = currentSections.find(s => s.level === 1);
+        const h1Line = h1 ? `# ${h1.heading}\n\n` : '';
+        return serializeFrontmatter(meta, h1Line + mdBody + '\n', fields);
+      }
 
       // Gather sections from editable fields and tables
       const sectionBodies = document.querySelectorAll('.sections-container .spreekuur-section-body[data-section-index]');
