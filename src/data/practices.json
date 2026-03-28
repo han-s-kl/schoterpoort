@@ -1,9 +1,9 @@
 {
   "address": "Pijnboomstraat 19, 2023 VN Haarlem",
   "email": "info@schoterpoort.com",
-  "phoneGeneral": "023-541 03 45",
-  "phoneEmergency": "023-750 45 67",
-  "phoneNurses": "023-525 69 83",
+  "phoneGeneral": "123-541 03 45",
+  "phoneEmergency": "123-750 45 67",
+  "phoneNurses": "123-525 69 83",
   "emergencyNote": "Bel 023-750 45 67 buiten openingstijden (na 17:00, weekenden en feestdagen). Bel 112 bij levensbedreigende situaties.",
   "practices": [
     {
@@ -14,17 +14,31 @@
           "name": "Margot Louwet",
           "initials": "M.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": ["maandag", "dinsdag", "donderdagochtend", "vrijdag"]
+          "workingDays": [
+            "maandag",
+            "dinsdag",
+            "donderdagochtend",
+            "vrijdag"
+          ]
         },
         {
           "name": "Natasja Moes",
           "initials": "N.M.",
           "role": "Huisarts",
-          "workingDays": ["dinsdag", "woensdag", "donderdag"]
+          "workingDays": [
+            "dinsdag",
+            "woensdag",
+            "donderdag"
+          ]
         }
       ],
-      "assistants": ["Shanice", "Pauline"],
-      "trainees": ["Jesse Holverda"]
+      "assistants": [
+        "Shanice",
+        "Pauline"
+      ],
+      "trainees": [
+        "Jesse Holverda"
+      ]
     },
     {
       "name": "Praktijk Duijn",
@@ -34,16 +48,28 @@
           "name": "Marina Duijn",
           "initials": "M.M.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": ["maandag", "woensdag", "donderdagochtend", "vrijdag"]
+          "workingDays": [
+            "maandag",
+            "woensdag",
+            "donderdagochtend",
+            "vrijdag"
+          ]
         },
         {
           "name": "Britt Schouten",
           "initials": "B.",
           "role": "Huisarts",
-          "workingDays": ["maandag", "dinsdag", "donderdag"]
+          "workingDays": [
+            "maandag",
+            "dinsdag",
+            "donderdag"
+          ]
         }
       ],
-      "assistants": ["Marjoleine", "Larissa"],
+      "assistants": [
+        "Marjoleine",
+        "Larissa"
+      ],
       "trainees": []
     },
     {
@@ -54,17 +80,31 @@
           "name": "Willemijn Steketee",
           "initials": "W.H.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": ["maandag", "dinsdag", "donderdagochtend", "vrijdag"]
+          "workingDays": [
+            "maandag",
+            "dinsdag",
+            "donderdagochtend",
+            "vrijdag"
+          ]
         },
         {
           "name": "Willemijn Schaap",
           "initials": "W.",
           "role": "Huisarts",
-          "workingDays": ["maandag", "woensdag", "donderdag"]
+          "workingDays": [
+            "maandag",
+            "woensdag",
+            "donderdag"
+          ]
         }
       ],
-      "assistants": ["Thea", "Ellen"],
-      "trainees": ["Lazin Germawi"]
+      "assistants": [
+        "Thea",
+        "Ellen"
+      ],
+      "trainees": [
+        "Lazin Germawi"
+      ]
     },
     {
       "name": "Praktijk Van der Eem",
@@ -74,54 +114,105 @@
           "name": "Lisette van der Eem",
           "initials": "L.",
           "role": "Huisarts (hoofdpraktijk)",
-          "workingDays": ["maandag", "woensdag", "donderdag"]
+          "workingDays": [
+            "maandag",
+            "woensdag",
+            "donderdag"
+          ]
         },
         {
           "name": "Sandra Bosch",
           "initials": "S.",
           "role": "Huisarts",
-          "workingDays": ["dinsdag", "donderdag", "vrijdag"]
+          "workingDays": [
+            "dinsdag",
+            "donderdag",
+            "vrijdag"
+          ]
         }
       ],
-      "assistants": ["Wendy", "Milou"],
+      "assistants": [
+        "Wendy",
+        "Milou"
+      ],
       "trainees": []
     }
   ],
   "sharedStaff": {
     "praktijkmanager": {
       "name": "Eefje van der Burgh",
-      "workingDays": ["maandag", "dinsdag", "donderdag", "vrijdag"]
+      "workingDays": [
+        "maandag",
+        "dinsdag",
+        "donderdag",
+        "vrijdag"
+      ]
     },
     "baliemedewerkers": [
       {
         "name": "Carolien",
-        "workingDays": ["maandag", "dinsdag", "woensdag"]
+        "workingDays": [
+          "maandag",
+          "dinsdag",
+          "woensdag"
+        ]
       },
       {
         "name": "Jessica",
-        "workingDays": ["maandag", "dinsdag", "woensdag", "donderdag"]
+        "workingDays": [
+          "maandag",
+          "dinsdag",
+          "woensdag",
+          "donderdag"
+        ]
       }
     ],
     "praktijkverpleegkundigen": [
       {
         "name": "Martine van Die",
-        "workingDays": ["dinsdag", "woensdag", "donderdag", "vrijdag"],
-        "specializations": ["Diabetes", "COPD", "Ouderenzorg"]
+        "workingDays": [
+          "dinsdag",
+          "woensdag",
+          "donderdag",
+          "vrijdag"
+        ],
+        "specializations": [
+          "Diabetes",
+          "COPD",
+          "Ouderenzorg"
+        ]
       },
       {
         "name": "Britta Forma",
-        "workingDays": ["maandag", "dinsdag", "woensdag", "donderdag"],
-        "specializations": ["Diabetes", "COPD", "Ouderenzorg"]
+        "workingDays": [
+          "maandag",
+          "dinsdag",
+          "woensdag",
+          "donderdag"
+        ],
+        "specializations": [
+          "Diabetes",
+          "COPD",
+          "Ouderenzorg"
+        ]
       }
     ],
     "pohGGZ": [
       {
         "name": "Alette Bubberman",
-        "workingDays": ["maandag", "woensdag", "donderdag"]
+        "workingDays": [
+          "maandag",
+          "woensdag",
+          "donderdag"
+        ]
       },
       {
         "name": "Irene Verweij",
-        "workingDays": ["dinsdag", "woensdag", "vrijdag"]
+        "workingDays": [
+          "dinsdag",
+          "woensdag",
+          "vrijdag"
+        ]
       }
     ]
   }
