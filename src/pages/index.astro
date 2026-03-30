@@ -287,18 +287,59 @@ const practices = practiceData.practices;
           <h3 class="font-bold text-neutral-900 group-hover:text-dark-600 mb-2">Thuisarts.nl</h3>
           <p class="text-sm text-neutral-600">Betrouwbare gezondheidsinformatie van huisartsen.</p>
         </a>
-        <a
-          href="https://www.moetiknaardedokter.nl/"
-          target="_blank"
-          rel="noopener"
-          class="group block bg-white rounded-xl p-6 border border-neutral-200 hover:border-primary-300 hover:shadow-md transition-all no-underline"
-        >
-          <h3 class="font-bold text-neutral-900 group-hover:text-dark-600 mb-2">Moet ik naar de dokter?</h3>
-          <p class="text-sm text-neutral-600">Keuzehulp: heb ik een afspraak nodig?</p>
-        </a>
+        <div class="bg-white rounded-xl p-6 border border-neutral-200">
+          <h3 class="font-bold text-neutral-900 mb-2">Moet ik naar de dokter?</h3>
+          <p class="text-sm text-neutral-600 mb-4">Zelftriage: doorloop de vragen en ontvang direct advies.</p>
+          <div id="mindd_widget_embedded"></div>
+        </div>
       </div>
     </div>
   </section>
+
+  <script is:inline src="https://moetiknaardedokter.azurewebsites.net/embed/index.js" type="text/javascript"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', function() {
+      if (window.mindd) {
+        window.mindd.init({
+          ApiKey: '4krC1VIVe4CHBIvRoW9hpStBZZE8Ys4M',
+          target: '#mindd_widget_embedded',
+          type: 'widget',
+          accent_color: '#265e61',
+          welcome_text: {
+            NL: '**Moet u naar de dokter?** \n\n Doorloop de vragen en ontvang direct advies.',
+            EN: '**Should you see a doctor?** \n\n Answer the questions and receive immediate advice.'
+          },
+          open: false,
+          modalDisplayMode: 'full',
+          widget_showWelcomeText: true,
+          showLanguageSelector: true,
+          defaultLanguageCode: 'NL',
+          getSessionSummaryUsingForm: false,
+          startQuestionType: 'gender',
+          startWithAbcdTriage: false,
+          labels: {
+            QuestionWhatGender: {
+              NL: "Bent u een man of een vrouw?",
+              EN: "Are you (the patient) a man or a woman?"
+            },
+            QuestionWhatSearchTriage: {
+              NL: "Waar heeft u last van?",
+              EN: "What is bothering you?"
+            }
+          },
+          branding: {
+            termsOfUseUrl: "https://www.moetiknaardedokter.nl/gebruikersvoorwaarden/",
+            name: "Huisartsenpraktijk Schoterpoort",
+            phone_label: "Algemeen nummer",
+            phone_number: "023-541 03 45",
+            font_family: "Raleway"
+          },
+          sessionTimeOutInSec: 0,
+          clickOutsideModalClosesModal: false
+        });
+      }
+    });
+  </script>
 
   <!-- Team photo -->
   <section class="py-8 bg-neutral-50">
