@@ -63,9 +63,12 @@
   - Oud: "u bij verdenking op een blaasontsteking de urine in het koelkastje bij de ingang kunt achterlaten?"
   - Nieuw: "Bij vermoeden van blaasontsteking: laat urinemonster achter in de koeler bij de ingang met ingevuld formulier"
   - Nieuw item toegevoegd: verwijzing naar moetiknaardedokter.nl naast thuisarts.nl
-- "Wat mag u van ons verwachten" tekst is grotendeels identiek (NPA sinds 2006, opnieuw 2025 verlengd, 8,5-9 tevredenheid, 4 huisartsen + 2 in opleiding = 10 artsen, opleidingspraktijk AMC/UMC Amsterdam)
+- "Wat mag u van ons verwachten" feiten zijn overgenomen (NPA sinds 2006, opnieuw 2025 verlengd, 8,5-9 tevredenheid, 4 huisartsen + 2 in opleiding = 10 artsen, opleidingspraktijk AMC/UMC Amsterdam)
 - Adres (Pijnboomstraat 19, 2023 VN Haarlem) en algemeen nummer (023-541 03 45) ongewijzigd
 - Praktijktijden ma-vr 08:00-17:00 ongewijzigd
+
+#### Hersteld na eerste gemiste observatie (2026-04-10)
+- De **persoonlijke en kleinschalige zorg** paragraaf was bij de eerste rebuild verkort tot een kale samenvatting in het "Hoog niveau" blok. De warme toon ("vaak maken wij een groot deel van uw leven mee: lief en leed", "eerste aanspreekpunt van jong tot oud", "zodat u niet 'verdwaalt' in de zorg") is teruggezet als 4e kwaliteit-blok "Persoonlijke zorg" in `home.json` en `home-en.json`.
 
 ---
 
