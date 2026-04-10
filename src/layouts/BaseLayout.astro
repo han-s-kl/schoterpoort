@@ -94,5 +94,44 @@ const ogLocale = lang === 'en' ? 'en_US' : 'nl_NL';
     </main>
 
     <slot name="footer" />
+
+    <script is:inline>
+      // Open external links and PDF links in a new tab.
+      // Runs once per page load, after the DOM is parsed.
+      (function () {
+        var host = window.location.hostname;
+        var links = document.querySelectorAll('a[href]');
+        for (var i = 0; i < links.length; i++) {
+          var a = links[i];
+          var href = a.getAttribute('href');
+          if (!href) continue;
+
+          // Skip anchors and non-navigational protocols
+          if (href.charAt(0) === '#') continue;
+          if (/^(tel:|mailto:|javascript:)/i.test(href)) continue;
+
+          var isExternal = false;
+          var isPdf = false;
+
+          if (/^https?:\/\//i.test(href)) {
+            try {
+              var u = new URL(href);
+              if (u.hostname !== host) isExternal = true;
+            } catch (e) {}
+          }
+
+          var pathOnly = href.split('?')[0].split('#')[0];
+          if (/\.pdf$/i.test(pathOnly)) isPdf = true;
+
+          if (isExternal || isPdf) {
+            a.setAttribute('target', '_blank');
+            var rel = a.getAttribute('rel') || '';
+            if (rel.indexOf('noopener') === -1) {
+              a.setAttribute('rel', (rel ? rel + ' ' : '') + 'noopener');
+            }
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
