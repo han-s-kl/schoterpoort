@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:staging": "DEPLOY_TARGET=staging astro build && node scripts/rewrite-base-path.mjs staging",
+    "build:transip": "DEPLOY_TARGET=transip astro build && node scripts/rewrite-base-path.mjs transip",
     "preview": "astro preview",
     "astro": "astro"
   },
