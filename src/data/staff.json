@@ -219,7 +219,9 @@
     ],
     "interests": null,
     "photo": "/images/staff/martine-van-die.png",
-    "roleEn": "Practice nurse (somatic)"
+    "roleEn": "Practice nurse (somatic)",
+    "sinceEn": "",
+    "interestsEn": ""
   },
   {
     "name": "Britta Forma",
