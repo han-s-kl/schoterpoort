@@ -34,12 +34,12 @@ const initials = name
       <img
         src={photoUrl}
         alt={isEn ? `Photo of ${name}` : `Foto van ${name}`}
-        class="w-16 h-16 rounded-full object-cover shrink-0 border-2 border-primary-100"
+        class="w-32 h-32 rounded-full object-cover shrink-0 border-2 border-primary-100"
         loading="lazy"
       />
     ) : (
-      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-dark-100 to-dark-200 flex items-center justify-center shrink-0">
-        <span class="text-dark-600 font-bold text-lg">{initials}</span>
+      <div class="w-32 h-32 rounded-full bg-gradient-to-br from-dark-100 to-dark-200 flex items-center justify-center shrink-0">
+        <span class="text-dark-600 font-bold text-3xl">{initials}</span>
       </div>
     )}
 
