@@ -1,0 +1,60 @@
+---
+// Shared card that lists a single practice: name, doctors, phone button.
+// Used on home, telefoonnummers, spreekuur (NL + EN).
+//
+// Props:
+//   practice         -- entry from practices.json
+//   showWorkingDays  -- show "-- Ma, Wo" behind each doctor (spreekuur only)
+//   useInitials      -- NL default: show "M.M. Duijn" instead of full doc.name
+
+interface Doctor {
+  name: string;
+  initials?: string | null;
+  workingDays?: string[];
+}
+
+interface Practice {
+  name: string;
+  phone: string;
+  doctors: Doctor[];
+}
+
+interface Props {
+  practice: Practice;
+  showWorkingDays?: boolean;
+  useInitials?: boolean;
+}
+
+const { practice, showWorkingDays = false, useInitials = true } = Astro.props;
+
+function displayName(doc: Doctor): string {
+  if (useInitials && doc.initials) {
+    const parts = doc.name.split(' ');
+    const lastName = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+    return `${doc.initials} ${lastName}`;
+  }
+  return doc.name;
+}
+---
+
+<div class="bg-white rounded-xl p-5 shadow-sm border border-neutral-200 border-t-4 border-t-primary-400">
+  <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
+  <div class="text-sm text-neutral-500 mb-3">
+    {practice.doctors.map((doc) => (
+      <span class="block">{displayName(doc)}
+        {showWorkingDays && doc.workingDays && doc.workingDays.length > 0 && (
+          <span class="text-neutral-400"> -- {doc.workingDays.join(', ')}</span>
+        )}
+      </span>
+    ))}
+  </div>
+  <a
+    href={`tel:${practice.phone.replace(/\s/g, '')}`}
+    class="inline-flex items-center gap-2 bg-dark-700 text-white font-semibold px-4 py-2 rounded-lg no-underline hover:bg-dark-800 transition-colors text-sm"
+  >
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+    </svg>
+    {practice.phone}
+  </a>
+</div>

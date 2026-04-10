@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PracticeCard from '../components/PracticeCard.astro';
 import practiceData from '../data/practices.json';
 import homeData from '../data/home.json';
 import { getCollection, render } from 'astro:content';
@@ -133,19 +134,7 @@ const practices = practiceData.practices;
 
       <div class="grid sm:grid-cols-2 gap-4 lg:gap-6">
         {practices.map((practice) => (
-          <div class="bg-white rounded-xl p-5 shadow-sm border border-neutral-200">
-            <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
-            <p class="text-sm text-neutral-500 mb-3">
-              {practice.doctors.map((d) => {
-                const parts = d.name.split(' ');
-                const lastName = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
-                return `${d.initials} ${lastName}`;
-              }).join(' & ')}
-            </p>
-            <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="text-lg font-semibold text-dark-600 no-underline hover:text-dark-700">
-              {practice.phone}
-            </a>
-          </div>
+          <PracticeCard practice={practice} />
         ))}
       </div>
 
