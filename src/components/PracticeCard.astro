@@ -77,15 +77,15 @@ function photoFor(docName: string): string | null {
             src={`${base}${photo}`}
             alt={`Foto van ${doc.name}`}
             title={doc.name}
-            class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm bg-white"
+            class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm bg-white"
             loading="lazy"
           />
         ) : (
           <div
             title={doc.name}
-            class="w-14 h-14 rounded-full bg-gradient-to-br from-dark-100 to-dark-200 border-2 border-white shadow-sm flex items-center justify-center"
+            class="w-20 h-20 rounded-full bg-gradient-to-br from-dark-100 to-dark-200 border-2 border-white shadow-sm flex items-center justify-center"
           >
-            <span class="text-dark-600 font-bold text-sm">{initialsOf(doc.name)}</span>
+            <span class="text-dark-600 font-bold text-lg">{initialsOf(doc.name)}</span>
           </div>
         );
       })}
