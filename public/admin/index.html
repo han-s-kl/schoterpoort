@@ -368,6 +368,32 @@
     .status.saving { color: var(--sidebar-accent); }
     .status.saved { color: var(--success); }
     .status.error { color: var(--error); }
+    .lang-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .lang-btn {
+      padding: 0.3125rem 0.625rem;
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      font-size: 0.6875rem;
+      font-family: var(--font);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .lang-btn:hover {
+      background: var(--main-bg);
+      color: var(--text);
+    }
+    .lang-btn.active {
+      background: var(--sidebar-accent);
+      color: #fff;
+    }
     .save-btn {
       padding: 0.4375rem 1rem;
       background: var(--save-bg);
@@ -920,6 +946,10 @@
         </div>
         <div class="topbar-right">
           <span class="status" id="status"></span>
+          <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Taal">
+            <button type="button" class="lang-btn active" data-lang="nl">NL</button>
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+          </div>
           <button class="save-btn" id="save-btn" disabled>Opslaan</button>
         </div>
       </div>
@@ -974,7 +1004,7 @@
       { name: 'visible', label: 'Zichtbaar', type: 'boolean' },
     ];
 
-    const STAFF_FIELDS = [
+    const STAFF_FIELDS_NL = [
       { name: 'name', label: 'Naam', type: 'string' },
       { name: 'role', label: 'Rol', type: 'string' },
       { name: 'team', label: 'Team', type: 'string' },
@@ -986,6 +1016,23 @@
       { name: 'interests', label: 'Interesses', type: 'textarea', wide: true },
       { name: 'photo', label: 'Foto (pad)', type: 'string' },
     ];
+
+    const STAFF_FIELDS_EN = [
+      { name: 'name', label: 'Naam', type: 'string', readonly: true },
+      { name: 'roleEn', label: 'Role (EN)', type: 'string' },
+      { name: 'team', label: 'Team', type: 'string', readonly: true },
+      { name: 'phone', label: 'Telefoon', type: 'string', readonly: true },
+      { name: 'workingDays', label: 'Werkdagen', type: 'tags', readonly: true },
+      { name: 'sinceEn', label: 'Since (EN)', type: 'string' },
+      { name: 'backgroundEn', label: 'Background (EN)', type: 'textarea', wide: true },
+      { name: 'specializationsEn', label: 'Specializations (EN)', type: 'tags' },
+      { name: 'interestsEn', label: 'Interests (EN)', type: 'textarea', wide: true },
+      { name: 'photo', label: 'Foto (pad)', type: 'string', readonly: true },
+    ];
+
+    function getStaffFields() {
+      return currentLang === 'en' ? STAFF_FIELDS_EN : STAFF_FIELDS_NL;
+    }
 
     const STAFF_ROLE_FILTERS = {
       'huisartsen': s => s.role === 'Huisarts',
@@ -1386,7 +1433,7 @@
           }
         }
         setActiveNav(item);
-        await openSpreekuurEditor(item.lang);
+        await openSpreekuurEditor(currentLang);
       } else if (item.mode === 'practice-info') {
         item._navId = item.label;
         setActiveNav(item);
@@ -1394,7 +1441,7 @@
       } else if (item.mode === 'home') {
         item._navId = item.label;
         setActiveNav(item);
-        await openHomeEditor(item.lang);
+        await openHomeEditor(currentLang);
       } else if (item.mode === 'patientenomgeving') {
         for (const nav of NAV_ITEMS) {
           if (nav.children && nav.children.includes(item)) {
@@ -1404,7 +1451,7 @@
         }
         if (!item._navId) item._navId = item.label;
         setActiveNav(item);
-        await openPatientenomgevingEditor(item.lang);
+        await openPatientenomgevingEditor(currentLang);
       } else if (item.mode === 'herhaalrecept') {
         for (const nav of NAV_ITEMS) {
           if (nav.children && nav.children.includes(item)) {
@@ -1418,16 +1465,25 @@
     }
 
     // --- MARKDOWN EDITOR ---
+    function getMarkdownPathForLang(file) {
+      // src/content/pages/x.md -> src/content/pages-en/x.md when currentLang === 'en'
+      if (currentLang === 'en' && file.startsWith('src/content/pages/')) {
+        return file.replace('src/content/pages/', 'src/content/pages-en/');
+      }
+      return file;
+    }
+
     async function openMarkdownEditor(item) {
       currentMode = 'markdown';
       showView('empty');
-      setTopbar(item.label, '');
+      setTopbar(item.label + (currentLang === 'en' ? ' (EN)' : ''), '');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
       try {
-        const { content, sha } = await readFile(item.file);
-        currentFile = { path: item.file, sha };
+        const filePath = getMarkdownPathForLang(item.file);
+        const { content, sha } = await readFile(filePath);
+        currentFile = { path: filePath, sha };
         const { meta, body } = parseFrontmatter(content);
 
         currentMeta = meta;
@@ -1459,7 +1515,8 @@
           document.getElementById('fields').style.display = 'none';
           renderSectionEditor(currentSections);
 
-          // Read-only context blocks for specific markdown pages
+          // Read-only context blocks for specific markdown pages (NL only)
+          if (currentLang !== 'en') {
           await ensurePracticesLoaded();
           const panel = document.getElementById('editor-panel');
           const sectionsContainer = panel.querySelector('.sections-container');
@@ -1475,6 +1532,7 @@
           } else if (filePath.includes('administratieformulier.md')) {
             const adminBlock = await buildAdminformulierReadOnlyBlock(practicesData);
             sectionsContainer.parentNode.appendChild(adminBlock);
+          }
           }
 
           showView('editor');
@@ -1546,6 +1604,12 @@
         input.id = `${pfx}field-${field.name}`;
         input.dataset.fieldName = field.name;
         input.dataset.fieldType = field.type;
+        if (field.readonly) {
+          if (field.type === 'boolean') input.disabled = true;
+          else input.readOnly = true;
+          input.style.opacity = '0.6';
+          input.style.cursor = 'not-allowed';
+        }
 
         if (field.type === 'boolean') {
           div.appendChild(input);
@@ -1856,7 +1920,7 @@
 
       const container = document.getElementById('fields');
       container.innerHTML = '';
-      const fieldsEl = renderFields(STAFF_FIELDS, person, '');
+      const fieldsEl = renderFields(getStaffFields(), person, '');
       // renderFields already populates #fields since prefix is empty
 
       showView('staff-detail');
@@ -1867,7 +1931,8 @@
     function gatherStaffData() {
       if (currentStaffIndex === null) return null;
       const person = { ...staffData[currentStaffIndex] };
-      for (const field of STAFF_FIELDS) {
+      for (const field of getStaffFields()) {
+        if (field.readonly) continue;
         const input = document.getElementById(`field-${field.name}`);
         if (!input) continue;
         if (field.type === 'tags') {
@@ -2925,6 +2990,7 @@
 
     // --- HERHAALRECEPT EDITOR ---
     const HERHAALRECEPT_PATH = 'src/data/herhaalrecept.json';
+    const HERHAALRECEPT_EN_PATH = 'src/data/herhaalrecept-en.json';
     let herhaalreceptData = null;
     let herhaalreceptSha = null;
 
@@ -2941,12 +3007,13 @@
     async function openHerhaalreceptEditor() {
       currentMode = 'herhaalrecept';
       showView('empty');
-      setTopbar('Herhaalrecept', '');
+      setTopbar('Herhaalrecept' + (currentLang === 'en' ? ' (EN)' : ''), '');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
       try {
-        const { content: jsonContent, sha: jSha } = await readFile(HERHAALRECEPT_PATH);
+        const path = currentLang === 'en' ? HERHAALRECEPT_EN_PATH : HERHAALRECEPT_PATH;
+        const { content: jsonContent, sha: jSha } = await readFile(path);
         herhaalreceptData = JSON.parse(jsonContent);
         herhaalreceptSha = jSha;
 
@@ -3023,7 +3090,9 @@
         }
       }
       const jsonContent = JSON.stringify(herhaalreceptData, null, 2) + '\n';
-      herhaalreceptSha = await saveFile(HERHAALRECEPT_PATH, jsonContent, herhaalreceptSha, 'Update herhaalrecept via CMS');
+      const path = currentLang === 'en' ? HERHAALRECEPT_EN_PATH : HERHAALRECEPT_PATH;
+      const msg = currentLang === 'en' ? 'Update herhaalrecept-en via CMS' : 'Update herhaalrecept via CMS';
+      herhaalreceptSha = await saveFile(path, jsonContent, herhaalreceptSha, msg);
     }
 
     // --- HOME EDITOR ---
@@ -3540,6 +3609,23 @@
       patientenomgevingSha = await saveFile(patPath, content, patientenomgevingSha, msg);
     }
 
+    // --- LANGUAGE TOGGLE ---
+    function setLanguage(lang) {
+      const newLang = lang === 'en' ? 'en' : null;
+      if (newLang === currentLang) return;
+      currentLang = newLang;
+      // Update toggle UI
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        const isActive = (b.dataset.lang === 'en' && newLang === 'en') ||
+                         (b.dataset.lang === 'nl' && newLang === null);
+        b.classList.toggle('active', isActive);
+      });
+      // Reload current editor in the new language
+      if (currentNavItem) {
+        openItem(currentNavItem);
+      }
+    }
+
     // --- INIT ---
     function initCMS(t) {
       token = t;
@@ -3548,6 +3634,9 @@
       document.getElementById('cms').classList.add('active');
       renderNav();
       document.getElementById('save-btn').addEventListener('click', handleSave);
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.addEventListener('click', () => setLanguage(b.dataset.lang));
+      });
     }
 
     // Check session

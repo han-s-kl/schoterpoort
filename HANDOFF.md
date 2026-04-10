@@ -32,7 +32,7 @@ Branch: main (20+ commits voor op feature/initial-site)
   - Wachtwoord: `schoterpijnboomzaanen`
   - PAT verloopt ~90 dagen na 2026-03-27, moet dan vernieuwd worden
 
-**Sidebar (alleen NL, EN wordt automatisch vertaald):**
+**Sidebar (NL/EN switchen via toggle in topbar):**
 - Algemene gegevens (adres, e-mail, telefoonnummers, openingstijden, avondspreekuur toggle, keuzemenu)
 - Home
 - Medewerkers > 4 categorieen (staff.json editor, alleen NL velden)
@@ -48,7 +48,7 @@ Branch: main (20+ commits voor op feature/initial-site)
 5. **Spreekuur-editor** (JSON) -- 5 consulttype-blokken, afspraak afzeggen (rood accent)
 6. **Herhaalrecept-editor** (JSON) -- 7 secties: intro, patientenomgeving, receptenlijn, vragen, welke medicijnen, wanneer klaar, voorbeelden
 7. **Patientenomgeving-editor** (JSON) -- intro, portaal-links, belangrijk-items (kleurcodes), app URL, helpdesk
-8. **Staff-editor** (JSON) -- lijst/detail views, EN-velden verborgen (auto-vertaald)
+8. **Staff-editor** (JSON) -- lijst/detail views, EN-velden bewerkbaar via NL/EN toggle in topbar
 9. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
 
 **WYSIWYG features:**
@@ -89,13 +89,19 @@ Branch: main (20+ commits voor op feature/initial-site)
 - Gezondheidsinfo indexpagina -- categorie-overzicht, geen bewerkbare tekst
 - Routebeschrijving -- alleen ContactSpoedBlock, geen bewerkbare tekst
 
-### Auto-vertaling (2026-03-28)
+### Vertalingen -- Handmatig via CMS (2026-04-10)
 
-- GitHub Action `.github/workflows/translate.yml`
-- Script `scripts/translate.mjs` -- Claude API (Haiku model)
-- Trigger: push naar main met wijzigingen in NL JSON/markdown bestanden
-- Vertaalt automatisch naar EN en commit resultaat
-- Secret: `ANTHROPIC_API_KEY` in GitHub repo settings
+Auto-vertaling is verwijderd. EN-content wordt nu handmatig beheerd via het CMS:
+
+- **NL/EN toggle in topbar** -- knop bovenaan om te wisselen tussen NL en EN editing. De sidebar blijft hetzelfde, elke editor laadt automatisch de juiste taalversie.
+- **Bestaande EN-vertalingen blijven behouden** -- geen wijzigingen aan content
+- **Wat is bewerkbaar in EN:**
+  - Markdown pagina's (`src/content/pages-en/*.md`)
+  - JSON pagina's (home, spreekuur, herhaalrecept, patientenomgeving)
+  - Staff EN-velden (roleEn, backgroundEn, interestsEn, sinceEn, specializationsEn) -- alleen-lezen velden voor naam/team/foto blijven gedeeld
+- **Niet bewerkbaar in EN** (bewust):
+  - Algemene gegevens (practices.json) -- adres, telefoon, openingstijden zijn taalonafhankelijk
+- Verwijderde bestanden: `.github/workflows/translate.yml`, `scripts/translate.mjs`, `@anthropic-ai/sdk` dependency
 
 ## Volgende stappen
 
