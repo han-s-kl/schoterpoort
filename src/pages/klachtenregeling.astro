@@ -1,17 +1,87 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { getCollection, render } from 'astro:content';
-
-const pages = await getCollection('pages');
-const page = pages.find((p) => p.id === 'klachtenregeling');
-const { Content } = await render(page!);
+import practiceData from '../data/practices.json';
+import { url } from '../utils/url';
 ---
 
-<PageLayout title={page!.data.title} description={page!.data.description}>
+<PageLayout title="Klachtenregeling" description="Procedure voor het indienen van klachten bij Schoterpoort Huisartsenpraktijk">
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <Content />
+        <h1>Klachtenregeling</h1>
+
+        <p>Gelukkig zijn de meeste patiënten tevreden over hun huisarts en onze huisartsenpraktijk. Maar misschien bent u over bepaalde zaken minder of in het geheel niet tevreden. Probeer eerst uw klacht of onvrede met uw huisarts te bespreken en samen met haar (of hem) het probleem op te lossen.</p>
+
+        <p>Dat kan ook als uw klacht gaat over een praktijkassistente, praktijkverpleegkundige, praktijkondersteuner GGZ/Somatiek of de praktijkorganisatie. Als de huisarts weet dat u niet helemaal tevreden bent, kan zij (hij) samen met u zoeken naar een oplossing.</p>
+
+        <p>Wij gaan uiterst serieus om met klachten en/of uitingen van onvrede, allereerst natuurlijk voor u persoonlijk, maar ook omdat het vaak kan bijdragen aan de kwaliteitsverbetering van onze huisartsenpraktijk.</p>
+
+        <h2>Klacht indienen</h2>
+
+        <p>Als u een klacht indient via ZIVVER zal de klachtencoördinator binnen de praktijk ervoor zorgen dat de klacht wordt opgepakt. U ontvangt een bevestiging van de ontvangst en er wordt contact met u opgenomen over de vervolgstappen die het meest passend zijn. Bijvoorbeeld (alsnog) een gesprek met de betreffende arts of medewerker.</p>
+      </article>
+
+      <!-- ZIVVER landing kaart -->
+      <div class="not-prose bg-primary-50 rounded-xl border-2 border-primary-200 p-8 text-center mt-6 mb-12">
+        <div class="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center mx-auto mb-5">
+          <svg class="w-7 h-7 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-neutral-900 mb-2">Beveiligd klacht indienen via ZIVVER</h3>
+        <p class="text-sm text-neutral-600 mb-6">Uw klacht wordt beveiligd verzonden naar de klachtenfunctionaris.</p>
+
+        <div class="space-y-3 mb-6 text-left">
+          <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-4">
+            <p class="text-sm text-accent-800 font-semibold">Dit is niet bedoeld voor medische spoedvragen. Bij spoed belt u direct uw huisarts of buiten kantooruren de Spoedpost (<a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="underline">{practiceData.phoneEmergency}</a>).</p>
+          </div>
+        </div>
+
+        <a
+          href="https://app.zivver.com/l/start/de82dba5-f8cf-4001-b23b-6378c09368f0"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 bg-dark-700 text-white font-semibold px-8 py-3 rounded-xl no-underline hover:bg-dark-800 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+          Klacht indienen via ZIVVER
+        </a>
+
+        <div class="mt-8 pt-6 border-t border-primary-200 text-left text-sm text-neutral-600">
+          <h4 class="font-semibold text-neutral-700 mb-2 text-center">Lukt het niet via ZIVVER?</h4>
+          <p class="text-xs text-neutral-500 mb-3 text-center">Bel de praktijk tijdens kantooruren ({practiceData.openingstijden.daysShort} {practiceData.openingstijden.open} -- {practiceData.openingstijden.close}):</p>
+          <ul class="space-y-1">
+            {practiceData.practices.map((practice) => (
+              <li class="flex items-center justify-between">
+                <span class="text-xs">{practice.name}</span>
+                <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="text-dark-700 font-medium no-underline text-xs">{practice.phone}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
+        <h2>Externe klachtbehandeling</h2>
+
+        <p>Wilt u dit niet of komen we er samen met u niet uit, dan kan er door u een beroep worden gedaan op een onafhankelijke klachtenfunctionaris van de organisatie DOkH, afdeling klachten en geschillen.</p>
+
+        <ul>
+          <li><strong>Adres:</strong> Robijnstraat 6, 1812 RB Alkmaar</li>
+          <li><strong>Telefoon:</strong> 072-5208325</li>
+          <li><strong>E-mail:</strong> <a href="mailto:klachtenengeschillen@dokh.nl">klachtenengeschillen@dokh.nl</a></li>
+          <li><strong>Website:</strong> <a href="https://www.dokh.nl">www.dokh.nl</a></li>
+        </ul>
+
+        <p>De praktijk is tevens aangesloten bij de geschilleninstantie van DOkH.</p>
+
+        <h2>Klachtenreglement</h2>
+
+        <p>De werkwijze van onze interne klachtenregeling is vastgelegd in een reglement zodat u precies weet waar u aan toe bent.</p>
+
+        <p><a href={url('/documents/klachtenreglement.pdf')}>Klachtenreglement Schoterpoort Huisartsenpraktijk</a></p>
       </article>
     </div>
   </section>

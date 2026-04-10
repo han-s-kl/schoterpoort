@@ -5,12 +5,11 @@ description: "Downloadable forms from Huisartsenpraktijk Schoterpoort."
 
 # Forms
 
-## Complaints form
+## Submit a complaint
 
-Do you have a complaint about the care or service? You can submit your complaint to us using the complaints form. We take your complaint seriously and try to reach a solution together.
+Do you have a complaint about the care or service? You can submit your complaint via a secure ZIVVER message. We take your complaint seriously and try to reach a solution together.
 
-- [Complaints form](/schoterpoort/en/klachtenformulier)
-- [More about the complaints procedure](/schoterpoort/en/klachtenregeling)
+- [Submit a complaint via the complaints procedure page](/schoterpoort/en/klachtenregeling)
 
 ## Administration form
 

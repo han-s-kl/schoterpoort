@@ -5,12 +5,11 @@ description: "Downloadbare formulieren van Huisartsenpraktijk Schoterpoort."
 
 # Formulieren
 
-## Klachtenformulier
+## Klacht indienen
 
-Heeft u een klacht over de zorg of dienstverlening? U kunt uw klacht bij ons indienen via het klachtenformulier. Wij nemen uw klacht serieus en proberen samen tot een oplossing te komen.
+Heeft u een klacht over de zorg of dienstverlening? U kunt uw klacht bij ons indienen via een beveiligd bericht in ZIVVER. Wij nemen uw klacht serieus en proberen samen tot een oplossing te komen.
 
-- [Klachtenformulier](/schoterpoort/klachtenformulier)
-- [Meer over de klachtenregeling](/schoterpoort/klachtenregeling)
+- [Klacht indienen via de klachtenregeling](/schoterpoort/klachtenregeling)
 
 ## Administratieformulier
 
