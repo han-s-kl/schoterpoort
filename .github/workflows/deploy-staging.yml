@@ -1,0 +1,57 @@
+name: Deploy staging to TransIP
+
+# Fires on every push to main so CMS commits (which push directly to main via
+# the GitHub Contents API) are picked up automatically alongside regular code
+# commits. Also exposes a manual trigger via the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build staging target
+        run: npm run build:staging
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.TRANSIP_SSH_KEY }}
+          SSH_HOST: ${{ secrets.TRANSIP_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy to TransIP via rsync
+        env:
+          SSH_HOST: ${{ secrets.TRANSIP_HOST }}
+          SSH_USER: ${{ secrets.TRANSIP_USER }}
+          REMOTE_PATH: ${{ secrets.TRANSIP_PATH }}
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
+            dist/ \
+            "${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}"
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519
