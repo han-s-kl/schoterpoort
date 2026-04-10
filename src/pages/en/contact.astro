@@ -156,17 +156,37 @@ import { url } from '../../utils/url';
               </svg>
             </div>
             <h2 class="text-xl font-bold text-neutral-900 mb-2">Send a secure message via ZIVVER</h2>
-            <p class="text-sm text-neutral-600 mb-2">As a parent/guardian, you can send a secure message using a structured form.</p>
+            <p class="text-sm text-neutral-600 mb-4">As a parent or guardian, you can send a secure message to the practice. The message is sent securely via ZIVVER, so your child's medical data is protected.</p>
             <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6 text-xs text-amber-800">
               <strong>Please note:</strong> Do not use your own patient portal for your child. Your portal is linked to your own medical record.
             </div>
             <a
-              href={url('/en/contact-kinderen')}
-              class="inline-flex items-center gap-2 bg-primary-500 text-white font-semibold px-8 py-3 rounded-xl no-underline hover:bg-primary-600 transition-colors"
+              href="https://app.zivver.com/l/start/b376574c-68bc-4f9f-a5fb-1dd5d0dada43"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 bg-dark-700 text-white font-semibold px-8 py-3 rounded-xl no-underline hover:bg-dark-800 transition-colors"
             >
-              Go to secure form
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+              Send secure message
             </a>
-            <button id="btn-back-5" class="mt-4 text-sm text-neutral-500 hover:text-neutral-700 mx-auto block">&larr; Back</button>
+
+            <!-- Fallback: phone numbers if ZIVVER does not work -->
+            <div class="mt-8 pt-6 border-t border-primary-200 text-left text-sm text-neutral-600">
+              <h3 class="font-semibold text-neutral-700 mb-2 text-center">Unable to use ZIVVER?</h3>
+              <p class="text-xs text-neutral-500 mb-3 text-center">Call your GP's practice during office hours ({practiceData.openingstijden.daysShortEn} {practiceData.openingstijden.open} -- {practiceData.openingstijden.close}):</p>
+              <ul class="space-y-1">
+                {practiceData.practices.map((practice) => (
+                  <li class="flex items-center justify-between">
+                    <span class="text-xs">{practice.name}</span>
+                    <a href={`tel:${practice.phone.replace(/\s/g, '')}`} class="text-dark-700 font-medium no-underline text-xs">{practice.phone}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <button id="btn-back-5" class="mt-6 text-sm text-neutral-500 hover:text-neutral-700 mx-auto block">&larr; Back</button>
           </div>
         </div>
       </div>
@@ -197,4 +217,9 @@ import { url } from '../../utils/url';
   document.getElementById('btn-back-3')?.addEventListener('click', () => showStep('step-2'));
   document.getElementById('btn-back-4')?.addEventListener('click', () => showStep('step-3'));
   document.getElementById('btn-back-5')?.addEventListener('click', () => showStep('step-3'));
+
+  // Deep link: /contact#under16 opens the ZIVVER step directly
+  if (window.location.hash === '#under16') {
+    showStep('result-under16');
+  }
 </script>

@@ -22,7 +22,7 @@
       { "label": "Huisbezoek", "href": "/huisbezoek" },
       { "label": "Spoedpost", "href": "/spoedpost" },
       { "label": "Patientenomgeving", "href": "/patientenomgeving" },
-      { "label": "Contact kinderen (<16)", "href": "/contact-kinderen" }
+      { "label": "Contact kinderen (<16)", "href": "/contact#under16" }
     ]
   },
   {

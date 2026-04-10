@@ -9,7 +9,7 @@
   "belangrijk": [
     { "type": "warning", "text": "<strong>Let op:</strong> Kies de juiste praktijk/huisarts. Anders kunnen we uw aanmelding niet in behandeling nemen." },
     { "type": "info", "text": "De patientenomgeving is beschikbaar voor patienten van <strong>16 jaar en ouder</strong>." },
-    { "type": "warning", "text": "<strong>Kind jonger dan 16?</strong> Gebruik het <a href=\"/schoterpoort/contact-kinderen\" class=\"font-medium underline\">contactformulier voor kinderen</a> om beveiligd een bericht te sturen. Log niet in op uw eigen portaal voor uw kind." }
+    { "type": "warning", "text": "<strong>Kind jonger dan 16?</strong> Stuur een <a href=\"/schoterpoort/contact#under16\" class=\"font-medium underline\">beveiligd bericht via ZIVVER</a>. Log niet in op uw eigen portaal voor uw kind." }
   ],
   "appUrl": "https://uwzorgonline.nl/consumenten/app",
   "helpTelefoon": "085-130 45 75",

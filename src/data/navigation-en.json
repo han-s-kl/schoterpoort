@@ -22,7 +22,7 @@
       { "label": "Home visits", "href": "/en/huisbezoek" },
       { "label": "Emergency", "href": "/en/spoedpost" },
       { "label": "Patient portal", "href": "/en/patientenomgeving" },
-      { "label": "Contact children (<16)", "href": "/en/contact-kinderen" }
+      { "label": "Contact children (<16)", "href": "/en/contact#under16" }
     ]
   },
   {
