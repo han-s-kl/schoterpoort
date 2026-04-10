@@ -3229,13 +3229,20 @@
               deleteBtn.addEventListener('click', () => {
                 const currentTitle = document.getElementById(`block-${i}-field-title`)?.value || block.meta.title;
                 if (!confirm(`Mededeling "${currentTitle}" verwijderen?`)) return;
+                console.log('[delete] click on block', i, 'path:', block.path, 'isNew:', block.isNew, 'blockFiles.length before:', blockFiles.length);
                 gatherBlockState();
                 const idx = blockFiles.indexOf(block);
-                if (idx === -1) return;
+                console.log('[delete] indexOf returned', idx, 'block ref:', block);
+                if (idx === -1) {
+                  console.warn('[delete] block not found in blockFiles -- aborting');
+                  return;
+                }
                 if (block.path && !block.isNew) {
                   deletedBlocks.push({ path: block.path, sha: block.sha });
+                  console.log('[delete] pushed to deletedBlocks, now:', deletedBlocks.map(d => d.path));
                 }
                 blockFiles.splice(idx, 1);
+                console.log('[delete] after splice blockFiles paths:', blockFiles.map(b => b.path));
                 renderAllBlocks();
               });
               blockEl.appendChild(deleteBtn);
@@ -3487,6 +3494,11 @@
       const msg = `Update home${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       homeSha = await saveFile(homePath, content, homeSha, msg);
 
+      // Snapshot deleted paths so we can defensively skip them in the save loop
+      const deletedPaths = new Set(deletedBlocks.map(d => d.path));
+      console.log('[saveHome] Processing', blockFiles.length, 'blocks, deletedBlocks:', deletedBlocks.length, 'paths:', [...deletedPaths]);
+      console.log('[saveHome] blockFiles paths:', blockFiles.map(b => b.path));
+
       // Delete removed blocks first
       for (const del of deletedBlocks) {
         const slug = del.path.split('/').pop().replace('.md', '');
@@ -3501,9 +3513,13 @@
 
       // Save blocks (mededelingen)
       const blocksFolder = currentLang === 'en' ? 'src/content/blocks-en' : 'src/content/blocks';
-      console.log('[saveHome] Processing', blockFiles.length, 'blocks, deleted:', deletedBlocks.length);
       for (let i = 0; i < blockFiles.length; i++) {
         const block = blockFiles[i];
+        // Defensive guard: never re-save a block that was just deleted in this batch
+        if (block.path && deletedPaths.has(block.path)) {
+          console.warn('[saveHome] BUG-GUARD skipping block', i, 'because path is in deletedPaths:', block.path);
+          continue;
+        }
         try {
           const meta = {};
           for (const field of BLOCK_FIELDS) {
@@ -3548,6 +3564,15 @@
         } catch (err) {
           console.error('[saveHome] Failed on block', i, block, err);
           throw new Error(`Mededeling ${i + 1} (${block.meta?.title || 'onbekend'}): ${err.message}`);
+        }
+      }
+
+      // Drop any stale deleted entries that may still be lingering in blockFiles
+      if (deletedPaths.size > 0) {
+        const before = blockFiles.length;
+        blockFiles = blockFiles.filter(b => !b.path || !deletedPaths.has(b.path));
+        if (blockFiles.length !== before) {
+          console.warn('[saveHome] Removed', before - blockFiles.length, 'stale deleted entries from blockFiles');
         }
       }
     }
