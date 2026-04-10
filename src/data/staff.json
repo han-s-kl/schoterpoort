@@ -266,7 +266,7 @@
     ],
     "since": "",
     "background": "",
-    "backgroundEn": "The consultation support worker is a specially trained medical assistant. She can independently manage a number of common non-serious conditions such as insect bites, bite wounds, scrapes and cuts, tooth through lip, toe injuries, nosebleeds, sore throats, cold and sinus complaints, and sprained ankles.",
+    "backgroundEn": "",
     "specializations": [
       "Triagist",
       "Kleine ingrepen"
@@ -277,7 +277,9 @@
     ],
     "interests": "",
     "photo": "/images/staff/marjoleine.png",
-    "roleEn": "Consultation support"
+    "roleEn": "Consultation support",
+    "sinceEn": "",
+    "interestsEn": ""
   },
   {
     "name": "Alette Bubberman",
