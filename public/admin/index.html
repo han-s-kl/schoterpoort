@@ -3501,42 +3501,54 @@
 
       // Save blocks (mededelingen)
       const blocksFolder = currentLang === 'en' ? 'src/content/blocks-en' : 'src/content/blocks';
+      console.log('[saveHome] Processing', blockFiles.length, 'blocks, deleted:', deletedBlocks.length);
       for (let i = 0; i < blockFiles.length; i++) {
         const block = blockFiles[i];
-        const meta = {};
-        for (const field of BLOCK_FIELDS) {
-          const input = document.getElementById(`block-${i}-field-${field.name}`);
-          if (!input) continue;
-          if (field.type === 'boolean') {
-            meta[field.name] = input.checked;
-          } else if (field.type === 'number') {
-            meta[field.name] = parseInt(input.value, 10) || 0;
-          } else {
-            meta[field.name] = input.value;
+        try {
+          const meta = {};
+          for (const field of BLOCK_FIELDS) {
+            const input = document.getElementById(`block-${i}-field-${field.name}`);
+            if (!input) {
+              console.warn('[saveHome] No input found for block', i, 'field', field.name);
+              continue;
+            }
+            if (field.type === 'boolean') {
+              meta[field.name] = input.checked;
+            } else if (field.type === 'number') {
+              meta[field.name] = parseInt(input.value, 10) || 0;
+            } else {
+              meta[field.name] = input.value;
+            }
           }
-        }
-        const blockEditable = document.querySelector(`#home-panel .editable-field[data-block-index="${i}"]`);
-        const body = blockEditable ? htmlToMdInline(blockEditable.innerHTML) : block.body;
-        const blockContent = serializeFrontmatter(meta, body, BLOCK_FIELDS);
+          const blockEditable = document.querySelector(`#home-panel .editable-field[data-block-index="${i}"]`);
+          const blockBody = blockEditable ? htmlToMdInline(blockEditable.innerHTML) : block.body;
 
-        // For new blocks: generate slug + path
-        if (block.isNew || !block.path) {
-          const existingSlugs = new Set(
-            blockFiles
-              .filter((b, idx) => idx !== i && b.path)
-              .map(b => b.path.split('/').pop().replace('.md', ''))
-          );
-          const slug = generateSlug(meta.title, existingSlugs);
-          block.path = `${blocksFolder}/${slug}.md`;
-        }
+          // For new blocks: generate slug + path
+          if (block.isNew || !block.path) {
+            const existingSlugs = new Set(
+              blockFiles
+                .filter((b, idx) => idx !== i && b.path)
+                .map(b => b.path.split('/').pop().replace('.md', ''))
+            );
+            const newSlug = generateSlug(meta.title, existingSlugs);
+            block.path = `${blocksFolder}/${newSlug}.md`;
+            console.log('[saveHome] New block path:', block.path);
+          }
 
-        const slug = block.path.split('/').pop().replace('.md', '');
-        const action = block.isNew ? 'Add' : 'Update';
-        const blockMsg = `${action} mededeling: ${slug} via CMS`;
-        block.sha = await saveFile(block.path, blockContent, block.sha, blockMsg);
-        block.meta = meta;
-        block.body = body;
-        block.isNew = false;
+          const blockContent = serializeFrontmatter(meta, blockBody, BLOCK_FIELDS);
+          const slug = block.path.split('/').pop().replace('.md', '');
+          const action = block.isNew ? 'Add' : 'Update';
+          const blockMsg = `${action} mededeling: ${slug} via CMS`;
+          console.log('[saveHome] Saving block', i, 'isNew:', block.isNew, 'path:', block.path, 'sha:', block.sha);
+          block.sha = await saveFile(block.path, blockContent, block.sha, blockMsg);
+          console.log('[saveHome] Saved block', i, 'new sha:', block.sha);
+          block.meta = meta;
+          block.body = blockBody;
+          block.isNew = false;
+        } catch (err) {
+          console.error('[saveHome] Failed on block', i, block, err);
+          throw new Error(`Mededeling ${i + 1} (${block.meta?.title || 'onbekend'}): ${err.message}`);
+        }
       }
     }
 
