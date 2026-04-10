@@ -1146,6 +1146,22 @@
         .map(f => ({ name: f.name, path: f.path, sha: f.sha }));
     }
 
+    function generateSlug(title, existingSlugs) {
+      let base = (title || 'mededeling')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 50) || 'mededeling';
+      let slug = base;
+      let n = 2;
+      while (existingSlugs.has(slug)) {
+        slug = `${base}-${n}`;
+        n++;
+      }
+      return slug;
+    }
+
     async function readFile(path) {
       const data = await ghFetch(path);
       const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
@@ -1154,6 +1170,12 @@
 
     async function saveFile(path, content, sha, message) {
       const encoded = btoa(unescape(encodeURIComponent(content)));
+      const payload = {
+        message,
+        content: encoded,
+        branch: BRANCH,
+      };
+      if (sha) payload.sha = sha;  // omit sha for create (new files)
       const res = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
         method: 'PUT',
         headers: {
@@ -1161,12 +1183,7 @@
           Accept: 'application/vnd.github.v3+json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          message,
-          content: encoded,
-          sha,
-          branch: BRANCH,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -3154,9 +3171,11 @@
               info: { bg: '#eff6ff', border: '#3b82f6', header: '#1e40af', label: 'Informatie' },
               neutral: { bg: '#f9fafb', border: '#9ca3af', header: '#374151', label: 'Neutraal' },
             };
-            loaded.forEach((block, i) => {
+
+            function renderMededelingBlock(block, i) {
               const blockEl = document.createElement('div');
               blockEl.className = 'block-section';
+              blockEl.dataset.blockContainer = i;
               blockEl.style.marginBottom = '1rem';
               const bc = blockColors[block.meta.type] || blockColors.neutral;
               blockEl.style.cssText += `background:${bc.bg};border-left:4px solid ${bc.border};border-radius:0 8px 8px 0;padding:0.75rem;margin-bottom:1rem;`;
@@ -3230,8 +3249,35 @@
               blockEl.appendChild(createMiniToolbar(editable));
               blockEl.appendChild(editable);
 
-              body.appendChild(blockEl);
+              return blockEl;
+            }
+
+            loaded.forEach((block, i) => {
+              body.appendChild(renderMededelingBlock(block, i));
             });
+
+            const addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+ Nieuwe mededeling toevoegen';
+            addBtn.addEventListener('click', () => {
+              const newBlock = {
+                path: null,
+                sha: null,
+                meta: { title: 'Nieuwe mededeling', type: 'neutral', visible: true },
+                body: '',
+                name: null,
+                isNew: true,
+              };
+              const newIndex = blockFiles.length;
+              blockFiles.push(newBlock);
+              const newEl = renderMededelingBlock(newBlock, newIndex);
+              body.insertBefore(newEl, addBtn);
+              // Focus the new title input
+              const titleInput = document.getElementById(`block-${newIndex}-field-title`);
+              if (titleInput) { titleInput.focus(); titleInput.select(); }
+            });
+            body.appendChild(addBtn);
           } else if (section.type === 'text') {
             const editable = createEditableField(data[section.key] || '', 'html');
             editable.dataset.key = section.key;
@@ -3378,6 +3424,7 @@
       homeSha = await saveFile(homePath, content, homeSha, msg);
 
       // Save blocks (mededelingen)
+      const blocksFolder = currentLang === 'en' ? 'src/content/blocks-en' : 'src/content/blocks';
       for (let i = 0; i < blockFiles.length; i++) {
         const block = blockFiles[i];
         const meta = {};
@@ -3395,11 +3442,25 @@
         const blockEditable = document.querySelector(`#home-panel .editable-field[data-block-index="${i}"]`);
         const body = blockEditable ? htmlToMdInline(blockEditable.innerHTML) : block.body;
         const blockContent = serializeFrontmatter(meta, body, BLOCK_FIELDS);
+
+        // For new blocks: generate slug + path
+        if (block.isNew || !block.path) {
+          const existingSlugs = new Set(
+            blockFiles
+              .filter((b, idx) => idx !== i && b.path)
+              .map(b => b.path.split('/').pop().replace('.md', ''))
+          );
+          const slug = generateSlug(meta.title, existingSlugs);
+          block.path = `${blocksFolder}/${slug}.md`;
+        }
+
         const slug = block.path.split('/').pop().replace('.md', '');
-        const blockMsg = `Update mededeling: ${slug} via CMS`;
+        const action = block.isNew ? 'Add' : 'Update';
+        const blockMsg = `${action} mededeling: ${slug} via CMS`;
         block.sha = await saveFile(block.path, blockContent, block.sha, blockMsg);
         block.meta = meta;
         block.body = body;
+        block.isNew = false;
       }
     }
 
