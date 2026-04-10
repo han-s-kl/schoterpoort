@@ -1194,6 +1194,50 @@
       return data.content.sha;
     }
 
+    async function saveBinaryFile(path, file, message) {
+      // Read file as ArrayBuffer and base64-encode without UTF-8 escape chain
+      const buf = new Uint8Array(await file.arrayBuffer());
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < buf.length; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, buf.subarray(i, i + chunkSize));
+      }
+      const encoded = btoa(binary);
+      const res = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message, content: encoded, branch: BRANCH }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Upload failed: ${res.status}`);
+      }
+      return res.json();
+    }
+
+    // Build a unique upload path by appending -2, -3, ... if the slug already exists.
+    // Uses HEAD on the GitHub Contents API to check existence.
+    async function pickUniqueUploadPath(folder, baseSlug, ext) {
+      let slug = baseSlug;
+      let n = 2;
+      while (true) {
+        const candidate = `${folder}/${slug}.${ext}`;
+        const res = await fetch(`${API}/repos/${REPO}/contents/${candidate}?ref=${BRANCH}`, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' },
+        });
+        if (res.status === 404) return candidate;
+        if (!res.ok) throw new Error(`Bestaan-check mislukt: ${res.status}`);
+        slug = `${baseSlug}-${n}`;
+        n++;
+        if (n > 100) throw new Error('Te veel naam-collisions');
+      }
+    }
+
     async function deleteFile(path, sha, message) {
       const res = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
         method: 'DELETE',
@@ -2270,6 +2314,12 @@
       // Strong/bold -> **text**
       md = md.replace(/<strong>(.*?)<\/strong>/gi, '**$1**');
       md = md.replace(/<b>(.*?)<\/b>/gi, '**$1**');
+      // Images -> ![alt](url) (must run before <a> regex to avoid trouble, and before tag-stripping)
+      // Two attribute orders: alt-then-src, src-then-alt
+      md = md.replace(/<img\b[^>]*\balt="([^"]*)"[^>]*\bsrc="([^"]*)"[^>]*\/?>/gi, '![$1]($2)');
+      md = md.replace(/<img\b[^>]*\bsrc="([^"]*)"[^>]*\balt="([^"]*)"[^>]*\/?>/gi, '![$2]($1)');
+      // Fallback: img without alt
+      md = md.replace(/<img\b[^>]*\bsrc="([^"]*)"[^>]*\/?>/gi, '![]($1)');
       // Links -> [text](url)
       md = md.replace(/<a[^>]+href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
       // BR -> newline
@@ -2351,23 +2401,136 @@
       hideFloatingToolbar();
     });
 
+    // Hidden file input reused by image and pdf upload buttons
+    const ftFileInput = document.createElement('input');
+    ftFileInput.type = 'file';
+    ftFileInput.style.display = 'none';
+    document.body.appendChild(ftFileInput);
+
+    function restoreSavedRange() {
+      if (!savedRange) return false;
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(savedRange);
+      return true;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function pickFile(accept) {
+      return new Promise(resolve => {
+        ftFileInput.value = '';
+        ftFileInput.accept = accept;
+        const onChange = () => {
+          ftFileInput.removeEventListener('change', onChange);
+          resolve(ftFileInput.files[0] || null);
+        };
+        ftFileInput.addEventListener('change', onChange);
+        ftFileInput.click();
+      });
+    }
+
+    async function uploadAndInsert(kind) {
+      // kind: 'image' | 'pdf'
+      const cfg = kind === 'image'
+        ? { accept: 'image/*', folder: 'public/images/uploads', urlBase: '/schoterpoort/images/uploads', maxBytes: 5 * 1024 * 1024, label: 'afbeelding', promptText: 'Alt-tekst (omschrijving voor toegankelijkheid)' }
+        : { accept: 'application/pdf', folder: 'public/documents/uploads', urlBase: '/schoterpoort/documents/uploads', maxBytes: 10 * 1024 * 1024, label: 'PDF', promptText: 'Linktekst (zichtbare tekst voor de PDF-link)' };
+
+      // Save the cursor BEFORE opening the file picker (it kills the selection)
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount && sel.anchorNode) {
+        const el = sel.anchorNode.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
+        if (el?.closest('[contenteditable="true"]')) {
+          savedRange = sel.getRangeAt(0).cloneRange();
+        }
+      }
+      if (!savedRange) {
+        alert('Klik eerst in een tekstveld waar de ' + cfg.label + ' moet komen.');
+        return;
+      }
+
+      const file = await pickFile(cfg.accept);
+      if (!file) return;
+      if (file.size > cfg.maxBytes) {
+        const mb = (file.size / (1024 * 1024)).toFixed(1);
+        if (!confirm(`Dit bestand is ${mb} MB. Aanbevolen maximum is ${cfg.maxBytes / (1024 * 1024)} MB. Toch doorgaan?`)) return;
+      }
+
+      const text = prompt(cfg.promptText, file.name.replace(/\.[^.]+$/, ''));
+      if (!text || !text.trim()) {
+        alert(cfg.label + ' niet ingevoegd: ' + (kind === 'image' ? 'alt-tekst' : 'linktekst') + ' is verplicht.');
+        return;
+      }
+
+      // Determine extension and slug
+      const dot = file.name.lastIndexOf('.');
+      const ext = (dot >= 0 ? file.name.slice(dot + 1) : (kind === 'image' ? 'jpg' : 'pdf')).toLowerCase().replace(/[^a-z0-9]/g, '');
+      const baseSlug = generateSlug(text, new Set());
+
+      try {
+        setStatus(`Uploaden ${cfg.label}...`, 'saving');
+        const path = await pickUniqueUploadPath(cfg.folder, baseSlug, ext);
+        await saveBinaryFile(path, file, `Add ${cfg.label}: ${path.split('/').pop()} via CMS`);
+        const filename = path.split('/').pop();
+        const url = `${cfg.urlBase}/${filename}`;
+        const html = kind === 'image'
+          ? `<img src="${escapeHtml(url)}" alt="${escapeHtml(text.trim())}">`
+          : `<a href="${escapeHtml(url)}">${escapeHtml(text.trim())}</a>`;
+        restoreSavedRange();
+        document.execCommand('insertHTML', false, html);
+        setStatus(`${cfg.label.charAt(0).toUpperCase() + cfg.label.slice(1)} geüpload -- vergeet niet op te slaan en wacht ~1 min op live`, 'saved');
+        setTimeout(() => setStatus(''), 10000);
+      } catch (err) {
+        console.error('[upload] failed', err);
+        setStatus(`Upload mislukt: ${err.message}`, 'error');
+      }
+    }
+
+    const ftImage = document.createElement('button');
+    ftImage.type = 'button';
+    ftImage.innerHTML = '&#128247; Foto';
+    ftImage.title = 'Afbeelding uploaden en invoegen';
+    ftImage.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      uploadAndInsert('image');
+    });
+
+    const ftPdf = document.createElement('button');
+    ftPdf.type = 'button';
+    ftPdf.innerHTML = '&#128206; PDF';
+    ftPdf.title = 'PDF uploaden en invoegen als link';
+    ftPdf.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      uploadAndInsert('pdf');
+    });
+
     floatingToolbar.appendChild(ftBold);
     floatingToolbar.appendChild(ftItalic);
     floatingToolbar.appendChild(ftHeading);
     floatingToolbar.appendChild(ftLink);
+    floatingToolbar.appendChild(ftImage);
+    floatingToolbar.appendChild(ftPdf);
     document.body.appendChild(floatingToolbar);
 
     function showFloatingToolbar() {
       const sel = window.getSelection();
-      if (!sel.rangeCount || sel.isCollapsed) return hideFloatingToolbar();
+      if (!sel.rangeCount) return hideFloatingToolbar();
       const range = sel.getRangeAt(0);
       const el = range.commonAncestorContainer.nodeType === 3
         ? range.commonAncestorContainer.parentElement
         : range.commonAncestorContainer;
       if (!el.closest('[contenteditable="true"]')) return hideFloatingToolbar();
       savedRange = range.cloneRange();
-      const rect = range.getBoundingClientRect();
-      floatingToolbar.style.left = (rect.left + rect.width / 2 - 60) + 'px';
+      // For collapsed cursors, getBoundingClientRect can be a zero-rect; fall back to the
+      // editable element's rect so we still position the toolbar near the user's focus.
+      let rect = range.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) {
+        const editable = el.closest('[contenteditable="true"]');
+        rect = editable.getBoundingClientRect();
+      }
+      floatingToolbar.style.left = (rect.left + rect.width / 2 - 100) + 'px';
       floatingToolbar.style.top = (rect.top - 40) + 'px';
       floatingToolbar.classList.add('visible');
     }
@@ -2379,7 +2542,7 @@
 
     document.addEventListener('selectionchange', () => {
       const sel = window.getSelection();
-      if (!sel.rangeCount || sel.isCollapsed) { hideFloatingToolbar(); return; }
+      if (!sel.rangeCount) { hideFloatingToolbar(); return; }
       const el = sel.anchorNode?.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
       if (el?.closest('[contenteditable="true"]')) showFloatingToolbar();
       else hideFloatingToolbar();
