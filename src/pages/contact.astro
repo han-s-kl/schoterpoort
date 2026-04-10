@@ -156,10 +156,21 @@ import { url } from '../utils/url';
               </svg>
             </div>
             <h2 class="text-xl font-bold text-neutral-900 mb-2">Beveiligd bericht sturen via ZIVVER</h2>
-            <p class="text-sm text-neutral-600 mb-4">Als ouder of verzorger kunt u een beveiligd bericht sturen aan de praktijk. Het bericht wordt beveiligd verzonden via ZIVVER, zodat de medische gegevens van uw kind veilig zijn.</p>
-            <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6 text-xs text-amber-800">
-              <strong>Let op:</strong> Gebruik niet uw eigen patientenportaal voor uw kind. Uw portaal is gekoppeld aan uw eigen dossier.
+            <p class="text-sm text-neutral-600 mb-6">Als ouder of verzorger kunt u een beveiligd bericht sturen aan de praktijk. Het bericht wordt beveiligd verzonden via ZIVVER.</p>
+
+            <!-- Waarschuwingen -->
+            <div class="space-y-3 mb-6 text-left">
+              <div class="bg-accent-50 border-l-4 border-accent-400 rounded-r-lg p-4">
+                <p class="text-sm text-accent-800 font-semibold">Bij spoed: bel direct uw huisarts of buiten kantooruren de Spoedpost (<a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="underline">{practiceData.phoneEmergency}</a>). Dit formulier is niet bedoeld voor spoedvragen.</p>
+              </div>
+              <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
+                <p class="text-sm text-blue-800">Is uw kind <strong>16 jaar of ouder</strong>? Dan kan uw kind zelf een vraag stellen via de <a href={url('/patientenomgeving')} class="underline font-medium">patientenomgeving</a>.</p>
+              </div>
+              <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
+                <p class="text-sm text-amber-800"><strong>Belangrijk:</strong> Log niet in op uw eigen patientenportaal om een vraag voor uw kind te stellen. Uw portaal is gekoppeld aan uw eigen dossier, niet dat van uw kind.</p>
+              </div>
             </div>
+
             <a
               href="https://app.zivver.com/l/start/b376574c-68bc-4f9f-a5fb-1dd5d0dada43"
               target="_blank"
