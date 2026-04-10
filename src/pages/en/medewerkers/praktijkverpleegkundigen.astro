@@ -1,0 +1,133 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import StaffCard from '../../../components/staff/StaffCard.astro';
+import allStaff from '../../../data/staff.json';
+import practiceData from '../../../data/practices.json';
+import { url } from '../../../utils/url';
+
+const nurses = allStaff.filter((s) => s.role === 'Praktijkverpleegkundige somatiek');
+const supportNurse = allStaff.filter((s) => s.role === 'Spreekuurondersteuner');
+const pohGgz = allStaff.filter((s) => s.role === 'Praktijkondersteuner GGZ');
+
+const phoneNurses = practiceData.phoneNurses;
+const phoneNursesDigits = phoneNurses ? phoneNurses.replace(/\s/g, '') : '';
+
+// Translation maps
+const dayMap: Record<string, string> = {
+  'maandag': 'Monday', 'dinsdag': 'Tuesday', 'woensdag': 'Wednesday',
+  'donderdag': 'Thursday', 'donderdagochtend': 'Thursday morning',
+  'vrijdag': 'Friday',
+};
+const roleTranslationsFallback: Record<string, string> = {
+  'Praktijkverpleegkundige somatiek': 'Practice nurse (somatic)',
+  'Spreekuurondersteuner': 'Consultation support',
+  'Praktijkondersteuner GGZ': 'Mental health support worker (POH-GGZ)',
+};
+function translateRole(member: any): string {
+  return (member as any).roleEn || roleTranslationsFallback[member.role] || member.role;
+}
+function translateDays(days?: string[]): string[] | undefined {
+  return days?.map((d) => dayMap[d] || d);
+}
+---
+
+<PageLayout
+  title="Practice nurses, consultation support and mental health support workers"
+  description="Information about the practice nurses, consultation support and mental health practice support workers"
+  lang="en"
+>
+  <section class="py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="mb-8 text-sm">
+        <a href={url('/en/medewerkers')} class="text-dark-600 hover:text-dark-700 no-underline">&larr; Staff</a>
+      </nav>
+
+      <h1 class="text-3xl lg:text-4xl font-bold mb-8">Practice nurses, consultation support and mental health support workers</h1>
+
+      <!-- Practice nurses (somatic) -->
+      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
+        <h2>Practice nurses (somatic)</h2>
+        <p>General practices are receiving increasing responsibilities, partly because care is being transferred from hospitals to the GP and their staff. The number of elderly patients is also rising, as is the number of patients with chronic conditions such as asthma/COPD, diabetes and cardiovascular disease.</p>
+        <p>Practice nurses support the work of the GP and take over part of the chronic care from the GP. The GP and practice nurse maintain close ongoing consultation.</p>
+        <p>There are 2 practice nurses at Schoterpoort. In addition to their training as district nurses, they completed further training as practice nurses at Hogeschool InHolland. Diabetes and COPD care are their primary areas of focus. They also address health problems in elderly patients.</p>
+        <p>The practice nurse is of course willing to visit patients at home who, due to a disability or advanced age, are unable to come to the practice.</p>
+        <p>They work Monday to Friday with consultations by appointment.</p>
+        <p><strong>For questions</strong>, call your own GP's practice assistant in the morning -- you will be transferred or called back. They can be reached directly by telephone between 11:00 and 12:00 on <strong><a href={`tel:${phoneNursesDigits}`}>{phoneNurses}</a></strong>.</p>
+      </article>
+
+      {nurses.length > 0 && (
+        <div class="grid gap-4 mb-12">
+          {nurses.map((member) => (
+            <StaffCard
+              name={member.name}
+              role={translateRole(member)}
+              team={member.team}
+              photo={(member as any).photo}
+              workingDays={translateDays(member.workingDays)}
+              since={(member as any).sinceEn || (member as any).since}
+              background={(member as any).backgroundEn || (member as any).background}
+              specializations={(member as any).specializationsEn || (member as any).specializations}
+              interests={(member as any).interestsEn || (member as any).interests}
+              bigNumber={(member as any).bigNumber}
+              lang="en"
+            />
+          ))}
+        </div>
+      )}
+
+      <!-- Consultation support -->
+      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
+        <h2>Consultation support</h2>
+        <p>The consultation support worker is a specially trained medical assistant. At our practice, Marjoleine fulfils this role.</p>
+        <p>She can independently manage a number of common non-serious conditions such as insect bites, bite wounds, scrapes and cuts, tooth through lip, toe injuries, nosebleeds, sore throats, cold and sinus complaints, and sprained ankles.</p>
+      </article>
+
+      {supportNurse.length > 0 && (
+        <div class="grid gap-4 mb-12">
+          {supportNurse.map((member) => (
+            <StaffCard
+              name={member.name}
+              role={translateRole(member)}
+              team={member.team}
+              photo={(member as any).photo}
+              workingDays={translateDays(member.workingDays)}
+              since={(member as any).sinceEn || (member as any).since}
+              background={(member as any).backgroundEn || (member as any).background}
+              specializations={(member as any).specializationsEn || (member as any).specializations}
+              interests={(member as any).interestsEn || (member as any).interests}
+              bigNumber={(member as any).bigNumber}
+              lang="en"
+            />
+          ))}
+        </div>
+      )}
+
+      <!-- Mental health practice support workers (POH-GGZ) -->
+      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
+        <h2>Mental health practice support workers (POH-GGZ)</h2>
+        <p>The mental health practice support worker (POH-GGZ) assists GPs in clarifying the problems of patients with psychological, psychosocial and psychiatric complaints. Short-term guidance of, for example, 5 sessions can take place, after which the patient can often continue independently. The practice support worker also has a navigating role to determine which treatment pathway is best suited for the patient in cases of more complex mental health issues.</p>
+        <p>There is no personal contribution required for help from the POH-GGZ, and -- just as with the GP -- it does not count towards your excess (deductible). Referral is through your own GP.</p>
+      </article>
+
+      {pohGgz.length > 0 && (
+        <div class="grid gap-4">
+          {pohGgz.map((member) => (
+            <StaffCard
+              name={member.name}
+              role={translateRole(member)}
+              team={member.team}
+              photo={(member as any).photo}
+              workingDays={translateDays(member.workingDays)}
+              since={(member as any).sinceEn || (member as any).since}
+              background={(member as any).backgroundEn || (member as any).background}
+              specializations={(member as any).specializationsEn || (member as any).specializations}
+              interests={(member as any).interestsEn || (member as any).interests}
+              bigNumber={(member as any).bigNumber}
+              lang="en"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</PageLayout>
