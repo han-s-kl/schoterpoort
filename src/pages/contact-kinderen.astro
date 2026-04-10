@@ -26,62 +26,16 @@ import { url } from '../utils/url';
       <div class="prose prose-neutral max-w-none mb-10">
         <p>
           Voor kinderen jonger dan 16 jaar kunt u als ouder of verzorger een beveiligd bericht sturen
-          aan de praktijk. Om uw kind zo goed mogelijk te helpen, vragen wij u onderstaande informatie
-          zo volledig mogelijk in te vullen.
+          aan de praktijk. Het bericht wordt <strong>beveiligd verzonden via ZIVVER</strong>, zodat de
+          medische gegevens van uw kind veilig zijn.
         </p>
-        <p>
-          Het bericht wordt <strong>beveiligd verzonden via ZIVVER</strong>, zodat de medische gegevens
-          van uw kind veilig zijn.
-        </p>
-      </div>
-
-      <!-- Structured template -->
-      <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden mb-8">
-        <div class="bg-primary-50 px-6 py-4 border-b border-primary-100">
-          <h2 class="font-bold text-neutral-900 text-lg">Vul de volgende gegevens in</h2>
-          <p class="text-sm text-neutral-600 mt-1">Kopieer onderstaande template en vul de antwoorden in bij uw bericht.</p>
-        </div>
-        <div class="px-6 py-5">
-          <div id="template-text" class="bg-neutral-50 rounded-lg p-5 font-mono text-sm text-neutral-700 space-y-3 border border-neutral-200">
-            <p><strong>GEGEVENS KIND</strong></p>
-            <p>Naam kind: ...</p>
-            <p>Geboortedatum kind: ...</p>
-            <p>Naam ouder/verzorger: ...</p>
-            <p>Telefoonnummer: ...</p>
-            <p>Huisarts: Louwet / Duijn / Steketee / Van der Eem <span class="text-neutral-400">(doorhalen wat niet van toepassing is)</span></p>
-            <p>&nbsp;</p>
-            <p><strong>HULPVRAAG</strong></p>
-            <p>Wat is uw vraag?: ...</p>
-            <p>Wat zijn de klachten?: ...</p>
-            <p>Hoe lang bestaan de klachten?: ...</p>
-            <p>Heeft het kind koorts? (ja/nee, zo ja hoeveel graden?): ...</p>
-            <p>Gebruikt het kind medicijnen? (ja/nee, zo ja welke?): ...</p>
-            <p>Is er al eerder contact geweest over deze klacht? (ja/nee): ...</p>
-            <p>&nbsp;</p>
-            <p><strong>FOTO (optioneel)</strong></p>
-            <p>Wilt u een foto meesturen? (ja/nee): ...</p>
-            <p>Zo ja -- op welke locatie van het lichaam is de foto genomen?: ...</p>
-            <p>Heeft het kind jeuk of pijn op die plek?: ...</p>
-          </div>
-
-          <button
-            id="copy-template"
-            class="mt-4 inline-flex items-center gap-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-            </svg>
-            Kopieer template
-          </button>
-        </div>
       </div>
 
       <!-- Send button -->
       <div class="bg-dark-50 rounded-xl p-6 border border-dark-200 text-center">
         <h2 class="font-bold text-neutral-900 text-lg mb-2">Beveiligd versturen via ZIVVER</h2>
         <p class="text-sm text-neutral-600 mb-5">
-          Klik op onderstaande knop om een beveiligd bericht te sturen. Plak de ingevulde template
-          in het bericht en voeg eventueel een foto toe als bijlage.
+          Klik op onderstaande knop om een beveiligd bericht te sturen via ZIVVER.
         </p>
         <a
           href="https://app.zivver.com/l/start/b376574c-68bc-4f9f-a5fb-1dd5d0dada43"
@@ -111,19 +65,3 @@ import { url } from '../utils/url';
     </div>
   </section>
 </PageLayout>
-
-<script>
-  const btn = document.getElementById('copy-template');
-  const template = document.getElementById('template-text');
-
-  btn?.addEventListener('click', () => {
-    const text = template?.innerText || '';
-    navigator.clipboard.writeText(text).then(() => {
-      if (btn) {
-        const original = btn.innerHTML;
-        btn.innerHTML = '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg> Gekopieerd!';
-        setTimeout(() => { btn.innerHTML = original; }, 2000);
-      }
-    });
-  });
-</script>
