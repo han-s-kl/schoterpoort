@@ -257,15 +257,15 @@
     "role": "Spreekuurondersteuner",
     "bigNumber": null,
     "team": "Praktijk Duijn",
-    "phone": null,
+    "phone": "",
     "workingDays": [
       "dinsdag",
       "woensdag",
       "donderdag",
       "vrijdag"
     ],
-    "since": null,
-    "background": "De Spreekuurondersteuner is een speciaal opgeleide doktersassistente. Zij kan zelfstandig een aantal veel voorkomende niet-ernstige aandoeningen afhandelen zoals insectenbeten, bijtwonden, schaaf- en snijwonden, tand door lip, teenletsel, bloedneus, keelpijn, verkoudheids- en bijholte klachten en een verstuikte enkel.",
+    "since": "",
+    "background": "",
     "backgroundEn": "The consultation support worker is a specially trained medical assistant. She can independently manage a number of common non-serious conditions such as insect bites, bite wounds, scrapes and cuts, tooth through lip, toe injuries, nosebleeds, sore throats, cold and sinus complaints, and sprained ankles.",
     "specializations": [
       "Triagist",
@@ -275,7 +275,7 @@
       "Triage",
       "Minor procedures"
     ],
-    "interests": null,
+    "interests": "",
     "photo": "/images/staff/marjoleine.png",
     "roleEn": "Consultation support"
   },
