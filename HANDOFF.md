@@ -1,11 +1,40 @@
 # Handoff -- Schoterpoort website rebuild
 
-## Status: LIVE op GitHub Pages (2026-03-28)
+## Status: LIVE op GitHub Pages (laatste update 2026-04-10)
 URL: https://han-s-kl.github.io/schoterpoort/
 CMS: https://han-s-kl.github.io/schoterpoort/admin/
 Repo: https://github.com/han-s-kl/schoterpoort (publiek)
-Branch: main (20+ commits voor op feature/initial-site)
-77 pagina's (NL + EN), build ~1 seconde, working tree clean
+Branch: main
+77 pagina's (NL + EN), build ~1 seconde
+
+## Open issue (vervolg)
+
+**Verwijderen van mededelingen werkt niet correct.**
+
+De delete-knop (×) is geimplementeerd in `public/admin/index.html` (commit `b598418`):
+- Per blok een × knop rechtsboven
+- `deletedBlocks` array houdt te-verwijderen items bij
+- `deleteFile()` helper roept GitHub Contents API DELETE aan
+- `saveHome` verwerkt eerst `deletedBlocks` (DELETE), dan `blockFiles` (PUT)
+
+**Wat werkt wel:**
+- Toevoegen van nieuwe mededelingen (commit `db35b18` + `b598418`) -- bevestigd met test.md
+- Bewerken van bestaande mededelingen
+- Console-logging in `saveHome` (commit `1e68e81`) toont alle stappen
+
+**Wat moet onderzocht:**
+- Wat gebeurt er precies bij klikken op × en daarna Opslaan?
+- Wordt `deleteFile` aangeroepen? Welke response?
+- Console-logs van `[saveHome]` regels bij verwijderen
+- Mogelijk: `deletedBlocks` wordt geleegd voordat de DELETE call slaagt
+
+**Test-cleanup:** `src/content/blocks/test.md` is via CMS aangemaakt als test, kan handmatig of via fix verwijderd worden.
+
+**Suggesties bij volgende sessie:**
+- Voeg console.log toe aan de delete-loop in `saveHome` (~regel 3490-3500)
+- Check of `del.sha` correct is gevuld bij het pushen naar `deletedBlocks` (regel ~3208 in renderMededelingBlock delete-handler)
+- Mogelijk issue: bij klikken op × wordt `gatherBlockState()` aangeroepen, die updates `block` references in blockFiles. Maar de del-entry pakt `block.sha` voor delete, en die kan stale zijn als renderAllBlocks daarna nieuwe DOM maakt
+- Console.log statements zijn nog steeds actief in `saveHome` -- handig voor debugging
 
 ## Wat is gedaan
 
