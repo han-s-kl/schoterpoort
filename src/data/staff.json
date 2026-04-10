@@ -319,15 +319,15 @@
     "initials": null,
     "role": "Praktijkondersteuner GGZ",
     "bigNumber": null,
-    "team": null,
-    "phone": null,
+    "team": "",
+    "phone": "",
     "workingDays": [
       "dinsdag",
       "woensdag",
       "vrijdag"
     ],
-    "since": null,
-    "background": "De POH GGZ ondersteunt de huisartsen bij het verhelderen van problemen van patiënten met psychische, psychosociale en psychiatrische klachten. Er kan een kortdurende begeleiding plaatsvinden van bijvoorbeeld 5 gesprekken waarna de patiënt vaak weer zelf verder kan. Ook heeft de praktijkondersteuner een gidsfunctie om te bekijken welk behandelpad de patiënt het beste kan bewandelen bij meer ingewikkelde psychische problematiek. Voor hulp door de POH GGZ wordt geen eigen bijdrage gevraagd en het komt ook -net als bij de huisarts- niet ten laste van uw eigen risico. Verwijzing gaat via uw eigen huisarts.",
+    "since": "",
+    "background": "",
     "backgroundEn": "",
     "specializations": [
       "GGZ",
@@ -339,10 +339,11 @@
       "Psychosocial issues",
       "Short-term guidance"
     ],
-    "interests": null,
+    "interests": "",
     "roleEn": "Mental health support worker (POH-GGZ)",
     "sinceEn": "",
-    "interestsEn": ""
+    "interestsEn": "",
+    "photo": ""
   },
   {
     "name": "Eefje van der Burgh",
