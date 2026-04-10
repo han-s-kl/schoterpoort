@@ -1096,6 +1096,7 @@
     let staffSha = null;
     let currentStaffIndex = null;
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
+    let deletedBlocks = [];     // [{ path, sha }] -- te verwijderen bij next save
     let spreekuurSha = null;
     let homeSha = null;
     let patientenomgevingSha = null;
@@ -1191,6 +1192,22 @@
       }
       const data = await res.json();
       return data.content.sha;
+    }
+
+    async function deleteFile(path, sha, message) {
+      const res = await fetch(`${API}/repos/${REPO}/contents/${path}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message, sha, branch: BRANCH }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Delete failed: ${res.status}`);
+      }
     }
 
     // --- FRONTMATTER ---
@@ -3124,6 +3141,7 @@
     async function openHomeEditor(lang) {
       currentMode = 'home';
       currentLang = lang || null;
+      deletedBlocks = [];
       showView('empty');
       setTopbar(lang === 'en' ? 'Home (EN)' : 'Home', '');
       document.getElementById('save-btn').disabled = true;
@@ -3172,19 +3190,55 @@
               neutral: { bg: '#f9fafb', border: '#9ca3af', header: '#374151', label: 'Neutraal' },
             };
 
+            // Capture current input state into blockFiles before re-render
+            function gatherBlockState() {
+              blockFiles.forEach((block, idx) => {
+                for (const field of BLOCK_FIELDS) {
+                  const input = document.getElementById(`block-${idx}-field-${field.name}`);
+                  if (!input) continue;
+                  if (field.type === 'boolean') block.meta[field.name] = input.checked;
+                  else if (field.type === 'number') block.meta[field.name] = parseInt(input.value, 10) || 0;
+                  else block.meta[field.name] = input.value;
+                }
+                const editable = body.querySelector(`.editable-field[data-block-index="${idx}"]`);
+                if (editable) block.body = htmlToMdInline(editable.innerHTML);
+              });
+            }
+
             function renderMededelingBlock(block, i) {
               const blockEl = document.createElement('div');
               blockEl.className = 'block-section';
               blockEl.dataset.blockContainer = i;
               blockEl.style.marginBottom = '1rem';
               const bc = blockColors[block.meta.type] || blockColors.neutral;
-              blockEl.style.cssText += `background:${bc.bg};border-left:4px solid ${bc.border};border-radius:0 8px 8px 0;padding:0.75rem;margin-bottom:1rem;`;
+              blockEl.style.cssText += `background:${bc.bg};border-left:4px solid ${bc.border};border-radius:0 8px 8px 0;padding:0.75rem;margin-bottom:1rem;position:relative;`;
 
               const header = document.createElement('div');
               header.className = 'block-section-header';
               header.textContent = `${bc.label}: ${block.meta.title || `Blok ${i + 1}`}`;
               header.style.color = bc.header;
+              header.style.paddingRight = '2rem';
               blockEl.appendChild(header);
+
+              // Delete button (top right of block)
+              const deleteBtn = document.createElement('button');
+              deleteBtn.type = 'button';
+              deleteBtn.innerHTML = '&times;';
+              deleteBtn.title = 'Mededeling verwijderen';
+              deleteBtn.style.cssText = 'position:absolute;top:0.5rem;right:0.5rem;background:rgba(0,0,0,0.05);border:none;border-radius:4px;width:24px;height:24px;font-size:18px;line-height:1;cursor:pointer;color:#555;';
+              deleteBtn.addEventListener('click', () => {
+                const currentTitle = document.getElementById(`block-${i}-field-title`)?.value || block.meta.title;
+                if (!confirm(`Mededeling "${currentTitle}" verwijderen?`)) return;
+                gatherBlockState();
+                const idx = blockFiles.indexOf(block);
+                if (idx === -1) return;
+                if (block.path && !block.isNew) {
+                  deletedBlocks.push({ path: block.path, sha: block.sha });
+                }
+                blockFiles.splice(idx, 1);
+                renderAllBlocks();
+              });
+              blockEl.appendChild(deleteBtn);
 
               const fieldsDiv = document.createElement('div');
               fieldsDiv.className = 'fields';
@@ -3252,15 +3306,27 @@
               return blockEl;
             }
 
-            loaded.forEach((block, i) => {
+            function renderAllBlocks() {
+              // Clear all block-section elements but keep the addBtn
+              body.querySelectorAll('.block-section').forEach(el => el.remove());
+              const existingAddBtn = body.querySelector('.add-mededeling-btn');
+              blockFiles.forEach((block, i) => {
+                const blockEl = renderMededelingBlock(block, i);
+                if (existingAddBtn) body.insertBefore(blockEl, existingAddBtn);
+                else body.appendChild(blockEl);
+              });
+            }
+
+            blockFiles.forEach((block, i) => {
               body.appendChild(renderMededelingBlock(block, i));
             });
 
             const addBtn = document.createElement('button');
             addBtn.type = 'button';
-            addBtn.className = 'add-row-btn';
+            addBtn.className = 'add-row-btn add-mededeling-btn';
             addBtn.textContent = '+ Nieuwe mededeling toevoegen';
             addBtn.addEventListener('click', () => {
+              gatherBlockState();
               const newBlock = {
                 path: null,
                 sha: null,
@@ -3269,11 +3335,9 @@
                 name: null,
                 isNew: true,
               };
-              const newIndex = blockFiles.length;
               blockFiles.push(newBlock);
-              const newEl = renderMededelingBlock(newBlock, newIndex);
-              body.insertBefore(newEl, addBtn);
-              // Focus the new title input
+              renderAllBlocks();
+              const newIndex = blockFiles.length - 1;
               const titleInput = document.getElementById(`block-${newIndex}-field-title`);
               if (titleInput) { titleInput.focus(); titleInput.select(); }
             });
@@ -3422,6 +3486,18 @@
       const homePath = currentLang === 'en' ? HOME_EN_PATH : HOME_PATH;
       const msg = `Update home${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       homeSha = await saveFile(homePath, content, homeSha, msg);
+
+      // Delete removed blocks first
+      for (const del of deletedBlocks) {
+        const slug = del.path.split('/').pop().replace('.md', '');
+        try {
+          await deleteFile(del.path, del.sha, `Delete mededeling: ${slug} via CMS`);
+        } catch (err) {
+          console.error('Delete failed for', del.path, err);
+          throw new Error(`Verwijderen mislukt voor ${slug}: ${err.message}`);
+        }
+      }
+      deletedBlocks = [];
 
       // Save blocks (mededelingen)
       const blocksFolder = currentLang === 'en' ? 'src/content/blocks-en' : 'src/content/blocks';
