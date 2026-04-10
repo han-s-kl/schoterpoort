@@ -22,7 +22,7 @@ import practiceData from '../../data/practices.json';
       <h2 class="text-xl font-bold mb-4">Direct lines per practice</h2>
       <div class="grid sm:grid-cols-2 gap-4 mb-8">
         {practiceData.practices.map((practice) => (
-          <PracticeCard practice={practice} useInitials={false} />
+          <PracticeCard practice={practice} />
         ))}
       </div>
 

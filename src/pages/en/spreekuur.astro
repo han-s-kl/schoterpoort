@@ -54,7 +54,7 @@ const spoedKey = spoedItem?.key || '1';
       <h2 class="text-xl font-bold mb-4">Call your GP</h2>
       <div class="grid sm:grid-cols-2 gap-4 mb-8">
         {practices.map((practice) => (
-          <PracticeCard practice={practice} showWorkingDays={true} useInitials={false} />
+          <PracticeCard practice={practice} showWorkingDays={true} />
         ))}
       </div>
 

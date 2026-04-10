@@ -5,11 +5,9 @@
 // Props:
 //   practice         -- entry from practices.json
 //   showWorkingDays  -- show "-- Ma, Wo" behind each doctor (spreekuur only)
-//   useInitials      -- NL default: show "M.M. Duijn" instead of full doc.name
 
 interface Doctor {
   name: string;
-  initials?: string | null;
   workingDays?: string[];
 }
 
@@ -22,26 +20,16 @@ interface Practice {
 interface Props {
   practice: Practice;
   showWorkingDays?: boolean;
-  useInitials?: boolean;
 }
 
-const { practice, showWorkingDays = false, useInitials = true } = Astro.props;
-
-function displayName(doc: Doctor): string {
-  if (useInitials && doc.initials) {
-    const parts = doc.name.split(' ');
-    const lastName = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
-    return `${doc.initials} ${lastName}`;
-  }
-  return doc.name;
-}
+const { practice, showWorkingDays = false } = Astro.props;
 ---
 
 <div class="bg-white rounded-xl p-5 shadow-sm border border-neutral-200 border-t-4 border-t-primary-400">
   <h3 class="font-bold text-neutral-900 mb-1">{practice.name}</h3>
   <div class="text-sm text-neutral-500 mb-3">
     {practice.doctors.map((doc) => (
-      <span class="block">{displayName(doc)}
+      <span class="block">{doc.name}
         {showWorkingDays && doc.workingDays && doc.workingDays.length > 0 && (
           <span class="text-neutral-400"> -- {doc.workingDays.join(', ')}</span>
         )}
