@@ -8,6 +8,7 @@ import { url } from '../../utils/url';
 const nurses = allStaff.filter((s) => s.role === 'Praktijkverpleegkundige somatiek');
 const supportNurse = allStaff.filter((s) => s.role === 'Spreekuurondersteuner');
 const pohGgz = allStaff.filter((s) => s.role === 'Praktijkondersteuner GGZ');
+const practiceManager = allStaff.filter((s) => s.role === 'Praktijkmanager');
 
 const somatiekEntry = await getEntry('pages', 'praktijkverpleegkundigen-somatiek');
 const sprondEntry = await getEntry('pages', 'praktijkverpleegkundigen-spreekuurondersteuner');
@@ -85,7 +86,7 @@ const { Content: GgzContent } = await render(ggzEntry!);
       </article>
 
       {pohGgz.length > 0 && (
-        <div class="grid gap-4">
+        <div class="grid gap-4 mb-12">
           {pohGgz.map((member) => (
             <StaffCard
               name={member.name}
@@ -101,6 +102,28 @@ const { Content: GgzContent } = await render(ggzEntry!);
             />
           ))}
         </div>
+      )}
+
+      {practiceManager.length > 0 && (
+        <>
+          <h2 class="text-2xl font-bold mb-4">Praktijkmanager</h2>
+          <div class="grid gap-4">
+            {practiceManager.map((member) => (
+              <StaffCard
+                name={member.name}
+                role={member.role}
+                team={member.team}
+                photo={(member as any).photo}
+                workingDays={member.workingDays}
+                since={(member as any).since}
+                background={(member as any).background}
+                specializations={(member as any).specializations}
+                interests={(member as any).interests}
+                bigNumber={(member as any).bigNumber}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   </section>

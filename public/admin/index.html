@@ -1046,8 +1046,8 @@
 
     const STAFF_ROLE_FILTERS = {
       'huisartsen': s => s.role === 'Huisarts',
-      'praktijkverpleegkundigen': s => /verpleegkundige|ondersteuner|Spreekuurondersteuner/i.test(s.role),
-      'praktijkassistenten': s => /Doktersassistente|Baliemedewerker|Praktijkmanager/i.test(s.role),
+      'praktijkverpleegkundigen': s => /verpleegkundige|ondersteuner|Spreekuurondersteuner|Praktijkmanager/i.test(s.role),
+      'praktijkassistenten': s => /Doktersassistente|Baliemedewerker/i.test(s.role),
       'huisartsen-in-opleiding': s => s.role === 'Huisarts in opleiding (HAIO)',
     };
 
@@ -1095,7 +1095,7 @@
             fileNL: 'src/content/pages/praktijkassistenten.md',
             fileEN: 'src/content/pages-en/praktijkassistenten.md',
             readOnlyLabel: 'Praktijkassistenten',
-            staffFilter: s => /Doktersassistente|Baliemedewerker|Praktijkmanager/i.test(s.role),
+            staffFilter: s => /Doktersassistente|Baliemedewerker/i.test(s.role),
             staffLinkFilterKey: 'praktijkassistenten',
           },
         ],

@@ -8,6 +8,7 @@ import { url } from '../../../utils/url';
 const nurses = allStaff.filter((s) => s.role === 'Praktijkverpleegkundige somatiek');
 const supportNurse = allStaff.filter((s) => s.role === 'Spreekuurondersteuner');
 const pohGgz = allStaff.filter((s) => s.role === 'Praktijkondersteuner GGZ');
+const practiceManager = allStaff.filter((s) => s.role === 'Praktijkmanager');
 
 const somatiekEntry = await getEntry('pages-en', 'praktijkverpleegkundigen-somatiek');
 const sprondEntry = await getEntry('pages-en', 'praktijkverpleegkundigen-spreekuurondersteuner');
@@ -106,7 +107,7 @@ function translateDays(days?: string[]): string[] | undefined {
       </article>
 
       {pohGgz.length > 0 && (
-        <div class="grid gap-4">
+        <div class="grid gap-4 mb-12">
           {pohGgz.map((member) => (
             <StaffCard
               name={member.name}
@@ -123,6 +124,29 @@ function translateDays(days?: string[]): string[] | undefined {
             />
           ))}
         </div>
+      )}
+
+      {practiceManager.length > 0 && (
+        <>
+          <h2 class="text-2xl font-bold mb-4">Practice manager</h2>
+          <div class="grid gap-4">
+            {practiceManager.map((member) => (
+              <StaffCard
+                name={member.name}
+                role={translateRole(member)}
+                team={member.team}
+                photo={(member as any).photo}
+                workingDays={translateDays(member.workingDays)}
+                since={(member as any).sinceEn || (member as any).since}
+                background={(member as any).backgroundEn || (member as any).background}
+                specializations={(member as any).specializationsEn || (member as any).specializations}
+                interests={(member as any).interestsEn || (member as any).interests}
+                bigNumber={(member as any).bigNumber}
+                lang="en"
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   </section>
