@@ -1,8 +1,8 @@
 ---
-title: "Urineonderzoekformulier"
+title: "Urineonderzoek"
 description: "Vragenlijst en instructies voor het inleveren van een urinemonster bij Huisartsenpraktijk Schoterpoort."
 ---
-# Urineonderzoekformulier
+# Urineonderzoek
 
 Bij vermoeden van een urineweginfectie (blaasontsteking) kunt u een urinemonster achterlaten bij de praktijk, samen met een ingevulde vragenlijst.
 
