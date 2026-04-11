@@ -9,7 +9,6 @@ Everyone aged 18 or older has a mandatory excess for basic health insurance. In 
 The mandatory excess of EUR 385 (in 2025) for adults applies to almost all care covered by basic health insurance.
 
 Care to which the excess does **not** apply:
-
 - Care provided by your GP and the GP out-of-hours service/emergency post. 
 - Maternity care
 
