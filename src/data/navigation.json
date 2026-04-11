@@ -7,7 +7,7 @@
     "href": "/medewerkers",
     "children": [
       { "label": "Huisartsen", "href": "/medewerkers/huisartsen" },
-      { "label": "Praktijkverpleegkundigen", "href": "/medewerkers/praktijkverpleegkundigen" },
+      { "label": "Praktijkondersteuners", "href": "/medewerkers/praktijkverpleegkundigen" },
       { "label": "Praktijkassistenten", "href": "/medewerkers/praktijkassistenten" },
       { "label": "Huisartsen in opleiding", "href": "/medewerkers/huisartsen-in-opleiding" }
     ]
