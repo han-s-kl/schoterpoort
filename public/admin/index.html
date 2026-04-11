@@ -969,6 +969,7 @@
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="herhaalrecept-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="staff-page-panel" style="display:none"></div>
       </div>
     </main>
   </div>
@@ -1050,6 +1051,71 @@
       'huisartsen-in-opleiding': s => s.role === 'Huisarts in opleiding (HAIO)',
     };
 
+    // Composite editor configs for medewerker pages: each entry has one or
+    // more sections, where each section pairs an editable markdown file with a
+    // read-only preview of the staff that appear under that section on the
+    // public page.
+    const STAFF_PAGE_LAYOUTS = {
+      'praktijkverpleegkundigen': {
+        title: 'Praktijkverpleegkundigen -- inleidende tekst',
+        breadcrumb: 'Medewerkers',
+        sections: [
+          {
+            sectionLabel: 'Tekst -- Praktijkverpleegkundigen somatiek',
+            fileNL: 'src/content/pages/praktijkverpleegkundigen-somatiek.md',
+            fileEN: 'src/content/pages-en/praktijkverpleegkundigen-somatiek.md',
+            readOnlyLabel: 'Praktijkverpleegkundigen somatiek',
+            staffFilter: s => s.role === 'Praktijkverpleegkundige somatiek',
+            staffLinkFilterKey: 'praktijkverpleegkundigen',
+          },
+          {
+            sectionLabel: 'Tekst -- Spreekuurondersteuner',
+            fileNL: 'src/content/pages/praktijkverpleegkundigen-spreekuurondersteuner.md',
+            fileEN: 'src/content/pages-en/praktijkverpleegkundigen-spreekuurondersteuner.md',
+            readOnlyLabel: 'Spreekuurondersteuner',
+            staffFilter: s => s.role === 'Spreekuurondersteuner',
+            staffLinkFilterKey: 'praktijkverpleegkundigen',
+          },
+          {
+            sectionLabel: 'Tekst -- Praktijkondersteuners GGZ',
+            fileNL: 'src/content/pages/praktijkverpleegkundigen-ggz.md',
+            fileEN: 'src/content/pages-en/praktijkverpleegkundigen-ggz.md',
+            readOnlyLabel: 'Praktijkondersteuners GGZ',
+            staffFilter: s => s.role === 'Praktijkondersteuner GGZ',
+            staffLinkFilterKey: 'praktijkverpleegkundigen',
+          },
+        ],
+      },
+      'praktijkassistenten': {
+        title: 'Praktijkassistenten -- inleidende tekst',
+        breadcrumb: 'Medewerkers',
+        sections: [
+          {
+            sectionLabel: 'Tekst -- Praktijkassistenten',
+            fileNL: 'src/content/pages/praktijkassistenten.md',
+            fileEN: 'src/content/pages-en/praktijkassistenten.md',
+            readOnlyLabel: 'Praktijkassistenten',
+            staffFilter: s => /Doktersassistente|Baliemedewerker|Praktijkmanager/i.test(s.role),
+            staffLinkFilterKey: 'praktijkassistenten',
+          },
+        ],
+      },
+      'huisartsen-in-opleiding': {
+        title: 'Huisartsen in opleiding -- inleidende tekst',
+        breadcrumb: 'Medewerkers',
+        sections: [
+          {
+            sectionLabel: 'Tekst -- Huisartsen in opleiding',
+            fileNL: 'src/content/pages/huisartsen-in-opleiding.md',
+            fileEN: 'src/content/pages-en/huisartsen-in-opleiding.md',
+            readOnlyLabel: 'Huisartsen in opleiding',
+            staffFilter: s => s.role === 'Huisarts in opleiding (HAIO)',
+            staffLinkFilterKey: 'huisartsen-in-opleiding',
+          },
+        ],
+      },
+    };
+
     const NAV_ITEMS = [
       { label: 'Algemene gegevens', mode: 'practice-info' },
       { label: 'Home', mode: 'home' },
@@ -1060,6 +1126,10 @@
           { label: 'Praktijkverpleegkundigen', mode: 'staff', filterKey: 'praktijkverpleegkundigen' },
           { label: 'Praktijkassistenten', mode: 'staff', filterKey: 'praktijkassistenten' },
           { label: 'Huisartsen in opleiding', mode: 'staff', filterKey: 'huisartsen-in-opleiding' },
+          { type: 'separator' },
+          { label: 'Tekst -- Praktijkverpleegkundigen', mode: 'staff-page', layoutKey: 'praktijkverpleegkundigen' },
+          { label: 'Tekst -- Praktijkassistenten', mode: 'staff-page', layoutKey: 'praktijkassistenten' },
+          { label: 'Tekst -- Huisartsen in opleiding', mode: 'staff-page', layoutKey: 'huisartsen-in-opleiding' },
         ]
       },
       {
@@ -1104,6 +1174,7 @@
     let staffSha = null;
     let currentStaffIndex = null;
     let currentStaffCategory = null;
+    let currentStaffPage = null; // { layoutKey, sections: [{ section, path, sha, meta }] }
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
     let deletedBlocks = [];     // [{ path, sha }] -- te verwijderen bij next save
     let spreekuurSha = null;
@@ -1331,6 +1402,7 @@
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
       document.getElementById('herhaalrecept-panel').style.display = view === 'herhaalrecept' ? 'block' : 'none';
+      document.getElementById('staff-page-panel').style.display = view === 'staff-page' ? 'block' : 'none';
     }
 
     function setTopbar(title, subtitle, backFn) {
@@ -1416,6 +1488,12 @@
           header.classList.add('expanded');
 
           for (const child of item.children) {
+            if (child.type === 'separator') {
+              const sep = document.createElement('div');
+              sep.className = 'nav-separator';
+              childContainer.appendChild(sep);
+              continue;
+            }
             if (child.children) {
               // Sub-group (e.g. Gezondheidsinfo under Praktisch)
               const subHeader = document.createElement('button');
@@ -1548,6 +1626,15 @@
         }
         setActiveNav(item);
         await openHerhaalreceptEditor();
+      } else if (item.mode === 'staff-page') {
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        setActiveNav(item);
+        await openStaffPageEditor(item.layoutKey);
       }
     }
 
@@ -1758,7 +1845,10 @@
       return parts.join('\n\n') + '\n';
     }
 
-    function renderReadOnlyBlock(label, contentHtml) {
+    function renderReadOnlyBlock(label, contentHtml, linkTarget) {
+      // linkTarget = { mode, filterKey?, label } -- defaults to Algemene gegevens
+      const target = linkTarget || { mode: 'practice-info', label: 'Algemene gegevens' };
+      const linkLabel = target.label || 'Algemene gegevens';
       const block = document.createElement('div');
       block.className = 'readonly-context-block';
       const header = document.createElement('div');
@@ -1768,14 +1858,31 @@
       const body = document.createElement('div');
       body.className = 'spreekuur-section-body';
       body.innerHTML = contentHtml +
-        '<br><a class="readonly-manage-link">Beheer via Algemene gegevens &rarr;</a>';
+        `<br><a class="readonly-manage-link">Beheer via ${linkLabel} &rarr;</a>`;
       block.appendChild(body);
       body.querySelector('.readonly-manage-link').addEventListener('click', (e) => {
         e.preventDefault();
-        const navItem = NAV_ITEMS.find(n => n.mode === 'practice-info');
+        const navItem = findNavItemByTarget(target);
         if (navItem) openItem(navItem);
       });
       return block;
+    }
+
+    function findNavItemByTarget(target) {
+      function search(items) {
+        for (const it of items) {
+          if (it.children) {
+            const found = search(it.children);
+            if (found) return found;
+          } else if (it.mode === target.mode) {
+            if (target.filterKey == null || it.filterKey === target.filterKey) {
+              return it;
+            }
+          }
+        }
+        return null;
+      }
+      return search(NAV_ITEMS);
     }
 
     function buildSpreekuurReadOnlyBlocks(pd) {
@@ -2036,6 +2143,110 @@
       return person;
     }
 
+    // --- STAFF PAGE COMPOSITE EDITOR ---
+    // Composite editor for the medewerker page intros: alternates editable
+    // markdown text with read-only previews of the staff cards that follow on
+    // the public page. Each section in STAFF_PAGE_LAYOUTS pairs one markdown
+    // file with one staff filter.
+    async function openStaffPageEditor(layoutKey) {
+      currentMode = 'staff-page';
+      const layout = STAFF_PAGE_LAYOUTS[layoutKey];
+      if (!layout) {
+        setStatus(`Onbekende layout: ${layoutKey}`, 'error');
+        return;
+      }
+      currentStaffPage = { layoutKey, sections: [] };
+      showView('empty');
+      setTopbar(layout.title + (currentLang === 'en' ? ' (EN)' : ''), layout.breadcrumb);
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        // Load all section markdown files in parallel
+        const loaded = await Promise.all(layout.sections.map(async (section) => {
+          const path = currentLang === 'en' ? section.fileEN : section.fileNL;
+          const { content, sha } = await readFile(path);
+          const { meta, body } = parseFrontmatter(content);
+          return { section, path, sha, meta, body };
+        }));
+
+        // Load staff data so we can show the read-only preview lists
+        await loadStaffData();
+
+        const panel = document.getElementById('staff-page-panel');
+        panel.innerHTML = '';
+
+        loaded.forEach((entry, i) => {
+          const { section, path, sha, meta, body } = entry;
+          currentStaffPage.sections.push({ section, path, sha, meta });
+
+          // Editable text section
+          const sectionEl = document.createElement('div');
+          sectionEl.className = 'spreekuur-section';
+          const header = document.createElement('div');
+          header.className = 'spreekuur-section-header';
+          header.textContent = section.sectionLabel;
+          sectionEl.appendChild(header);
+          const bodyEl = document.createElement('div');
+          bodyEl.className = 'spreekuur-section-body';
+          const editable = createEditableField(body, 'markdown');
+          editable.dataset.sectionIndex = String(i);
+          bodyEl.appendChild(createMiniToolbar(editable));
+          bodyEl.appendChild(editable);
+          sectionEl.appendChild(bodyEl);
+          panel.appendChild(sectionEl);
+
+          // Read-only staff preview block
+          const matchingStaff = (staffData || []).filter(section.staffFilter);
+          let staffHtml;
+          if (matchingStaff.length === 0) {
+            staffHtml = '<em>Geen medewerkers gevonden</em>';
+          } else {
+            staffHtml = '<ul style="margin:0;padding-left:1.25rem;">';
+            for (const s of matchingStaff) {
+              const days = (s.workingDays && s.workingDays.length)
+                ? ` <span style="color:var(--text-muted);">(${s.workingDays.join(', ')})</span>`
+                : '';
+              staffHtml += `<li><strong>${s.name}</strong> -- ${s.role}${days}</li>`;
+            }
+            staffHtml += '</ul>';
+          }
+          const linkTarget = {
+            mode: 'staff',
+            filterKey: section.staffLinkFilterKey,
+            label: 'Medewerkers',
+          };
+          panel.appendChild(renderReadOnlyBlock(
+            `Hier op de pagina: ${section.readOnlyLabel}`,
+            staffHtml,
+            linkTarget,
+          ));
+        });
+
+        showView('staff-page');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        console.error('[openStaffPageEditor]', err);
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    async function saveStaffPage() {
+      if (!currentStaffPage) return;
+      const panel = document.getElementById('staff-page-panel');
+      for (let i = 0; i < currentStaffPage.sections.length; i++) {
+        const entry = currentStaffPage.sections[i];
+        const editable = panel.querySelector(`.editable-field[data-section-index="${i}"]`);
+        if (!editable) continue;
+        const newBody = htmlToMdInline(editable.innerHTML);
+        const content = serializeFrontmatter(entry.meta, newBody, PAGE_FIELDS);
+        const slug = entry.path.split('/').pop().replace('.md', '');
+        const msg = `Update ${slug} via CMS`;
+        entry.sha = await saveFile(entry.path, content, entry.sha, msg);
+      }
+    }
+
     // --- BLOCKS EDITOR ---
     async function openBlocksEditor(item) {
       currentMode = 'blocks';
@@ -2182,6 +2393,8 @@
           await savePatientenomgeving();
         } else if (currentMode === 'herhaalrecept') {
           await saveHerhaalrecept();
+        } else if (currentMode === 'staff-page') {
+          await saveStaffPage();
         }
         setStatus('Opgeslagen -- live op de site over ~1 minuut', 'saved');
         setTimeout(() => setStatus(''), 10000);
