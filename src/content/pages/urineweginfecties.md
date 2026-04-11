@@ -13,7 +13,7 @@ description: "Informatie over plasklachten, urineonderzoek en blaasontsteking"
 - Kunt u het pas later brengen? Zet het potje dan in de koelkast en breng het binnen 24 uur.
 - Voor kinderen die nog niet zindelijk zijn: zie hieronder.
 
-Een vragenlijst is beschikbaar voor urineonderzoek -- in te vullen thuis of ter plaatse. Download het [urineonderzoek formulier](/schoterpoort/urineonderzoek-formulier).
+Een vragenlijst is beschikbaar voor urineonderzoek -- in te vullen thuis of ter plaatse. Download het [urineonderzoek formulier](/schoterpoort/urineonderzoekformulier).
 
 ## Informatie op Thuisarts.nl
 

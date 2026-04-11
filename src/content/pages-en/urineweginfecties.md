@@ -13,7 +13,7 @@ description: "Information about urinary complaints, urine testing and bladder in
 - If you can only bring it later, place the container in the refrigerator and bring it within 24 hours.
 - For children who are not yet toilet trained: see below.
 
-A questionnaire is available for urine testing -- to be completed at home or at the practice. Download the [urine test form](/schoterpoort/en/urineonderzoek-formulier).
+A questionnaire is available for urine testing -- to be completed at home or at the practice. Download the [urine test form](/schoterpoort/en/urineonderzoekformulier).
 
 ## Information on Thuisarts.nl
 
