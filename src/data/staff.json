@@ -145,12 +145,13 @@
     "since": "2025 (waarnemer voor Willemijn Schaap)",
     "sinceEn": "2025 (locum for Willemijn Schaap)",
     "background": "Neemt waar voor Willemijn Schaap tijdens haar verblijf in Nieuw-Zeeland tot zomer 2026.",
-    "backgroundEn": "Standing in for Willemijn Schaap during her stay in New Zealand. Expected back summer 2026.",
+    "backgroundEn": "Standing in for Willemijn Schaap during her stay in New Zealand until summer 2026.",
     "specializations": [],
     "interests": "",
     "interestsEn": "",
     "roleEn": "GP",
-    "photo": ""
+    "photo": "",
+    "specializationsEn": []
   },
   {
     "name": "Lisette van der Eem",
