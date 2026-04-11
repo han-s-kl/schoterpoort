@@ -33,6 +33,9 @@ import practiceData from '../data/practices.json';
           <span class="text-sm text-neutral-700">Praktijkverpleegkundigen</span>
           <a href={`tel:${practiceData.phoneNurses.replace(/\s/g, '')}`} class="font-medium text-dark-600 no-underline">{practiceData.phoneNurses}</a>
         </div>
+        <div class="bg-accent-50 rounded-lg border border-accent-200 p-4">
+          <span class="text-sm font-semibold text-neutral-900">Spoed tijdens kantooruren: bel uw huisarts, keuze 1</span>
+        </div>
         <div class="flex items-center justify-between bg-accent-50 rounded-lg border border-accent-200 p-4">
           <div>
             <span class="text-sm font-semibold text-neutral-900">Spoedpost (buiten kantooruren)</span>
@@ -43,9 +46,6 @@ import practiceData from '../data/practices.json';
         <div class="flex items-center justify-between bg-accent-50 rounded-lg border border-accent-200 p-4">
           <span class="text-sm font-bold text-neutral-900">Levensbedreigende situaties</span>
           <a href="tel:112" class="font-bold text-accent-700 no-underline text-lg">112</a>
-        </div>
-        <div class="bg-accent-50 rounded-lg border border-accent-200 p-4">
-          <span class="text-sm font-semibold text-neutral-900">Spoed tijdens kantooruren: bel uw huisarts, keuze 1</span>
         </div>
       </div>
     </div>
