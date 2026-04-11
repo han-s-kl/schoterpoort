@@ -4,7 +4,7 @@ description: "Information about nearby pharmacies and the duty pharmacy"
 ---
 # Pharmacy
 
-Prescriptions are - after authorisation by the GP - sent electronically directly to your preferred pharmacy. You do not need to collect prescriptions.
+Prescriptions are - after authorisation by the GP - sent electronically directly to your preferred pharmacy.
 
 ## Nearby pharmacies (Haarlem-Noord)
 
