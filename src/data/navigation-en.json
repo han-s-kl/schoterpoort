@@ -16,7 +16,7 @@
     "label": "Services",
     "href": "#",
     "children": [
-      { "label": "Appointments", "href": "/en/spreekuur" },
+      { "label": "Appointments", "href": "/en/spreekuur-afspraken" },
       { "label": "Repeat prescription", "href": "/en/herhaalrecept" },
       { "label": "Pharmacy", "href": "/en/apotheek" },
       { "label": "Home visits", "href": "/en/huisbezoek" },
