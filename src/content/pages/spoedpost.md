@@ -16,7 +16,7 @@ Boerhaavelaan 22, Haarlem (Schalkwijk)
 - Spoedeisende Hulp (SEH): 24 uur per dag, 7 dagen per week
 - Huisartsenpost: avond, nacht, weekend en feestdagen
 
-Op basis van uw afspraak wordt bepaald naar welke locatie u wordt verwezen.
+Bij het maken van een afspraak wordt bepaald naar welke locatie u wordt verwezen.
 
 ## Inzage medisch dossier
 
