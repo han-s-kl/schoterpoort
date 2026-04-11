@@ -4,7 +4,7 @@ description: "Overzicht van tarieven voor consulten, huisbezoeken en verrichting
 ---
 # Tarieven 2026
 
-**Deze tarieven vallen niet onder uw eigen risico (EUR 385,00 in 2026)**
+**Deze tarieven vallen niet onder uw eigen risico (EUR 385,00 in 2026).**
 
 Zoveel mogelijk worden onze nota's rechtstreeks naar de verzekering gestuurd. Voor consulten op het spreekuur en telefonische consulten geldt hetzelfde tarief.
 
