@@ -29,7 +29,7 @@
     "label": "Praktisch",
     "href": "#",
     "children": [
-      { "label": "Tarieven 2025", "href": "/tarieven" },
+      { "label": "Tarieven 2025", "href": "/tarieven-2025" },
       { "label": "Eigen risico", "href": "/eigen-risico" },
       { "label": "Klachtenregeling", "href": "/klachtenregeling" },
       { "label": "Administratieformulier", "href": "/administratieformulier" },
