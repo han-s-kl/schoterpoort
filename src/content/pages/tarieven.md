@@ -1,9 +1,8 @@
 ---
-title: "Tarieven 2025"
+title: "Tarieven 2026"
 description: "Overzicht van tarieven voor consulten, huisbezoeken en verrichtingen in 2025"
 ---
-
-# Tarieven 2025
+# Tarieven 2026
 
 **Deze tarieven vallen niet onder uw eigen risico (EUR 385,00 in 2025)**
 
@@ -32,7 +31,7 @@ Zoveel mogelijk worden onze nota's rechtstreeks naar de verzekering gestuurd. Vo
 ## Verrichtingen
 
 | Verrichting | Tarief |
-|-------------|--------|
+|--------|--------|
 | Chirurgie | EUR 112,28 |
 | Compressietherapie bij ulcus | EUR 75,47 |
 | Oogboren | EUR 71,75 |
