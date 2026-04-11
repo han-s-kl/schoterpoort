@@ -42,5 +42,5 @@ Wherever possible, our invoices are sent directly to the insurance company. The 
 
 **These costs ARE subject to your excess (deductible).**
 
-- **Streeklaboratorium:** STI tests, urine and stool cultures -- [Rates Streeklaboratorium](https://streeklabhaarlem.nl/zorgverleners/tarievenlijst/)
-- **AtalMedial:** Blood tests and urinary protein tests -- [Rates laboratory tests AtalMedial](https://www.atalmedial.nl/laboratoriumonderzoek/informatie-voor-mijn-bezoek/tarieven/)
+- **Streeklaboratorium:** for example STI tests, urine and stool cultures - [Rates Streeklaboratorium](https://streeklabhaarlem.nl/zorgverleners/tarievenlijst/)
+- **AtalMedial:** Blood tests and urinary protein tests - [Rates laboratory tests AtalMedial](https://www.atalmedial.nl/laboratoriumonderzoek/informatie-voor-mijn-bezoek/tarieven/)
