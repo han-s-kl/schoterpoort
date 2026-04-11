@@ -2,7 +2,6 @@
 title: "SOA"
 description: "Informatie over seksueel overdraagbare aandoeningen, testen en kosten"
 ---
-
 # SOA (Seksueel Overdraagbare Aandoening)
 
 ## Wat is een SOA?
@@ -27,15 +26,9 @@ Meer informatie vindt u op [www.thuisarts.nl/soa](http://www.thuisarts.nl/soa).
 
 Testen worden uitgevoerd bij laboratoriafaciliteiten; kosten vallen onder het eigen risico.
 
-## Tarieven 2025
+## Tarieven
 
-- Basistarief: EUR 19,86
-- Chlamydia + Gonorroe + Trichomonas: EUR 121,17
-- Chlamydia + Gonorroe: EUR 80,78
-- Chlamydia alleen: EUR 40,39
-- Gonorroe alleen: EUR 40,39
-
-Bekijk de volledige [tarievenlijst streeklaboratorium 2025](https://www.streeklabhaarlem.nl/wp-content/uploads/Tarievenlijst-2025.pdf).
+Bekijk de [tarievenlijst streeklaboratorium](https://www.streeklabhaarlem.nl/zorgverleners/tarievenlijst/).
 
 ## Gratis testen
 
