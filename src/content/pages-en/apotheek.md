@@ -17,7 +17,7 @@ Prescriptions are - after authorisation by the GP - sent electronically directly
 
 ## Duty pharmacy (Spaarne Gasthuis)
 
-For more information about duty pharmacies: [www.sahz.nl](https://www.sahz.nl)
+For more information about duty pharmacies:  [https://apotheek.spaarnegasthuis.nl](https://apotheek.spaarnegasthuis.nl/)
 
 | Location | Opening hours |
 |--------|--------|
