@@ -4,7 +4,7 @@ description: "Informatie over apotheken in de buurt en dienstapotheek"
 ---
 # Apotheek
 
-Recepten worden - na fiattering door de huisarts - rechtstreeks elektronisch verzonden naar uw apotheek van voorkeur. U hoeft dus geen recepten af te halen.
+Recepten worden - na fiattering door de huisarts - rechtstreeks elektronisch verzonden naar uw apotheek van voorkeur.
 
 ## Apotheken in de buurt (Haarlem-Noord)
 
