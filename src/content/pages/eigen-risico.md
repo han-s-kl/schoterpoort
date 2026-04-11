@@ -9,10 +9,8 @@ Iedereen van 18 jaar of ouder heeft een verplicht eigen risico voor de basisverz
 Het verplicht eigen risico van EUR 385 (in 2026) voor volwassenen geldt voor bijna alle zorg vanuit de basisverzekering.
 
 De zorg waar het eigen risico **niet** voor geldt:
-
 - De zorg door uw huisarts en de huisartsenpost/spoedpost. 
 - Verloskundige zorg
-
 
 LET OP: Het eigen risico geldt wel voor:
  - geneesmiddelen die de huisarts voorschrijft
