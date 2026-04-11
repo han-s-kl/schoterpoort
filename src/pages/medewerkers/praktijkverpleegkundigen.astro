@@ -2,15 +2,19 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import StaffCard from '../../components/staff/StaffCard.astro';
 import allStaff from '../../data/staff.json';
-import practiceData from '../../data/practices.json';
+import { getEntry, render } from 'astro:content';
 import { url } from '../../utils/url';
 
 const nurses = allStaff.filter((s) => s.role === 'Praktijkverpleegkundige somatiek');
 const supportNurse = allStaff.filter((s) => s.role === 'Spreekuurondersteuner');
 const pohGgz = allStaff.filter((s) => s.role === 'Praktijkondersteuner GGZ');
 
-const phoneNurses = practiceData.phoneNurses;
-const phoneNursesDigits = phoneNurses ? phoneNurses.replace(/\s/g, '') : '';
+const somatiekEntry = await getEntry('pages', 'praktijkverpleegkundigen-somatiek');
+const sprondEntry = await getEntry('pages', 'praktijkverpleegkundigen-spreekuurondersteuner');
+const ggzEntry = await getEntry('pages', 'praktijkverpleegkundigen-ggz');
+const { Content: SomatiekContent } = await render(somatiekEntry!);
+const { Content: SprondContent } = await render(sprondEntry!);
+const { Content: GgzContent } = await render(ggzEntry!);
 ---
 
 <PageLayout
@@ -28,12 +32,7 @@ const phoneNursesDigits = phoneNurses ? phoneNurses.replace(/\s/g, '') : '';
       <!-- Praktijkverpleegkundigen somatiek -->
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
         <h2>Praktijkverpleegkundigen somatiek</h2>
-        <p>De huisartsenpraktijken krijgen steeds meer verantwoordelijkheden, mede omdat zorg vanuit het ziekenhuis wordt verplaatst naar de huisarts en zijn medewerkers. Ook stijgt het aantal ouderen en is er een toename van het aantal patienten met een chronische ziekte, zoals astma/COPD, diabetes en hart- en vaatziekten.</p>
-        <p>Praktijkverpleegkundigen ondersteunen het werk van de huisarts en nemen een deel van de chronische zorg van de huisarts over. Huisarts en praktijkverpleegkundige hebben hierbij steeds een nauw overleg.</p>
-        <p>Er werken 2 praktijkverpleegkundigen in de Schoterpoort. Naast hun opleiding als wijkverpleegkundige hebben zij een aanvullende opleiding tot praktijkverpleegkundige gevolgd aan de Hogeschool InHolland. Vooral diabetes en COPD behoren tot hun werkgebied. Daarnaast richten zij zich op gezondheidsproblemen bij de oudere patient.</p>
-        <p>Uiteraard is de praktijkverpleegkundige bereid om patienten die, door een handicap of hoge leeftijd, niet in staat zijn om naar de praktijk te komen, thuis te bezoeken.</p>
-        <p>Zij werken van maandag t/m vrijdag met een spreekuur volgens afspraak.</p>
-        <p><strong>Voor vragen</strong> kunt u 's morgens met de praktijkassistente van uw eigen huisarts bellen, u wordt dan doorverbonden of teruggebeld. Zij zelf zijn direct telefonisch bereikbaar tussen 11 en 12 uur op nummer <strong><a href={`tel:${phoneNursesDigits}`}>{phoneNurses}</a></strong>.</p>
+        <SomatiekContent />
       </article>
 
       {nurses.length > 0 && (
@@ -58,8 +57,7 @@ const phoneNursesDigits = phoneNurses ? phoneNurses.replace(/\s/g, '') : '';
       <!-- Spreekuurondersteuner -->
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
         <h2>Spreekuurondersteuner</h2>
-        <p>De Spreekuurondersteuner is een speciaal opgeleide doktersassistente. Bij ons in de praktijk vervult Marjoleine deze rol.</p>
-        <p>Zij kan zelfstandig een aantal veel voorkomende niet-ernstige aandoeningen afhandelen zoals insectenbeten, bijtwonden, schaaf- en snijwonden, tand door lip, teenletsel, bloedneus, keelpijn, verkoudheids- en bijholte klachten en een verstuikte enkel.</p>
+        <SprondContent />
       </article>
 
       {supportNurse.length > 0 && (
@@ -84,8 +82,7 @@ const phoneNursesDigits = phoneNurses ? phoneNurses.replace(/\s/g, '') : '';
       <!-- Praktijkondersteuners GGZ -->
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
         <h2>Praktijkondersteuners GGZ</h2>
-        <p>De POH GGZ ondersteunt de huisartsen bij het verhelderen van problemen van patienten met psychische, psychosociale en psychiatrische klachten. Er kan een kortdurende begeleiding plaatsvinden van bijvoorbeeld 5 gesprekken waarna de patient vaak weer zelf verder kan. Ook heeft de praktijkondersteuner een gidsfunctie om te bekijken welk behandelpad de patient het beste kan bewandelen bij meer ingewikkelde psychische problematiek.</p>
-        <p>Voor hulp door de POH GGZ wordt geen eigen bijdrage gevraagd en het komt ook - net als bij de huisarts - niet ten laste van uw eigen risico. Verwijzing gaat via uw eigen huisarts.</p>
+        <GgzContent />
       </article>
 
       {pohGgz.length > 0 && (
