@@ -2,7 +2,6 @@
 title: "STI"
 description: "Information about sexually transmitted infections, testing and costs"
 ---
-
 # STI (Sexually Transmitted Infection)
 
 ## What is an STI?
@@ -27,15 +26,9 @@ More information can be found at [www.thuisarts.nl/soa](http://www.thuisarts.nl/
 
 Tests are carried out at laboratory facilities; costs are subject to the excess (deductible).
 
-## Rates 2025
+## Rates
 
-- Basic rate: EUR 19.86
-- Chlamydia + Gonorrhoea + Trichomonas: EUR 121.17
-- Chlamydia + Gonorrhoea: EUR 80.78
-- Chlamydia only: EUR 40.39
-- Gonorrhoea only: EUR 40.39
-
-View the complete [rate list Streeklaboratorium 2025](https://www.streeklabhaarlem.nl/wp-content/uploads/Tarievenlijst-2025.pdf).
+View the [rate list Streeklaboratorium](https://www.streeklabhaarlem.nl/zorgverleners/tarievenlijst/).
 
 ## Free testing
 
