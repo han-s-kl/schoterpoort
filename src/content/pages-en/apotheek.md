@@ -11,7 +11,7 @@ Prescriptions are - after authorisation by the GP - sent electronically directly
 | Pharmacy | Opening hours | Website |
 |--------|--------|--------|
 | Marnix Apotheek | Mon-Fri 8:00-18:00 | [serviceapotheek.nl/marnix](https://www.serviceapotheek.nl/marnix) |
-| Schoterbos Apotheek | Mon-Fri 8:00-18:00 (from 1 March 2025: 8:00-17:30) | [schoterbosapotheek.uwapothekeronline.nl](https://schoterbosapotheek.uwapothekeronline.nl) |
+| Schoterbos Apotheek | Mon-Fri 8:00-17:30 | [schoterbosapotheek.uwapothekeronline.nl](https://schoterbosapotheek.uwapothekeronline.nl) |
 | Apotheek Het Catharinahuis | Mon-Fri 8:00-17:30, Sat 8:30-12:30 | [catharinahuis.nl](https://www.catharinahuis.nl) |
 | Frans Hals Apotheek | Mon-Fri 8:30-17:30 | [franshalsapotheek.nl](https://www.franshalsapotheek.nl) |
 
