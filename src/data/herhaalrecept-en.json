@@ -9,7 +9,7 @@
     "Name or names of the medicines you are ordering (keep the boxes handy!)",
     "Name of your own pharmacy"
   ],
-  "welkeMedicijnen": "You can only request prescriptions for medicines that you use on the advice of your GP or specialist <strong>chronically</strong> (usually daily).<br><br>If you wish to request medicines for newly occurring complaints or temporary medicines -- that you received for a specific period -- do not reorder them via the prescription line or website. For this, you can call the practice assistant during office hours; if necessary, your GP will be consulted about your request.",
+  "welkeMedicijnen": "You can only request prescriptions for medicines that you use on the advice of your GP or specialist <strong>chronically</strong> (usually daily).<br><br>If you wish to request medicines for newly occurring complaints or temporary medicines - that you received for a specific period - do not reorder them via the prescription line or website. For this, you can call the practice assistant during office hours; if necessary, your GP will be consulted about your request.",
   "wanneerKlaar": "If you call the prescription line or order a prescription via the website <strong>before 12:00 noon</strong>, you can collect your medicines from your own pharmacy <strong>2 working days later</strong> (from 15:00 they are ready).",
   "wanneerKlaarVoorbeelden": [
     "If you call/email on Tuesday evening, your medicines will be ready at the pharmacy on Friday.",
