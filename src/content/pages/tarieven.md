@@ -42,5 +42,5 @@ Zoveel mogelijk worden onze nota's rechtstreeks naar de verzekering gestuurd. Vo
 
 **Deze kosten vallen WEL onder uw eigen risico.**
 
-- **Streeklaboratorium:** SOA-testen, urine- en stoelgangkweken -- [Tarieven streeklaboratorium](https://streeklabhaarlem.nl/zorgverleners/tarievenlijst/)
-- **AtalMedial:** Bloedonderzoek en urinair eiwitonderzoek -- [Tarieven laboratoriumonderzoek AtalMedial](https://www.atalmedial.nl/laboratoriumonderzoek/informatie-voor-mijn-bezoek/tarieven/)
+- **Streeklaboratorium:** bijvoorbeeld SOA-testen, kweken van urine en ontlasting. - [Tarieven streeklaboratorium](https://streeklabhaarlem.nl/zorgverleners/tarievenlijst/)
+- **AtalMedial:** Bloedonderzoek en urine eiwitonderzoek - [Tarieven laboratoriumonderzoek AtalMedial](https://www.atalmedial.nl/laboratoriumonderzoek/informatie-voor-mijn-bezoek/tarieven/)
