@@ -12,7 +12,7 @@ De zorg waar het eigen risico **niet** voor geldt:
 - De zorg door uw huisarts en de huisartsenpost/spoedpost. 
 - Verloskundige zorg
 
-LET OP: Het eigen risico geldt wel voor:
+LET OP: Het eigen risico geldt **wel** voor:
  - geneesmiddelen die de huisarts voorschrijft
  - onderzoek dat samenhangt met de zorg/diagnostiek door uw huisarts (laboratoriumonderzoek, rontgenfoto, echo-onderzoek, maag/darm scopie-onderzoek etc.)
 
