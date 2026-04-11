@@ -1,9 +1,8 @@
 ---
-title: "Urine test form"
+title: "Urine test"
 description: "Questionnaire and instructions for submitting a urine sample at Huisartsenpraktijk Schoterpoort."
 ---
-
-# Urine test form
+# Urine test
 
 If you suspect a urinary tract infection (bladder infection), you can leave a urine sample at the practice, together with a completed questionnaire.
 
