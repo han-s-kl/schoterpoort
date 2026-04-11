@@ -1,5 +1,4 @@
 {
-  "telefonischConsult": "",
   "afspraakAfzeggen": "Wij verzoeken u dringend om uw afspraak uiterlijk 24 uur van tevoren telefonisch af te zeggen. Voor afspraken bij de praktijkondersteuner GGZ: minimaal 48 uur van tevoren afzeggen.",
   "kwaliteit": [
     {
@@ -19,18 +18,18 @@
     },
     {
       "title": "Persoonlijke zorg",
-      "text": "Persoonlijke en kleinschalige zorg vinden wij erg belangrijk, vaak maken wij een groot deel van uw leven mee: lief en leed, soms van heel dichtbij. Wij zijn graag uw eerste aanspreekpunt bij vragen en problemen omtrent uw gezondheid en biedt u -- van jong tot oud -- begeleiding bij acute en chronische ziekten. Wij stemmen hierbij onze hulp zo goed mogelijk af op uw eigen behoeften en mogelijkheden. Hierbij letten wij er op dat ook de zorg van anderen zoveel mogelijk in samenhang plaatsvindt, zodat u niet 'verdwaalt' in de zorg.",
+      "text": "Persoonlijke en kleinschalige zorg vinden wij erg belangrijk, vaak maken wij een groot deel van uw leven mee: lief en leed, soms van heel dichtbij. Dit team is graag uw eerste aanspreekpunt bij vragen en problemen omtrent uw gezondheid en biedt u - van jong tot oud - begeleiding bij acute en chronische ziekten. Wij stemmen hierbij onze hulp zo goed mogelijk af op uw eigen behoeften en mogelijkheden. Hierbij letten wij er op dat ook de zorg van andere zorgverleners zoveel mogelijk in samenhang plaatsvindt, zodat u niet 'verdwaalt' in de zorg.",
       "visible": true
     }
   ],
   "wistUDat": [
-    "U hoeft zich niet te melden bij de balie voor geplande afspraken; wacht in de wachtkamer van uw huisarts of behandelaar",
-    "Patiëntenomgeving beschikbaar voor zelf recepten bestellen, e-consulten en afspraken maken",
-    "Afspraken alleen telefonisch of via de patiëntenomgeving ter bescherming van privacy",
-    "Assistentes zijn opgeleid in triage om passende zorg op het juiste moment te bieden",
-    "Landelijk tekort aan doktersassistenten kan langere telefonische wachttijden veroorzaken; het team waardeert uw geduld",
-    "Standaard consult is 15 minuten voor een klacht; vraag een dubbel consult aan voor meerdere klachten of psychische problematiek",
-    "Bij vermoeden van blaasontsteking: laat urinemonster achter in de koeler bij de ingang met ingevuld formulier",
-    "Betrouwbare gezondheidsinformatie op thuisarts.nl; gebruik moetiknaardedokter.nl om te beoordelen of een huisartsbezoek nodig is"
+    "U hoeft zich niet te melden bij de balie voor geplande afspraken; wacht in de wachtkamer van uw huisarts of van de praktijkondersteuner op de eerste verdieping.",
+    "Patiëntenomgeving beschikbaar voor zelf recepten bestellen, e-consulten en afspraken maken.",
+    "Afspraken alleen telefonisch of via de patiëntenomgeving ter bescherming van privacy.",
+    "Assistentes zijn opgeleid in triage om passende zorg op het juiste moment te bieden.",
+    "Landelijk tekort aan doktersassistenten kan langere telefonische wachttijden veroorzaken; het team waardeert uw geduld.",
+    "Standaard consult is 15 minuten voor één klacht; vraag een dubbel consult aan voor meerdere klachten of psychische problematiek.",
+    "Bij vermoeden van blaasontsteking: laat urinemonster achter in het koelkastje bij de ingang met ingevuld formulier.",
+    "Betrouwbare gezondheidsinformatie op <a href=\"https://www.thuisarts.nl/\" style=\"color: rgb(92, 124, 250);\">thuisarts.nl</a>; gebruik moetiknaardedokter.nl om te beoordelen of een huisartsbezoek nodig is."
   ]
 }
