@@ -1,4 +1,5 @@
 {
+  "telefonischConsult": "",
   "afspraakAfzeggen": "We kindly ask you to cancel your appointment by phone at least 24 hours in advance. For appointments with the mental health practice nurse: at least 48 hours in advance.",
   "kwaliteit": [
     {
@@ -18,7 +19,7 @@
     },
     {
       "title": "Personal care",
-      "text": "Personal, small-scale care matters to us. Often we are part of a large chapter of your life -- joys and sorrows, sometimes from up close. Your team is your first point of contact for questions and concerns about your health, and we guide you -- from young to old -- through acute and chronic illness. We tailor our care to your own needs and possibilities. We also make sure that care from others is coordinated as much as possible, so that you do not get lost in the system.",
+      "text": "Personal, small-scale care matters to us. Often we are part of a large chapter of your life - joys and sorrows, sometimes from up close. We are your first point of contact for questions and concerns about your health, and we guide you - from young to old - through acute and chronic illness. We tailor our care to your own needs and possibilities. We also make sure that care from others is coordinated as much as possible, so that you do not get lost in the system.",
       "visible": true
     }
   ],
