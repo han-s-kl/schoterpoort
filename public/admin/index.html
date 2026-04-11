@@ -1123,13 +1123,9 @@
       {
         label: 'Medewerkers', children: [
           { label: 'Huisartsen', mode: 'staff', filterKey: 'huisartsen' },
-          { label: 'Praktijkondersteuners', mode: 'staff', filterKey: 'praktijkverpleegkundigen' },
-          { label: 'Praktijkassistenten', mode: 'staff', filterKey: 'praktijkassistenten' },
-          { label: 'Huisartsen in opleiding', mode: 'staff', filterKey: 'huisartsen-in-opleiding' },
-          { type: 'separator' },
-          { label: 'Tekst -- Praktijkondersteuners', mode: 'staff-page', layoutKey: 'praktijkverpleegkundigen' },
-          { label: 'Tekst -- Praktijkassistenten', mode: 'staff-page', layoutKey: 'praktijkassistenten' },
-          { label: 'Tekst -- Huisartsen in opleiding', mode: 'staff-page', layoutKey: 'huisartsen-in-opleiding' },
+          { label: 'Praktijkondersteuners', mode: 'staff-page', layoutKey: 'praktijkverpleegkundigen', filterKey: 'praktijkverpleegkundigen' },
+          { label: 'Praktijkassistenten', mode: 'staff-page', layoutKey: 'praktijkassistenten', filterKey: 'praktijkassistenten' },
+          { label: 'Huisartsen in opleiding', mode: 'staff-page', layoutKey: 'huisartsen-in-opleiding', filterKey: 'huisartsen-in-opleiding' },
         ]
       },
       {
@@ -1634,7 +1630,7 @@
           }
         }
         setActiveNav(item);
-        await openStaffPageEditor(item.layoutKey);
+        await openStaffPageEditor(item.layoutKey, item);
       }
     }
 
@@ -2111,7 +2107,10 @@
       currentStaffIndex = index;
       const person = staffData[index];
 
-      setTopbar(person.name, person.role, () => openStaffList(parentItem));
+      const goBack = (parentItem && parentItem.mode === 'staff-page')
+        ? () => openStaffPageEditor(parentItem.layoutKey, parentItem)
+        : () => openStaffList(parentItem);
+      setTopbar(person.name, person.role, goBack);
 
       const container = document.getElementById('fields');
       container.innerHTML = '';
@@ -2148,14 +2147,19 @@
     // markdown text with read-only previews of the staff cards that follow on
     // the public page. Each section in STAFF_PAGE_LAYOUTS pairs one markdown
     // file with one staff filter.
-    async function openStaffPageEditor(layoutKey) {
+    async function openStaffPageEditor(layoutKey, navItem) {
       currentMode = 'staff-page';
       const layout = STAFF_PAGE_LAYOUTS[layoutKey];
       if (!layout) {
         setStatus(`Onbekende layout: ${layoutKey}`, 'error');
         return;
       }
-      currentStaffPage = { layoutKey, sections: [] };
+      // The matching staff filter key drives which person tiles to show at
+      // the top, and is also what the form-field filter (since/background/...)
+      // uses when the user opens an individual person.
+      const filterKey = (navItem && navItem.filterKey) || layoutKey;
+      currentStaffCategory = filterKey;
+      currentStaffPage = { layoutKey, navItem, sections: [] };
       showView('empty');
       setTopbar(layout.title + (currentLang === 'en' ? ' (EN)' : ''), layout.breadcrumb);
       document.getElementById('save-btn').disabled = true;
@@ -2170,17 +2174,49 @@
           return { section, path, sha, meta, body };
         }));
 
-        // Load staff data so we can show the read-only preview lists
+        // Load staff data so we can render the person tiles at the top
         await loadStaffData();
 
         const panel = document.getElementById('staff-page-panel');
         panel.innerHTML = '';
 
+        // --- Person tiles section (top) ---
+        const peopleSection = document.createElement('div');
+        peopleSection.className = 'spreekuur-section';
+        const peopleHeader = document.createElement('div');
+        peopleHeader.className = 'spreekuur-section-header';
+        peopleHeader.textContent = 'Personen';
+        peopleSection.appendChild(peopleHeader);
+        const peopleBody = document.createElement('div');
+        peopleBody.className = 'spreekuur-section-body';
+        const tilesGrid = document.createElement('div');
+        tilesGrid.className = 'file-grid';
+        tilesGrid.style.padding = '0';
+        tilesGrid.style.maxWidth = 'none';
+        const filterFn = STAFF_ROLE_FILTERS[filterKey];
+        if (filterFn) {
+          staffData.forEach((person, index) => {
+            if (!filterFn(person)) return;
+            const btn = document.createElement('button');
+            btn.className = 'file-card';
+            btn.innerHTML = `
+              <div class="file-name">${person.name}</div>
+              <div class="file-meta">${person.role}${person.team ? ' -- ' + person.team : ''}</div>
+              <div class="file-meta">${(person.workingDays || []).join(', ')}</div>
+            `;
+            btn.addEventListener('click', () => openStaffDetail(index, navItem || { filterKey, mode: 'staff-page', layoutKey, label: layout.title }));
+            tilesGrid.appendChild(btn);
+          });
+        }
+        peopleBody.appendChild(tilesGrid);
+        peopleSection.appendChild(peopleBody);
+        panel.appendChild(peopleSection);
+
+        // --- Editable text sections (below the person tiles) ---
         loaded.forEach((entry, i) => {
           const { section, path, sha, meta, body } = entry;
           currentStaffPage.sections.push({ section, path, sha, meta });
 
-          // Editable text section
           const sectionEl = document.createElement('div');
           sectionEl.className = 'spreekuur-section';
           const header = document.createElement('div');
@@ -2195,32 +2231,6 @@
           bodyEl.appendChild(editable);
           sectionEl.appendChild(bodyEl);
           panel.appendChild(sectionEl);
-
-          // Read-only staff preview block
-          const matchingStaff = (staffData || []).filter(section.staffFilter);
-          let staffHtml;
-          if (matchingStaff.length === 0) {
-            staffHtml = '<em>Geen medewerkers gevonden</em>';
-          } else {
-            staffHtml = '<ul style="margin:0;padding-left:1.25rem;">';
-            for (const s of matchingStaff) {
-              const days = (s.workingDays && s.workingDays.length)
-                ? ` <span style="color:var(--text-muted);">(${s.workingDays.join(', ')})</span>`
-                : '';
-              staffHtml += `<li><strong>${s.name}</strong> -- ${s.role}${days}</li>`;
-            }
-            staffHtml += '</ul>';
-          }
-          const linkTarget = {
-            mode: 'staff',
-            filterKey: section.staffLinkFilterKey,
-            label: 'Medewerkers',
-          };
-          panel.appendChild(renderReadOnlyBlock(
-            `Hier op de pagina: ${section.readOnlyLabel}`,
-            staffHtml,
-            linkTarget,
-          ));
         });
 
         showView('staff-page');
