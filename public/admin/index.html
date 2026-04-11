@@ -3195,10 +3195,16 @@
       practicesSha = sha;
     }
 
+    // Returns the bilingual field name based on currentLang.
+    // For a base key like 'days', returns 'daysEn' in EN mode, otherwise 'days'.
+    function langKey(baseKey) {
+      return currentLang === 'en' ? baseKey + 'En' : baseKey;
+    }
+
     async function openPracticeInfoEditor() {
       currentMode = 'practice-info';
       showView('empty');
-      setTopbar('Algemene gegevens', '');
+      setTopbar('Algemene gegevens' + (currentLang === 'en' ? ' (EN)' : ''), '');
       document.getElementById('save-btn').disabled = true;
       setStatus('Laden...', 'saving');
 
@@ -3245,10 +3251,10 @@
         hoursBody.className = 'spreekuur-section-body';
         const ot = practicesData.openingstijden || {};
         const hoursFields = [
-          { key: 'days', label: 'Dagen', value: ot.days || '' },
+          { key: 'days', label: 'Dagen', value: ot[langKey('days')] || '' },
           { key: 'open', label: 'Open', value: ot.open || '' },
           { key: 'close', label: 'Sluit', value: ot.close || '' },
-          { key: 'lunchNote', label: 'Opmerking lunchpauze', value: ot.lunchNote || '' },
+          { key: 'lunchNote', label: 'Opmerking lunchpauze', value: ot[langKey('lunchNote')] || '' },
         ];
         for (const f of hoursFields) {
           const lbl = document.createElement('div');
@@ -3287,7 +3293,7 @@
         const avFields = [
           { key: 'time', label: 'Tijd', value: av.time || '' },
           { key: 'frequency', label: 'Frequentie', value: av.frequency || '' },
-          { key: 'note', label: 'Opmerking', value: av.note || '' },
+          { key: 'note', label: 'Opmerking', value: av[langKey('note')] || '' },
         ];
         const avFieldEls = [];
         for (const f of avFields) {
@@ -3361,7 +3367,7 @@
       row.appendChild(keyInput);
       const labelInput = document.createElement('input');
       labelInput.type = 'text';
-      labelInput.value = item.label || '';
+      labelInput.value = (currentLang === 'en' ? item.labelEn : item.label) || '';
       labelInput.placeholder = 'Beschrijving';
       labelInput.dataset.col = 'label';
       labelInput.style.cssText = 'flex:1;padding:0.375rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.8125rem;font-family:var(--font);';
@@ -3380,31 +3386,49 @@
       for (const input of inputs) {
         practicesData[input.dataset.key] = input.value;
       }
-      // Gather openingstijden
+      // Gather openingstijden -- bilingual fields (days, lunchNote) write to the
+      // *En sibling when editing in EN mode; the rest are language-neutral.
       if (!practicesData.openingstijden) practicesData.openingstijden = {};
+      const bilingualHoursKeys = new Set(['days', 'lunchNote']);
       for (const inp of document.querySelectorAll('#practice-info-panel input[data-hours-key]')) {
-        practicesData.openingstijden[inp.dataset.hoursKey] = inp.value;
+        const baseKey = inp.dataset.hoursKey;
+        const targetKey = bilingualHoursKeys.has(baseKey) ? langKey(baseKey) : baseKey;
+        practicesData.openingstijden[targetKey] = inp.value;
       }
-      // Gather avondspreekuur
+      // Gather avondspreekuur -- only `note` is bilingual.
       if (!practicesData.avondspreekuur) practicesData.avondspreekuur = {};
       const avEnabled = document.getElementById('avondspreekuur-enabled');
       practicesData.avondspreekuur.enabled = avEnabled ? avEnabled.checked : true;
       for (const inp of document.querySelectorAll('#practice-info-panel input[data-avond-key]')) {
-        practicesData.avondspreekuur[inp.dataset.avondKey] = inp.value;
+        const baseKey = inp.dataset.avondKey;
+        const targetKey = baseKey === 'note' ? langKey(baseKey) : baseKey;
+        practicesData.avondspreekuur[targetKey] = inp.value;
       }
-      // Gather keuzemenu
+      // Gather keuzemenu -- merge against existing items so the other-language
+      // label is preserved when editing in only one language.
       const menuContainer = document.getElementById('keuzemenu-rows');
       if (menuContainer) {
+        const previousItems = practicesData.keuzemenu || [];
         const items = [];
         for (const row of menuContainer.children) {
           const key = row.querySelector('[data-col="key"]')?.value || '';
-          const label = row.querySelector('[data-col="label"]')?.value || '';
-          if (key || label) items.push({ key, label });
+          const labelInput = row.querySelector('[data-col="label"]')?.value || '';
+          if (!key && !labelInput) continue;
+          const existing = previousItems.find(it => it.key === key) || {};
+          const merged = { ...existing, key };
+          if (currentLang === 'en') {
+            merged.labelEn = labelInput;
+            if (!('label' in merged)) merged.label = '';
+          } else {
+            merged.label = labelInput;
+            if (!('labelEn' in merged)) merged.labelEn = '';
+          }
+          items.push(merged);
         }
         practicesData.keuzemenu = items;
       }
       const content = JSON.stringify(practicesData, null, 2) + '\n';
-      const msg = 'Update contactgegevens via CMS';
+      const msg = `Update contactgegevens${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
     }
 

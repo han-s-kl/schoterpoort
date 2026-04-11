@@ -25,19 +25,23 @@
   "keuzemenu": [
     {
       "key": "1",
-      "label": "Spoednummer"
+      "label": "Spoednummer",
+      "labelEn": "Emergency"
     },
     {
       "key": "2",
-      "label": "Receptenlijn"
+      "label": "Receptenlijn",
+      "labelEn": "Repeat prescriptions"
     },
     {
       "key": "3",
-      "label": "Assistente"
+      "label": "Assistente",
+      "labelEn": "Practice assistant"
     },
     {
       "key": "4",
-      "label": "Intercollegiaal artsenoverleg"
+      "label": "Intercollegiaal artsenoverleg",
+      "labelEn": "Doctor-to-doctor consultation"
     }
   ],
   "practices": [

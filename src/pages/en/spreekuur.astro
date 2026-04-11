@@ -77,7 +77,7 @@ const spoedKey = spoedItem?.key || '1';
           <h3 class="font-bold text-neutral-900 mb-3">Phone menu</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
             {practiceData.keuzemenu.map((item) => (
-              <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {item.label}</li>
+              <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {(item as any).labelEn || item.label}</li>
             ))}
           </ul>
         </div>
