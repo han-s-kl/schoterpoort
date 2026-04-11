@@ -1,149 +1,150 @@
-# Handoff -- Schoterpoort website rebuild
+# Handoff -- Schoterpoort website
 
-## Status: LIVE op GitHub Pages (laatste update 2026-04-10)
-URL: https://han-s-kl.github.io/schoterpoort/
-CMS: https://han-s-kl.github.io/schoterpoort/admin/
+## Status: 2 omgevingen LIVE, klaar voor (uiteindelijke) cutover naar TransIP
+
+| Omgeving | URL | Doel | Auto-deploy |
+|---|---|---|---|
+| GitHub Pages (productie via CI) | https://han-s-kl.github.io/schoterpoort/ | huidige live build | `.github/workflows/deploy.yml` op push naar main |
+| TransIP staging (in submap) | https://schoterpoort.com/staging/ | testen op echte TransIP infra | `.github/workflows/deploy-staging.yml` op push naar main |
+| schoterpoort.com root | redirect 302 naar schoterpoort.praktijkinfo.nl | huidige patient-facing site (oude WordPress) | -- |
+
+**Belangrijk:** sinds 2026-04-10 deployt elke push naar main automatisch naar **beide** omgevingen tegelijk -- ook commits die via het CMS worden gemaakt. Geen handmatig rsync meer nodig.
+
+CMS: https://han-s-kl.github.io/schoterpoort/admin/ (wachtwoord: zie onder)
 Repo: https://github.com/han-s-kl/schoterpoort (publiek)
 Branch: main
-77 pagina's (NL + EN), build ~1 seconde
+Build: ~1 sec lokaal, ~1 min via Actions
+Pages: 73 NL + EN
 
-## Open issue (vervolg)
+---
 
-**Verwijderen van mededelingen werkt niet correct.**
+## Huidige architectuur
 
-De delete-knop (×) is geimplementeerd in `public/admin/index.html` (commit `b598418`):
-- Per blok een × knop rechtsboven
-- `deletedBlocks` array houdt te-verwijderen items bij
-- `deleteFile()` helper roept GitHub Contents API DELETE aan
-- `saveHome` verwerkt eerst `deletedBlocks` (DELETE), dan `blockFiles` (PUT)
+### Tech stack
+- Astro 6 (static site generator) + Tailwind CSS 4
+- TypeScript strict, content collections voor markdown pages
+- Custom CMS in `public/admin/index.html` (single-file vanilla JS, GitHub Contents API als backend)
 
-**Wat werkt wel:**
-- Toevoegen van nieuwe mededelingen (commit `db35b18` + `b598418`) -- bevestigd met test.md
-- Bewerken van bestaande mededelingen
-- Console-logging in `saveHome` (commit `1e68e81`) toont alle stappen
+### Multi-target build
+`astro.config.mjs` leest `DEPLOY_TARGET` env-var:
+- `github` (default): `base: '/schoterpoort'`, `site: han-s-kl.github.io`
+- `staging`: `base: '/staging'`, `site: schoterpoort.com` -- voor TransIP staging submap
+- `transip`: `base: '/'`, `site: schoterpoort.com` -- voor de straks-uiteindelijke TransIP root deploy
 
-**Wat moet onderzocht:**
-- Wat gebeurt er precies bij klikken op × en daarna Opslaan?
-- Wordt `deleteFile` aangeroepen? Welke response?
-- Console-logs van `[saveHome]` regels bij verwijderen
-- Mogelijk: `deletedBlocks` wordt geleegd voordat de DELETE call slaagt
+`scripts/rewrite-base-path.mjs` is een post-build pass die hardcoded `/schoterpoort/...` strings in 33 markdown bestanden ombuigt naar de juiste prefix per target.
 
-**Test-cleanup:** `src/content/blocks/test.md` is via CMS aangemaakt als test, kan handmatig of via fix verwijderd worden.
+Scripts:
+- `npm run build` -- github target (CI gebruikt dit, GitHub Pages)
+- `npm run build:staging` -- staging target (CI gebruikt dit, TransIP /www/staging/)
+- `npm run build:transip` -- transip target (nog niet in gebruik, voor de echte cutover)
 
-**Suggesties bij volgende sessie:**
-- Voeg console.log toe aan de delete-loop in `saveHome` (~regel 3490-3500)
-- Check of `del.sha` correct is gevuld bij het pushen naar `deletedBlocks` (regel ~3208 in renderMededelingBlock delete-handler)
-- Mogelijk issue: bij klikken op × wordt `gatherBlockState()` aangeroepen, die updates `block` references in blockFiles. Maar de del-entry pakt `block.sha` voor delete, en die kan stale zijn als renderAllBlocks daarna nieuwe DOM maakt
-- Console.log statements zijn nog steeds actief in `saveHome` -- handig voor debugging
+### TransIP situatie
+- Webhosting Core (€8,99/mnd), PHP 8.1, SFTP+SSH ingeschakeld, doc-root `/www`, 20 GB
+- Geen subdomeinen op Core (alleen Pro/Max), dus staging zit in submap `/www/staging/`
+- `.htaccess` in `/www/`:
+  ```apache
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !^/staging
+  RewriteRule ^(.*)$ https://schoterpoort.praktijkinfo.nl/$1 [R=302,L]
+  ```
+  Alle paths behalve `/staging*` worden 302-redirected naar de oude praktijkinfo site. **Niet aanraken zonder backup**.
+- Backup van originele single-line `Redirect 302` staat als `/www/.htaccess - Copy`
+- SSH host: `schoxi.ssh.transip.me`, user: `schoterpoortcom`, doc-root: `/www`
+- 2 SSH-keys actief: persoonlijke key (mac-claude, voor handmatige acties) en CI key (github-actions, gebruikt door Actions met private key in repo secrets)
 
-## Wat is gedaan
+### CI/CD
+- `deploy.yml` (oud) -- bouwt github target en publiceert via GitHub Pages
+- `deploy-staging.yml` (nieuw, 2026-04-10) -- bouwt staging target en rsynct naar `www/staging/` op TransIP via SSH key uit secrets
+- Required GitHub repo secrets: `TRANSIP_SSH_KEY`, `TRANSIP_HOST`, `TRANSIP_USER`, `TRANSIP_PATH`
+- Beide workflows draaien parallel op elke push naar main; CMS commits triggeren ze automatisch ook
 
-### Website
-- Volledige rebuild van schoterpoort.com (WordPress -> Astro + Tailwind)
-- 77 pagina's (NL + EN) met alle content, links, afbeeldingen, PDFs
-- Engelse vertaling (NL is SSOT, EN automatisch vertaald)
-- Contact-flow met triage (spoed/afspraak/bericht)
-- ZIVVER formulier voor kinderen <16
-- Spreekuur + patientenomgeving als styled Astro pagina's (JSON SSOT)
-- Klachtenformulier (HTML form, mailto: tijdelijk)
-- Taalwissel NL/EN met SVG vlaggetjes
-- Staff bios: letterlijke originele tekst, initialen buiten bio's
-- SessionStart hook + git pre-commit hook (astro build)
-- CLAUDE.md, docs/refs/, HANDOFF.md ingericht
-- Nieuwssectie volledig verwijderd (was thuisarts.nl content, niet relevant)
-- CSS fix: h2 direct na h1 krijgt geen border-top meer (prose styling)
+### CMS (`public/admin/index.html`)
+- Wachtwoord: `schoterpijnboomzaanen`
+- Versleuteld GitHub PAT in de file (AES-256-GCM); PAT verloopt ~90 dagen na 2026-03-27 -- aandachtspunt
+- Sidebar bewerkbare items: Algemene gegevens, Home, Medewerkers (per categorie), Diensten (Spreekuur, Herhaalrecept, Apotheek, Huisbezoek, Spoedpost, Patientenomgeving), Praktisch (Tarieven, Eigen risico, Administratieformulier, Urineonderzoek, Vacatures, Gezondheidsinfo subgroep)
+- NL/EN toggle bovenaan
+- Bevat sinds 2026-04-10 een **Foto** en **PDF** upload knop in de WYSIWYG floating toolbar -- uploadt direct naar `public/images/uploads/` resp `public/documents/uploads/` via GitHub Contents API en voegt de markdown reference op cursor-positie in
+- Niet meer in CMS: Klachtenregeling (verwijderd uit NAV op 2026-04-10 omdat de pagina van markdown naar hardcoded astro is gegaan)
 
-### CMS -- Volledig tweetalig (2026-03-28, bijgewerkt)
+### Speciale architecture beslissingen
+- **Klachtenregeling** is een hardcoded astro pagina met de ZIVVER-kaart inline tussen de intro en externe behandeling secties. Geen markdown, geen CMS bewerkbaarheid (content is wettelijk vast en verandert zelden).
+- **Klachtenformulier pagina bestaat niet meer**. De `/klachtenformulier` route is opgeheven, de inhoud is samengevoegd met `/klachtenregeling`. De link op `/formulieren` wijst nu naar `/klachtenregeling`.
+- **Contact-kinderen pagina bestaat niet meer**. De inhoud zit nu in de "result-under16" stap van `/contact`. Deep-link `/contact#under16` opent direct die stap. Menu en patientenomgeving warning wijzen naar de deep-link.
+- **Praktijkverpleegkundigen pagina** is van markdown naar hardcoded astro (`src/pages/medewerkers/praktijkverpleegkundigen.astro` + EN). Heeft per sectie (somatiek / spreekuurondersteuner / GGZ) eigen StaffCards onder de bijbehorende uitleg. Geen telefoonnummer op de cards (alleen in de tekst boven).
 
-**Architectuur:** Single-file CMS in `public/admin/index.html`
-- GitHub Contents API voor lezen/opslaan (direct commits)
-- Inline auth -- wachtwoordformulier, versleuteld PAT (AES-256-GCM)
-  - Wachtwoord: `schoterpijnboomzaanen`
-  - PAT verloopt ~90 dagen na 2026-03-27, moet dan vernieuwd worden
+### Communicatie-routing patienten (samenvatting voor context)
+- 16+ jaar -> patientenomgeving (uwzorgonline)
+- < 16 jaar -> ZIVVER conversation starter via `/contact#under16`
+- Klachten -> aparte ZIVVER conversation starter via `/klachtenregeling`
+- Spoed -> bellen
+- Niet meer: mailto:info@schoterpoort.com als interactiekanaal (alleen nog passief in footer voor algemene info)
 
-**Sidebar (NL/EN switchen via toggle in topbar):**
-- Algemene gegevens (adres, e-mail, telefoonnummers, openingstijden, avondspreekuur toggle, keuzemenu)
-- Home
-- Medewerkers > 4 categorieen (staff.json editor, alleen NL velden)
-- Diensten > Spreekuur, Herhaalrecept, Apotheek, Huisbezoek, Spoedpost, Patientenomgeving
-- Praktisch > Tarieven, Eigen risico, Klachtenregeling, Administratieformulier, Urineonderzoek, Vacatures
-  - Gezondheidsinfo > 7 pagina's (reizigersadvisering, soa, spiraal, tekenbeet, urineweginfecties, wrattenspreekuur, zwangerschap)
+---
 
-**Editor types:**
-1. **Algemene gegevens** -- adres, e-mail, telefoonnummers, openingstijden + avondspreekuur toggle, keuzemenu (practices.json)
-2. **Sectie-editor** (markdown pagina's) -- splitst markdown per kopje, WYSIWYG contenteditable per sectie. Lege h1-secties worden overgeslagen.
-3. **WYSIWYG richtext-editor** (gezondheidsinfo pagina's) -- enkele contentEditable div met volledige markdown round-trip. Headings, bold, italic, links, lijsten, afbeeldingen visueel weergegeven. H1 wordt gestript (komt van paginatitel). Floating toolbar: B, I, H (cyclet h2->h3->p), Link.
-4. **Home-editor** (JSON) -- mededelingen (kleurcodes amber/blauw/grijs), telefonisch consult, afspraak afzeggen, kwaliteit-blokken, wist-u-dat items
-5. **Spreekuur-editor** (JSON) -- 5 consulttype-blokken, afspraak afzeggen (rood accent)
-6. **Herhaalrecept-editor** (JSON) -- 7 secties: intro, patientenomgeving, receptenlijn, vragen, welke medicijnen, wanneer klaar, voorbeelden
-7. **Patientenomgeving-editor** (JSON) -- intro, portaal-links, belangrijk-items (kleurcodes), app URL, helpdesk
-8. **Staff-editor** (JSON) -- lijst/detail views, EN-velden bewerkbaar via NL/EN toggle in topbar
-9. **Tabel-editor** -- markdown tabellen als visuele tabel met invoervelden
+## Wat dit jaar live is gegaan (2026-03 / 2026-04)
 
-**WYSIWYG features:**
-- Contenteditable velden (geen raw HTML/markdown zichtbaar)
-- Floating selection toolbar: selecteer tekst -> popup met **B Vet**, **I**, **H**, **Link** knoppen
-- Markdown <-> HTML conversie bij laden/opslaan (inline + block-level voor richtext)
-- Kleurcodes: rood (spoed/afzeggen), amber (waarschuwing), blauw (info), grijs (neutraal)
-- Avondspreekuur toggle verbergt/toont gerelateerde velden
-- Titel bewerkbaar via potlood-icoon in topbar (alle markdown pagina's)
+### Maart 2026
+- Volledige rebuild WordPress -> Astro + Tailwind, 73 pages NL + EN
+- Engelse vertaling (NL is SSOT)
+- Custom CMS gebouwd (Sveltia/Decap werkten niet) met directe GitHub commits
+- Eigen NL/EN tweetalig CMS, WYSIWYG editors, read-only context blokken, geneste navigatie
+- Mededelingen-flow met blokken (warning/info/neutral) op de homepage
+- Contact-flow met triage-keuzemenu (spoed -> doel -> leeftijd -> resultaat)
 
-**Read-only context blokken (2026-03-28):**
-- Grijze, niet-bewerkbare blokken die practices.json data tonen zodat de redacteur context heeft
-- Link "Beheer via Algemene gegevens" navigeert direct naar practice-info editor
-- Per pagina:
-  - Spreekuur: praktijkkaarten, openingstijden, keuzemenu, spoed
-  - Herhaalrecept: receptenlijn keuzetoets + 4 praktijknummers
-  - Spoedpost: tijdens/buiten kantooruren blokken
-  - Huisbezoek: contact + keuzemenu + spoed (ContactSpoedBlock)
-  - Administratieformulier: telefoon + email + praktijkmanager
-- Blokken worden correct opgeruimd bij navigatie (destroyEditors)
+### April 2026 (deze sessie en de twee daarvoor)
+- **Fix mededelingen delete bug** met defensive guard in `saveHome` (commit 512ca9b, 2026-04-10)
+- **Deploy delay feedback** in CMS save status: "Opgeslagen -- live op de site over ~1 minuut" (f9826bf)
+- **Image en PDF upload** in CMS WYSIWYG (87b1070): camera/paperclip-knop in floating toolbar, schrijft via Contents API naar `public/images/uploads/` of `public/documents/uploads/`
+- **Multi-target build** voor staging-deploy (83dcaf4): env-var DEPLOY_TARGET, post-build base-path rewrite
+- **Staging op TransIP** opgezet (.htaccess uitzondering + eerste deploy)
+- **ZIVVER conversation starters** geactiveerd (e71ffb0, 2b48216, f1f4c26, fc42e50, 1939c4d, 1262b68): contact-kinderen + klachtenformulier
+- **/contact-kinderen pagina samengevoegd** met `/contact#under16` deep-link, oude pagina verwijderd
+- **/klachtenformulier verwijderd** en samengevoegd met `/klachtenregeling`
+- **Lazin Germawi bio + foto** overgenomen van oude site (5c3d9d3)
+- **Praktijkverpleegkundigen pagina herstructureerd** (e2b7441, e4f1297): per-sectie staff cards, dubbele "Naast hun opleiding..." text bij Martine/Britta opgeschoond
+- **Externe links + PDFs auto in nieuw tab** via centraal inline script in BaseLayout (959b1a5)
+- **Stale CMS klachtenregeling entry verwijderd** (bdd8519)
+- **Contact button op homepage** toegevoegd (8a79ddb)
+- **PracticeCard component** gemaakt en uniform toegepast op home + telefoonnummers + spreekuur (41ea239, f5c5deb)
+- **Profielfoto's 2x groter** in StaffCard (6d4ae37)
+- **Doctor avatars op PracticeCards** met witte ring/wrapper (aaa862a, b7c672b, ad3ddb5, a2514b0, c420c4d)
+- **GitHub Actions auto-deploy naar TransIP staging** (bb3f898, 7d92b3a) -- elke push triggert nu zowel deploy.yml als deploy-staging.yml
+- **Single dashes** in POH-GGZ paragraaf (d464936)
 
-**Geneste sidebar-navigatie:**
-- Ondersteuning voor sub-groepen (children binnen children)
-- Gezondheidsinfo als sub-groep onder Praktisch, standaard opengeklapt
-- NavId-lookup werkt voor 3 niveaus diep
+---
 
-**Data-architectuur:**
-- Elke pagina heeft eigen .astro template (geen generieke catch-all meer)
-- JSON-backed pagina's: `home.json`, `spreekuur.json`, `patientenomgeving.json`, `herhaalrecept.json` + EN varianten
-- Markdown pagina's: `src/content/pages/*.md` + `src/content/pages-en/*.md` (21 NL + 21 EN)
-- Blocks (mededelingen): `src/content/blocks/*.md` + `src/content/blocks-en/*.md`
-- Gedeelde data: `practices.json` (SSOT voor telefoonnummers, adres, openingstijden, keuzemenu), `staff.json` (SSOT voor medewerkers incl. EN vertalingen)
-- `ContactSpoedBlock.astro` -- herbruikbaar component voor contact+spoed info
-- Auto-vertaling: staff.json EN-velden (role, background, interests, since, specializations) + alle JSON/markdown
+## Volgende stappen / openstaande punten
 
-**Niet in CMS (bewust):**
-- Contact, Telefoonnummers, Contact kinderen -- .astro-only interactieve pagina's
-- Gezondheidsinfo indexpagina -- categorie-overzicht, geen bewerkbare tekst
-- Routebeschrijving -- alleen ContactSpoedBlock, geen bewerkbare tekst
+### Voor de echte cutover van GitHub Pages naar TransIP root
+1. **PHP smoke test resultaten verwerken**: PHP 8.1 / FPM beschikbaar, alle relevante extensies, mail() **werkt niet** zonder SPF aanpassing (relay 451 to DATA). Voor klachten en contact-kinderen is dat niet meer relevant (ZIVVER), maar voor toekomstige formulieren wel.
+2. **PHP auth proxy bouwen** zodat de PAT uit `public/admin/index.html` kan. CMS spreekt dan met `schoterpoort.com/admin-api/` ipv `api.github.com`, en de proxy commit server-side. Hiervoor heeft Core 1 database, 8.1 PHP, dus haalbaar.
+3. **301 redirect cache verlopen laten**: huidige `Redirect 302` (was 301 tot 2026-04-10) is nu in browser-caches aan het verlopen. Wachten ~weken-maanden voor de oude 301 uit alle caches is.
+4. **DNS/htaccess cutover**: `Redirect 302` weghalen, `dist/` van `npm run build:transip` in `/www/` zetten ipv `/www/staging/`, alles via een nieuwe `.htaccess` (rewrite voor pretty URLs)
+5. **Markdown content opschonen**: hardcoded `/schoterpoort/` prefixes in `src/content/pages/*.md` (33 stuks) kunnen weg na cutover; rewrite-base-path script wordt overbodig
+6. **Mail aan UwZorgOnline** -- concept staat in sessie-historie
 
-### Vertalingen -- Handmatig via CMS (2026-04-10)
+### Korte termijn acties (kunnen nu of bij volgende sessie)
+- **HANDOFF.md (deze file)** is bijgewerkt 2026-04-11
+- **CLAUDE.md project file** opschonen van verwijzingen naar verwijderde pagina's (contact-kinderen, klachtenformulier)
+- **docs/refs/formulieren-backend.md** is achterhaald (PHP backend werd ZIVVER) -- bijwerken of verwijderen
+- **docs/refs/content-vergelijking.md / .xlsx** -- alleen referentie, niet actief gebruikt
+- **PAT-rotation reminder**: PAT verloopt rond 2026-06-25 (90 dagen na 2026-03-27). Vóór die tijd nieuwe genereren en in de CMS encrypted PAT vervangen, of de auth proxy live hebben.
 
-Auto-vertaling is verwijderd. EN-content wordt nu handmatig beheerd via het CMS:
+### Zwevend / nog niet gepland
+- **Klachtenformulier backend** -- definitief afgevoerd (vervangen door ZIVVER)
+- **Andere online formulieren** (afspraak, vraag) -- niet gepland, ZIVVER zou ook hier kunnen
+- **Eigen domein zonder /schoterpoort/ prefix** -- valt samen met cutover
+- **Branch sync**: GitHub default branch is `feature/initial-site`, `main` is de deploy branch. Overweeg synchronisatie of default omzetten naar main.
 
-- **NL/EN toggle in topbar** -- knop bovenaan om te wisselen tussen NL en EN editing. De sidebar blijft hetzelfde, elke editor laadt automatisch de juiste taalversie.
-- **Bestaande EN-vertalingen blijven behouden** -- geen wijzigingen aan content
-- **Wat is bewerkbaar in EN:**
-  - Markdown pagina's (`src/content/pages-en/*.md`)
-  - JSON pagina's (home, spreekuur, herhaalrecept, patientenomgeving)
-  - Staff EN-velden (roleEn, backgroundEn, interestsEn, sinceEn, specializationsEn) -- alleen-lezen velden voor naam/team/foto blijven gedeeld
-- **Niet bewerkbaar in EN** (bewust):
-  - Algemene gegevens (practices.json) -- adres, telefoon, openingstijden zijn taalonafhankelijk
-- Verwijderde bestanden: `.github/workflows/translate.yml`, `scripts/translate.mjs`, `@anthropic-ai/sdk` dependency
+---
 
-## Volgende stappen
+## Belangrijke memories die voor alle sessies gelden
 
-### Prioriteit 1: TransIP migratie (wacht op TransIP hosting)
-1. **PHP auth proxy** -- eigen login (email/wachtwoord), GitHub PAT server-side
-2. **Versleuteld PAT verwijderen** uit public/admin/index.html (PAT verloopt ~90 dagen na 2026-03-27)
-3. **Deploy pipeline** -- GitHub Actions SFTP naar TransIP
-4. **Base path** -- `/schoterpoort/` verwijderen, site URL aanpassen
-5. **Mail aan UwZorgOnline** -- concept staat in sessie-historie (vraag om migratie-instructies)
+(Staan in `~/.claude/projects/-Users-hkluppel-Development-schoterpoort/memory/MEMORY.md`)
 
-## Overige openstaande punten
-1. **ZIVVER Conversation Starter** -- placeholder URL in contact-kinderen.astro
-2. **GitHub Pages base path** -- hardcoded `/schoterpoort/` prefix in markdown links
-3. **Klachtenformulier backend** -- mailto: -> PHP op TransIP. Zie docs/refs/formulieren-backend.md
-4. **GitHub default branch** -- `feature/initial-site` is default op GitHub, `main` is deploy branch (20+ commits voor). Overweeg synchronisatie
-5. **Nieuws** -- volledig verwijderd, geen nieuwspagina's of RSS feed
+- **Externe links + PDFs**: openen automatisch in nieuw tab via script in BaseLayout. NIET handmatig `target="_blank"` toevoegen, dat doet het script al.
+- **EN pagina's meenemen**: bij elke template/content wijziging ook `src/pages/en/` of `src/content/pages-en/` checken
+- **CMS tweetalig**: alle CMS-bewerkbare content moet NL én EN variant hebben
+- **Altijd main pushen** na PR merge voor GitHub Pages
+- **Nieuws via RSS** later, niet via CMS
+- **CMS keuze**: eigen CMS gebouwd, Sveltia/Decap werkten niet
