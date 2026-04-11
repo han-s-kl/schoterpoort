@@ -11,7 +11,7 @@ Recepten worden - na fiattering door de huisarts - rechtstreeks elektronisch ver
 | Apotheek | Openingstijden | Website |
 |--------|--------|--------|
 | Marnix Apotheek | ma-vr 8:00-18:00 | [serviceapotheek.nl/marnix](https://www.serviceapotheek.nl/marnix) |
-| Schoterbos Apotheek | ma-vr 8:00-18:00 (vanaf 1 maart 2025: 8:00-17:30) | [schoterbosapotheek.uwapothekeronline.nl](https://schoterbosapotheek.uwapothekeronline.nl) |
+| Schoterbos Apotheek | ma-vr 8:00-17:30 | [schoterbosapotheek.uwapothekeronline.nl](https://schoterbosapotheek.uwapothekeronline.nl) |
 | Apotheek Het Catharinahuis | ma-vr 8:00-17:30, za 8:30-12:30 | [catharinahuis.nl](https://www.catharinahuis.nl) |
 | Frans Hals Apotheek | ma-vr 8:30-17:30 | [franshalsapotheek.nl](https://www.franshalsapotheek.nl) |
 
