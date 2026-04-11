@@ -86,7 +86,6 @@ function translateDays(days?: string[]): string[] | undefined {
             <StaffCard
               name={member.name}
               role={translateRole(member)}
-              team={member.team}
               photo={(member as any).photo}
               workingDays={translateDays(member.workingDays)}
               since={(member as any).sinceEn || (member as any).since}

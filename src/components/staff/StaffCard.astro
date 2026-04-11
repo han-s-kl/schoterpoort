@@ -45,7 +45,9 @@ const initials = name
 
     <div class="flex-1 min-w-0">
       <h3 class="font-bold text-neutral-900 text-lg">{name}</h3>
-      <p class="text-sm text-dark-600 font-medium">{role}</p>
+      {role && (
+        <p class="text-sm text-dark-600 font-medium">{role}</p>
+      )}
       {team && (
         <p class="text-sm text-neutral-500">{team}</p>
       )}

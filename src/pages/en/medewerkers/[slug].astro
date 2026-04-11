@@ -34,9 +34,11 @@ const staffForPage = allStaff.filter((s) => {
   }
   return roles.some((r) => s.role.includes(r));
 });
-// Override role display for staff that appear on multiple pages
+// Override role display for staff that appear on multiple pages.
+// An empty string hides the role line entirely (e.g. Marjoleine on the
+// praktijkassistenten page only shows her team "Praktijk Duijn").
 const roleOverrides: Record<string, Record<string, string>> = {
-  'praktijkassistenten': { 'Spreekuurondersteuner': 'Doktersassistente' },
+  'praktijkassistenten': { 'Spreekuurondersteuner': '' },
 };
 const overrides = roleOverrides[slug] || {};
 
@@ -86,7 +88,9 @@ const hasStaffCards = staffForPage.length > 0;
           {staffForPage.map((member) => (
             <StaffCard
               name={member.name}
-              role={overrides[member.role] ? (roleTranslationsFallback[overrides[member.role]] || overrides[member.role]) : translateRole(member)}
+              role={member.role in overrides
+                ? (roleTranslationsFallback[overrides[member.role]] || overrides[member.role])
+                : translateRole(member)}
               team={slug === 'huisartsen' ? undefined : member.team}
               photo={(member as any).photo}
               workingDays={translateDays(member.workingDays)}
