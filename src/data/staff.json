@@ -389,10 +389,10 @@
   {
     "name": "Jessica",
     "initials": null,
-    "role": "Baliemedewerker / Administratief",
+    "role": "Baliemedewerker / Administratief medewerker",
     "bigNumber": null,
-    "team": null,
-    "phone": null,
+    "team": "",
+    "phone": "",
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -403,7 +403,8 @@
     "background": null,
     "specializations": [],
     "interests": null,
-    "roleEn": "Front desk / Administrative"
+    "roleEn": "Front desk / Administrative",
+    "photo": ""
   },
   {
     "name": "Shanice",
