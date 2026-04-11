@@ -12,7 +12,6 @@ Care to which the excess does **not** apply:
 - Care provided by your GP and the GP out-of-hours service/emergency post. 
 - Maternity care
 
-
 PLEASE NOTE: The excess does apply to:
  - medication prescribed by the GP
  - tests related to care/diagnostics by your GP (laboratory tests, X-rays, ultrasound, endoscopy, etc.)
