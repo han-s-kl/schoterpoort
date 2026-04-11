@@ -62,7 +62,7 @@ const hasStaffCards = staffForPage.length > 0;
             <StaffCard
               name={member.name}
               role={overrides[member.role] || member.role}
-              team={member.team}
+              team={slug === 'huisartsen' ? undefined : member.team}
               photo={(member as any).photo}
               workingDays={member.workingDays}
               since={(member as any).since}

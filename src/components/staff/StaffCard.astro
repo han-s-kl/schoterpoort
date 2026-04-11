@@ -46,6 +46,9 @@ const initials = name
     <div class="flex-1 min-w-0">
       <h3 class="font-bold text-neutral-900 text-lg">{name}</h3>
       <p class="text-sm text-dark-600 font-medium">{role}</p>
+      {team && (
+        <p class="text-sm text-neutral-500">{team}</p>
+      )}
 
       {phone && (
         <a href={`tel:${phone.replace(/\s/g, '')}`} class="inline-flex items-center gap-1 text-sm text-dark-500 no-underline hover:text-dark-700 mt-1">

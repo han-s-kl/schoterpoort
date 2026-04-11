@@ -87,7 +87,7 @@ const hasStaffCards = staffForPage.length > 0;
             <StaffCard
               name={member.name}
               role={overrides[member.role] ? (roleTranslationsFallback[overrides[member.role]] || overrides[member.role]) : translateRole(member)}
-              team={member.team}
+              team={slug === 'huisartsen' ? undefined : member.team}
               photo={(member as any).photo}
               workingDays={translateDays(member.workingDays)}
               since={(member as any).sinceEn || (member as any).since}

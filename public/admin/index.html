@@ -1004,16 +1004,20 @@
       { name: 'visible', label: 'Zichtbaar', type: 'boolean' },
     ];
 
+    // Categories where since/background/interests are never used; the form
+    // hides these fields for those staff to reduce noise.
+    const STAFF_BIO_HIDDEN_CATEGORIES = ['praktijkverpleegkundigen', 'praktijkassistenten'];
+
     const STAFF_FIELDS_NL = [
       { name: 'name', label: 'Naam', type: 'string' },
       { name: 'role', label: 'Rol', type: 'string' },
       { name: 'team', label: 'Team', type: 'string' },
       { name: 'phone', label: 'Telefoon', type: 'string' },
       { name: 'workingDays', label: 'Werkdagen', type: 'tags' },
-      { name: 'since', label: 'Sinds', type: 'string' },
-      { name: 'background', label: 'Achtergrond', type: 'textarea', wide: true },
+      { name: 'since', label: 'Sinds', type: 'string', excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
+      { name: 'background', label: 'Achtergrond', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'specializations', label: 'Specialisaties', type: 'tags' },
-      { name: 'interests', label: 'Interesses', type: 'textarea', wide: true },
+      { name: 'interests', label: 'Interesses', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'photo', label: 'Foto (pad)', type: 'string' },
     ];
 
@@ -1023,15 +1027,20 @@
       { name: 'team', label: 'Team', type: 'string', readonly: true },
       { name: 'phone', label: 'Telefoon', type: 'string', readonly: true },
       { name: 'workingDays', label: 'Werkdagen', type: 'tags', readonly: true },
-      { name: 'sinceEn', label: 'Since (EN)', type: 'string' },
-      { name: 'backgroundEn', label: 'Background (EN)', type: 'textarea', wide: true },
+      { name: 'sinceEn', label: 'Since (EN)', type: 'string', excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
+      { name: 'backgroundEn', label: 'Background (EN)', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'specializationsEn', label: 'Specializations (EN)', type: 'tags' },
-      { name: 'interestsEn', label: 'Interests (EN)', type: 'textarea', wide: true },
+      { name: 'interestsEn', label: 'Interests (EN)', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'photo', label: 'Foto (pad)', type: 'string', readonly: true },
     ];
 
     function getStaffFields() {
       return currentLang === 'en' ? STAFF_FIELDS_EN : STAFF_FIELDS_NL;
+    }
+
+    function getStaffFieldsForCategory() {
+      const cat = currentStaffCategory;
+      return getStaffFields().filter(f => !(f.excludeFor && f.excludeFor.includes(cat)));
     }
 
     const STAFF_ROLE_FILTERS = {
@@ -1094,6 +1103,7 @@
     let staffData = null;
     let staffSha = null;
     let currentStaffIndex = null;
+    let currentStaffCategory = null;
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
     let deletedBlocks = [];     // [{ path, sha }] -- te verwijderen bij next save
     let spreekuurSha = null;
@@ -1956,6 +1966,7 @@
     async function openStaffList(item) {
       currentMode = 'staff';
       currentStaffIndex = null;
+      currentStaffCategory = item.filterKey;
       showView('empty');
       setTopbar(item.label, 'Medewerkers');
       document.getElementById('save-btn').disabled = true;
@@ -1997,7 +2008,7 @@
 
       const container = document.getElementById('fields');
       container.innerHTML = '';
-      const fieldsEl = renderFields(getStaffFields(), person, '');
+      const fieldsEl = renderFields(getStaffFieldsForCategory(), person, '');
       // renderFields already populates #fields since prefix is empty
 
       showView('staff-detail');
@@ -2008,7 +2019,7 @@
     function gatherStaffData() {
       if (currentStaffIndex === null) return null;
       const person = { ...staffData[currentStaffIndex] };
-      for (const field of getStaffFields()) {
+      for (const field of getStaffFieldsForCategory()) {
         if (field.readonly) continue;
         const input = document.getElementById(`field-${field.name}`);
         if (!input) continue;
