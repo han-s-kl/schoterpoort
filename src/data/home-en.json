@@ -1,5 +1,4 @@
 {
-  "telefonischConsult": "",
   "afspraakAfzeggen": "We kindly ask you to cancel your appointment by phone at least 24 hours in advance. For appointments with the mental health practice nurse: at least 48 hours in advance.",
   "kwaliteit": [
     {
@@ -24,13 +23,13 @@
     }
   ],
   "wistUDat": [
-    "You do not need to check in at the reception desk for scheduled appointments; please wait in the waiting room of your GP or practitioner",
-    "Patient portal available for ordering prescriptions, e-consultations and booking appointments",
-    "Appointments only by phone or via the patient portal to protect your privacy",
-    "Assistants are trained in triage to provide appropriate care at the right time",
-    "A national shortage of medical assistants may cause longer telephone waiting times; the team appreciates your patience",
-    "A standard consultation is 15 minutes for one complaint; request a double consultation for multiple complaints or mental health issues",
-    "If you suspect a urinary tract infection: leave a urine sample in the cooler at the entrance with a completed form",
-    "Reliable health information at thuisarts.nl; use moetiknaardedokter.nl to assess whether a GP visit is necessary"
+    "You do not need to check in at the reception desk for scheduled appointments; please wait in the waiting room of your GP or practitioner on the first floor.",
+    "Patient portal available for ordering prescriptions, e-consultations and booking appointments.",
+    "Appointments only by phone or via the patient portal to protect your privacy.",
+    "Assistants are trained in triage to provide appropriate care at the right time.",
+    "A national shortage of medical assistants may cause longer telephone waiting times; the team appreciates your patience.",
+    "A standard consultation is 15 minutes for one complaint; request a double consultation for multiple complaints or mental health issues.",
+    "If you suspect a urinary tract infection: leave a urine sample in the cooler at the entrance with a completed form.",
+    "Reliable health information at <a href=\"https://thuisarts.nl\">thuisarts.nl</a>; use <a href=\"https://moetiknaardedokter.nl\">moetiknaardedokter.nl</a> to assess whether a GP visit is necessary."
   ]
 }
