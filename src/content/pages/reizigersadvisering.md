@@ -2,10 +2,9 @@
 title: "Reizigersadvisering"
 description: "Informatie over reisvaccinaties en reisadviezen"
 ---
-
 # Reizigersadvisering
 
-Wanneer u een verre reis plant, kunnen extra voorzorgsmaatregelen nodig zijn, zoals vaccinaties.
+Wanneer u een verre reis plant kunnen extra voorzorgsmaatregelen nodig zijn, zoals vaccinaties.
 
 U kunt contact opnemen met de volgende organisaties voor reisadvies en reisvaccinaties:
 
@@ -19,7 +18,7 @@ U kunt contact opnemen met de volgende organisaties voor reisadvies en reisvacci
 ## Meditel
 
 - **Vestigingen:** Amsterdam en Alkmaar
-- **Telefoon:** 0900 -- 2021040
+- **Telefoon:** 0900 - 2021040
 - **Website:** [meditel.nl](https://meditel.nl/portaal/index.php/opreis/vestigingen/2015KT)
 
 ## Meer informatie
