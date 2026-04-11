@@ -17,7 +17,7 @@ Recepten worden - na fiattering door de huisarts - rechtstreeks elektronisch ver
 
 ## Dienstapotheek (Spaarne Gasthuis)
 
-Voor meer informatie over de dienstapotheken: [www.sahz.nl](https://www.sahz.nl)
+Voor meer informatie over de dienstapotheken: [https://apotheek.spaarnegasthuis.nl](https://apotheek.spaarnegasthuis.nl)
 
 | Locatie | Openingstijden |
 |--------|--------|
