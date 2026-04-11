@@ -19,7 +19,7 @@
     "enabled": true,
     "time": "17:00 - 19:00",
     "frequency": "1x/week",
-    "note": "De dag van het avondspreekuur wisselt. De assistente kan bevestigen welke dag dit betreft.",
+    "note": "De dag van het avondspreekuur wisselt. De assistente kan aangeven welke dag dit betreft.",
     "noteEn": "The day of the evening consultation varies. The assistant can confirm which day this applies to."
   },
   "keuzemenu": [
