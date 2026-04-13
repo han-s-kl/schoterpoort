@@ -939,6 +939,7 @@
         <div class="spreekuur-panel" id="spreekuur-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="practice-info-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="zivver-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="changelog-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="herhaalrecept-panel" style="display:none"></div>
@@ -1109,6 +1110,7 @@
     const NAV_ITEMS = [
       { label: 'Algemene gegevens', mode: 'practice-info' },
       { label: 'ZIVVER links', mode: 'zivver' },
+      { label: 'Wijzigingen', mode: 'changelog' },
       { label: 'Home', mode: 'home', navHref: '/' },
       { type: 'separator' },
       {
@@ -1556,6 +1558,7 @@
       document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
       document.getElementById('practice-info-panel').style.display = view === 'practice-info' ? 'block' : 'none';
       document.getElementById('zivver-panel').style.display = view === 'zivver' ? 'block' : 'none';
+      document.getElementById('changelog-panel').style.display = view === 'changelog' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
       document.getElementById('herhaalrecept-panel').style.display = view === 'herhaalrecept' ? 'block' : 'none';
@@ -1721,6 +1724,10 @@
         item._navId = item.label;
         setActiveNav(item);
         await openZivverEditor();
+      } else if (item.mode === 'changelog') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openChangelogView();
       } else if (item.mode === 'home') {
         item._navId = item.label;
         setActiveNav(item);
@@ -3922,6 +3929,104 @@
       const content = JSON.stringify(practicesData, null, 2) + '\n';
       const msg = 'Update ZIVVER links via CMS';
       practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
+    }
+
+    // --- CHANGELOG VIEW ---
+    // Read-only list of the latest CMS commits on main. Reuses the existing
+    // PAT to call the GitHub commits endpoint and filters by 'via CMS' in
+    // the commit message so only human CMS edits show up.
+    function formatRelativeDutch(iso) {
+      const then = new Date(iso);
+      const now = new Date();
+      const diffSec = Math.round((now - then) / 1000);
+      if (diffSec < 45) return 'net';
+      if (diffSec < 90) return '1 min geleden';
+      const diffMin = Math.round(diffSec / 60);
+      if (diffMin < 60) return `${diffMin} min geleden`;
+      const diffHr = Math.round(diffMin / 60);
+      if (diffHr < 24) return `${diffHr} uur geleden`;
+      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const startOfThen = new Date(then.getFullYear(), then.getMonth(), then.getDate());
+      const diffDays = Math.round((startOfToday - startOfThen) / (1000 * 60 * 60 * 24));
+      if (diffDays === 1) return 'gisteren';
+      if (diffDays < 7) return `${diffDays} dagen geleden`;
+      const months = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+      return `${then.getDate()} ${months[then.getMonth()]} ${then.getFullYear()}`;
+    }
+
+    async function openChangelogView() {
+      currentMode = 'changelog';
+      showView('empty');
+      setTopbar('Wijzigingen', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      const panel = document.getElementById('changelog-panel');
+      panel.innerHTML = '';
+
+      try {
+        const res = await fetch(`${API}/repos/${REPO}/commits?per_page=100&sha=${BRANCH}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        });
+        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+        const commits = await res.json();
+
+        const cmsCommits = commits.filter((c) => {
+          const msg = c.commit && c.commit.message ? c.commit.message : '';
+          return / via CMS/.test(msg);
+        });
+
+        const section = document.createElement('div');
+        section.className = 'spreekuur-section';
+        const header = document.createElement('div');
+        header.className = 'spreekuur-section-header';
+        header.textContent = `Laatste ${cmsCommits.length} CMS-wijzigingen`;
+        section.appendChild(header);
+
+        const body = document.createElement('div');
+        body.className = 'spreekuur-section-body';
+        body.style.padding = '0';
+
+        if (cmsCommits.length === 0) {
+          const empty = document.createElement('div');
+          empty.style.cssText = 'padding:1rem;color:var(--text-muted);font-size:0.875rem;';
+          empty.textContent = 'Nog geen CMS-wijzigingen gevonden.';
+          body.appendChild(empty);
+        } else {
+          for (const c of cmsCommits) {
+            const row = document.createElement('div');
+            row.style.cssText = 'display:flex;align-items:flex-start;gap:0.75rem;padding:0.625rem 0.875rem;border-bottom:1px solid var(--border);';
+
+            const msgEl = document.createElement('div');
+            msgEl.style.cssText = 'flex:1;min-width:0;font-size:0.875rem;color:var(--text);word-break:break-word;';
+            const firstLine = (c.commit.message || '').split('\n')[0];
+            msgEl.textContent = firstLine;
+            row.appendChild(msgEl);
+
+            const meta = document.createElement('div');
+            meta.style.cssText = 'flex:none;text-align:right;font-size:0.75rem;color:var(--text-muted);white-space:nowrap;';
+            const author = (c.author && c.author.login) || (c.commit.author && c.commit.author.name) || 'onbekend';
+            const when = formatRelativeDutch(c.commit.author.date);
+            meta.innerHTML = `<div>${author}</div><div>${when}</div>`;
+            row.appendChild(meta);
+
+            body.appendChild(row);
+          }
+          body.lastElementChild.style.borderBottom = 'none';
+        }
+
+        section.appendChild(body);
+        panel.appendChild(section);
+
+        showView('changelog');
+        setStatus('');
+      } catch (err) {
+        console.error('[changelog] load failed', err);
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
     }
 
     // --- HERHAALRECEPT EDITOR ---
