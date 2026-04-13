@@ -2,7 +2,6 @@
 title: "Complaints procedure"
 description: "Procedure for submitting complaints at Schoterpoort General Practice"
 ---
-
 # Complaints procedure
 
 Most patients are satisfied with the care provided. If you do have a complaint or concern, you are encouraged to discuss it with your GP first and work towards a solution together.
