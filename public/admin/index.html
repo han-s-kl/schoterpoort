@@ -2932,13 +2932,40 @@
     ftLink.addEventListener('mousedown', (e) => {
       e.preventDefault();
       if (savedRange) {
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(savedRange);
+        const s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(savedRange);
       }
-      const url = prompt('Voer de URL in (bijv. tel:023-7504567 of https://...)');
-      if (!url) return;
-      document.execCommand('createLink', false, url);
+      const sel = window.getSelection();
+      // Walk up from the cursor to find an enclosing <a>, if any.
+      let existingAnchor = null;
+      if (sel && sel.rangeCount) {
+        let node = sel.anchorNode;
+        while (node && node !== document.body) {
+          if (node.nodeName === 'A') { existingAnchor = node; break; }
+          node = node.parentNode;
+        }
+      }
+      const current = existingAnchor ? (existingAnchor.getAttribute('href') || '') : '';
+      const url = prompt('URL (bijv. tel:023-7504567 of https://...)\n\nLaat leeg om de link te verwijderen.', current);
+      if (url === null) { hideFloatingToolbar(); return; } // cancel
+      if (url === '') {
+        // Empty = remove link. Only meaningful when there is one.
+        if (existingAnchor) {
+          const range = document.createRange();
+          range.selectNodeContents(existingAnchor);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          document.execCommand('unlink');
+        }
+        hideFloatingToolbar();
+        return;
+      }
+      if (existingAnchor) {
+        existingAnchor.setAttribute('href', url);
+      } else {
+        document.execCommand('createLink', false, url);
+      }
       hideFloatingToolbar();
     });
 
