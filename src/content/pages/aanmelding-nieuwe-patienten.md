@@ -1,9 +1,9 @@
 ---
-title: "Aanmelding nieuwe patienten"
-description: "Informatie over het aanmelden als nieuwe patient bij Huisartsenpraktijk Schoterpoort"
+title: "Aanmelding nieuwe patiënten"
+description: "Informatie over het aanmelden als nieuwe patiënt bij Huisartsenpraktijk Schoterpoort"
 ---
 
-De praktijk heeft een maximale patientencapaciteit. Het kan voorkomen dat de praktijk tijdelijk geen nieuwe patienten kan aannemen om organisatorische overbelasting te voorkomen. Uitzonderingen worden gemaakt voor gezinsuitbreiding en samenwoning met reeds ingeschreven patienten. De praktijk streeft ernaar om minimaal een locatie open te houden voor nieuwe inschrijvingen uit de postcodegebieden 2021, 2022, 2023 en 2024.
+De praktijk heeft een maximale patiëntencapaciteit. Het kan voorkomen dat de praktijk tijdelijk geen nieuwe patiënten kan aannemen om organisatorische overbelasting te voorkomen. Uitzonderingen worden gemaakt voor gezinsuitbreiding en samenwoning met reeds ingeschreven patiënten. De praktijk streeft ernaar om minimaal een locatie open te houden voor nieuwe inschrijvingen uit de postcodegebieden 2021, 2022, 2023 en 2024.
 
 ## Hoe schrijft u zich in?
 

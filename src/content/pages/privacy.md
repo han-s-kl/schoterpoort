@@ -1,9 +1,9 @@
 ---
-title: "Privacy patientgegevens"
-description: "Privacyverklaring over de verwerking van patientgegevens"
+title: "Privacy patiëntgegevens"
+description: "Privacyverklaring over de verwerking van patiëntgegevens"
 ---
 
-# Privacy patientgegevens
+# Privacy patiëntgegevens
 
 Om goede medische zorg te kunnen verlenen, leggen wij uw contactgegevens en medische gegevens vast. Wij doen dit in lijn met de Wet op de Geneeskundige Behandelovereenkomst (WGBO) en de Algemene Verordening Gegevensbescherming (AVG). Dat wil zeggen dat wij uw gegevens alleen gebruiken voor het verlenen van medische zorg en de bijbehorende administratie en dat wij uw gegevens beveiligen tegen inbreuk door derden.
 
@@ -29,30 +29,30 @@ Huisartsenpraktijk Schoterpoort wisselt, nadat u hiervoor gericht toestemming he
 
 Ook kunnen er medicatiegegevens gedeeld worden met uw apotheek en uw behandelend medisch specialisten. Daarbij gaat het om de medicatie die de huisarts aan u heeft voorgeschreven, maar ook om eventuele intoleranties, contra-indicaties en allergieen (ICA-gegevens). Daar kunnen andere voorschrijvers en verstrekkers van medicatie rekening mee houden. Zo dragen wij als huisartsenpraktijk bij aan medicatieveiligheid.
 
-Verbinding dossier met spoedpost: verloopt via een beveiligde verbinding, patienten wordt t.a.v. LSP om toestemming gevraagd middels een formulier, dit wordt hierna vernietigd.
+Verbinding dossier met spoedpost: verloopt via een beveiligde verbinding, patiënten wordt t.a.v. LSP om toestemming gevraagd middels een formulier, dit wordt hierna vernietigd.
 
 ## Overdracht van uw dossier
 
-Als u een nieuwe arts/zorgverlener kiest, is het belangrijk dat uw nieuwe arts/zorgverlener op de hoogte is van uw medische geschiedenis. Uw medische geschiedenis staat in uw patientendossier. Het is gebruikelijk dat uw oude arts/zorgverlener het dossier overdraagt aan uw nieuwe arts/zorgverlener. De oude arts/zorgverlener doet dit zo spoedig mogelijk, in ieder geval binnen een maand, nadat u uw oude arts/zorgverlener heeft gevraagd het dossier over te dragen aan uw nieuwe arts/zorgverlener.
+Als u een nieuwe arts/zorgverlener kiest, is het belangrijk dat uw nieuwe arts/zorgverlener op de hoogte is van uw medische geschiedenis. Uw medische geschiedenis staat in uw patiëntendossier. Het is gebruikelijk dat uw oude arts/zorgverlener het dossier overdraagt aan uw nieuwe arts/zorgverlener. De oude arts/zorgverlener doet dit zo spoedig mogelijk, in ieder geval binnen een maand, nadat u uw oude arts/zorgverlener heeft gevraagd het dossier over te dragen aan uw nieuwe arts/zorgverlener.
 
 Uw medisch dossier wordt digitaal verstuurd naar de nieuwe arts/zorgverlener via Zorgmail File Transfer. Met deze applicatie kan medische informatie veilig worden uitgewisseld. U kunt het originele dossier niet meekrijgen. Wel heeft u altijd recht op inzage in uw dossier en op een kopie van uw dossier, bijvoorbeeld als u verhuist naar het buitenland.
 
 ## Beveiliging
 
-Huisartsenpraktijk Schoterpoort heeft de volgende maatregelen genomen en werkafspraken gemaakt om zeker te stellen dat patientgegevens zorgvuldig worden behandeld:
+Huisartsenpraktijk Schoterpoort heeft de volgende maatregelen genomen en werkafspraken gemaakt om zeker te stellen dat patiëntgegevens zorgvuldig worden behandeld:
 
-- Alle medewerkers die patientgegevens verwerken of anderszins kennisnemen van patientgegevens zijn gehouden aan geheimhouding.
-- Patientgegevens worden niet langer bewaard dan nodig; medische gegevens worden in beginsel vijftien jaren bewaard, of zoveel langer als redelijkerwijs nodig om verantwoorde zorg te kunnen leveren. Medische dossiers van overleden patienten worden nog vijftien jaar bewaard na de laatste wijziging in het dossier.
+- Alle medewerkers die patiëntgegevens verwerken of anderszins kennisnemen van patiëntgegevens zijn gehouden aan geheimhouding.
+- Patiëntgegevens worden niet langer bewaard dan nodig; medische gegevens worden in beginsel vijftien jaren bewaard, of zoveel langer als redelijkerwijs nodig om verantwoorde zorg te kunnen leveren. Medische dossiers van overleden patiënten worden nog vijftien jaar bewaard na de laatste wijziging in het dossier.
 - De ruimten waarin gegevens worden opgeslagen zijn niet vrij toegankelijk.
-- Patienten worden bij de inschrijving bij de praktijk geinformeerd over de gang van zaken betreffende de overdracht van het medisch dossier van de vorige huisarts; in de meeste gevallen wordt het dossier digitaal verzonden.
+- Patiënten worden bij de inschrijving bij de praktijk geinformeerd over de gang van zaken betreffende de overdracht van het medisch dossier van de vorige huisarts; in de meeste gevallen wordt het dossier digitaal verzonden.
 - Er is een grote afvalbak voor privacygevoelig materiaal, de inhoud wordt veilig vernietigd.
 - Er is een papierversnipperaar voor klein privacygevoelig materiaal.
 - Er zijn opbergvakken voor spoedzaken per huisarts en per assistente, zodat er geen gegevens 's avonds op de bureaus blijven liggen; deze kast gaat 's avonds op slot.
-- De automatisering verloopt via ICT-leverancier MEOS; dit bedrijf heeft geen toegang tot patientendossiers, bedrijfsdocumenten staan op Sharepoint via Office 365, beveiligd via dubbele verificatie.
+- De automatisering verloopt via ICT-leverancier MEOS; dit bedrijf heeft geen toegang tot patiëntendossiers, bedrijfsdocumenten staan op Sharepoint via Office 365, beveiligd via dubbele verificatie.
 - Met regelmaat en zeker jaarlijks wijziging alle digitale wachtwoorden van alle medewerkers in de Microsoft365 sharepoint werkomgeving, inclusief tweestapsverificatie; MEOS IT draagt hiervoor zorg.
 - MEOS IT zorgt voor adequate antivirale middelen.
-- Meerderheid van verzending van patientenbrieven gaat via het beveiligde communicatiesysteem met specialisten via Zorgdomein of via een met ZIVVER beveiligde email.
-- Medisch dossiers van patienten worden op afstand opgeslagen via ons huisartseninformatiesysteem Health Connected.
+- Meerderheid van verzending van patiëntenbrieven gaat via het beveiligde communicatiesysteem met specialisten via Zorgdomein of via een met ZIVVER beveiligde email.
+- Medisch dossiers van patiënten worden op afstand opgeslagen via ons huisartseninformatiesysteem Health Connected.
 - Back-up van Health Connected staat los van de productie omgeving en kan niet geraakt worden door ransomware. Back-ups worden 3 weken bewaard.
 - HC maakt gebruik van ESET antivirus software.
 - HC is ISO 27001:2022 en NEN 7510:2017 gecertificeerd.
@@ -60,10 +60,10 @@ Huisartsenpraktijk Schoterpoort heeft de volgende maatregelen genomen en werkafs
 - Tevens vindt hier plaats ontwikkeling van nieuwe NEN-normen (de generieke en nu ook de vernieuwing van de NEN 7510).
 - V.w.b. de menselijk factor heeft HC awareness modules en personeel wordt gescreend met een VOG (niet alleen bij binnenkomst).
   - NB HC certificaten, verklaring van toepasselijkheid en privacy- en informatiebeveiligingsbeleid staan online: [https://www.healthconnected.nl/over-ons/informatiebeveiliging/](https://www.healthconnected.nl/over-ons/informatiebeveiliging/)
-- Communicatie met spoedpost: overdracht van palliatieve of andere zorg-patienten wordt gedaan middels via Zorgdomein.
-- Sinds 2016 wordt er verwezen en worden laboratorium en functie-onderzoek aangevraagd via de beveiligde applicatie Zorgdomein. In een minderheid van de gevallen zal de verwijsbrief nog meegegeven worden aan patient, opgestuurd worden per post of veilig gemaild via ZIVVER.
+- Communicatie met spoedpost: overdracht van palliatieve of andere zorg-patiënten wordt gedaan middels via Zorgdomein.
+- Sinds 2016 wordt er verwezen en worden laboratorium en functie-onderzoek aangevraagd via de beveiligde applicatie Zorgdomein. In een minderheid van de gevallen zal de verwijsbrief nog meegegeven worden aan patiënt, opgestuurd worden per post of veilig gemaild via ZIVVER.
 - Specialistenbrieven en eerstelijnsberichten worden ontvangen via Edifact in zorgdossier en een kleiner deel wordt ontvangen via de post. Waarneemberichten van de HAP komen binnen via zorgdossier.
-- Sinds januari 2025 is er de mogelijkheid voor u als patient om via MITZ gegevens van de specialist in het Spaarne Gasthuis in te zien (lab, rontgen, medicatie, voorgeschiedenis, afspraken).
+- Sinds januari 2025 is er de mogelijkheid voor u als patiënt om via MITZ gegevens van de specialist in het Spaarne Gasthuis in te zien (lab, rontgen, medicatie, voorgeschiedenis, afspraken).
 
 Camerabeelden van de wachtruimte op de eerste verdieping worden vastgelegd. Deze beelden worden na 3 weken verwijderd.
 
@@ -71,7 +71,7 @@ Camerabeelden van de wachtruimte op de eerste verdieping worden vastgelegd. Deze
 
 Wanneer het - ondanks onze maatregelen - mocht gebeuren dat derden ongeautoriseerd toegang krijgen tot uw gegevens, dan melden wij dat bij u en de Autoriteit Persoonsgegevens.
 
-## Rechten van patienten
+## Rechten van patiënten
 
 U heeft de volgende rechten:
 
@@ -106,11 +106,11 @@ In onze huisartspraktijk kunnen diverse persoonsgegevens van u verwerkt worden. 
 
 ### Doel en reikwijdte van het privacyreglement
 
-Doel van het reglement is een vastlegging van de maatregelen die Huisartsenpraktijk Schoterpoort heeft genomen om zeker te stellen dat zorgvuldig met patientgegevens wordt omgegaan. Dit reglement is van toepassing op elke verwerking (geautomatiseerd en niet-geautomatiseerd) van patientgegevens, die in een bestand zijn of worden opgenomen.
+Doel van het reglement is een vastlegging van de maatregelen die Huisartsenpraktijk Schoterpoort heeft genomen om zeker te stellen dat zorgvuldig met patiëntgegevens wordt omgegaan. Dit reglement is van toepassing op elke verwerking (geautomatiseerd en niet-geautomatiseerd) van patiëntgegevens, die in een bestand zijn of worden opgenomen.
 
-**1) Doel van het verzamelen en verwerken van patientgegevens**
+**1) Doel van het verzamelen en verwerken van patiëntgegevens**
 
-a) Patientgegevens worden op een behoorlijke en zorgvuldige wijze verwerkt, en alleen voor de doeleinden waarvoor ze zijn of worden verzameld;
+a) Patiëntgegevens worden op een behoorlijke en zorgvuldige wijze verwerkt, en alleen voor de doeleinden waarvoor ze zijn of worden verzameld;
 
 b) Gegevens kunnen worden verzameld tijdens consulten, behandelingen of anderszins;
 
@@ -119,46 +119,46 @@ c) Doeleinden zijn:
 - gebruik in het kader van de te verlenen zorg (met name behandeling, consult, medicatie, doorverwijzing, overdracht);
 - gebruik ten behoeve van de bewaking van de eigen kwaliteit en de praktijkaccreditering;
 - ten behoeve van (wetenschappelijk) onderzoek, mits anoniem;
-- andere doeleinden, mits vooraf met de patient overeengekomen.
+- andere doeleinden, mits vooraf met de patiënt overeengekomen.
 
-**2) Verwerking van algemene patientgegevens, gezondheidsgegevens, erfelijke gegevens**
+**2) Verwerking van algemene patiëntgegevens, gezondheidsgegevens, erfelijke gegevens**
 
-a) Algemene patientgegevens worden alleen verwerkt indien aan een van onderstaande voorwaarden is voldaan:
+a) Algemene patiëntgegevens worden alleen verwerkt indien aan een van onderstaande voorwaarden is voldaan:
 
-- de patient heeft voor de verwerking toestemming (mondeling of schriftelijk) verleend;
-- verwerking is noodzakelijk voor de verlening van huisartsgeneeskundige zorg aan de patient;
+- de patiënt heeft voor de verwerking toestemming (mondeling of schriftelijk) verleend;
+- verwerking is noodzakelijk voor de verlening van huisartsgeneeskundige zorg aan de patiënt;
 - verwerking is noodzakelijk om een wettelijke verplichting na te komen;
-- verwerking is noodzakelijk ter bestrijding van ernstig gevaar voor de gezondheid van patient.
+- verwerking is noodzakelijk ter bestrijding van ernstig gevaar voor de gezondheid van patiënt.
 
-b) Gezondheidsgegevens van de patient worden alleen verwerkt indien aan een van volgende voorwaarden is voldaan:
+b) Gezondheidsgegevens van de patiënt worden alleen verwerkt indien aan een van volgende voorwaarden is voldaan:
 
-- verwerking geschiedt door hulpverleners, instellingen of voorzieningen in de gezondheidszorg of maatschappelijke dienstverlening voor zover dat met het oog op een goede behandeling of verzorging van de patient noodzakelijk is;
+- verwerking geschiedt door hulpverleners, instellingen of voorzieningen in de gezondheidszorg of maatschappelijke dienstverlening voor zover dat met het oog op een goede behandeling of verzorging van de patiënt noodzakelijk is;
 - verwerking geschiedt op verzoek van de verzekeraar zover dat noodzakelijk is voor de beoordeling van het door de verzekeringsinstelling te verzekeren risico, dan wel voor zover dat noodzakelijk is voor de uitvoering van een verzekeringsovereenkomst;
 
-c) Erfelijkheidsgegevens van de patient worden alleen verwerkt in relatie tot de betreffende patient zelf, tenzij:
+c) Erfelijkheidsgegevens van de patiënt worden alleen verwerkt in relatie tot de betreffende patiënt zelf, tenzij:
 
 - een zwaarwegend geneeskundig belang prevaleert of
 - de verwerking noodzakelijk is ten behoeve van wetenschappelijk onderzoek en statistiek.
 
-**3) Rechten van de patient**
+**3) Rechten van de patiënt**
 
-a) De patient heeft recht op inzage in alle gegevens die over hem zijn verzameld en verwerkt;
+a) De patiënt heeft recht op inzage in alle gegevens die over hem zijn verzameld en verwerkt;
 
-b) De patient heeft recht op een afschrift van de over hem of haar verzamelde en verwerkte gegevens; de praktijk verstrekt kosteloos een afschrift na een verzoek van de patient;
+b) De patiënt heeft recht op een afschrift van de over hem of haar verzamelde en verwerkte gegevens; de praktijk verstrekt kosteloos een afschrift na een verzoek van de patiënt;
 
-c) De patient kan verzoeken om aanvulling en/of correctie van de verzamelde en verwerkte gegevens, voor zover deze onvolledig en/of feitelijk onjuist zijn;
+c) De patiënt kan verzoeken om aanvulling en/of correctie van de verzamelde en verwerkte gegevens, voor zover deze onvolledig en/of feitelijk onjuist zijn;
 
-d) De patient kan verzoeken om verwijdering of beperkt gebruik van de verzamelde en verwerkte gegevens;
+d) De patiënt kan verzoeken om verwijdering of beperkt gebruik van de verzamelde en verwerkte gegevens;
 
-e) Daar waar de patient zichzelf niet kan vertegenwoordigen, treedt de wettelijke vertegenwoordiger in zijn of haar plaats.
+e) Daar waar de patiënt zichzelf niet kan vertegenwoordigen, treedt de wettelijke vertegenwoordiger in zijn of haar plaats.
 
 ### Toelichting op het aanvraagformulier
 
 U moet er rekening mee houden dat medische gegevens ingevolge de wet in principe maximaal vijftien jaar bewaard worden. U helpt ons met het opzoeken van uw dossier en het beschermen van uw privacy als u het formulier zo volledig mogelijk invult. De door u ingevulde gegevens worden door ons strikt vertrouwelijk behandeld. Huisartsenpraktijk Schoterpoort is niet aansprakelijk voor fouten in de postbezorging. Indien u er de voorkeur aan geeft om het dossier persoonlijk, of door een gemachtigde, op te halen dan kunt u dit op het formulier aangeven.
 
-### Gegevens patient
+### Gegevens patiënt
 
-De Wet Geneeskundige Overeenkomst (WBGO) beschouwt de patient als meerderjarig vanaf 16 jaar. Jongeren vanaf 16 jaar die inzage/afschrift van hun medisch dossier willen, moeten zelf de aanvraag indienen. Indien de patient niet meer in leven is, is het verstrekken van de medische gegevens toegestaan indien verondersteld kan worden dat de overledene hiertegen geen bezwaar zou hebben gehad of er sprake is van zwaarwegende belangen om de zwijgplicht van de zorgverlener te doorbreken. Deze beslissing ligt bij de zorgverlener.
+De Wet Geneeskundige Overeenkomst (WBGO) beschouwt de patiënt als meerderjarig vanaf 16 jaar. Jongeren vanaf 16 jaar die inzage/afschrift van hun medisch dossier willen, moeten zelf de aanvraag indienen. Indien de patiënt niet meer in leven is, is het verstrekken van de medische gegevens toegestaan indien verondersteld kan worden dat de overledene hiertegen geen bezwaar zou hebben gehad of er sprake is van zwaarwegende belangen om de zwijgplicht van de zorgverlener te doorbreken. Deze beslissing ligt bij de zorgverlener.
 
 ### Publicatie privacyreglement
 

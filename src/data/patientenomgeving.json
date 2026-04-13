@@ -1,7 +1,7 @@
 {
   "pageTitle": "Patientenomgeving",
-  "pageDescription": "Toegang tot uw online patientenportaal bij Huisartsenpraktijk Schoterpoort.",
-  "intro": "Via de patientenomgeving kunt u veilig en eenvoudig online zaken regelen met uw huisartsenpraktijk: afspraken maken, herhaalrecepten aanvragen, e-consulten sturen, uitslagen bekijken en uw medisch dossier inzien.",
+  "pageDescription": "Toegang tot uw online patiëntenportaal bij Huisartsenpraktijk Schoterpoort.",
+  "intro": "Via de patiëntenomgeving kunt u veilig en eenvoudig online zaken regelen met uw huisartsenpraktijk: afspraken maken, herhaalrecepten aanvragen, e-consulten sturen, uitslagen bekijken en uw medisch dossier inzien.",
   "portals": [
     { "name": "Praktijk Louwet / Moes", "href": "https://praktijklouwet.uwzorgonline.nl" },
     { "name": "Praktijk Duijn / Schouten", "href": "https://praktijkduijn.uwzorgonline.nl" },
@@ -10,7 +10,7 @@
   ],
   "belangrijk": [
     { "type": "warning", "text": "<strong>Let op:</strong> Kies de juiste praktijk/huisarts. Anders kunnen we uw aanmelding niet in behandeling nemen." },
-    { "type": "info", "text": "De patientenomgeving is beschikbaar voor patienten van <strong>16 jaar en ouder</strong>." },
+    { "type": "info", "text": "De patiëntenomgeving is beschikbaar voor patiënten van <strong>16 jaar en ouder</strong>." },
     { "type": "warning", "text": "<strong>Kind jonger dan 16?</strong> Stuur een <a href=\"/schoterpoort/contact#under16\" class=\"font-medium underline\">beveiligd bericht via ZIVVER</a>. Log niet in op uw eigen portaal voor uw kind." }
   ],
   "appUrl": "https://uwzorgonline.nl/consumenten/app",

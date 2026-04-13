@@ -74,7 +74,7 @@ import { url } from '../utils/url';
                 </div>
                 <div class="text-left">
                   <span class="font-semibold text-neutral-900 group-hover:text-dark-700 text-sm block">Afspraak maken</span>
-                  <span class="text-xs text-neutral-500">Telefonisch of via patientenomgeving</span>
+                  <span class="text-xs text-neutral-500">Telefonisch of via patiëntenomgeving</span>
                 </div>
               </a>
               <a href={url('/herhaalrecept')} class="flex items-center gap-4 bg-neutral-50 rounded-xl p-4 no-underline hover:bg-primary-50 transition-colors group">
@@ -85,7 +85,7 @@ import { url } from '../utils/url';
                 </div>
                 <div class="text-left">
                   <span class="font-semibold text-neutral-900 group-hover:text-dark-700 text-sm block">Herhaalrecept aanvragen</span>
-                  <span class="text-xs text-neutral-500">Via receptenlijn of patientenomgeving</span>
+                  <span class="text-xs text-neutral-500">Via receptenlijn of patiëntenomgeving</span>
                 </div>
               </a>
               <button id="btn-bericht" class="flex items-center gap-4 bg-neutral-50 rounded-xl p-4 hover:bg-primary-50 transition-colors group w-full text-left">
@@ -107,7 +107,7 @@ import { url } from '../utils/url';
         <!-- Step 3: Leeftijd -->
         <div id="step-3" class="flow-step hidden">
           <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-8 text-center">
-            <h2 class="text-xl font-bold text-neutral-900 mb-2">Is de patient 16 jaar of ouder?</h2>
+            <h2 class="text-xl font-bold text-neutral-900 mb-2">Is de patiënt 16 jaar of ouder?</h2>
             <p class="text-sm text-neutral-500 mb-6">Dit bepaalt hoe u het bericht kunt versturen.</p>
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
               <button
@@ -135,14 +135,14 @@ import { url } from '../utils/url';
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-neutral-900 mb-2">Gebruik de patientenomgeving</h2>
-            <p class="text-sm text-neutral-600 mb-2">Stuur uw vraag, foto of e-consult via het beveiligde patientenportaal.</p>
+            <h2 class="text-xl font-bold text-neutral-900 mb-2">Gebruik de patiëntenomgeving</h2>
+            <p class="text-sm text-neutral-600 mb-2">Stuur uw vraag, foto of e-consult via het beveiligde patiëntenportaal.</p>
             <p class="text-xs text-accent-600 font-medium mb-6">Stuur geen e-mail naar de praktijk - gebruik altijd het portaal.</p>
             <a
               href={url('/patientenomgeving')}
               class="inline-flex items-center gap-2 bg-dark-700 text-white font-semibold px-8 py-3 rounded-xl no-underline hover:bg-dark-800 transition-colors"
             >
-              Naar patientenomgeving
+              Naar patiëntenomgeving
             </a>
             <button id="btn-back-4" class="mt-4 text-sm text-neutral-500 hover:text-neutral-700 mx-auto block">&larr; Terug</button>
           </div>
@@ -165,10 +165,10 @@ import { url } from '../utils/url';
                 <p class="text-sm text-accent-800 font-semibold">Bij spoed: bel direct uw huisarts of buiten kantooruren de Spoedpost (<a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="underline">{practiceData.phoneEmergency}</a>). Dit formulier is niet bedoeld voor spoedvragen.</p>
               </div>
               <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4">
-                <p class="text-sm text-blue-800">Is uw kind <strong>16 jaar of ouder</strong>? Dan kan uw kind zelf een vraag stellen via de <a href={url('/patientenomgeving')} class="underline font-medium">patientenomgeving</a>.</p>
+                <p class="text-sm text-blue-800">Is uw kind <strong>16 jaar of ouder</strong>? Dan kan uw kind zelf een vraag stellen via de <a href={url('/patientenomgeving')} class="underline font-medium">patiëntenomgeving</a>.</p>
               </div>
               <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4">
-                <p class="text-sm text-amber-800"><strong>Belangrijk:</strong> Log niet in op uw eigen patientenportaal om een vraag voor uw kind te stellen. Uw portaal is gekoppeld aan uw eigen dossier, niet dat van uw kind.</p>
+                <p class="text-sm text-amber-800"><strong>Belangrijk:</strong> Log niet in op uw eigen patiëntenportaal om een vraag voor uw kind te stellen. Uw portaal is gekoppeld aan uw eigen dossier, niet dat van uw kind.</p>
               </div>
             </div>
 

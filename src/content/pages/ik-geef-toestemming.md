@@ -19,7 +19,7 @@ Andere zorgverleners kunnen uw gegevens opvragen wanneer dit nodig is voor uw be
 
 ## Regionale organisatie
 
-Het LSP werkt via ongeveer 40 regio's. Zorgverleners zijn toegewezen aan specifieke regio's en wisselen gegevens uit binnen die regio's. Ziekenhuizen hebben toegang tot meerdere regio's, omdat patienten vaak uit verschillende gebieden komen.
+Het LSP werkt via ongeveer 40 regio's. Zorgverleners zijn toegewezen aan specifieke regio's en wisselen gegevens uit binnen die regio's. Ziekenhuizen hebben toegang tot meerdere regio's, omdat patiënten vaak uit verschillende gebieden komen.
 
 ## Hoe geeft u toestemming?
 

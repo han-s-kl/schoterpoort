@@ -18,7 +18,7 @@ Zoveel mogelijk worden onze nota's rechtstreeks naar de verzekering gestuurd. Vo
 | Huisbezoek | EUR 19,77 |
 | Huisbezoek > 20 minuten | EUR 32,95 |
 
-## Passantentarieven (niet-ingeschreven patienten)
+## Passantentarieven (niet-ingeschreven patiënten)
 
 | Dienst | Tarief |
 |--------|--------|

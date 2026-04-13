@@ -19,11 +19,11 @@ Artsen moeten voogden alleen informatie verstrekken "voor zover dit relevant is"
 
 ## Minderjarigen van 16-17 jaar
 
-De arts mag geen medische informatie verstrekken tenzij de minderjarige hiermee heeft ingestemd. Zestien- en zeventienjarigen worden gelijk behandeld als volwassenen wat betreft medische beslissingen en patientenrechten.
+De arts mag geen medische informatie verstrekken tenzij de minderjarige hiermee heeft ingestemd. Zestien- en zeventienjarigen worden gelijk behandeld als volwassenen wat betreft medische beslissingen en patiëntenrechten.
 
 ## Wilsonbekwame minderjarigen (0-18)
 
-Voogden ontvangen alle behandelinformatie en oefenen de patientenrechten uit namens het kind. Het kind dient in begrijpelijke termen geinformeerd te worden over geplande procedures wanneer mogelijk.
+Voogden ontvangen alle behandelinformatie en oefenen de patiëntenrechten uit namens het kind. Het kind dient in begrijpelijke termen geinformeerd te worden over geplande procedures wanneer mogelijk.
 
 ## Wilsonbekwame volwassenen
 
