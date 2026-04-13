@@ -3954,6 +3954,86 @@
       return `${then.getDate()} ${months[then.getMonth()]} ${then.getFullYear()}`;
     }
 
+    // Escape text for safe innerHTML insertion.
+    function escapeHtmlText(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Render a GitHub unified diff string as colored HTML.
+    function renderDiffHtml(patch) {
+      if (!patch) return '<div style="color:var(--text-muted);font-size:0.75rem;padding:0.5rem;">Geen diff beschikbaar (waarschijnlijk een binair bestand).</div>';
+      const lines = patch.split('\n');
+      const parts = [];
+      for (const ln of lines) {
+        let bg = 'transparent';
+        let color = 'var(--text)';
+        if (ln.startsWith('@@')) { bg = '#eef3ff'; color = '#5560a0'; }
+        else if (ln.startsWith('+') && !ln.startsWith('+++')) { bg = '#e6ffed'; color = '#064e1b'; }
+        else if (ln.startsWith('-') && !ln.startsWith('---')) { bg = '#ffeef0'; color = '#7a0014'; }
+        parts.push(`<div style="background:${bg};color:${color};padding:0 0.5rem;white-space:pre-wrap;word-break:break-word;">${escapeHtmlText(ln) || '&nbsp;'}</div>`);
+      }
+      return parts.join('');
+    }
+
+    // In-memory cache so re-expanding a row does not re-fetch.
+    const changelogCommitCache = new Map();
+
+    async function loadCommitDetail(sha) {
+      if (changelogCommitCache.has(sha)) return changelogCommitCache.get(sha);
+      const res = await fetch(`${API}/repos/${REPO}/commits/${sha}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
+      });
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      const data = await res.json();
+      changelogCommitCache.set(sha, data);
+      return data;
+    }
+
+    async function toggleChangelogRow(row, detailsEl, chevronEl, sha) {
+      const expanded = row.dataset.expanded === 'true';
+      if (expanded) {
+        detailsEl.style.display = 'none';
+        row.dataset.expanded = 'false';
+        chevronEl.textContent = '▸';
+        return;
+      }
+      row.dataset.expanded = 'true';
+      chevronEl.textContent = '▾';
+      detailsEl.style.display = 'block';
+      if (!detailsEl.dataset.loaded) {
+        detailsEl.innerHTML = '<div style="padding:0.75rem;color:var(--text-muted);font-size:0.8125rem;">Diff laden...</div>';
+        try {
+          const detail = await loadCommitDetail(sha);
+          const files = detail.files || [];
+          if (files.length === 0) {
+            detailsEl.innerHTML = '<div style="padding:0.75rem;color:var(--text-muted);font-size:0.8125rem;">Geen bestanden gewijzigd.</div>';
+          } else {
+            const parts = [];
+            for (const f of files) {
+              const statusLabels = { added: 'toegevoegd', modified: 'gewijzigd', removed: 'verwijderd', renamed: 'hernoemd' };
+              const label = statusLabels[f.status] || f.status;
+              parts.push(`<div style="margin:0.5rem 0.5rem 0 0.5rem;padding:0.375rem 0.5rem;background:#f6f7f9;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;gap:0.5rem;">
+                <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;color:var(--text);">${escapeHtmlText(f.filename)}</span>
+                <span>${escapeHtmlText(label)} (+${f.additions}/-${f.deletions})</span>
+              </div>`);
+              parts.push(`<div style="margin:0 0.5rem 0.25rem 0.5rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.75rem;line-height:1.45;border:1px solid var(--border);border-top:none;border-radius:0 0 4px 4px;max-height:18rem;overflow:auto;">${renderDiffHtml(f.patch)}</div>`);
+            }
+            detailsEl.innerHTML = parts.join('');
+          }
+          detailsEl.dataset.loaded = '1';
+        } catch (err) {
+          detailsEl.innerHTML = `<div style="padding:0.75rem;color:#b91c1c;font-size:0.8125rem;">Laden mislukt: ${escapeHtmlText(err.message)}</div>`;
+        }
+      }
+    }
+
     async function openChangelogView() {
       currentMode = 'changelog';
       showView('empty');
@@ -3965,7 +4045,7 @@
       panel.innerHTML = '';
 
       try {
-        const res = await fetch(`${API}/repos/${REPO}/commits?per_page=100&sha=${BRANCH}`, {
+        const res = await fetch(`${API}/repos/${REPO}/commits?per_page=50&sha=${BRANCH}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/vnd.github.v3+json',
@@ -3997,8 +4077,17 @@
           body.appendChild(empty);
         } else {
           for (const c of cmsCommits) {
+            const wrap = document.createElement('div');
+            wrap.style.cssText = 'border-bottom:1px solid var(--border);';
+
             const row = document.createElement('div');
-            row.style.cssText = 'display:flex;align-items:flex-start;gap:0.75rem;padding:0.625rem 0.875rem;border-bottom:1px solid var(--border);';
+            row.style.cssText = 'display:flex;align-items:flex-start;gap:0.75rem;padding:0.625rem 0.875rem;cursor:pointer;';
+            row.dataset.expanded = 'false';
+
+            const chevron = document.createElement('div');
+            chevron.textContent = '▸';
+            chevron.style.cssText = 'flex:none;color:var(--text-muted);font-size:0.75rem;width:0.75rem;margin-top:0.125rem;';
+            row.appendChild(chevron);
 
             const msgEl = document.createElement('div');
             msgEl.style.cssText = 'flex:1;min-width:0;font-size:0.875rem;color:var(--text);word-break:break-word;';
@@ -4010,10 +4099,17 @@
             meta.style.cssText = 'flex:none;text-align:right;font-size:0.75rem;color:var(--text-muted);white-space:nowrap;';
             const author = (c.author && c.author.login) || (c.commit.author && c.commit.author.name) || 'onbekend';
             const when = formatRelativeDutch(c.commit.author.date);
-            meta.innerHTML = `<div>${author}</div><div>${when}</div>`;
+            meta.innerHTML = `<div>${escapeHtmlText(author)}</div><div>${escapeHtmlText(when)}</div>`;
             row.appendChild(meta);
 
-            body.appendChild(row);
+            const details = document.createElement('div');
+            details.style.cssText = 'display:none;padding:0.25rem 0 0.5rem 0;background:#fafbfc;';
+
+            row.addEventListener('click', () => toggleChangelogRow(row, details, chevron, c.sha));
+
+            wrap.appendChild(row);
+            wrap.appendChild(details);
+            body.appendChild(wrap);
           }
           body.lastElementChild.style.borderBottom = 'none';
         }
