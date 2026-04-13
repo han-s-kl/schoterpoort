@@ -4,10 +4,11 @@ import practiceData from '../data/practices.json';
 
 const address = practiceData.address;
 const addressQuery = encodeURIComponent(address);
-// Pijnboomstraat 19, 2023 VN Haarlem -- approximate coordinates,
-// OSM bbox drawn around the pin for a comfortable zoom level.
-const osmMarker = '52.3975,4.6345';
-const osmBbox = '4.6245,52.3935,4.6445,52.4015';
+// Pijnboomstraat 19, 2023 VN Haarlem -- exact coordinates from
+// Nominatim (OpenStreetMap geocoder). Bbox drawn around the pin for
+// a comfortable street-level zoom.
+const osmMarker = '52.3980631,4.6418984';
+const osmBbox = '4.6319,52.3940,4.6519,52.4020';
 const osmEmbedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${osmBbox}&layer=mapnik&marker=${osmMarker}`;
 const gmapsLink = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
 ---
