@@ -12,5 +12,3 @@ Er werken 2 praktijkverpleegkundigen in de Schoterpoort. Naast hun opleiding als
 Uiteraard is de praktijkverpleegkundige bereid om patiënten die, door een handicap of hoge leeftijd, niet in staat zijn om naar de praktijk te komen, thuis te bezoeken.
 
 Zij werken van maandag t/m vrijdag met een spreekuur volgens afspraak.
-
-**Voor vragen** kunt u 's morgens met de praktijkassistente van uw eigen huisarts bellen, u wordt dan doorverbonden of teruggebeld. Zij zelf zijn direct telefonisch bereikbaar tussen 11 en 12 uur op nummer **[023-525 69 83](tel:0235256983)**.

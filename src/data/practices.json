@@ -4,7 +4,6 @@
   "phoneGeneral": "023-541 03 45",
   "phoneEmergency": "023-750 45 67",
   "phoneNurses": "023-525 69 83",
-  "emergencyNote": "Bel 023-750 45 67 buiten openingstijden (na 17:00, weekenden en feestdagen). Bel 112 bij levensbedreigende situaties.",
   "openingstijden": {
     "days": "Maandag t/m vrijdag",
     "daysEn": "Monday to Friday",

@@ -2,8 +2,11 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 import StaffCard from '../../../components/staff/StaffCard.astro';
 import allStaff from '../../../data/staff.json';
+import practiceData from '../../../data/practices.json';
 import { getEntry, render } from 'astro:content';
 import { url } from '../../../utils/url';
+
+const nursesPhoneTel = practiceData.phoneNurses.replace(/[\s-]/g, '');
 
 const nurses = allStaff.filter((s) => s.role === 'Praktijkverpleegkundige somatiek');
 const supportNurse = allStaff.filter((s) => s.role === 'Spreekuurondersteuner');
@@ -54,6 +57,7 @@ function translateDays(days?: string[]): string[] | undefined {
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline mb-6">
         <h2>Practice nurses (somatic)</h2>
         <SomatiekContent />
+        <p><strong>For questions</strong>, call your own GP's practice assistant in the morning - you will be transferred or called back. They can be reached directly by telephone between 11:00 and 12:00 on <strong><a href={`tel:${nursesPhoneTel}`}>{practiceData.phoneNurses}</a></strong>.</p>
       </article>
 
       {nurses.length > 0 && (
