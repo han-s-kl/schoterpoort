@@ -938,6 +938,7 @@
         <div class="blocks-panel" id="blocks-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="spreekuur-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="practice-info-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="zivver-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="herhaalrecept-panel" style="display:none"></div>
@@ -1107,6 +1108,7 @@
     // the same href is prefixed with "/en" at lookup time.
     const NAV_ITEMS = [
       { label: 'Algemene gegevens', mode: 'practice-info' },
+      { label: 'ZIVVER links', mode: 'zivver' },
       { label: 'Home', mode: 'home', navHref: '/' },
       { type: 'separator' },
       {
@@ -1553,6 +1555,7 @@
       document.getElementById('blocks-panel').style.display = view === 'blocks' ? 'block' : 'none';
       document.getElementById('spreekuur-panel').style.display = view === 'spreekuur' ? 'block' : 'none';
       document.getElementById('practice-info-panel').style.display = view === 'practice-info' ? 'block' : 'none';
+      document.getElementById('zivver-panel').style.display = view === 'zivver' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
       document.getElementById('herhaalrecept-panel').style.display = view === 'herhaalrecept' ? 'block' : 'none';
@@ -1714,6 +1717,10 @@
         item._navId = item.label;
         setActiveNav(item);
         await openPracticeInfoEditor();
+      } else if (item.mode === 'zivver') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await openZivverEditor();
       } else if (item.mode === 'home') {
         item._navId = item.label;
         setActiveNav(item);
@@ -2685,6 +2692,8 @@
           await saveSpreekuur();
         } else if (currentMode === 'practice-info') {
           await savePracticeInfo();
+        } else if (currentMode === 'zivver') {
+          await saveZivverLinks();
         } else if (currentMode === 'home') {
           await saveHome();
         } else if (currentMode === 'patientenomgeving') {
@@ -3619,36 +3628,6 @@
         practicesSection.appendChild(practicesBody);
         panel.appendChild(practicesSection);
 
-        // ZIVVER links
-        const zivverSection = document.createElement('div');
-        zivverSection.className = 'spreekuur-section';
-        const zivverHeader = document.createElement('div');
-        zivverHeader.className = 'spreekuur-section-header';
-        zivverHeader.textContent = 'ZIVVER links';
-        zivverSection.appendChild(zivverHeader);
-        const zivverBody = document.createElement('div');
-        zivverBody.className = 'spreekuur-section-body';
-        if (!practicesData.zivver) practicesData.zivver = {};
-        const zivverFields = [
-          { key: 'klacht', label: 'Klacht indienen (klachtenregeling)' },
-          { key: 'contactKinderen', label: 'Contact kinderen <16 (contact-pagina)' },
-        ];
-        for (const f of zivverFields) {
-          const lbl = document.createElement('div');
-          lbl.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
-          lbl.textContent = f.label;
-          zivverBody.appendChild(lbl);
-          const inp = document.createElement('input');
-          inp.type = 'text';
-          inp.value = practicesData.zivver[f.key] || '';
-          inp.dataset.zivverKey = f.key;
-          inp.placeholder = 'https://app.zivver.com/l/start/...';
-          inp.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
-          zivverBody.appendChild(inp);
-        }
-        zivverSection.appendChild(zivverBody);
-        panel.appendChild(zivverSection);
-
         // Openingstijden
         const hoursSection = document.createElement('div');
         hoursSection.className = 'spreekuur-section';
@@ -3802,11 +3781,6 @@
           practicesData.practices[idx].phone = inp.value;
         }
       }
-      // Gather ZIVVER links
-      if (!practicesData.zivver) practicesData.zivver = {};
-      for (const inp of document.querySelectorAll('#practice-info-panel input[data-zivver-key]')) {
-        practicesData.zivver[inp.dataset.zivverKey] = inp.value;
-      }
       // Gather openingstijden -- bilingual fields (days, lunchNote) write to the
       // *En sibling when editing in EN mode; the rest are language-neutral.
       if (!practicesData.openingstijden) practicesData.openingstijden = {};
@@ -3850,6 +3824,76 @@
       }
       const content = JSON.stringify(practicesData, null, 2) + '\n';
       const msg = `Update contactgegevens${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+      practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
+    }
+
+    // --- ZIVVER LINKS EDITOR ---
+    // Dedicated top-level sidebar item; reads/writes the zivver.* keys in
+    // practices.json. Language-neutral, so no bilingual handling.
+    const ZIVVER_FIELDS = [
+      { key: 'klacht', label: 'Klacht indienen (klachtenregeling)' },
+      { key: 'contactKinderen', label: 'Contact kinderen <16 (contact-pagina)' },
+    ];
+
+    async function openZivverEditor() {
+      currentMode = 'zivver';
+      showView('empty');
+      setTopbar('ZIVVER links', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        const { content, sha } = await readFile(PRACTICES_PATH);
+        practicesData = JSON.parse(content);
+        practicesSha = sha;
+        if (!practicesData.zivver) practicesData.zivver = {};
+
+        const panel = document.getElementById('zivver-panel');
+        panel.innerHTML = '';
+
+        const section = document.createElement('div');
+        section.className = 'spreekuur-section';
+        section.innerHTML = '<div class="spreekuur-section-header">ZIVVER links</div>';
+        const body = document.createElement('div');
+        body.className = 'spreekuur-section-body';
+
+        const intro = document.createElement('p');
+        intro.style.cssText = 'font-size:0.8125rem;color:var(--text-muted);margin:0 0 0.5rem 0;';
+        intro.textContent = 'Plak hier de volledige ZIVVER URL (begint met https://app.zivver.com/l/start/...). Wijzigingen zijn direct zichtbaar op alle plekken waar deze link staat.';
+        body.appendChild(intro);
+
+        for (const f of ZIVVER_FIELDS) {
+          const lbl = document.createElement('div');
+          lbl.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
+          lbl.textContent = f.label;
+          body.appendChild(lbl);
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.value = practicesData.zivver[f.key] || '';
+          inp.dataset.zivverKey = f.key;
+          inp.placeholder = 'https://app.zivver.com/l/start/...';
+          inp.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+          body.appendChild(inp);
+        }
+
+        section.appendChild(body);
+        panel.appendChild(section);
+
+        showView('zivver');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    async function saveZivverLinks() {
+      if (!practicesData.zivver) practicesData.zivver = {};
+      for (const inp of document.querySelectorAll('#zivver-panel input[data-zivver-key]')) {
+        practicesData.zivver[inp.dataset.zivverKey] = inp.value;
+      }
+      const content = JSON.stringify(practicesData, null, 2) + '\n';
+      const msg = 'Update ZIVVER links via CMS';
       practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
     }
 
