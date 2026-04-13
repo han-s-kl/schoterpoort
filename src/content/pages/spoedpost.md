@@ -24,4 +24,4 @@ De Huisartsen/Spoedpost (dienstdoende huisarts) en overdag waarnemende huisartse
 
 ## Waarneming bij vakantie of afwezigheid
 
-Bij vakantie of nascholingsactiviteiten van uw huisarts nemen de andere huisartsen van de Schoterpoort de zorg over. De praktijk blijft telefonisch bereikbaar, voor problemen die niet kunnen wachten totdat uw eigen huisarts weer terug is wordt u doorverbonden met een van de praktijkassistentes.
+Bij vakantie of nascholingsactiviteiten van uw huisarts nemen de andere huisartsen van de Schoterpoort de zorg over. De praktijk blijft telefonisch bereikbaar. Voor problemen die niet kunnen wachten totdat uw eigen huisarts weer terug is, wordt u doorverbonden met een van de praktijkassistentes.
