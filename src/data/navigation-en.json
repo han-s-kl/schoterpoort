@@ -7,7 +7,7 @@
     "href": "/en/medewerkers",
     "children": [
       { "label": "General practitioners", "href": "/en/medewerkers/huisartsen" },
-      { "label": "Practice support workers", "href": "/en/medewerkers/praktijkverpleegkundigen" },
+      { "label": "Practice support workers", "href": "/en/medewerkers/praktijkondersteuners" },
       { "label": "Practice assistants", "href": "/en/medewerkers/praktijkassistenten" },
       { "label": "GP trainees", "href": "/en/medewerkers/huisartsen-in-opleiding" }
     ]

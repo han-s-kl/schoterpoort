@@ -10,9 +10,9 @@ const supportNurse = allStaff.filter((s) => s.role === 'Spreekuurondersteuner');
 const pohGgz = allStaff.filter((s) => s.role === 'Praktijkondersteuner GGZ');
 const practiceManager = allStaff.filter((s) => s.role === 'Praktijkmanager');
 
-const somatiekEntry = await getEntry('pages', 'praktijkverpleegkundigen-somatiek');
-const sprondEntry = await getEntry('pages', 'praktijkverpleegkundigen-spreekuurondersteuner');
-const ggzEntry = await getEntry('pages', 'praktijkverpleegkundigen-ggz');
+const somatiekEntry = await getEntry('pages', 'praktijkondersteuners-somatiek');
+const sprondEntry = await getEntry('pages', 'praktijkondersteuners-spreekuurondersteuner');
+const ggzEntry = await getEntry('pages', 'praktijkondersteuners-ggz');
 const { Content: SomatiekContent } = await render(somatiekEntry!);
 const { Content: SprondContent } = await render(sprondEntry!);
 const { Content: GgzContent } = await render(ggzEntry!);
