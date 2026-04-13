@@ -1,5 +1,5 @@
 ---
-title: "GP trainees Amsterdam UMC (AMC)"
+title: "GP trainees Amsterdam UMC "
 description: "Information about the GP trainees at Schoterpoort"
 ---
 Huisartsenpraktijk Schoterpoort is an accredited training practice of the University GP Institute and the basic medical training programme of Amsterdam UMC. The GP trainees have been qualified doctors for some time and usually have several years of experience working in hospitals and general practices.
