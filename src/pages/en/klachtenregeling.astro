@@ -1,24 +1,18 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection, render } from 'astro:content';
 import practiceData from '../../data/practices.json';
-import { url } from '../../utils/url';
+
+const pages = await getCollection('pages-en');
+const page = pages.find((p) => p.id === 'klachtenregeling');
+const { Content } = await render(page!);
 ---
 
-<PageLayout title="Complaints procedure" description="Procedure for submitting complaints at Schoterpoort General Practice" lang="en">
+<PageLayout title={page!.data.title} description={page!.data.description} lang="en">
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <h1>Complaints procedure</h1>
-
-        <p>Most patients are satisfied with the care provided. If you do have a complaint or concern, you are encouraged to discuss it with your GP first and work towards a solution together.</p>
-
-        <p>This also applies to complaints about a practice assistant, practice nurse, mental health practitioner, or practice organisation. Once the GP is aware of your concerns, a solution can often be found together.</p>
-
-        <p>The practice takes complaints seriously - first and foremost for you personally, but also because they can contribute to improving the quality of our practice.</p>
-
-        <h2>Submitting a complaint</h2>
-
-        <p>When you submit a complaint via ZIVVER the complaints coordinator will ensure it is processed within the practice. You will receive confirmation of receipt and be contacted about the most appropriate next steps - for example a conversation with the GP or staff member concerned.</p>
+        <Content />
       </article>
 
       <!-- ZIVVER landing card -->
@@ -56,27 +50,6 @@ import { url } from '../../utils/url';
           </ul>
         </div>
       </div>
-
-      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <h2>External complaints handling</h2>
-
-        <p>If you do not wish to proceed internally, or we cannot resolve the issue together, you can contact an independent complaints officer at DOkH (complaints and disputes department).</p>
-
-        <ul>
-          <li><strong>Address:</strong> Robijnstraat 6, 1812 RB Alkmaar</li>
-          <li><strong>Telephone:</strong> 072-5208325</li>
-          <li><strong>Email:</strong> <a href="mailto:klachtenengeschillen@dokh.nl">klachtenengeschillen@dokh.nl</a></li>
-          <li><strong>Website:</strong> <a href="https://www.dokh.nl">www.dokh.nl</a></li>
-        </ul>
-
-        <p>The practice is also affiliated with the DOkH disputes committee.</p>
-
-        <h2>Complaints regulations</h2>
-
-        <p>The procedure of our internal complaints handling is set out in a regulation so you know exactly where you stand.</p>
-
-        <p><a href={url('/documents/klachtenreglement.pdf')}>Complaints regulations Schoterpoort Huisartsenpraktijk</a></p>
-      </article>
     </div>
   </section>
 </PageLayout>

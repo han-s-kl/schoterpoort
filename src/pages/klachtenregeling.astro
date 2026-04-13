@@ -1,24 +1,18 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import { getCollection, render } from 'astro:content';
 import practiceData from '../data/practices.json';
-import { url } from '../utils/url';
+
+const pages = await getCollection('pages');
+const page = pages.find((p) => p.id === 'klachtenregeling');
+const { Content } = await render(page!);
 ---
 
-<PageLayout title="Klachtenregeling" description="Procedure voor het indienen van klachten bij Schoterpoort Huisartsenpraktijk">
+<PageLayout title={page!.data.title} description={page!.data.description}>
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <h1>Klachtenregeling</h1>
-
-        <p>Gelukkig zijn de meeste patiënten tevreden over hun huisarts en onze huisartsenpraktijk. Maar misschien bent u over bepaalde zaken minder of in het geheel niet tevreden. Probeer eerst uw klacht of onvrede met uw huisarts te bespreken en samen met haar (of hem) het probleem op te lossen.</p>
-
-        <p>Dat kan ook als uw klacht gaat over een praktijkassistente, praktijkverpleegkundige, praktijkondersteuner GGZ/Somatiek of de praktijkorganisatie. Als de huisarts weet dat u niet helemaal tevreden bent, kan zij (hij) samen met u zoeken naar een oplossing.</p>
-
-        <p>Wij gaan uiterst serieus om met klachten en/of uitingen van onvrede, allereerst natuurlijk voor u persoonlijk, maar ook omdat het vaak kan bijdragen aan de kwaliteitsverbetering van onze huisartsenpraktijk.</p>
-
-        <h2>Klacht indienen</h2>
-
-        <p>Als u een klacht indient via ZIVVER zal de klachtencoördinator binnen de praktijk ervoor zorgen dat de klacht wordt opgepakt. U ontvangt een bevestiging van de ontvangst en er wordt contact met u opgenomen over de vervolgstappen die het meest passend zijn. Bijvoorbeeld (alsnog) een gesprek met de betreffende arts of medewerker.</p>
+        <Content />
       </article>
 
       <!-- ZIVVER landing kaart -->
@@ -56,27 +50,6 @@ import { url } from '../utils/url';
           </ul>
         </div>
       </div>
-
-      <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
-        <h2>Externe klachtbehandeling</h2>
-
-        <p>Wilt u dit niet of komen we er samen met u niet uit, dan kan er door u een beroep worden gedaan op een onafhankelijke klachtenfunctionaris van de organisatie DOkH, afdeling klachten en geschillen.</p>
-
-        <ul>
-          <li><strong>Adres:</strong> Robijnstraat 6, 1812 RB Alkmaar</li>
-          <li><strong>Telefoon:</strong> 072-5208325</li>
-          <li><strong>E-mail:</strong> <a href="mailto:klachtenengeschillen@dokh.nl">klachtenengeschillen@dokh.nl</a></li>
-          <li><strong>Website:</strong> <a href="https://www.dokh.nl">www.dokh.nl</a></li>
-        </ul>
-
-        <p>De praktijk is tevens aangesloten bij de geschilleninstantie van DOkH.</p>
-
-        <h2>Klachtenreglement</h2>
-
-        <p>De werkwijze van onze interne klachtenregeling is vastgelegd in een reglement zodat u precies weet waar u aan toe bent.</p>
-
-        <p><a href={url('/documents/klachtenreglement.pdf')}>Klachtenreglement Schoterpoort Huisartsenpraktijk</a></p>
-      </article>
     </div>
   </section>
 </PageLayout>
