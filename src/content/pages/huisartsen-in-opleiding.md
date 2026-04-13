@@ -1,5 +1,5 @@
 ---
-title: "Huisartsen in opleiding Amsterdam UMC (AMC)"
+title: "Huisartsen in opleiding Amsterdam UMC"
 description: "Informatie over de huisartsen in opleiding bij Schoterpoort"
 ---
 De huisartsenpraktijk Schoterpoort is een erkende opleidingspraktijk van het Universitair Huisartseninstituut en de basisartsopleiding van het Amsterdam UMC. De huisartsen in opleiding zijn al geruime tijd arts, zij hebben meestal al enkele jaren ervaring in het werken in ziekenhuizen en huisartsenpraktijken.
