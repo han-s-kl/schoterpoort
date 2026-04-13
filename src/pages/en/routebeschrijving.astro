@@ -1,13 +1,50 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import ContactSpoedBlock from '../../components/ContactSpoedBlock.astro';
+import practiceData from '../../data/practices.json';
+
+const address = practiceData.address;
+const addressQuery = encodeURIComponent(address);
+const osmMarker = '52.3975,4.6345';
+const osmBbox = '4.6245,52.3935,4.6445,52.4015';
+const osmEmbedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${osmBbox}&layer=mapnik&marker=${osmMarker}`;
+const gmapsLink = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
 ---
 
 <PageLayout title="Directions" description="Directions and address details for Huisartsenpraktijk Schoterpoort" lang="en">
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-neutral-900 mb-8">Directions</h1>
-      <ContactSpoedBlock lang="en" />
+      <h1 class="text-3xl font-bold text-neutral-900 mb-4">Directions</h1>
+      <p class="text-neutral-600 mb-6">
+        Huisartsenpraktijk Schoterpoort is located at <strong>{address}</strong>.
+      </p>
+
+      <div class="rounded-xl overflow-hidden border border-neutral-200 shadow-sm mb-4">
+        <iframe
+          src={osmEmbedSrc}
+          title="Map of Huisartsenpraktijk Schoterpoort"
+          class="w-full h-80 md:h-96 block"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <p class="text-sm text-neutral-600 mb-8">
+        <a href={gmapsLink}>Open in Google Maps for directions</a>
+      </p>
+
+      <div class="bg-neutral-50 rounded-xl border border-neutral-200 p-5">
+        <h2 class="font-bold text-neutral-900 mb-2">By car</h2>
+        <p class="text-sm text-neutral-600 mb-4">
+          Limited street parking available. Please observe the parking zone rules.
+        </p>
+        <h2 class="font-bold text-neutral-900 mb-2">By public transport</h2>
+        <p class="text-sm text-neutral-600 mb-4">
+          From Haarlem station it is approximately 10 minutes by bus to the practice.
+        </p>
+        <h2 class="font-bold text-neutral-900 mb-2">On foot or by bike</h2>
+        <p class="text-sm text-neutral-600">
+          The practice is easily reachable by bike; there is a bike rack in front of the entrance.
+        </p>
+      </div>
     </div>
   </section>
 </PageLayout>

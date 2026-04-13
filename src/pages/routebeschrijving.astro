@@ -1,13 +1,52 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import ContactSpoedBlock from '../components/ContactSpoedBlock.astro';
+import practiceData from '../data/practices.json';
+
+const address = practiceData.address;
+const addressQuery = encodeURIComponent(address);
+// Pijnboomstraat 19, 2023 VN Haarlem -- approximate coordinates,
+// OSM bbox drawn around the pin for a comfortable zoom level.
+const osmMarker = '52.3975,4.6345';
+const osmBbox = '4.6245,52.3935,4.6445,52.4015';
+const osmEmbedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${osmBbox}&layer=mapnik&marker=${osmMarker}`;
+const gmapsLink = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
 ---
 
 <PageLayout title="Routebeschrijving" description="Routebeschrijving en adresgegevens van Huisartsenpraktijk Schoterpoort">
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-neutral-900 mb-8">Routebeschrijving</h1>
-      <ContactSpoedBlock />
+      <h1 class="text-3xl font-bold text-neutral-900 mb-4">Routebeschrijving</h1>
+      <p class="text-neutral-600 mb-6">
+        Huisartsenpraktijk Schoterpoort vindt u op <strong>{address}</strong>.
+      </p>
+
+      <div class="rounded-xl overflow-hidden border border-neutral-200 shadow-sm mb-4">
+        <iframe
+          src={osmEmbedSrc}
+          title="Kaart van Huisartsenpraktijk Schoterpoort"
+          class="w-full h-80 md:h-96 block"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <p class="text-sm text-neutral-600 mb-8">
+        <a href={gmapsLink}>Open in Google Maps voor route-instructies</a>
+      </p>
+
+      <div class="bg-neutral-50 rounded-xl border border-neutral-200 p-5">
+        <h2 class="font-bold text-neutral-900 mb-2">Met de auto</h2>
+        <p class="text-sm text-neutral-600 mb-4">
+          Beperkte parkeergelegenheid in de straat. Vergeet niet te parkeren binnen de geldende zone.
+        </p>
+        <h2 class="font-bold text-neutral-900 mb-2">Met het openbaar vervoer</h2>
+        <p class="text-sm text-neutral-600 mb-4">
+          Vanaf station Haarlem bent u met de bus in ongeveer 10 minuten bij de praktijk.
+        </p>
+        <h2 class="font-bold text-neutral-900 mb-2">Te voet of met de fiets</h2>
+        <p class="text-sm text-neutral-600">
+          De praktijk is goed bereikbaar per fiets; er is stalling voor de deur.
+        </p>
+      </div>
     </div>
   </section>
 </PageLayout>
