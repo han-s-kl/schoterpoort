@@ -12,7 +12,7 @@ const allBlocks = (await getCollection('blocks-en'))
 const practices = practiceData.practices;
 ---
 
-<PageLayout title="Home" lang="en">
+<PageLayout title={homeData.pageTitle || 'Home'} description={homeData.pageDescription} lang="en">
   <!-- Hero -->
   <section class="relative bg-gradient-to-br from-dark-800 via-dark-700 to-dark-900 text-white overflow-hidden">
     <div class="absolute inset-0 opacity-10">

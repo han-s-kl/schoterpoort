@@ -1,4 +1,6 @@
 {
+  "pageTitle": "Patient portal",
+  "pageDescription": "Access to your online patient portal at Huisartsenpraktijk Schoterpoort.",
   "intro": "Through the patient portal you can safely and easily arrange matters with your GP practice online: book appointments, request repeat prescriptions, send e-consultations, view results and access your medical record.",
   "portals": [
     { "name": "Practice Louwet / Moes", "href": "https://praktijklouwet.uwzorgonline.nl" },

@@ -1,4 +1,6 @@
 {
+  "pageTitle": "Patientenomgeving",
+  "pageDescription": "Toegang tot uw online patientenportaal bij Huisartsenpraktijk Schoterpoort.",
   "intro": "Via de patientenomgeving kunt u veilig en eenvoudig online zaken regelen met uw huisartsenpraktijk: afspraken maken, herhaalrecepten aanvragen, e-consulten sturen, uitslagen bekijken en uw medisch dossier inzien.",
   "portals": [
     { "name": "Praktijk Louwet / Moes", "href": "https://praktijklouwet.uwzorgonline.nl" },

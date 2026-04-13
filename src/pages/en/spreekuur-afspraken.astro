@@ -10,10 +10,10 @@ const spoedItem = practiceData.keuzemenu.find((item: any) => /spoed/i.test(item.
 const spoedKey = spoedItem?.key || '1';
 ---
 
-<PageLayout title="Consultation hours & appointments" description="Book an appointment at General Practice Schoterpoort Haarlem." lang="en">
+<PageLayout title={spreekuurData.pageTitle || 'Appointments'} description={spreekuurData.pageDescription || 'Make an appointment at Huisartsenpraktijk Schoterpoort Haarlem.'} lang="en">
   <section class="py-12 lg:py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl lg:text-4xl font-bold mb-8">Consultation hours & appointments</h1>
+      <h1 class="text-3xl lg:text-4xl font-bold mb-8">{spreekuurData.pageTitle || 'Appointments'}</h1>
 
       <!-- How to book an appointment -->
       <div class="bg-primary-50 rounded-xl p-6 border border-primary-200 mb-10">

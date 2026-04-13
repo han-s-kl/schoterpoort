@@ -6,10 +6,10 @@ import { url } from '../utils/url';
 const base = import.meta.env.BASE_URL;
 ---
 
-<PageLayout title="Patientenomgeving" description="Toegang tot uw online patientenportaal bij Huisartsenpraktijk Schoterpoort.">
+<PageLayout title={patData.pageTitle || 'Patientenomgeving'} description={patData.pageDescription || 'Toegang tot uw online patientenportaal bij Huisartsenpraktijk Schoterpoort.'}>
   <section class="py-12 lg:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl lg:text-4xl font-bold mb-6">Patientenomgeving</h1>
+      <h1 class="text-3xl lg:text-4xl font-bold mb-6">{patData.pageTitle || 'Patientenomgeving'}</h1>
 
       <p class="text-neutral-600 mb-8" set:html={patData.intro} />
 
