@@ -1,6 +1,4 @@
 {
-  "pageTitle": "Home",
-  "pageDescription": "Huisartsenpraktijk Schoterpoort in Haarlem - four GPs, NPA-certified group practice with patient portal.",
   "praktijkenIntro": "Four practices with a total of eight general practitioners, supported by a team of assistants and nurses. Each practice has its own telephone number.",
   "afspraakAfzeggen": "We kindly ask you to cancel your appointment by phone at least 24 hours in advance. For appointments with the mental health practice nurse: at least 48 hours in advance.",
   "kwaliteit": [
@@ -34,5 +32,7 @@
     "A standard consultation is 15 minutes for one complaint; request a double consultation for multiple complaints or mental health issues.",
     "If you suspect a urinary tract infection: leave a urine sample in the cooler at the entrance with a completed form.",
     "Reliable health information at <a href=\"https://thuisarts.nl\">thuisarts.nl</a>; use <a href=\"https://moetiknaardedokter.nl\">moetiknaardedokter.nl</a> to assess whether a GP visit is necessary."
-  ]
+  ],
+  "pageTitle": "Home",
+  "pageDescription": "Huisartsenpraktijk Schoterpoort in Haarlem - four GPs, NPA-certified group practice with patient portal."
 }
