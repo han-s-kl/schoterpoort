@@ -124,7 +124,7 @@ const spoedKey = spoedItem?.key || '1';
         <h2 class="font-bold text-accent-800 mb-2">Spoed</h2>
         <ul class="text-sm text-accent-700 space-y-1">
           <li>Tijdens kantooruren: bel uw huisarts, keuze {spoedKey}</li>
-          <li>Na 17:00, weekenden en feestdagen: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">{practiceData.phoneEmergency}</a> (Spoedpost)</li>
+          <li>Na 17:00, weekenden en feestdagen: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">{practiceData.phoneEmergency}</a> (Spoedpost, <a href={url('/spoedpost')} class="underline">meer info</a>)</li>
           <li>Levensbedreigende situaties: <a href="tel:112" class="font-bold underline">112</a></li>
         </ul>
       </div>

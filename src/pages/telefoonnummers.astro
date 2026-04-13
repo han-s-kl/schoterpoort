@@ -3,6 +3,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import PracticeCard from '../components/PracticeCard.astro';
 import practiceData from '../data/practices.json';
 import spreekuurData from '../data/spreekuur.json';
+import { url } from '../utils/url';
 ---
 
 <PageLayout title="Telefoonnummers" description="Alle telefoonnummers van Huisartsenpraktijk Schoterpoort Haarlem.">
@@ -60,6 +61,7 @@ import spreekuurData from '../data/spreekuur.json';
           <div>
             <span class="text-sm font-semibold text-neutral-900">Spoedpost (buiten kantooruren)</span>
             <p class="text-xs text-neutral-500">Avond, nacht, weekend en feestdagen</p>
+            <a href={url('/spoedpost')} class="text-xs text-accent-700 hover:text-accent-800 underline">Meer info over de Spoedpost</a>
           </div>
           <a href={`tel:${practiceData.phoneEmergency.replace(/\s/g, '')}`} class="font-bold text-accent-600 no-underline">{practiceData.phoneEmergency}</a>
         </div>

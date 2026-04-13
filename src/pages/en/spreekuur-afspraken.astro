@@ -124,7 +124,7 @@ const spoedKey = spoedItem?.key || '1';
         <h2 class="font-bold text-accent-800 mb-2">Emergency</h2>
         <ul class="text-sm text-accent-700 space-y-1">
           <li>During office hours: call your GP, option {spoedKey}</li>
-          <li>After 17:00, weekends and holidays: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">{practiceData.phoneEmergency}</a> (Emergency GP Post)</li>
+          <li>After 17:00, weekends and holidays: <a href={`tel:${practiceData.phoneEmergency.replace(/[\s-]/g, '')}`} class="font-semibold underline">{practiceData.phoneEmergency}</a> (Emergency GP Post, <a href={url('/en/spoedpost')} class="underline">more info</a>)</li>
           <li>Life-threatening: <a href="tel:112" class="font-bold underline">112</a></li>
         </ul>
       </div>
