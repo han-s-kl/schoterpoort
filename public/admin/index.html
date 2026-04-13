@@ -4615,6 +4615,16 @@
       document.querySelectorAll('.lang-btn').forEach(b => {
         b.addEventListener('click', () => setLanguage(b.dataset.lang));
       });
+      // Strip formatting when pasting into any contenteditable field: paste
+      // as plain text so Word/website HTML doesn't leak into the CMS. The
+      // user can then apply bold/italic/links via the floating toolbar.
+      document.addEventListener('paste', (e) => {
+        const target = e.target;
+        if (!target || !target.isContentEditable) return;
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+        if (text) document.execCommand('insertText', false, text);
+      });
     }
 
     // Check session
