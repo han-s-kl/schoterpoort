@@ -1,6 +1,6 @@
 ---
 title: "Tarieven 2026"
-description: "Overzicht van tarieven voor consulten, huisbezoeken en verrichtingen in 2025"
+description: "Overzicht van tarieven voor consulten, huisbezoeken en verrichtingen in 2026"
 ---
 # Tarieven 2026
 
