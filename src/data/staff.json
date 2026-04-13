@@ -5,7 +5,6 @@
     "role": "Huisarts",
     "bigNumber": "49911135001",
     "team": "Praktijk Louwet",
-    "phone": "023-525 43 02",
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -28,7 +27,6 @@
     "role": "Huisarts",
     "bigNumber": "09045639001",
     "team": "Praktijk Louwet",
-    "phone": "023-525 43 02",
     "workingDays": [
       "dinsdag",
       "woensdag",
@@ -55,7 +53,6 @@
     "role": "Huisarts",
     "bigNumber": "59909707001",
     "team": "Praktijk Duijn",
-    "phone": "023-525 54 03",
     "workingDays": [],
     "since": "2015 (huisarts sinds februari 2014, praktijk overgenomen in 2022)",
     "sinceEn": "2015 (GP since February 2014, took over practice in 2022)",
@@ -73,7 +70,6 @@
     "role": "Huisarts",
     "bigNumber": null,
     "team": "Praktijk Duijn",
-    "phone": "023-525 54 03",
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -95,7 +91,6 @@
     "role": "Huisarts",
     "bigNumber": "89064664401",
     "team": "Praktijk Steketee",
-    "phone": "023-525 62 31",
     "workingDays": [],
     "since": "2012 (praktijk Dr. Oidtmann overgenomen per 1 januari 2019)",
     "sinceEn": "2012 (took over Dr. Oidtmann's practice on 1 January 2019)",
@@ -118,7 +113,6 @@
     "role": "Huisarts",
     "bigNumber": "29911884601",
     "team": "Praktijk Steketee",
-    "phone": "023-525 62 31",
     "workingDays": [
       "maandag",
       "woensdag",
@@ -140,7 +134,6 @@
     "role": "Huisarts",
     "bigNumber": "",
     "team": "Praktijk Steketee",
-    "phone": "023-525 62 31",
     "workingDays": [],
     "since": "2025 (waarnemer voor Willemijn Schaap)",
     "sinceEn": "2025 (locum for Willemijn Schaap)",
@@ -159,7 +152,6 @@
     "role": "Huisarts",
     "bigNumber": "99919431801",
     "team": "Praktijk Van der Eem",
-    "phone": "023-525 33 04",
     "workingDays": [],
     "since": "1 januari 2025 (praktijk overgenomen van Kees Sikkel)",
     "sinceEn": "1 January 2025 (took over practice from Kees Sikkel)",
@@ -177,7 +169,6 @@
     "role": "Huisarts",
     "bigNumber": null,
     "team": "Praktijk Van der Eem",
-    "phone": "023-525 33 04",
     "workingDays": [
       "dinsdag",
       "donderdag",
@@ -199,7 +190,6 @@
     "role": "Praktijkverpleegkundige somatiek",
     "bigNumber": null,
     "team": null,
-    "phone": "023-525 69 83",
     "workingDays": [
       "dinsdag",
       "woensdag",
@@ -231,7 +221,6 @@
     "role": "Praktijkverpleegkundige somatiek",
     "bigNumber": null,
     "team": null,
-    "phone": "023-525 69 83",
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -261,7 +250,6 @@
     "role": "Spreekuurondersteuner",
     "bigNumber": null,
     "team": "Praktijk Duijn",
-    "phone": "",
     "workingDays": [
       "dinsdag",
       "woensdag",
@@ -291,7 +279,6 @@
     "role": "Praktijkondersteuner GGZ",
     "bigNumber": null,
     "team": "",
-    "phone": "",
     "workingDays": [
       "maandag",
       "woensdag",
@@ -322,7 +309,6 @@
     "role": "Praktijkondersteuner GGZ",
     "bigNumber": null,
     "team": "",
-    "phone": "",
     "workingDays": [
       "dinsdag",
       "woensdag",
@@ -353,7 +339,6 @@
     "role": "Praktijkmanager",
     "bigNumber": null,
     "team": null,
-    "phone": null,
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -373,7 +358,6 @@
     "role": "Baliemedewerker",
     "bigNumber": null,
     "team": null,
-    "phone": null,
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -392,7 +376,6 @@
     "role": "Baliemedewerker / Administratief medewerker",
     "bigNumber": null,
     "team": "",
-    "phone": "",
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -412,7 +395,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Louwet",
-    "phone": null,
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -431,7 +413,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Louwet",
-    "phone": null,
     "workingDays": [
       "maandag",
       "woensdag"
@@ -449,7 +430,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Duijn",
-    "phone": null,
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -468,7 +448,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Van der Eem",
-    "phone": null,
     "workingDays": [
       "maandag",
       "dinsdag",
@@ -487,7 +466,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Van der Eem",
-    "phone": null,
     "workingDays": [
       "woensdag",
       "donderdag",
@@ -506,7 +484,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Steketee",
-    "phone": null,
     "workingDays": [
       "dinsdag",
       "donderdag",
@@ -525,7 +502,6 @@
     "role": "Doktersassistente",
     "bigNumber": null,
     "team": "Praktijk Steketee",
-    "phone": null,
     "workingDays": [
       "maandag",
       "woensdag",
@@ -544,7 +520,6 @@
     "role": "Huisarts in opleiding (HAIO)",
     "bigNumber": null,
     "team": "Praktijk Louwet",
-    "phone": null,
     "workingDays": [],
     "since": "maart 2026",
     "sinceEn": "March 2026",
@@ -566,7 +541,6 @@
     "role": "Huisarts in opleiding (HAIO)",
     "bigNumber": null,
     "team": "Praktijk Steketee",
-    "phone": null,
     "workingDays": [],
     "since": "maart 2026",
     "sinceEn": "March 2026",

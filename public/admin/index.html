@@ -987,7 +987,6 @@
       { name: 'name', label: 'Naam', type: 'string' },
       { name: 'role', label: 'Rol', type: 'string' },
       { name: 'team', label: 'Team', type: 'string' },
-      { name: 'phone', label: 'Telefoon', type: 'string' },
       { name: 'workingDays', label: 'Werkdagen', type: 'tags' },
       { name: 'since', label: 'Sinds', type: 'string', excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'background', label: 'Achtergrond', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
@@ -1000,7 +999,6 @@
       { name: 'name', label: 'Naam', type: 'string', readonly: true },
       { name: 'roleEn', label: 'Role (EN)', type: 'string' },
       { name: 'team', label: 'Team', type: 'string', readonly: true },
-      { name: 'phone', label: 'Telefoon', type: 'string', readonly: true },
       { name: 'workingDays', label: 'Werkdagen', type: 'tags', readonly: true },
       { name: 'sinceEn', label: 'Since (EN)', type: 'string', excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'backgroundEn', label: 'Background (EN)', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
@@ -3502,6 +3500,30 @@
         section.appendChild(body);
         panel.appendChild(section);
 
+        // Telefoonnummers per praktijk
+        const practicesSection = document.createElement('div');
+        practicesSection.className = 'spreekuur-section';
+        const practicesHeader = document.createElement('div');
+        practicesHeader.className = 'spreekuur-section-header';
+        practicesHeader.textContent = 'Telefoonnummers per praktijk';
+        practicesSection.appendChild(practicesHeader);
+        const practicesBody = document.createElement('div');
+        practicesBody.className = 'spreekuur-section-body';
+        (practicesData.practices || []).forEach((practice, index) => {
+          const lbl = document.createElement('div');
+          lbl.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
+          lbl.textContent = practice.name;
+          practicesBody.appendChild(lbl);
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.value = practice.phone || '';
+          inp.dataset.practicePhoneIndex = String(index);
+          inp.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+          practicesBody.appendChild(inp);
+        });
+        practicesSection.appendChild(practicesBody);
+        panel.appendChild(practicesSection);
+
         // Openingstijden
         const hoursSection = document.createElement('div');
         hoursSection.className = 'spreekuur-section';
@@ -3647,6 +3669,13 @@
       const inputs = document.querySelectorAll('#practice-info-panel input[data-editor="practice-info"]');
       for (const input of inputs) {
         practicesData[input.dataset.key] = input.value;
+      }
+      // Gather per-practice phone numbers
+      for (const inp of document.querySelectorAll('#practice-info-panel input[data-practice-phone-index]')) {
+        const idx = parseInt(inp.dataset.practicePhoneIndex, 10);
+        if (practicesData.practices && practicesData.practices[idx]) {
+          practicesData.practices[idx].phone = inp.value;
+        }
       }
       // Gather openingstijden -- bilingual fields (days, lunchNote) write to the
       // *En sibling when editing in EN mode; the rest are language-neutral.

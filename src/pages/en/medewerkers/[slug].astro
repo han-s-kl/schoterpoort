@@ -3,7 +3,12 @@ import PageLayout from '../../../layouts/PageLayout.astro';
 import StaffCard from '../../../components/staff/StaffCard.astro';
 import { getCollection, render } from 'astro:content';
 import allStaff from '../../../data/staff.json';
+import practiceData from '../../../data/practices.json';
 import { url } from '../../../utils/url';
+
+const practicePhoneByTeam = new Map(
+  practiceData.practices.map((p) => [p.name, p.phone])
+);
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages-en');
@@ -98,7 +103,7 @@ const hasStaffCards = staffForPage.length > 0;
               background={(member as any).backgroundEn || (member as any).background}
               specializations={(member as any).specializationsEn || (member as any).specializations}
               interests={(member as any).interestsEn || (member as any).interests}
-              phone={(member as any).phone}
+              phone={member.role === 'Huisarts' ? practicePhoneByTeam.get(member.team) : undefined}
               bigNumber={(member as any).bigNumber}
               lang="en"
             />
