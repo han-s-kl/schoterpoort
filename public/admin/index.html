@@ -992,7 +992,7 @@
       { name: 'background', label: 'Achtergrond', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'specializations', label: 'Specialisaties', type: 'tags' },
       { name: 'interests', label: 'Interesses', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
-      { name: 'photo', label: 'Foto (pad)', type: 'string' },
+      { name: 'photo', label: 'Foto', type: 'photo', wide: true },
     ];
 
     const STAFF_FIELDS_EN = [
@@ -1004,7 +1004,7 @@
       { name: 'backgroundEn', label: 'Background (EN)', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
       { name: 'specializationsEn', label: 'Specializations (EN)', type: 'tags' },
       { name: 'interestsEn', label: 'Interests (EN)', type: 'textarea', wide: true, excludeFor: STAFF_BIO_HIDDEN_CATEGORIES },
-      { name: 'photo', label: 'Foto (pad)', type: 'string', readonly: true },
+      { name: 'photo', label: 'Foto', type: 'photo', wide: true, readonly: true },
     ];
 
     function getStaffFields() {
@@ -1865,6 +1865,19 @@
         label.textContent = field.label;
         label.htmlFor = `${pfx}field-${field.name}`;
 
+        // Photo field: custom widget with preview + upload button
+        if (field.type === 'photo') {
+          const widget = buildStaffPhotoWidget(values[field.name] ?? '', field.readonly);
+          const hiddenInput = widget.querySelector('input[type="hidden"]');
+          hiddenInput.id = `${pfx}field-${field.name}`;
+          hiddenInput.dataset.fieldName = field.name;
+          hiddenInput.dataset.fieldType = field.type;
+          div.appendChild(label);
+          div.appendChild(widget);
+          target.appendChild(div);
+          continue;
+        }
+
         let input;
         if (field.type === 'select') {
           input = document.createElement('select');
@@ -1920,6 +1933,88 @@
       }
 
       return target;
+    }
+
+    // Build the staff-photo widget: preview image + path label + upload button
+    // + hidden input that carries the current path for gatherStaffData().
+    function buildStaffPhotoWidget(currentPath, readonly) {
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'display:flex;gap:1rem;align-items:flex-start;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--editor-bg);';
+
+      const previewImg = document.createElement('img');
+      previewImg.alt = 'Profielfoto';
+      previewImg.style.cssText = 'width:96px;height:96px;object-fit:cover;border-radius:50%;border:1px solid var(--border);background:#fff;flex:none;';
+      if (currentPath) {
+        previewImg.src = '..' + currentPath;
+      } else {
+        previewImg.style.visibility = 'hidden';
+      }
+      previewImg.onerror = () => { previewImg.style.visibility = 'hidden'; };
+
+      const meta = document.createElement('div');
+      meta.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:0.5rem;';
+
+      const pathLabel = document.createElement('code');
+      pathLabel.textContent = currentPath || '(geen foto)';
+      pathLabel.style.cssText = 'font-size:0.75rem;color:var(--text-muted);word-break:break-all;background:#fff;padding:0.25rem 0.375rem;border-radius:4px;border:1px solid var(--border);';
+      meta.appendChild(pathLabel);
+
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.value = currentPath || '';
+
+      if (!readonly) {
+        const uploadBtn = document.createElement('button');
+        uploadBtn.type = 'button';
+        uploadBtn.textContent = 'Nieuwe foto kiezen';
+        uploadBtn.style.cssText = 'align-self:flex-start;padding:0.375rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:#fff;font-size:0.8125rem;font-family:var(--font);cursor:pointer;';
+        uploadBtn.addEventListener('click', () => uploadStaffPhoto(hiddenInput, previewImg, pathLabel, uploadBtn));
+        meta.appendChild(uploadBtn);
+      }
+
+      meta.appendChild(hiddenInput);
+      wrapper.appendChild(previewImg);
+      wrapper.appendChild(meta);
+      return wrapper;
+    }
+
+    async function uploadStaffPhoto(hiddenInput, previewImg, pathLabel, uploadBtn) {
+      const nameInput = document.getElementById('field-name');
+      const personName = (nameInput?.value || '').trim() || 'staff';
+
+      const file = await pickFile('image/*');
+      if (!file) return;
+
+      const maxBytes = 5 * 1024 * 1024;
+      if (file.size > maxBytes) {
+        const mb = (file.size / (1024 * 1024)).toFixed(1);
+        if (!confirm(`Deze foto is ${mb} MB. Aanbevolen maximum is 5 MB. Toch doorgaan?`)) return;
+      }
+
+      const dot = file.name.lastIndexOf('.');
+      let ext = (dot >= 0 ? file.name.slice(dot + 1) : 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!['png', 'jpg', 'jpeg', 'webp'].includes(ext)) ext = 'jpg';
+
+      const baseSlug = generateSlug(personName, new Set());
+
+      try {
+        uploadBtn.disabled = true;
+        setStatus('Foto uploaden...', 'saving');
+        const path = await pickUniqueUploadPath('public/images/staff', baseSlug, ext);
+        await saveBinaryFile(path, file, `Upload foto: ${personName} via CMS`);
+        const sitePath = '/' + path.replace(/^public\//, '');
+        hiddenInput.value = sitePath;
+        previewImg.src = '..' + sitePath + '?t=' + Date.now();
+        previewImg.style.visibility = '';
+        pathLabel.textContent = sitePath;
+        setStatus('Foto geüpload -- vergeet niet op te slaan', 'saved');
+        setTimeout(() => setStatus(''), 8000);
+      } catch (err) {
+        console.error('[staff-photo] upload failed', err);
+        setStatus(`Upload mislukt: ${err.message}`, 'error');
+      } finally {
+        uploadBtn.disabled = false;
+      }
     }
 
     function parseMarkdownSections(body) {
