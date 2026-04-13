@@ -14,4 +14,4 @@ Dit formulier is bedoeld om gewijzigde adres- en verzekeringsgegevens door te ge
 - Overdracht medisch dossier (zie [Medisch dossier](/schoterpoort/medisch-dossier))
 - Inzage in uw dossier
 - Wijziging van uw gegevens
-- Verklaring of attest aanvragen (zie [Tarieven](/schoterpoort/tarieven-2025))
+- Verklaring of attest aanvragen (zie [Tarieven](/schoterpoort/tarieven))

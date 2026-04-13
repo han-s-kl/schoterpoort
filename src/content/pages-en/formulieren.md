@@ -21,5 +21,5 @@ For administrative requests, you can use the administration form.
 
 If you suspect a bladder infection, you can leave a urine sample in the cooler at the entrance. Please complete the urine test form.
 
-- [Urine test form](/schoterpoort/en/urineonderzoekformulier)
+- [Urine test form](/schoterpoort/en/urineonderzoek)
 - [More about urinary tract infections](/schoterpoort/en/gezondheidsinfo/urineweginfecties)

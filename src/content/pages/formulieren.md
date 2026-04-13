@@ -21,5 +21,5 @@ Voor administratieve verzoeken kunt u het administratieformulier gebruiken.
 
 Bij vermoeden van een blaasontsteking kunt u een urinemonster achterlaten in de koeler bij de ingang. Vul daarbij het urineonderzoek formulier in.
 
-- [Urineonderzoek formulier](/schoterpoort/urineonderzoekformulier)
+- [Urineonderzoek formulier](/schoterpoort/urineonderzoek)
 - [Meer over urineweginfecties](/schoterpoort/gezondheidsinfo/urineweginfecties)

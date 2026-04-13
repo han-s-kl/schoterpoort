@@ -33,6 +33,6 @@ Care to which the excess does **not** apply:
   - tests related to care/diagnostics by your GP (laboratory tests, X-rays, ultrasound, endoscopy, etc.)
 - Maternity care
 
-If needed, ask about the costs of additional tests. Sometimes the GP knows the costs, or otherwise the laboratory or hospital to which you are referred. Under the [Rates](https://schoterpoort.com/en/tarieven-2025/) heading in the menu bar, you will find a link to the rates of the Streeklaboratorium and the AtalMedial laboratory.
+If needed, ask about the costs of additional tests. Sometimes the GP knows the costs, or otherwise the laboratory or hospital to which you are referred. Under the [Rates](https://schoterpoort.com/en/tarieven/) heading in the menu bar, you will find a link to the rates of the Streeklaboratorium and the AtalMedial laboratory.
 
 **Children and young people aged 0 to 17 are exempt from the excess!**

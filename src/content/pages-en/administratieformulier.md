@@ -14,4 +14,4 @@ This form is intended to report changed address and insurance details to the pra
 - Transfer of medical records (see [Medical records](/schoterpoort/en/medisch-dossier))
 - Viewing your records
 - Changing your details
-- Requesting a certificate or statement (see [Rates](/schoterpoort/en/tarieven-2025))
+- Requesting a certificate or statement (see [Rates](/schoterpoort/en/tarieven))

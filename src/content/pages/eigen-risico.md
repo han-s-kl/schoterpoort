@@ -16,7 +16,7 @@ LET OP: Het eigen risico geldt **wel** voor:
  - geneesmiddelen die de huisarts voorschrijft
  - onderzoek dat samenhangt met de zorg/diagnostiek door uw huisarts (laboratoriumonderzoek, rontgenfoto, echo-onderzoek, maag/darm scopie-onderzoek etc.)
 
-Vraag zo nodig naar de kosten van aanvullend onderzoek, soms weet de huisarts dit of anders het laboratorium of het ziekenhuis waarheen u verwezen wordt. Onder het kopje [Tarieven](https://schoterpoort.com/tarieven-2025/) in de menubalk vindt u een link naar de tarieven van het Streeklaboratorium en het laboratorium AtalMedial.
+Vraag zo nodig naar de kosten van aanvullend onderzoek, soms weet de huisarts dit of anders het laboratorium of het ziekenhuis waarheen u verwezen wordt. Onder het kopje [Tarieven](https://schoterpoort.com/tarieven/) in de menubalk vindt u een link naar de tarieven van het Streeklaboratorium en het laboratorium AtalMedial.
 
 **Kinderen en jongeren van 0 t/m 17 jaar zijn vrijgesteld van het eigen risico!**
 
