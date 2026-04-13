@@ -51,7 +51,7 @@ One hour before the insertion, you can take a painkiller. The GP or assistant wi
 
 The IUD is usually inserted during or just after menstruation. You are then certainly not pregnant, and the IUD is immediately effective. If you want an IUD after giving birth, it can be inserted from 6-8 weeks after delivery, even if you have not yet menstruated.
 
-If there is a suspicion or risk of an STI, an STI test must first be taken before the IUD is inserted; the test results must be awaited. Read more on our [STI page](/schoterpoort/en/soa).
+If there is a suspicion or risk of an STI, an STI test must first be taken before the IUD is inserted; the test results must be awaited. Read more on our [STI page](/schoterpoort/en/gezondheidsinfo/soa).
 
 ### The insertion
 

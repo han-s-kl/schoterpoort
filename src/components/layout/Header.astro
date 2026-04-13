@@ -16,10 +16,15 @@ const base = import.meta.env.BASE_URL;
 const mapHref = lang === 'en' ? url('/en/routebeschrijving') : url('/routebeschrijving');
 const mapAriaLabel = lang === 'en' ? 'View location on map' : 'Bekijk locatie op kaart';
 
-// Language switch URL: swap /en/ prefix
-const switchUrl = lang === 'en'
-  ? url(currentPath.replace(/\/en(\/|$)/, '/').replace(base, '') || '/')
-  : url(`/en${currentPath.replace(base, '') || '/'}`);
+// Language switch URL: swap /en/ prefix.
+// On the 404 page there is no translated counterpart (Astro only builds
+// one 404.html), so fall back to the other language's homepage.
+const is404 = currentPath.endsWith('/404.html') || currentPath.endsWith('/404');
+const switchUrl = is404
+  ? url(lang === 'en' ? '/' : '/en/')
+  : (lang === 'en'
+      ? url(currentPath.replace(/\/en(\/|$)/, '/').replace(base, '') || '/')
+      : url(`/en${currentPath.replace(base, '') || '/'}`));
 ---
 
 <header>
