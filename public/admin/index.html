@@ -2631,7 +2631,13 @@
     }
 
     // --- SAVE ---
+    let isSaving = false;
     async function handleSave() {
+      // Re-entry guard. The button is also disabled below, but this flag
+      // catches the edge case where a second click lands before or just
+      // after the button's disabled state updates.
+      if (isSaving) return;
+      isSaving = true;
       const saveBtn = document.getElementById('save-btn');
       saveBtn.disabled = true;
       setStatus('Opslaan...', 'saving');
@@ -2662,6 +2668,7 @@
         setStatus(`Fout: ${err.message}`, 'error');
       } finally {
         saveBtn.disabled = false;
+        isSaving = false;
       }
     }
 
