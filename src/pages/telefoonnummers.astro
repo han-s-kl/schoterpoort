@@ -47,7 +47,10 @@ import spreekuurData from '../data/spreekuur.json';
       <h2 class="text-xl font-bold mb-4">Overige nummers</h2>
       <div class="space-y-3">
         <div class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-4">
-          <span class="text-sm text-neutral-700">Praktijkverpleegkundigen</span>
+          <div>
+            <span class="text-sm text-neutral-700">Praktijkverpleegkundigen</span>
+            <p class="text-xs text-neutral-500">Tussen 11 en 12 uur</p>
+          </div>
           <a href={`tel:${practiceData.phoneNurses.replace(/\s/g, '')}`} class="font-medium text-dark-600 no-underline">{practiceData.phoneNurses}</a>
         </div>
         <div class="bg-accent-50 rounded-lg border border-accent-200 p-4">
