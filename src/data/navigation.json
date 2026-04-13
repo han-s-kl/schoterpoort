@@ -1,41 +1,104 @@
 [
-  { "label": "Home", "href": "/" },
-  { "label": "Contact", "href": "/contact" },
-  { "label": "Telefoonnummers", "href": "/telefoonnummers" },
+  {
+    "label": "Home",
+    "href": "/"
+  },
+  {
+    "label": "Contact",
+    "href": "/contact"
+  },
+  {
+    "label": "Telefoonnummers",
+    "href": "/telefoonnummers"
+  },
   {
     "label": "Medewerkers",
     "href": "/medewerkers",
     "children": [
-      { "label": "Huisartsen", "href": "/medewerkers/huisartsen" },
-      { "label": "Praktijkondersteuners", "href": "/medewerkers/praktijkondersteuners" },
-      { "label": "Praktijkassistenten", "href": "/medewerkers/praktijkassistenten" },
-      { "label": "Huisartsen in opleiding", "href": "/medewerkers/huisartsen-in-opleiding" }
+      {
+        "label": "Huisartsen",
+        "href": "/medewerkers/huisartsen"
+      },
+      {
+        "label": "Praktijkondersteuners",
+        "href": "/medewerkers/praktijkondersteuners"
+      },
+      {
+        "label": "Praktijkassistenten",
+        "href": "/medewerkers/praktijkassistenten"
+      },
+      {
+        "label": "Huisartsen in opleiding",
+        "href": "/medewerkers/huisartsen-in-opleiding"
+      }
     ]
   },
   {
     "label": "Diensten",
     "href": "#",
     "children": [
-      { "label": "Spreekuur & afspraken", "href": "/spreekuur-afspraken" },
-      { "label": "Herhaalrecept", "href": "/herhaalrecept" },
-      { "label": "Apotheek", "href": "/apotheek" },
-      { "label": "Huisbezoek", "href": "/huisbezoek" },
-      { "label": "Spoedpost", "href": "/spoedpost" },
-      { "label": "Patientenomgeving", "href": "/patientenomgeving" },
-      { "label": "Contact kinderen (<16)", "href": "/contact#under16" }
+      {
+        "label": "Spreekuur & afspraken",
+        "href": "/spreekuur-afspraken"
+      },
+      {
+        "label": "Herhaalrecept",
+        "href": "/herhaalrecept"
+      },
+      {
+        "label": "Apotheek",
+        "href": "/apotheek"
+      },
+      {
+        "label": "Huisbezoek",
+        "href": "/huisbezoek"
+      },
+      {
+        "label": "Spoedpost/Waarneming",
+        "href": "/spoedpost"
+      },
+      {
+        "label": "Patientenomgeving",
+        "href": "/patientenomgeving"
+      },
+      {
+        "label": "Contact kinderen (<16)",
+        "href": "/contact#under16"
+      }
     ]
   },
   {
     "label": "Praktisch",
     "href": "#",
     "children": [
-      { "label": "Tarieven 2025", "href": "/tarieven-2025" },
-      { "label": "Eigen risico", "href": "/eigen-risico" },
-      { "label": "Klachtenregeling", "href": "/klachtenregeling" },
-      { "label": "Administratieformulier", "href": "/administratieformulier" },
-      { "label": "Urineonderzoekformulier", "href": "/urineonderzoekformulier" },
-      { "label": "Vacatures", "href": "/vacatures" },
-      { "label": "Gezondheidsinfo", "href": "/gezondheidsinfo" }
+      {
+        "label": "Tarieven 2025",
+        "href": "/tarieven-2025"
+      },
+      {
+        "label": "Eigen risico",
+        "href": "/eigen-risico"
+      },
+      {
+        "label": "Klachtenregeling",
+        "href": "/klachtenregeling"
+      },
+      {
+        "label": "Administratieformulier",
+        "href": "/administratieformulier"
+      },
+      {
+        "label": "Urineonderzoekformulier",
+        "href": "/urineonderzoekformulier"
+      },
+      {
+        "label": "Vacatures",
+        "href": "/vacatures"
+      },
+      {
+        "label": "Gezondheidsinfo",
+        "href": "/gezondheidsinfo"
+      }
     ]
   }
 ]
