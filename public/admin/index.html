@@ -989,6 +989,8 @@
     const HOME_EN_PATH = 'src/data/home-en.json';
     const SPREEKUUR_EN_PATH = 'src/data/spreekuur-en.json';
     const PATIENTENOMGEVING_EN_PATH = 'src/data/patientenomgeving-en.json';
+    const NAVIGATION_PATH = 'src/data/navigation.json';
+    const NAVIGATION_EN_PATH = 'src/data/navigation-en.json';
 
     const PAGE_FIELDS = [
       { name: 'title', label: 'Titel', type: 'string' },
@@ -1059,6 +1061,13 @@
       'praktijkondersteuners': {
         title: 'Praktijkondersteuners -- inleidende tekst',
         breadcrumb: 'Medewerkers',
+        // Wrapper markdown file that owns the page-level title + description
+        // via its frontmatter. For praktijkondersteuners it's a dedicated
+        // frontmatter-only file (no body), separate from the three section
+        // files below. For the other two layouts the pageFile doubles as the
+        // first (and only) section file.
+        pageFileNL: 'src/content/pages/praktijkondersteuners.md',
+        pageFileEN: 'src/content/pages-en/praktijkondersteuners.md',
         sections: [
           {
             sectionLabel: 'Tekst -- Praktijkondersteuners somatiek',
@@ -1089,6 +1098,8 @@
       'praktijkassistenten': {
         title: 'Praktijkassistenten -- inleidende tekst',
         breadcrumb: 'Medewerkers',
+        pageFileNL: 'src/content/pages/praktijkassistenten.md',
+        pageFileEN: 'src/content/pages-en/praktijkassistenten.md',
         sections: [
           {
             sectionLabel: 'Tekst -- Praktijkassistenten',
@@ -1102,6 +1113,8 @@
       },
       'huisartsen-in-opleiding': {
         title: 'Huisartsen in opleiding -- inleidende tekst',
+        pageFileNL: 'src/content/pages/huisartsen-in-opleiding.md',
+        pageFileEN: 'src/content/pages-en/huisartsen-in-opleiding.md',
         breadcrumb: 'Medewerkers',
         sections: [
           {
@@ -1116,35 +1129,41 @@
       },
     };
 
+    // NAV_ITEMS holds the structural blueprint (mode, file paths, layoutKey,
+    // filterKey). Each leaf that represents a public page also has a navHref
+    // so the sidebar can overlay the human-readable label from navigation.json
+    // and the Pagina-instellingen editor knows which nav entry to write back
+    // when the menu label changes. For NL the href starts with "/", for EN
+    // the same href is prefixed with "/en" at lookup time.
     const NAV_ITEMS = [
       { label: 'Algemene gegevens', mode: 'practice-info' },
-      { label: 'Home', mode: 'home' },
+      { label: 'Home', mode: 'home', navHref: '/' },
       { type: 'separator' },
       {
         label: 'Medewerkers', children: [
-          { label: 'Huisartsen', mode: 'staff', filterKey: 'huisartsen' },
-          { label: 'Praktijkondersteuners', mode: 'staff-page', layoutKey: 'praktijkondersteuners', filterKey: 'praktijkondersteuners' },
-          { label: 'Praktijkassistenten', mode: 'staff-page', layoutKey: 'praktijkassistenten', filterKey: 'praktijkassistenten' },
-          { label: 'Huisartsen in opleiding', mode: 'staff-page', layoutKey: 'huisartsen-in-opleiding', filterKey: 'huisartsen-in-opleiding' },
+          { label: 'Huisartsen', mode: 'staff', filterKey: 'huisartsen', navHref: '/medewerkers/huisartsen' },
+          { label: 'Praktijkondersteuners', mode: 'staff-page', layoutKey: 'praktijkondersteuners', filterKey: 'praktijkondersteuners', navHref: '/medewerkers/praktijkondersteuners' },
+          { label: 'Praktijkassistenten', mode: 'staff-page', layoutKey: 'praktijkassistenten', filterKey: 'praktijkassistenten', navHref: '/medewerkers/praktijkassistenten' },
+          { label: 'Huisartsen in opleiding', mode: 'staff-page', layoutKey: 'huisartsen-in-opleiding', filterKey: 'huisartsen-in-opleiding', navHref: '/medewerkers/huisartsen-in-opleiding' },
         ]
       },
       {
         label: 'Diensten', children: [
-          { label: 'Spreekuur & afspraken', mode: 'spreekuur' },
-          { label: 'Herhaalrecept', mode: 'herhaalrecept' },
-          { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS },
-          { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS },
-          { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS },
-          { label: 'Patientenomgeving', mode: 'patientenomgeving' },
+          { label: 'Spreekuur & afspraken', mode: 'spreekuur', navHref: '/spreekuur-afspraken' },
+          { label: 'Herhaalrecept', mode: 'herhaalrecept', navHref: '/herhaalrecept' },
+          { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS, navHref: '/apotheek' },
+          { label: 'Huisbezoek', mode: 'markdown', file: 'src/content/pages/huisbezoek.md', fields: PAGE_FIELDS, navHref: '/huisbezoek' },
+          { label: 'Spoedpost', mode: 'markdown', file: 'src/content/pages/spoedpost.md', fields: PAGE_FIELDS, navHref: '/spoedpost' },
+          { label: 'Patientenomgeving', mode: 'patientenomgeving', navHref: '/patientenomgeving' },
         ]
       },
       {
         label: 'Praktisch', children: [
-          { label: 'Tarieven 2025', mode: 'markdown', file: 'src/content/pages/tarieven-2025.md', fields: PAGE_FIELDS },
-          { label: 'Eigen risico', mode: 'markdown', file: 'src/content/pages/eigen-risico.md', fields: PAGE_FIELDS },
-          { label: 'Administratieformulier', mode: 'markdown', file: 'src/content/pages/administratieformulier.md', fields: PAGE_FIELDS },
-          { label: 'Urineonderzoekformulier', mode: 'markdown', file: 'src/content/pages/urineonderzoekformulier.md', fields: PAGE_FIELDS },
-          { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS },
+          { label: 'Tarieven 2025', mode: 'markdown', file: 'src/content/pages/tarieven-2025.md', fields: PAGE_FIELDS, navHref: '/tarieven-2025' },
+          { label: 'Eigen risico', mode: 'markdown', file: 'src/content/pages/eigen-risico.md', fields: PAGE_FIELDS, navHref: '/eigen-risico' },
+          { label: 'Administratieformulier', mode: 'markdown', file: 'src/content/pages/administratieformulier.md', fields: PAGE_FIELDS, navHref: '/administratieformulier' },
+          { label: 'Urineonderzoekformulier', mode: 'markdown', file: 'src/content/pages/urineonderzoekformulier.md', fields: PAGE_FIELDS, navHref: '/urineonderzoekformulier' },
+          { label: 'Vacatures', mode: 'markdown', file: 'src/content/pages/vacatures.md', fields: PAGE_FIELDS, navHref: '/vacatures' },
           {
             label: 'Gezondheidsinfo', children: [
               { label: 'Reizigersadvisering', mode: 'markdown', editor: 'richtext', file: 'src/content/pages/reizigersadvisering.md', fields: PAGE_FIELDS },
@@ -1160,6 +1179,18 @@
       },
     ];
 
+    // Returns the effective label for a nav leaf: the label from
+    // navigation.json (if we have a cache and the leaf has a navHref) or the
+    // hardcoded fallback from NAV_ITEMS. The navHref in NAV_ITEMS is the NL
+    // path; for EN lookup we prefix with /en but the leaf.href lookup uses the
+    // EN path as stored in navigation-en.json.
+    function effectiveNavLabel(item) {
+      if (!item.navHref) return item.label;
+      const href = currentLang === 'en' ? '/en' + item.navHref : item.navHref;
+      const fromJson = getMenuLabelForHref(href);
+      return fromJson || item.label;
+    }
+
     // --- STATE ---
     let token = null;
     let currentMode = null;     // 'markdown' | 'staff' | 'blocks'
@@ -1171,6 +1202,9 @@
     let currentStaffIndex = null;
     let currentStaffCategory = null;
     let currentStaffPage = null; // { layoutKey, sections: [{ section, path, sha, meta }] }
+    // Navigation cache per language, used by the sidebar label overlay and the
+    // Pagina-instellingen menuLabel field.
+    let navigationCache = { nl: null, en: null }; // { data, sha }
     let blockFiles = [];        // [{ path, sha, meta, body }, ...]
     let deletedBlocks = [];     // [{ path, sha }] -- te verwijderen bij next save
     let spreekuurSha = null;
@@ -1367,6 +1401,159 @@
       return fm + body;
     }
 
+    // --- NAVIGATION HELPERS ---
+    // The navigation labels for the public hamburger menu live in
+    // src/data/navigation.json (and -en.json). The CMS caches these per
+    // language so the sidebar can show the same labels as the public site
+    // and the Pagina-instellingen editor can write new labels back.
+    async function ensureNavigationLoaded(lang) {
+      const key = lang === 'en' ? 'en' : 'nl';
+      if (navigationCache[key] && navigationCache[key].data) return navigationCache[key];
+      const path = key === 'en' ? NAVIGATION_EN_PATH : NAVIGATION_PATH;
+      const { content, sha } = await readFile(path);
+      navigationCache[key] = { data: JSON.parse(content), sha };
+      return navigationCache[key];
+    }
+
+    function invalidateNavigationCache(lang) {
+      if (lang === 'en') navigationCache.en = null;
+      else if (lang === 'nl') navigationCache.nl = null;
+      else navigationCache = { nl: null, en: null };
+    }
+
+    function findNavLeafByHref(navItems, href) {
+      if (!navItems) return null;
+      for (const item of navItems) {
+        if (item.href === href) return item;
+        if (item.children) {
+          const found = findNavLeafByHref(item.children, href);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+
+    function getCurrentLangKey() {
+      return currentLang === 'en' ? 'en' : 'nl';
+    }
+
+    function getMenuLabelForHref(href) {
+      const cache = navigationCache[getCurrentLangKey()];
+      if (!cache || !cache.data) return null;
+      const leaf = findNavLeafByHref(cache.data, href);
+      return leaf ? leaf.label : null;
+    }
+
+    async function saveMenuLabel(href, newLabel) {
+      const key = getCurrentLangKey();
+      const cache = await ensureNavigationLoaded(currentLang);
+      const leaf = findNavLeafByHref(cache.data, href);
+      if (!leaf) {
+        console.warn('[saveMenuLabel] no nav leaf matches', href);
+        return;
+      }
+      if (leaf.label === newLabel) return; // no change
+      leaf.label = newLabel;
+      const path = key === 'en' ? NAVIGATION_EN_PATH : NAVIGATION_PATH;
+      const content = JSON.stringify(cache.data, null, 2) + '\n';
+      const msg = `Update menu label for ${href}${key === 'en' ? ' (EN)' : ''} via CMS`;
+      cache.sha = await saveFile(path, content, cache.sha, msg);
+    }
+
+    // --- PAGE SETTINGS HELPER ---
+    // Renders a "Pagina-instellingen" section with editable Pagina titel,
+    // Menu titel, read-only URL, and Beschrijving. Each input has a data
+    // attribute so gatherPageSettingsFrom() can find it later regardless of
+    // which panel it lives in. If navHref is falsy the Menu titel row and
+    // URL row are omitted (for pages that do not appear in the nav).
+    function renderPageSettings({ navHref, pageTitle, menuLabel, description, showDescription = true }) {
+      const container = document.createElement('div');
+      container.className = 'spreekuur-section';
+      container.dataset.pageSettings = 'section';
+      const header = document.createElement('div');
+      header.className = 'spreekuur-section-header';
+      header.textContent = 'Pagina-instellingen';
+      container.appendChild(header);
+      const body = document.createElement('div');
+      body.className = 'spreekuur-section-body';
+
+      function addLabelled(labelText, inputEl) {
+        const lbl = document.createElement('div');
+        lbl.style.cssText = 'font-size:0.6875rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.25rem;margin-top:0.75rem;';
+        lbl.textContent = labelText;
+        body.appendChild(lbl);
+        body.appendChild(inputEl);
+      }
+
+      // Pagina titel
+      const pageTitleInput = document.createElement('input');
+      pageTitleInput.type = 'text';
+      pageTitleInput.value = pageTitle || '';
+      pageTitleInput.dataset.pageSettings = 'pageTitle';
+      pageTitleInput.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+      addLabelled('Pagina titel (h1)', pageTitleInput);
+
+      // Menu titel + URL (only if the page lives in the navigation)
+      if (navHref) {
+        const menuLabelInput = document.createElement('input');
+        menuLabelInput.type = 'text';
+        menuLabelInput.value = menuLabel || '';
+        menuLabelInput.dataset.pageSettings = 'menuLabel';
+        menuLabelInput.dataset.navHref = navHref;
+        menuLabelInput.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+        addLabelled('Menu titel', menuLabelInput);
+
+        const urlInfo = document.createElement('div');
+        urlInfo.style.cssText = 'font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;margin-bottom:0.25rem;';
+        urlInfo.innerHTML = `URL: <code style="background:var(--editor-bg);padding:0.125rem 0.375rem;border-radius:4px;">${navHref}</code>`;
+        body.appendChild(urlInfo);
+      }
+
+      // Beschrijving
+      if (showDescription) {
+        const descInput = document.createElement('input');
+        descInput.type = 'text';
+        descInput.value = description || '';
+        descInput.dataset.pageSettings = 'description';
+        descInput.style.cssText = 'width:100%;padding:0.5rem 0.625rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.875rem;font-family:var(--font);';
+        addLabelled('Beschrijving (SEO meta)', descInput);
+      }
+
+      container.appendChild(body);
+      return container;
+    }
+
+    function gatherPageSettingsFrom(panel) {
+      const pageTitleInput = panel.querySelector('input[data-page-settings="pageTitle"]');
+      const menuLabelInput = panel.querySelector('input[data-page-settings="menuLabel"]');
+      const descInput = panel.querySelector('input[data-page-settings="description"]');
+      return {
+        pageTitle: pageTitleInput ? pageTitleInput.value : null,
+        menuLabel: menuLabelInput ? menuLabelInput.value : null,
+        menuLabelHref: menuLabelInput ? menuLabelInput.dataset.navHref : null,
+        description: descInput ? descInput.value : null,
+      };
+    }
+
+    // Remove any previously-mounted Pagina-instellingen section from panel and
+    // prepend a fresh one. Used by every editor that has an editable page
+    // title + menu title. Returns the inserted element.
+    function prependPageSettingsTo(panel, opts) {
+      const existing = panel.querySelector('[data-page-settings="section"]');
+      if (existing) existing.remove();
+      const el = renderPageSettings(opts);
+      panel.insertBefore(el, panel.firstChild);
+      return el;
+    }
+
+    // Resolves the NAV href for the current language -- the stored NAV_ITEMS
+    // href is the NL path; for EN we prefix with /en. Returns null if the
+    // item has no navHref at all.
+    function navHrefForCurrentLang(item) {
+      if (!item || !item.navHref) return null;
+      return currentLang === 'en' ? '/en' + item.navHref : item.navHref;
+    }
+
     // --- UI HELPERS ---
     function setStatus(text, type = '') {
       const el = document.getElementById('status');
@@ -1501,7 +1688,7 @@
               for (const subChild of child.children) {
                 const subBtn = document.createElement('button');
                 subBtn.className = 'nav-item';
-                subBtn.textContent = subChild.label;
+                subBtn.textContent = effectiveNavLabel(subChild);
                 subBtn.dataset.navId = `${item.label}/${child.label}/${subChild.label}`;
                 subBtn.addEventListener('click', () => openItem(subChild));
                 subContainer.appendChild(subBtn);
@@ -1515,7 +1702,7 @@
             } else {
               const btn = document.createElement('button');
               btn.className = 'nav-item';
-              btn.textContent = child.label;
+              btn.textContent = effectiveNavLabel(child);
               btn.dataset.navId = `${item.label}/${child.label}`;
               btn.addEventListener('click', () => openItem(child));
               childContainer.appendChild(btn);
@@ -1533,7 +1720,7 @@
           // Leaf item
           const btn = document.createElement('button');
           btn.className = 'nav-item';
-          btn.textContent = item.label;
+          btn.textContent = effectiveNavLabel(item);
           btn.dataset.navId = item.label;
           btn.addEventListener('click', () => openItem(item));
           nav.appendChild(btn);
@@ -1707,6 +1894,19 @@
 
           showView('editor');
         }
+
+        // Mount Pagina-instellingen at the top of the editor panel so every
+        // markdown-driven page has the same pageTitle/menuLabel/description UX.
+        // The navHref we store on the menuLabel input is the lang-prefixed
+        // href, so saveMenuLabel writes to the right file.
+        const editorPanel = document.getElementById('editor-panel');
+        const langHref = navHrefForCurrentLang(item);
+        prependPageSettingsTo(editorPanel, {
+          navHref: langHref,
+          pageTitle: meta.title,
+          menuLabel: langHref ? getMenuLabelForHref(langHref) : null,
+          description: meta.description,
+        });
 
         document.getElementById('save-btn').disabled = false;
         addTitleEditButton();
@@ -2174,11 +2374,35 @@
           return { section, path, sha, meta, body };
         }));
 
+        // Load the page-level file (may overlap with a section file). When it
+        // overlaps we reuse the already-loaded entry so we don't read twice.
+        const pageFilePath = currentLang === 'en' ? layout.pageFileEN : layout.pageFileNL;
+        let pageEntry = loaded.find(e => e.path === pageFilePath);
+        if (!pageEntry && pageFilePath) {
+          const { content, sha } = await readFile(pageFilePath);
+          const { meta, body } = parseFrontmatter(content);
+          pageEntry = { section: null, path: pageFilePath, sha, meta, body };
+        }
+        currentStaffPage.pageEntry = pageEntry || null;
+
         // Load staff data so we can render the person tiles at the top
         await loadStaffData();
 
         const panel = document.getElementById('staff-page-panel');
         panel.innerHTML = '';
+
+        // Pagina-instellingen section at the top: sources pageTitle +
+        // description from the page-level markdown wrapper, menuLabel from
+        // navigation.json via the matching nav item's navHref.
+        if (pageEntry) {
+          const langHref = navHrefForCurrentLang(navItem);
+          prependPageSettingsTo(panel, {
+            navHref: langHref,
+            pageTitle: pageEntry.meta.title,
+            menuLabel: langHref ? getMenuLabelForHref(langHref) : null,
+            description: pageEntry.meta.description,
+          });
+        }
 
         // --- Person tiles section (top) ---
         const peopleSection = document.createElement('div');
@@ -2245,15 +2469,40 @@
     async function saveStaffPage() {
       if (!currentStaffPage) return;
       const panel = document.getElementById('staff-page-panel');
+      // Pull Pagina-instellingen values and merge into the page-level meta.
+      const settings = gatherPageSettingsFrom(panel);
+      const pageEntry = currentStaffPage.pageEntry;
+      if (pageEntry) {
+        if (settings.pageTitle !== null) pageEntry.meta.title = settings.pageTitle;
+        if (settings.description !== null) pageEntry.meta.description = settings.description;
+      }
+      // Save each section. If a section's path equals the page-level file
+      // (common case for praktijkassistenten + huisartsen-in-opleiding where
+      // section[0] IS the page file) we use the updated meta so pageTitle +
+      // description get persisted in the same write.
       for (let i = 0; i < currentStaffPage.sections.length; i++) {
         const entry = currentStaffPage.sections[i];
         const editable = panel.querySelector(`.editable-field[data-section-index="${i}"]`);
         if (!editable) continue;
         const newBody = htmlToMdInline(editable.innerHTML);
-        const content = serializeFrontmatter(entry.meta, newBody, PAGE_FIELDS);
+        const meta = (pageEntry && entry.path === pageEntry.path) ? pageEntry.meta : entry.meta;
+        const content = serializeFrontmatter(meta, newBody, PAGE_FIELDS);
         const slug = entry.path.split('/').pop().replace('.md', '');
-        const msg = `Update ${slug} via CMS`;
+        const msg = `Update ${slug}${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
         entry.sha = await saveFile(entry.path, content, entry.sha, msg);
+        if (pageEntry && entry.path === pageEntry.path) pageEntry.sha = entry.sha;
+      }
+      // If the page-level file is NOT one of the sections, save it as its own
+      // (frontmatter-only) write. This is the praktijkondersteuners case.
+      if (pageEntry && !currentStaffPage.sections.some(s => s.path === pageEntry.path)) {
+        const content = serializeFrontmatter(pageEntry.meta, pageEntry.body || '', PAGE_FIELDS);
+        const slug = pageEntry.path.split('/').pop().replace('.md', '');
+        const msg = `Update ${slug}${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+        pageEntry.sha = await saveFile(pageEntry.path, content, pageEntry.sha, msg);
+      }
+      // Persist menu label change (if any) to navigation.json.
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
       }
     }
 
@@ -2417,11 +2666,21 @@
 
     async function saveMarkdown() {
       if (!currentFile) return;
+      // Pull pageTitle/description from the Pagina-instellingen section before
+      // serializing the frontmatter -- it becomes the source of truth.
+      const settings = gatherPageSettingsFrom(document.getElementById('editor-panel'));
+      if (settings.pageTitle !== null && currentMeta) currentMeta.title = settings.pageTitle;
+      if (settings.description !== null && currentMeta) currentMeta.description = settings.description;
       const content = gatherMarkdownContent();
       if (!content) return;
       const slug = currentFile.path.split('/').pop().replace('.md', '');
-      const msg = `Update ${slug} via CMS`;
+      const msg = `Update ${slug}${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       currentFile.sha = await saveFile(currentFile.path, content, currentFile.sha, msg);
+      // Persist menu label change (if any) to navigation.json for the current
+      // language. The helper short-circuits if the label is unchanged.
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
     }
 
     async function saveStaff() {
@@ -2977,6 +3236,16 @@
         const panel = document.getElementById('spreekuur-panel');
         panel.innerHTML = '';
 
+        // Pagina-instellingen at the top
+        const spreekuurNav = (NAV_ITEMS.find(n => n.label === 'Diensten')?.children || []).find(c => c.mode === 'spreekuur');
+        const spreekuurLangHref = navHrefForCurrentLang(spreekuurNav);
+        prependPageSettingsTo(panel, {
+          navHref: spreekuurLangHref,
+          pageTitle: data.pageTitle,
+          menuLabel: spreekuurLangHref ? getMenuLabelForHref(spreekuurLangHref) : null,
+          description: data.pageDescription,
+        });
+
         if (currentLang !== 'en') {
           await ensurePracticesLoaded();
           for (const block of buildSpreekuurReadOnlyBlocks(practicesData)) panel.appendChild(block);
@@ -3181,10 +3450,16 @@
 
     async function saveSpreekuur() {
       const data = gatherSpreekuurData();
+      const settings = gatherPageSettingsFrom(document.getElementById('spreekuur-panel'));
+      if (settings.pageTitle !== null) data.pageTitle = settings.pageTitle;
+      if (settings.description !== null) data.pageDescription = settings.description;
       const content = JSON.stringify(data, null, 2) + '\n';
       const spreekuurPath = currentLang === 'en' ? SPREEKUUR_EN_PATH : SPREEKUUR_PATH;
       const msg = `Update spreekuur${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       spreekuurSha = await saveFile(spreekuurPath, content, spreekuurSha, msg);
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
     }
 
     // --- PRACTICE INFO EDITOR ---
@@ -3474,6 +3749,16 @@
         const panel = document.getElementById('herhaalrecept-panel');
         panel.innerHTML = '';
 
+        // Pagina-instellingen at the top
+        const herhNav = (NAV_ITEMS.find(n => n.label === 'Diensten')?.children || []).find(c => c.mode === 'herhaalrecept');
+        const herhLangHref = navHrefForCurrentLang(herhNav);
+        prependPageSettingsTo(panel, {
+          navHref: herhLangHref,
+          pageTitle: herhaalreceptData.pageTitle,
+          menuLabel: herhLangHref ? getMenuLabelForHref(herhLangHref) : null,
+          description: herhaalreceptData.pageDescription,
+        });
+
         await ensurePracticesLoaded();
 
         for (const section of HERHAALRECEPT_SECTIONS) {
@@ -3543,10 +3828,16 @@
           herhaalreceptData[section.key] = items;
         }
       }
+      const settings = gatherPageSettingsFrom(document.getElementById('herhaalrecept-panel'));
+      if (settings.pageTitle !== null) herhaalreceptData.pageTitle = settings.pageTitle;
+      if (settings.description !== null) herhaalreceptData.pageDescription = settings.description;
       const jsonContent = JSON.stringify(herhaalreceptData, null, 2) + '\n';
       const path = currentLang === 'en' ? HERHAALRECEPT_EN_PATH : HERHAALRECEPT_PATH;
       const msg = currentLang === 'en' ? 'Update herhaalrecept-en via CMS' : 'Update herhaalrecept via CMS';
       herhaalreceptSha = await saveFile(path, jsonContent, herhaalreceptSha, msg);
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
     }
 
     // --- HOME EDITOR ---
@@ -3586,6 +3877,17 @@
 
         const panel = document.getElementById('home-panel');
         panel.innerHTML = '';
+
+        // Pagina-instellingen section at the top. Home has a dedicated nav
+        // leaf ("Home" -> "/" or "/en").
+        const homeNavItem = NAV_ITEMS.find(n => n.mode === 'home');
+        const homeLangHref = navHrefForCurrentLang(homeNavItem);
+        prependPageSettingsTo(panel, {
+          navHref: homeLangHref,
+          pageTitle: data.pageTitle,
+          menuLabel: homeLangHref ? getMenuLabelForHref(homeLangHref) : null,
+          description: data.pageDescription,
+        });
 
         for (const section of HOME_SECTIONS) {
           const el = document.createElement('div');
@@ -3906,12 +4208,18 @@
     }
 
     async function saveHome() {
-      // Save home.json
+      // Save home.json (+ page settings overlay)
       const data = gatherHomeData();
+      const settings = gatherPageSettingsFrom(document.getElementById('home-panel'));
+      if (settings.pageTitle !== null) data.pageTitle = settings.pageTitle;
+      if (settings.description !== null) data.pageDescription = settings.description;
       const content = JSON.stringify(data, null, 2) + '\n';
       const homePath = currentLang === 'en' ? HOME_EN_PATH : HOME_PATH;
       const msg = `Update home${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       homeSha = await saveFile(homePath, content, homeSha, msg);
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
 
       // Snapshot deleted paths so we can defensively skip them in the save loop
       const deletedPaths = new Set(deletedBlocks.map(d => d.path));
@@ -4028,6 +4336,16 @@
 
         const panel = document.getElementById('patientenomgeving-panel');
         panel.innerHTML = '';
+
+        // Pagina-instellingen at the top
+        const patNav = (NAV_ITEMS.find(n => n.label === 'Diensten')?.children || []).find(c => c.mode === 'patientenomgeving');
+        const patLangHref = navHrefForCurrentLang(patNav);
+        prependPageSettingsTo(panel, {
+          navHref: patLangHref,
+          pageTitle: data.pageTitle,
+          menuLabel: patLangHref ? getMenuLabelForHref(patLangHref) : null,
+          description: data.pageDescription,
+        });
 
         for (const section of PATIENTENOMGEVING_SECTIONS) {
           const el = document.createElement('div');
@@ -4196,14 +4514,20 @@
 
     async function savePatientenomgeving() {
       const data = gatherPatientenomgevingData();
+      const settings = gatherPageSettingsFrom(document.getElementById('patientenomgeving-panel'));
+      if (settings.pageTitle !== null) data.pageTitle = settings.pageTitle;
+      if (settings.description !== null) data.pageDescription = settings.description;
       const content = JSON.stringify(data, null, 2) + '\n';
       const patPath = currentLang === 'en' ? PATIENTENOMGEVING_EN_PATH : PATIENTENOMGEVING_PATH;
       const msg = `Update patientenomgeving${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
       patientenomgevingSha = await saveFile(patPath, content, patientenomgevingSha, msg);
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
     }
 
     // --- LANGUAGE TOGGLE ---
-    function setLanguage(lang) {
+    async function setLanguage(lang) {
       const newLang = lang === 'en' ? 'en' : null;
       if (newLang === currentLang) return;
       currentLang = newLang;
@@ -4213,18 +4537,31 @@
                          (b.dataset.lang === 'nl' && newLang === null);
         b.classList.toggle('active', isActive);
       });
-      // Reload current editor in the new language
+      // Preload navigation for the new language so the sidebar picks up the
+      // right labels, then re-render the sidebar and reload the current editor.
+      try {
+        await ensureNavigationLoaded(currentLang);
+      } catch (err) {
+        console.warn('[setLanguage] navigation preload failed', err);
+      }
+      renderNav();
       if (currentNavItem) {
         openItem(currentNavItem);
       }
     }
 
     // --- INIT ---
-    function initCMS(t) {
+    async function initCMS(t) {
       token = t;
       document.getElementById('auth').style.display = 'none';
       document.body.style.background = 'var(--main-bg)';
       document.getElementById('cms').classList.add('active');
+      // Preload navigation.json so the sidebar labels match the public site.
+      try {
+        await ensureNavigationLoaded(currentLang);
+      } catch (err) {
+        console.warn('[initCMS] navigation preload failed, will fall back to hardcoded labels', err);
+      }
       renderNav();
       document.getElementById('save-btn').addEventListener('click', handleSave);
       document.querySelectorAll('.lang-btn').forEach(b => {
