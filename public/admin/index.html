@@ -2632,16 +2632,26 @@
 
     // --- SAVE ---
     let isSaving = false;
+    let saveCooldownTimer = null;
+    const SAVE_COOLDOWN_SECONDS = 60;
+
     async function handleSave() {
       // Re-entry guard. The button is also disabled below, but this flag
       // catches the edge case where a second click lands before or just
       // after the button's disabled state updates.
       if (isSaving) return;
       isSaving = true;
+      // Clear any running cooldown from a previous save (shouldn't normally
+      // happen because the save button is disabled during cooldown, but safe).
+      if (saveCooldownTimer) {
+        clearTimeout(saveCooldownTimer);
+        saveCooldownTimer = null;
+      }
       const saveBtn = document.getElementById('save-btn');
       saveBtn.disabled = true;
       setStatus('Opslaan...', 'saving');
 
+      let saveError = null;
       try {
         if (currentMode === 'markdown') {
           await saveMarkdown();
@@ -2662,14 +2672,44 @@
         } else if (currentMode === 'staff-page') {
           await saveStaffPage();
         }
-        setStatus('Opgeslagen -- live op de site over ~1 minuut', 'saved');
-        setTimeout(() => setStatus(''), 10000);
       } catch (err) {
-        setStatus(`Fout: ${err.message}`, 'error');
-      } finally {
+        saveError = err;
+      }
+
+      if (saveError) {
+        setStatus(`Fout: ${saveError.message}`, 'error');
         saveBtn.disabled = false;
         isSaving = false;
+        return;
       }
+
+      // Start the post-save cooldown. The save button stays disabled and the
+      // status ticks down each second so it's clear that (a) the change is
+      // not yet live and (b) the page cannot be re-saved until the window is
+      // over. This prevents a second save racing with the ~60s GitHub Actions
+      // deploy and gives the user a clear wait signal.
+      startSaveCooldown(SAVE_COOLDOWN_SECONDS);
+    }
+
+    function startSaveCooldown(seconds) {
+      const saveBtn = document.getElementById('save-btn');
+      let remaining = seconds;
+      function tick() {
+        if (remaining <= 0) {
+          saveBtn.disabled = false;
+          isSaving = false;
+          saveCooldownTimer = null;
+          setStatus('');
+          return;
+        }
+        setStatus(
+          `Opgeslagen. Live op de site over ~${remaining}s. Opnieuw opslaan kan over ${remaining}s.`,
+          'saved',
+        );
+        remaining--;
+        saveCooldownTimer = setTimeout(tick, 1000);
+      }
+      tick();
     }
 
     async function saveMarkdown() {
