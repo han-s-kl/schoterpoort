@@ -4045,7 +4045,7 @@
       panel.innerHTML = '';
 
       try {
-        const res = await fetch(`${API}/repos/${REPO}/commits?per_page=50&sha=${BRANCH}`, {
+        const res = await fetch(`${API}/repos/${REPO}/commits?per_page=100&sha=${BRANCH}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/vnd.github.v3+json',
