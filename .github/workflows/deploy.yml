@@ -1,8 +1,13 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (disabled)
 
+# Disabled 2026-04-14: GitHub Pages is no longer the public preview for
+# this site -- all traffic now goes through TransIP (deploy-staging.yml).
+# The workflow is kept around for easy re-enablement: remove the comment
+# below on the push trigger and re-enable GitHub Pages in repo Settings
+# if you ever need the han-s-kl.github.io mirror back.
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
   workflow_dispatch:
 
 permissions:
