@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PracticeCard from '../components/PracticeCard.astro';
 import practiceData from '../data/practices.json';
+import spreekuurData from '../data/spreekuur.json';
 ---
 
 <PageLayout title="Telefoonnummers" description="Alle telefoonnummers van Huisartsenpraktijk Schoterpoort Haarlem.">
@@ -25,6 +26,12 @@ import practiceData from '../data/practices.json';
             <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {item.label}</li>
           ))}
         </ul>
+      </div>
+
+      <!-- Terugbelafspraken -->
+      <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200 mb-8">
+        <h2 class="font-bold text-neutral-900 mb-2">Terugbelafspraken</h2>
+        <p class="text-sm text-neutral-600" set:html={spreekuurData.terugbelafspraken} />
       </div>
 
       <!-- Main number -->
