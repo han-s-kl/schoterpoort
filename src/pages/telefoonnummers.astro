@@ -17,6 +17,16 @@ import practiceData from '../data/practices.json';
         ))}
       </div>
 
+      <!-- Keuzemenu telefoon -->
+      <div class="bg-white rounded-xl p-5 border border-neutral-200 mb-8">
+        <h3 class="font-bold text-neutral-900 mb-3">Keuzemenu telefoon</h3>
+        <ul class="text-sm text-neutral-600 space-y-2">
+          {practiceData.keuzemenu.map((item) => (
+            <li><span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded text-xs">{item.key}</span> {item.label}</li>
+          ))}
+        </ul>
+      </div>
+
       <!-- Main number -->
       <div class="bg-primary-50 rounded-xl p-6 border border-primary-200 mb-8">
         <h2 class="font-bold text-lg text-neutral-900 mb-2">Algemeen nummer</h2>
