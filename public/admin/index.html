@@ -1872,24 +1872,25 @@
           document.getElementById('fields').style.display = 'none';
           renderSectionEditor(currentSections);
 
-          // Read-only context blocks for specific markdown pages (NL only)
-          if (currentLang !== 'en') {
+          // Read-only context blocks for specific markdown pages. Shown in
+          // both NL and EN mode so the editor always has practice-info
+          // reference while writing; the labels inside the blocks are NL
+          // even in EN mode (acceptable since they are read-only context).
           await ensurePracticesLoaded();
           const panel = document.getElementById('editor-panel');
           const sectionsContainer = panel.querySelector('.sections-container');
           const filePath = currentFile.path;
-          if (filePath.includes('spoedpost.md')) {
+          if (filePath.endsWith('/spoedpost.md')) {
             sectionsContainer.parentNode.insertBefore(
               buildSpoedpostReadOnlyBlock(practicesData), sectionsContainer
             );
-          } else if (filePath.includes('huisbezoek.md')) {
+          } else if (filePath.endsWith('/huisbezoek.md')) {
             sectionsContainer.parentNode.appendChild(
               buildContactSpoedReadOnlyBlock(practicesData)
             );
-          } else if (filePath.includes('administratieformulier.md')) {
+          } else if (filePath.endsWith('/administratieformulier.md')) {
             const adminBlock = await buildAdminformulierReadOnlyBlock(practicesData);
             sectionsContainer.parentNode.appendChild(adminBlock);
-          }
           }
 
           showView('editor');
@@ -3246,10 +3247,9 @@
           description: data.pageDescription,
         });
 
-        if (currentLang !== 'en') {
-          await ensurePracticesLoaded();
-          for (const block of buildSpreekuurReadOnlyBlocks(practicesData)) panel.appendChild(block);
-        }
+        // Read-only practice-info reference blocks (shown in both NL and EN).
+        await ensurePracticesLoaded();
+        for (const block of buildSpreekuurReadOnlyBlocks(practicesData)) panel.appendChild(block);
 
         for (const section of SPREEKUUR_SECTIONS) {
           const el = document.createElement('div');
