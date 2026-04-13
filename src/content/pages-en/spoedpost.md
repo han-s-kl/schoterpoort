@@ -20,7 +20,7 @@ Based on your appointment, it will be determined to which location you are refer
 
 ## Viewing medical records
 
-On-call and duty doctors can - in accordance with privacy regulations - access essential medical data. You can object to (partial) access; this will be recorded in your file and can be adjusted at any time.
+The General Practitioners/Emergency Post (on-duty GP) and daytime locum GPs may, if necessary, access the most important medical data in your Schoterpoort file, in accordance with privacy legislation. Your file can be partially or fully shielded from the on-duty GP at the Emergency Post upon request. We record in our information system whether you consent to accessing your file; you can, of course, change your decision at any time.
 
 ## Cover during holidays or absence
 
