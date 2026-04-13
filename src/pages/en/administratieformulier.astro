@@ -1,21 +1,10 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import { getCollection, render } from 'astro:content';
-import practiceData from '../../data/practices.json';
-import allStaff from '../../data/staff.json';
-
-const dayMap: Record<string, string> = {
-  'maandag': 'Monday', 'dinsdag': 'Tuesday', 'woensdag': 'Wednesday',
-  'donderdag': 'Thursday', 'vrijdag': 'Friday',
-};
 
 const pages = await getCollection('pages-en');
 const page = pages.find((p) => p.id === 'administratieformulier');
 const { Content } = await render(page!);
-
-const manager = allStaff.find((s) => s.role === 'Praktijkmanager');
-const managerDays = manager?.workingDays?.map((d) => dayMap[d] || d).join(', ') || '';
-const assistKey = practiceData.keuzemenu.find((item: any) => /assistent/i.test(item.label))?.key || '3';
 ---
 
 <PageLayout title={page!.data.title} description={page!.data.description} lang="en">
@@ -24,17 +13,6 @@ const assistKey = practiceData.keuzemenu.find((item: any) => /assistent/i.test(i
       <article class="prose prose-neutral max-w-none prose-headings:text-neutral-900 prose-a:text-dark-600 prose-a:no-underline hover:prose-a:underline">
         <Content />
       </article>
-
-      <div class="mt-6 bg-neutral-50 rounded-xl p-6 border border-neutral-200">
-        <p class="text-sm text-neutral-700">For administrative requests, you can also contact the practice:</p>
-        <ul class="mt-3 text-sm text-neutral-600 space-y-1.5">
-          <li><strong>Telephone:</strong> <a href={`tel:${practiceData.phoneGeneral.replace(/\s/g, '')}`} class="text-dark-600 no-underline hover:underline">{practiceData.phoneGeneral}</a> (option {assistKey} for the assistant)</li>
-          <li><strong>Email:</strong> <a href={`mailto:${practiceData.email}`} class="text-dark-600 no-underline hover:underline">{practiceData.email}</a></li>
-          {manager && (
-            <li><strong>Practice manager:</strong> {manager.name} ({managerDays})</li>
-          )}
-        </ul>
-      </div>
     </div>
   </section>
 </PageLayout>
