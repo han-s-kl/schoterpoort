@@ -24,4 +24,4 @@ On-call and duty doctors can - in accordance with privacy regulations - access e
 
 ## Cover during holidays or absence
 
-During holidays or training, other GPs at Schoterpoort take over care. The practice remains reachable by telephone. Non-urgent matters can potentially wait until your own GP returns.
+During your GP's vacation or continuing education activities, the other GPs at Schoterpoort will take over your care. The practice remains accessible by telephone. For problems that cannot wait until your own GP returns, you will be connected to one of the practice assistants.
