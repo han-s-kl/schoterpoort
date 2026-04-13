@@ -1,16 +1,16 @@
 # Handoff -- Schoterpoort website
 
-## Status: 2 omgevingen LIVE, klaar voor (uiteindelijke) cutover naar TransIP
+## Status: 1 omgeving LIVE (TransIP staging), klaar voor cutover naar TransIP root
 
 | Omgeving | URL | Doel | Auto-deploy |
 |---|---|---|---|
-| GitHub Pages (productie via CI) | https://han-s-kl.github.io/schoterpoort/ | huidige live build | `.github/workflows/deploy.yml` op push naar main |
-| TransIP staging (in submap) | https://schoterpoort.com/staging/ | testen op echte TransIP infra | `.github/workflows/deploy-staging.yml` op push naar main |
+| TransIP staging (in submap) | https://schoterpoort.com/staging/ | enige actieve preview, CMS draait hier | `.github/workflows/deploy-staging.yml` op push naar main |
+| GitHub Pages | han-s-kl.github.io/schoterpoort/ | **UITGESCHAKELD 2026-04-14** -- geeft nu 404 | `deploy.yml` push-trigger uitgecomment |
 | schoterpoort.com root | redirect 302 naar schoterpoort.praktijkinfo.nl | huidige patient-facing site (oude WordPress) | -- |
 
-**Belangrijk:** sinds 2026-04-10 deployt elke push naar main automatisch naar **beide** omgevingen tegelijk -- ook commits die via het CMS worden gemaakt. Geen handmatig rsync meer nodig.
+**Belangrijk:** sinds 2026-04-14 draait er nog maar één auto-deploy (`deploy-staging.yml` → TransIP staging). GitHub Pages is afgesloten via `gh api -X DELETE /repos/han-s-kl/schoterpoort/pages` zodat `han-s-kl.github.io/schoterpoort/*` 404 geeft op zowel frontend als admin. Re-enablen kan altijd: push-trigger in `deploy.yml` weer aanzetten + Pages opnieuw opzetten in repo Settings.
 
-CMS: https://han-s-kl.github.io/schoterpoort/admin/ (wachtwoord: zie onder)
+CMS: https://schoterpoort.com/staging/admin/ (wachtwoord: zie onder)
 Repo: https://github.com/han-s-kl/schoterpoort (publiek)
 Branch: main
 Build: ~1 sec lokaal, ~1 min via Actions
