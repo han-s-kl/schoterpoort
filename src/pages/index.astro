@@ -282,7 +282,7 @@ const practices = practiceData.practices;
   </section>
 
   <script is:inline src="https://moetiknaardedokter.azurewebsites.net/embed/index.js" type="text/javascript"></script>
-  <script is:inline>
+  <script is:inline define:vars={{ phoneGeneral: practiceData.phoneGeneral }}>
     window.addEventListener('DOMContentLoaded', function() {
       if (window.mindd) {
         window.mindd.init({
@@ -316,7 +316,7 @@ const practices = practiceData.practices;
             termsOfUseUrl: "https://www.moetiknaardedokter.nl/gebruikersvoorwaarden/",
             name: "Huisartsenpraktijk Schoterpoort",
             phone_label: "Algemeen nummer",
-            phone_number: "023-541 03 45",
+            phone_number: phoneGeneral,
             font_family: "Raleway"
           },
           sessionTimeOutInSec: 0,
