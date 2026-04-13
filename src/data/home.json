@@ -1,6 +1,4 @@
 {
-  "pageTitle": "Home",
-  "pageDescription": "Huisartsenpraktijk Schoterpoort in Haarlem -- vier huisartsen, NPA-gecertificeerde groepspraktijk met patientenportaal.",
   "afspraakAfzeggen": "Wij verzoeken u dringend om uw afspraak uiterlijk 24 uur van tevoren telefonisch af te zeggen. Voor afspraken bij de praktijkondersteuner GGZ: minimaal 48 uur van tevoren afzeggen.",
   "kwaliteit": [
     {
@@ -33,5 +31,7 @@
     "Standaard consult is 15 minuten voor één klacht; vraag een dubbel consult aan voor meerdere klachten of psychische problematiek.",
     "Bij vermoeden van blaasontsteking: laat urinemonster achter in het koelkastje bij de ingang met ingevuld formulier.",
     "Betrouwbare gezondheidsinformatie op <a href=\"https://www.thuisarts.nl/\" style=\"color: rgb(92, 124, 250);\">thuisarts.nl</a>; gebruik <a href=\"https://moetiknaardedokter.nl\">moetiknaardedokter.nl</a> om te beoordelen of een huisartsbezoek nodig is."
-  ]
+  ],
+  "pageTitle": "Home",
+  "pageDescription": "Huisartsenpraktijk Schoterpoort in Haarlem -- vier huisartsen, NPA-gecertificeerde groepspraktijk met patientenportaal."
 }
