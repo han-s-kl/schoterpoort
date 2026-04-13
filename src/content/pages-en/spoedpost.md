@@ -2,7 +2,6 @@
 title: "Emergency post / Out-of-hours care"
 description: "Information about emergency care and out-of-hours service"
 ---
-
 ### Locations
 
 **Spaarne Gasthuis Haarlem Noord**
