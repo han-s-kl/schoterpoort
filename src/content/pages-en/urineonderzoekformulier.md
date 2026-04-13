@@ -14,4 +14,4 @@ The urine test questionnaire can be completed at home and brought along, or fill
 
 Place the urine sample together with the completed questionnaire in the cooler at the entrance of the practice.
 
-For detailed instructions on collecting urine (including for young children), see: [Urinary complaints / Urinary tract infections](/schoterpoort/en/gezondheid/urineweginfecties)
+For detailed instructions on collecting urine (including for young children), see: [Urinary complaints / Urinary tract infections](/schoterpoort/en/gezondheidsinfo/urineweginfecties)

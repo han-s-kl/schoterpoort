@@ -14,4 +14,4 @@ De vragenlijst urineonderzoek kunt u thuis invullen en meenemen, of ter plaatse 
 
 Plaats het urinemonster samen met de ingevulde vragenlijst in de koeler bij de ingang van de praktijk.
 
-Voor uitgebreide instructies over het opvangen van urine (ook bij jonge kinderen), zie: [Plasklachten / Urineweginfecties](/schoterpoort/gezondheid/urineweginfecties)
+Voor uitgebreide instructies over het opvangen van urine (ook bij jonge kinderen), zie: [Plasklachten / Urineweginfecties](/schoterpoort/gezondheidsinfo/urineweginfecties)

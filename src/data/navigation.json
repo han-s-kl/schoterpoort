@@ -35,7 +35,7 @@
       { "label": "Administratieformulier", "href": "/administratieformulier" },
       { "label": "Urineonderzoekformulier", "href": "/urineonderzoekformulier" },
       { "label": "Vacatures", "href": "/vacatures" },
-      { "label": "Gezondheidsinfo", "href": "/gezondheid" }
+      { "label": "Gezondheidsinfo", "href": "/gezondheidsinfo" }
     ]
   }
 ]
