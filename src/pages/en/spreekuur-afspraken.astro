@@ -63,7 +63,7 @@ const spoedKey = spoedItem?.key || '1';
         <div class="bg-white rounded-xl p-5 border border-neutral-200">
           <h3 class="font-bold text-neutral-900 mb-3">Opening hours</h3>
           <ul class="text-sm text-neutral-600 space-y-2">
-            <li class="flex justify-between"><span>{practiceData.openingstijden.daysEn}</span> <span class="font-medium text-neutral-800">{practiceData.openingstijden.open} -- {practiceData.openingstijden.close}</span></li>
+            <li class="flex justify-between"><span>{practiceData.openingstijden.daysEn}</span> <span class="font-medium text-neutral-800">{practiceData.openingstijden.open} - {practiceData.openingstijden.close}</span></li>
             {practiceData.avondspreekuur.enabled && (
               <li class="flex justify-between"><span>Evening consultation</span> <span class="font-medium text-neutral-800">{practiceData.avondspreekuur.time} ({practiceData.avondspreekuur.frequency})</span></li>
             )}

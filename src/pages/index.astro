@@ -141,7 +141,7 @@ const practices = practiceData.practices;
       <div class="mt-8 text-center space-y-1">
         <p class="text-sm text-neutral-500">
           <strong>Algemeen nummer:</strong> <a href={`tel:${practiceData.phoneGeneral.replace(/[\s-]/g, '')}`} class="no-underline hover:underline">{practiceData.phoneGeneral}</a> &nbsp;|&nbsp;
-          <strong>Open:</strong> {practiceData.openingstijden.daysShort} {practiceData.openingstijden.open} -- {practiceData.openingstijden.close}{practiceData.avondspreekuur.enabled && ' (avondspreekuur op afspraak)'}
+          <strong>Open:</strong> {practiceData.openingstijden.daysShort} {practiceData.openingstijden.open} - {practiceData.openingstijden.close}{practiceData.avondspreekuur.enabled && ' (avondspreekuur op afspraak)'}
         </p>
         <p class="text-sm text-neutral-500">
           <strong>Adres:</strong> {practiceData.address}

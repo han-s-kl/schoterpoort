@@ -63,7 +63,7 @@ Contact your GP:
 - If you have removed a tick that had probably been attached to the skin for 24 hours or longer.
 - If, near the tick bite, a red or blue-red spot or ring appears within a few days to three months that grows larger within a few days (erythema migrans).
 
-![Erythema migrans -- red ring around tick bite](/schoterpoort/images/health/erythema-migrans.jpg)
+![Erythema migrans - red ring around tick bite](/schoterpoort/images/health/erythema-migrans.jpg)
 
 ![Tick bite with erythema migrans](/schoterpoort/images/health/teek-migrans.jpg)
 - If you start feeling flu-like symptoms with fever, headache, muscle pain and fatigue within three months of a tick bite.
@@ -77,7 +77,7 @@ The last 5 symptoms may indicate Lyme disease. Lyme disease is treated with anti
 
 More information about tick bites and Lyme disease can be found at:
 
-- The [RIVM](http://www.rivm.nl/Onderwerpen/T/Tekenbeten_en_lyme) -- Watch the [short film about checking for tick bites](http://www.rivm.nl/Documenten_en_publicaties/Algemeen_Actueel/Multimedia/Infectieziekten/Controleren_op_tekenbeten/Download/Controleren_op_tekenbeten). The RIVM developed a free Tick Bite app that allows you to look up what a tick looks like and how to remove a tick quickly: [Android Tick Bite app](https://play.google.com/store/apps/details?id=nl.ddt.tick) and [iPhone Tick Bite app](https://itunes.apple.com/app/id894584051).
-- [Tekenradar.nl](https://tekenradar.nl) -- Check the expected tick activity before going into nature.
+- The [RIVM](http://www.rivm.nl/Onderwerpen/T/Tekenbeten_en_lyme) - Watch the [short film about checking for tick bites](http://www.rivm.nl/Documenten_en_publicaties/Algemeen_Actueel/Multimedia/Infectieziekten/Controleren_op_tekenbeten/Download/Controleren_op_tekenbeten). The RIVM developed a free Tick Bite app that allows you to look up what a tick looks like and how to remove a tick quickly: [Android Tick Bite app](https://play.google.com/store/apps/details?id=nl.ddt.tick) and [iPhone Tick Bite app](https://itunes.apple.com/app/id894584051).
+- [Tekenradar.nl](https://tekenradar.nl) - Check the expected tick activity before going into nature.
 
 *This text is from thuisarts.nl and is based on the [NHG treatment guideline Tick Bite and Erythema Migrans](https://richtlijnen.nhg.org/behandelrichtlijnen/tekenbeet-en-erythema-migrans#volledige-tekst). Last revised: 26-02-2025.*

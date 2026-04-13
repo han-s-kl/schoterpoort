@@ -23,7 +23,7 @@ The staff of Huisartsenpraktijk Schoterpoort are obliged to handle your personal
 
 ## Medication data and LSP
 
-We ask for your consent before making your medication data available to hospitals and pharmacies via the national LSP (Landelijk Schakelpunt -- National Exchange Point).
+We ask for your consent before making your medication data available to hospitals and pharmacies via the national LSP (Landelijk Schakelpunt - National Exchange Point).
 
 Huisartsenpraktijk Schoterpoort, after you have given specific consent, securely and reliably exchanges relevant medical data with the GP out-of-hours service (HAP) via the Landelijk Schakelpunt. If you have been to the HAP in the evening or at the weekend, they in turn share a consultation report with the practice. This way, the GP knows exactly what complaints you presented with at the HAP and what action was taken.
 
@@ -56,7 +56,7 @@ Huisartsenpraktijk Schoterpoort has taken the following measures and made workin
 - Health Connected backups are separate from the production environment and cannot be affected by ransomware. Backups are retained for 3 weeks.
 - HC uses ESET antivirus software.
 - HC is ISO 27001:2022 and NEN 7510:2017 certified.
-- HC conducts an annual PEN test (a simulated hacking attempt) -- this is mandatory for certification.
+- HC conducts an annual PEN test (a simulated hacking attempt) - this is mandatory for certification.
 - Development of new NEN standards (the generic standards and now also the renewal of NEN 7510) also takes place here.
 - Regarding the human factor, HC has awareness modules and staff are screened with a VOG (Certificate of Good Conduct) (not only upon joining).
   - NB: HC certificates, statement of applicability and privacy and information security policy are available online: [https://www.healthconnected.nl/over-ons/informatiebeveiliging/](https://www.healthconnected.nl/over-ons/informatiebeveiliging/)

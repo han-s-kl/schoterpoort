@@ -183,7 +183,7 @@ Later in your pregnancy, you will talk with your midwife or gynaecologist about 
 - Finding a midwife: [deverloskundige.nl](https://deverloskundige.nl/zoek-een-verloskundige).
 - Brochure: [What you need to know about alcohol, smoking and drugs before, during and after pregnancy](https://www.trimbos.nl/docs/5fe189ba-3afe-4353-84e9-006e7acd7dee.pdf).
 - Information in 16 languages about pregnancy and delivery: [zanzu.nl](https://www.zanzu.nl/nl/themas/zwanger-zijn).
-- [Nutritional recommendations for pregnant women](https://www.gezondheidsraad.nl/documenten/adviezen/2021/06/22/voedingsaanbevelingen-voor-zwangere-vrouwen) -- advice from the Health Council.
+- [Nutritional recommendations for pregnant women](https://www.gezondheidsraad.nl/documenten/adviezen/2021/06/22/voedingsaanbevelingen-voor-zwangere-vrouwen) - advice from the Health Council.
 - [NHG guideline Pregnancy and postnatal period](https://richtlijnen.nhg.org/standaarden/zwangerschap-en-kraamperiode)
 - [NHG guideline Anaemia](https://richtlijnen.nhg.org/standaarden/anemie)
 

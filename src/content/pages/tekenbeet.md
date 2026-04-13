@@ -63,7 +63,7 @@ Neem contact op met uw huisarts:
 - Als u een teek heeft verwijderd die waarschijnlijk al 24 uur of langer in de huid heeft vastgezeten.
 - Als in de buurt van een tekenbeet binnen enkele dagen tot drie maanden een rode of blauwrode vlek of ring ontstaat die binnen enkele dagen groter wordt (erythema migrans).
 
-![Erythema migrans -- rode ring rond tekenbeet](/schoterpoort/images/health/erythema-migrans.jpg)
+![Erythema migrans - rode ring rond tekenbeet](/schoterpoort/images/health/erythema-migrans.jpg)
 
 ![Tekenbeet met erythema migrans](/schoterpoort/images/health/teek-migrans.jpg)
 - Als u zich binnen drie maanden na een tekenbeet grieperig gaat voelen met koorts, hoofdpijn, spierpijn en vermoeidheid.
@@ -77,7 +77,7 @@ De laatste 5 verschijnselen kunnen wijzen op de ziekte van Lyme. De ziekte van L
 
 Meer informatie over tekenbeten en de ziekte van Lyme vindt u bij:
 
-- Het [RIVM](http://www.rivm.nl/Onderwerpen/T/Tekenbeten_en_lyme) -- Bekijk de [korte film over controleren op tekenbeten](http://www.rivm.nl/Documenten_en_publicaties/Algemeen_Actueel/Multimedia/Infectieziekten/Controleren_op_tekenbeten/Download/Controleren_op_tekenbeten). Het RIVM ontwikkelde een gratis Tekenbeet-app waarmee u kunt opzoeken hoe een teek eruit ziet en hoe u een teek snel verwijdert: [Android Tekenbeet-app](https://play.google.com/store/apps/details?id=nl.ddt.tick) en [iPhone Tekenbeet-app](https://itunes.apple.com/app/id894584051).
-- [Tekenradar.nl](https://tekenradar.nl) -- Controleer voordat u de natuur ingaat de verwachte tekenactiviteit.
+- Het [RIVM](http://www.rivm.nl/Onderwerpen/T/Tekenbeten_en_lyme) - Bekijk de [korte film over controleren op tekenbeten](http://www.rivm.nl/Documenten_en_publicaties/Algemeen_Actueel/Multimedia/Infectieziekten/Controleren_op_tekenbeten/Download/Controleren_op_tekenbeten). Het RIVM ontwikkelde een gratis Tekenbeet-app waarmee u kunt opzoeken hoe een teek eruit ziet en hoe u een teek snel verwijdert: [Android Tekenbeet-app](https://play.google.com/store/apps/details?id=nl.ddt.tick) en [iPhone Tekenbeet-app](https://itunes.apple.com/app/id894584051).
+- [Tekenradar.nl](https://tekenradar.nl) - Controleer voordat u de natuur ingaat de verwachte tekenactiviteit.
 
 *Deze tekst komt van thuisarts.nl en is gebaseerd op de [NHG behandelrichtlijn Tekenbeet en Erythema Migrans](https://richtlijnen.nhg.org/behandelrichtlijnen/tekenbeet-en-erythema-migrans#volledige-tekst). Laatst herzien op: 26-02-2025.*

@@ -18,7 +18,7 @@ You can contact the following organisations for travel advice and travel vaccina
 ## Meditel
 
 - **Locations:** Amsterdam and Alkmaar
-- **Telephone:** 0900 -- 2021040
+- **Telephone:** 0900 - 2021040
 - **Website:** [meditel.nl](https://meditel.nl/portaal/index.php/opreis/vestigingen/2015KT)
 
 ## More information

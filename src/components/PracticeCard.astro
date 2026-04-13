@@ -4,8 +4,8 @@
 // Used on home, telefoonnummers, spreekuur (NL + EN).
 //
 // Props:
-//   practice         -- entry from practices.json
-//   showWorkingDays  -- show "-- Ma, Wo" behind each doctor (spreekuur only)
+//   practice         - entry from practices.json
+//   showWorkingDays  - show "-- Ma, Wo" behind each doctor (spreekuur only)
 
 import allStaff from '../data/staff.json';
 
@@ -52,7 +52,7 @@ function photoFor(docName: string): string | null {
         {practice.doctors.map((doc) => (
           <span class="block">{doc.name}
             {showWorkingDays && doc.workingDays && doc.workingDays.length > 0 && (
-              <span class="text-neutral-400"> -- {doc.workingDays.join(', ')}</span>
+              <span class="text-neutral-400"> - {doc.workingDays.join(', ')}</span>
             )}
           </span>
         ))}

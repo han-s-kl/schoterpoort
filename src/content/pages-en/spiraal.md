@@ -84,7 +84,7 @@ After that, you can also check yourself whether the IUD is still in place, prefe
 
 After insertion of an IUD, you may feel slightly dizzy. Once you feel well again, you can go home immediately. It is advisable to take it easy for the rest of the day.
 
-If you took a painkiller beforehand, it will continue to work for a few more hours. If you did not take a painkiller, you can -- if needed -- still do so afterwards.
+If you took a painkiller beforehand, it will continue to work for a few more hours. If you did not take a painkiller, you can - if needed - still do so afterwards.
 
 Note in your diary when the IUD was inserted, which type of IUD it is, and when it needs to be replaced. It is probably harmless to leave an IUD in place for longer, but it is uncertain whether it will still be effective.
 

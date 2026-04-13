@@ -38,5 +38,5 @@ Doctors may provide relevant medical information to recognised representatives (
 
 ## More information
 
-- [Consent and information in the treatment of minors](https://www.knmg.nl/actueel/publicaties/toestemming-en-informatie-bij-behandeling-van-minderjarigen) -- KNMG
-- [Adults lacking legal capacity](https://www.knmg.nl/actueel/dossiers/zorg-voor-mensen-in-een-kwetsbare-positie/meerderjarige-wilsonbekwamen) -- KNMG
+- [Consent and information in the treatment of minors](https://www.knmg.nl/actueel/publicaties/toestemming-en-informatie-bij-behandeling-van-minderjarigen) - KNMG
+- [Adults lacking legal capacity](https://www.knmg.nl/actueel/dossiers/zorg-voor-mensen-in-een-kwetsbare-positie/meerderjarige-wilsonbekwamen) - KNMG

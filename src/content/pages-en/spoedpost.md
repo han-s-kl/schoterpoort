@@ -20,7 +20,7 @@ Based on your appointment, it will be determined to which location you are refer
 
 ## Viewing medical records
 
-On-call and duty doctors can -- in accordance with privacy regulations -- access essential medical data. You can object to (partial) access; this will be recorded in your file and can be adjusted at any time.
+On-call and duty doctors can - in accordance with privacy regulations - access essential medical data. You can object to (partial) access; this will be recorded in your file and can be adjusted at any time.
 
 ## Cover during holidays or absence
 

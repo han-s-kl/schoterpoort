@@ -183,7 +183,7 @@ Later in je zwangerschap praat je met je verloskundige of gynaecoloog over de be
 - Een verloskundige zoeken: [deverloskundige.nl](https://deverloskundige.nl/zoek-een-verloskundige).
 - Folder: [Wat je moet weten over alcohol, roken en drugs voor, tijdens en na de zwangerschap](https://www.trimbos.nl/docs/5fe189ba-3afe-4353-84e9-006e7acd7dee.pdf).
 - Informatie in 16 talen over zwanger zijn en bevalling: [zanzu.nl](https://www.zanzu.nl/nl/themas/zwanger-zijn).
-- [Voedingsaanbevelingen voor zwangere vrouwen](https://www.gezondheidsraad.nl/documenten/adviezen/2021/06/22/voedingsaanbevelingen-voor-zwangere-vrouwen) -- adviezen van de Gezondheidsraad.
+- [Voedingsaanbevelingen voor zwangere vrouwen](https://www.gezondheidsraad.nl/documenten/adviezen/2021/06/22/voedingsaanbevelingen-voor-zwangere-vrouwen) - adviezen van de Gezondheidsraad.
 - [NHG-Standaard Zwangerschap en kraamperiode](https://richtlijnen.nhg.org/standaarden/zwangerschap-en-kraamperiode)
 - [NHG-Standaard Anemie](https://richtlijnen.nhg.org/standaarden/anemie)
 

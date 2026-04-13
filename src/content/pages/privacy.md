@@ -56,7 +56,7 @@ Huisartsenpraktijk Schoterpoort heeft de volgende maatregelen genomen en werkafs
 - Back-up van Health Connected staat los van de productie omgeving en kan niet geraakt worden door ransomware. Back-ups worden 3 weken bewaard.
 - HC maakt gebruik van ESET antivirus software.
 - HC is ISO 27001:2022 en NEN 7510:2017 gecertificeerd.
-- HC houdt jaarlijks een PEN-test (een hack poging gesimuleerd) -- is verplicht voor certificering.
+- HC houdt jaarlijks een PEN-test (een hack poging gesimuleerd) - is verplicht voor certificering.
 - Tevens vindt hier plaats ontwikkeling van nieuwe NEN-normen (de generieke en nu ook de vernieuwing van de NEN 7510).
 - V.w.b. de menselijk factor heeft HC awareness modules en personeel wordt gescreend met een VOG (niet alleen bij binnenkomst).
   - NB HC certificaten, verklaring van toepasselijkheid en privacy- en informatiebeveiligingsbeleid staan online: [https://www.healthconnected.nl/over-ons/informatiebeveiliging/](https://www.healthconnected.nl/over-ons/informatiebeveiliging/)
@@ -69,7 +69,7 @@ Camerabeelden van de wachtruimte op de eerste verdieping worden vastgelegd. Deze
 
 ## Datalekken
 
-Wanneer het -- ondanks onze maatregelen -- mocht gebeuren dat derden ongeautoriseerd toegang krijgen tot uw gegevens, dan melden wij dat bij u en de Autoriteit Persoonsgegevens.
+Wanneer het - ondanks onze maatregelen - mocht gebeuren dat derden ongeautoriseerd toegang krijgen tot uw gegevens, dan melden wij dat bij u en de Autoriteit Persoonsgegevens.
 
 ## Rechten van patienten
 

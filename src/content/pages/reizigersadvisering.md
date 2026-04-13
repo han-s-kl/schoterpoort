@@ -11,7 +11,7 @@ U kunt contact opnemen met de volgende organisaties voor reisadvies en reisvacci
 ## GGD Kennemerland
 
 - **Adres:** Zijlweg 200, 2015 CK Haarlem
-- **Telefoon:** 023 -- 789 1616
+- **Telefoon:** 023 - 789 1616
 - **Website:** [www.ggdreisvaccinaties.nl](https://www.ggdreisvaccinaties.nl)
 - [GGD Kennemerland locatie Haarlem](https://www.ggdreisvaccinaties.nl/locaties/ggd-kennemerland-locatie-haarlem)
 

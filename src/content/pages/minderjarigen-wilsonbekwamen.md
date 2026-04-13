@@ -38,5 +38,5 @@ Artsen mogen relevante medische informatie verstrekken aan erkende vertegenwoord
 
 ## Meer informatie
 
-- [Toestemming en informatie bij behandeling van minderjarigen](https://www.knmg.nl/actueel/publicaties/toestemming-en-informatie-bij-behandeling-van-minderjarigen) -- KNMG
-- [Meerderjarige wilsonbekwamen](https://www.knmg.nl/actueel/dossiers/zorg-voor-mensen-in-een-kwetsbare-positie/meerderjarige-wilsonbekwamen) -- KNMG
+- [Toestemming en informatie bij behandeling van minderjarigen](https://www.knmg.nl/actueel/publicaties/toestemming-en-informatie-bij-behandeling-van-minderjarigen) - KNMG
+- [Meerderjarige wilsonbekwamen](https://www.knmg.nl/actueel/dossiers/zorg-voor-mensen-in-een-kwetsbare-positie/meerderjarige-wilsonbekwamen) - KNMG

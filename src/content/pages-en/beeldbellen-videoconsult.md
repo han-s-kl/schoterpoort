@@ -23,7 +23,7 @@ Video consultations save travel time, eliminate the need for childcare and avoid
 
 ## Limitations
 
-Not all health complaints are suitable for a video consultation -- physical examination cannot be performed remotely.
+Not all health complaints are suitable for a video consultation - physical examination cannot be performed remotely.
 
 ## Privacy
 

@@ -84,7 +84,7 @@ Daarna kunt u ook zelf controleren of het spiraaltje nog goed zit, bij voorkeur 
 
 Na het inbrengen van een spiraaltje kunt u zich even duizelig voelen. Wanneer u zich weer goed voelt, kunt u direct naar huis. Het is verstandig om het die dag verder rustig aan te doen.
 
-Wanneer u van tevoren een pijnstiller heeft ingenomen helpt die nog een paar uur. Heeft u geen pijnstiller ingenomen dan kunt u dat -- zo nodig -- achteraf alsnog doen.
+Wanneer u van tevoren een pijnstiller heeft ingenomen helpt die nog een paar uur. Heeft u geen pijnstiller ingenomen dan kunt u dat - zo nodig - achteraf alsnog doen.
 
 Noteer in uw agenda wanneer het spiraaltje is ingebracht, welk soort spiraaltje het is, en wanneer het vervangen moet worden. Het kan waarschijnlijk geen kwaad om een spiraaltje langer te laten zitten, maar het is niet zeker of het dan nog werkt.
 

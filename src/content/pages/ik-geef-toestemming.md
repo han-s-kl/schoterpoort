@@ -15,7 +15,7 @@ Wanneer uw zorgverlener het LSP gebruikt, wordt u gevraagd om toestemming te gev
 
 ## Gegevens opvragen
 
-Andere zorgverleners kunnen uw gegevens opvragen wanneer dit nodig is voor uw behandeling. Het LSP gebruikt uw BSN om te identificeren welke zorgverleners uw gegevens beschikbaar hebben gesteld. Medische gegevens worden niet opgeslagen in het LSP zelf -- alleen uw BSN en de informatie over deelnemende zorgverleners.
+Andere zorgverleners kunnen uw gegevens opvragen wanneer dit nodig is voor uw behandeling. Het LSP gebruikt uw BSN om te identificeren welke zorgverleners uw gegevens beschikbaar hebben gesteld. Medische gegevens worden niet opgeslagen in het LSP zelf - alleen uw BSN en de informatie over deelnemende zorgverleners.
 
 ## Regionale organisatie
 

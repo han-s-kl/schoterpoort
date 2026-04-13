@@ -23,7 +23,7 @@ Videoconsulten besparen reistijd, maken oppas overbodig en voorkomen wachttijd i
 
 ## Beperkingen
 
-Niet alle gezondheidsklachten zijn geschikt voor een videoconsult -- lichamelijk onderzoek kan niet op afstand worden uitgevoerd.
+Niet alle gezondheidsklachten zijn geschikt voor een videoconsult - lichamelijk onderzoek kan niet op afstand worden uitgevoerd.
 
 ## Privacy
 
