@@ -68,6 +68,10 @@
     "href": "#",
     "children": [
       {
+        "label": "New patients",
+        "href": "/en/nieuwe-patienten"
+      },
+      {
         "label": "Rates 2026",
         "href": "/en/tarieven"
       },
@@ -78,10 +82,6 @@
       {
         "label": "Complaints procedure",
         "href": "/en/klachtenregeling"
-      },
-      {
-        "label": "Administration form",
-        "href": "/en/administratieformulier"
       },
       {
         "label": "Urine test",

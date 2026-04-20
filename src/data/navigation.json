@@ -68,6 +68,10 @@
     "href": "#",
     "children": [
       {
+        "label": "Nieuwe patiënten",
+        "href": "/nieuwe-patienten"
+      },
+      {
         "label": "Tarieven 2026",
         "href": "/tarieven"
       },
@@ -78,10 +82,6 @@
       {
         "label": "Klachtenregeling",
         "href": "/klachtenregeling"
-      },
-      {
-        "label": "Administratieformulier",
-        "href": "/administratieformulier"
       },
       {
         "label": "Urineonderzoek",

@@ -11,12 +11,6 @@ Do you have a complaint about the care or service? You can submit your complaint
 
 - [Submit a complaint via the complaints procedure page](/schoterpoort/en/klachtenregeling)
 
-## Administration form
-
-For administrative requests, you can use the administration form.
-
-- [Administration form](/schoterpoort/en/administratieformulier)
-
 ## Urine test form
 
 If you suspect a bladder infection, you can leave a urine sample in the cooler at the entrance. Please complete the urine test form.

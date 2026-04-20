@@ -11,12 +11,6 @@ Heeft u een klacht over de zorg of dienstverlening? U kunt uw klacht bij ons ind
 
 - [Klacht indienen via de klachtenregeling](/schoterpoort/klachtenregeling)
 
-## Administratieformulier
-
-Voor administratieve verzoeken kunt u het administratieformulier gebruiken.
-
-- [Administratieformulier](/schoterpoort/administratieformulier)
-
 ## Urineonderzoek formulier
 
 Bij vermoeden van een blaasontsteking kunt u een urinemonster achterlaten in de koeler bij de ingang. Vul daarbij het urineonderzoek formulier in.
