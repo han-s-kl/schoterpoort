@@ -5,31 +5,36 @@
       "key": "louwet",
       "label": "Praktijk Louwet",
       "text": "Praktijk Louwet neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio? Neem contact op met de praktijk om u aan te melden.",
-      "textEn": "Praktijk Louwet is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Contact the practice to register."
+      "textEn": "Praktijk Louwet is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Contact the practice to register.",
+      "link": ""
     },
     {
       "key": "duijn",
       "label": "Praktijk Duijn",
       "text": "Praktijk Duijn neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio? Neem contact op met de praktijk om u aan te melden.",
-      "textEn": "Praktijk Duijn is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Contact the practice to register."
+      "textEn": "Praktijk Duijn is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Contact the practice to register.",
+      "link": ""
     },
     {
       "key": "steketee",
       "label": "Praktijk Steketee",
-      "text": "Praktijk Steketee neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio? Dan kunt u <a href=\"https://huisartsenpraktijk-steketee.mijnpraktijk.nl/register\">hier</a> digitaal inschrijven.",
-      "textEn": "Praktijk Steketee is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Then you can register online <a href=\"https://huisartsenpraktijk-steketee.mijnpraktijk.nl/register\">here</a>."
+      "text": "Praktijk Steketee neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio?",
+      "textEn": "Praktijk Steketee is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region?",
+      "link": "https://huisartsenpraktijk-steketee.mijnpraktijk.nl/register"
     },
     {
       "key": "vandereem",
       "label": "Praktijk Van der Eem",
       "text": "Praktijk Van der Eem neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio? Neem contact op met de praktijk om u aan te melden.",
-      "textEn": "Praktijk Van der Eem is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Contact the practice to register."
+      "textEn": "Praktijk Van der Eem is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Contact the practice to register.",
+      "link": ""
     },
     {
       "key": "geen",
       "label": "Geen ruimte",
       "text": "Op dit moment is er geen ruimte voor nieuwe inschrijvingen.",
-      "textEn": "There is currently no room for new registrations."
+      "textEn": "There is currently no room for new registrations.",
+      "link": ""
     }
   ]
 }
