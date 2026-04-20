@@ -5,7 +5,7 @@
   "standaardConsult": "15 minutes for one complaint.",
   "spoedafspraak": "Same-day guaranteed for emergencies. The assistant assesses the urgency.",
   "dubbelConsult": "For multiple complaints or mental health issues. Request this when booking the appointment.",
-  "videoconsult": "Available with GPs and mental health practice nurses via a secure connection.",
+  "videoconsult": "Available with GPs and mental health practice nurses via a secure connection. <a href=\"/schoterpoort/en/beeldbellen-videoconsult\">More information about video consultations</a>.",
   "terugbelafspraken": "You can request a callback appointment to avoid waiting times. One of the assistants will call you back. Leave your message on the voicemail and end with <strong>#</strong>. The phone system is available 24 hours for repeat prescriptions and appointment cancellations.",
   "afspraakAfzeggen": "Cancel your appointment by phone at least <strong>24 hours</strong> in advance. For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance."
 }
