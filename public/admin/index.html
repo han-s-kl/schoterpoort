@@ -940,6 +940,7 @@
         <div class="spreekuur-panel" id="practice-info-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="zivver-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="changelog-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="nieuwe-patienten-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="herhaalrecept-panel" style="display:none"></div>
@@ -1135,7 +1136,7 @@
         label: 'Praktisch', children: [
           { label: 'Tarieven 2025', mode: 'markdown', file: 'src/content/pages/tarieven.md', fields: PAGE_FIELDS, navHref: '/tarieven' },
           { label: 'Eigen risico', mode: 'markdown', file: 'src/content/pages/eigen-risico.md', fields: PAGE_FIELDS, navHref: '/eigen-risico' },
-          { label: 'Nieuwe patiënten', mode: 'markdown', file: 'src/content/pages/nieuwe-patienten.md', fields: PAGE_FIELDS, navHref: '/nieuwe-patienten' },
+          { label: 'Nieuwe patiënten', mode: 'nieuwe-patienten', file: 'src/content/pages/nieuwe-patienten.md', fields: PAGE_FIELDS, navHref: '/nieuwe-patienten' },
           { label: 'Klachtenregeling', mode: 'markdown', file: 'src/content/pages/klachtenregeling.md', fields: PAGE_FIELDS, navHref: '/klachtenregeling' },
           { label: 'Landelijk Schakelpunt', mode: 'markdown', file: 'src/content/pages/landelijk-schakelpunt.md', fields: PAGE_FIELDS, navHref: '/landelijk-schakelpunt' },
           { label: 'Urineonderzoekformulier', mode: 'markdown', file: 'src/content/pages/urineonderzoek.md', fields: PAGE_FIELDS, navHref: '/urineonderzoek' },
@@ -1560,6 +1561,7 @@
       document.getElementById('practice-info-panel').style.display = view === 'practice-info' ? 'block' : 'none';
       document.getElementById('zivver-panel').style.display = view === 'zivver' ? 'block' : 'none';
       document.getElementById('changelog-panel').style.display = view === 'changelog' ? 'block' : 'none';
+      document.getElementById('nieuwe-patienten-panel').style.display = view === 'nieuwe-patienten' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
       document.getElementById('herhaalrecept-panel').style.display = view === 'herhaalrecept' ? 'block' : 'none';
@@ -1725,6 +1727,16 @@
         item._navId = item.label;
         setActiveNav(item);
         await openZivverEditor();
+      } else if (item.mode === 'nieuwe-patienten') {
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        if (!item._navId) item._navId = item.label;
+        setActiveNav(item);
+        await openNieuwePatienten(item);
       } else if (item.mode === 'changelog') {
         item._navId = item.label;
         setActiveNav(item);
@@ -2700,6 +2712,8 @@
           await saveSpreekuur();
         } else if (currentMode === 'practice-info') {
           await savePracticeInfo();
+        } else if (currentMode === 'nieuwe-patienten') {
+          await saveNieuwePatienten();
         } else if (currentMode === 'zivver') {
           await saveZivverLinks();
         } else if (currentMode === 'home') {
@@ -3930,6 +3944,156 @@
       const content = JSON.stringify(practicesData, null, 2) + '\n';
       const msg = 'Update ZIVVER links via CMS';
       practicesSha = await saveFile(PRACTICES_PATH, content, practicesSha, msg);
+    }
+
+    // --- NIEUWE PATIENTEN EDITOR ---
+    // Custom mode that combines radio buttons for practice selection
+    // (from inschrijving.json) with the markdown page content.
+    const INSCHRIJVING_PATH = 'src/data/inschrijving.json';
+    let inschrijvingData = null;
+    let inschrijvingSha = null;
+    let nieuwePatentenNavItem = null;
+
+    async function openNieuwePatienten(navItem) {
+      currentMode = 'nieuwe-patienten';
+      nieuwePatentenNavItem = navItem;
+      showView('empty');
+      setTopbar('Nieuwe patiënten' + (currentLang === 'en' ? ' (EN)' : ''), '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        // Load inschrijving.json
+        const { content: ijContent, sha: ijSha } = await readFile(INSCHRIJVING_PATH);
+        inschrijvingData = JSON.parse(ijContent);
+        inschrijvingSha = ijSha;
+
+        // Load the markdown page
+        const mdFile = navItem.file;
+        const mdPath = getMarkdownPathForLang(mdFile);
+        const { content: mdRaw, sha: mdSha } = await readFile(mdPath);
+        const { meta, body } = parseMarkdownFile(mdRaw);
+
+        const panel = document.getElementById('nieuwe-patienten-panel');
+        panel.innerHTML = '';
+
+        // Pagina-instellingen
+        const langHref = navHrefForCurrentLang(navItem);
+        prependPageSettingsTo(panel, {
+          navHref: langHref,
+          pageTitle: meta.title,
+          menuLabel: langHref ? getMenuLabelForHref(langHref) : null,
+          description: meta.description,
+        });
+
+        // Inschrijving radio section
+        const inschSection = document.createElement('div');
+        inschSection.className = 'spreekuur-section';
+        inschSection.innerHTML = '<div class="spreekuur-section-header">Open voor nieuwe inschrijvingen</div>';
+        const inschBody = document.createElement('div');
+        inschBody.className = 'spreekuur-section-body';
+
+        const textKey = currentLang === 'en' ? 'textEn' : 'text';
+
+        for (const opt of inschrijvingData.options) {
+          const row = document.createElement('div');
+          row.style.cssText = 'margin-bottom:1rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:#fff;';
+
+          const labelRow = document.createElement('label');
+          labelRow.style.cssText = 'display:flex;align-items:center;gap:0.5rem;cursor:pointer;margin-bottom:0.5rem;font-weight:600;font-size:0.875rem;';
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = 'inschrijving-active';
+          radio.value = opt.key;
+          radio.checked = opt.key === inschrijvingData.active;
+          radio.addEventListener('change', () => {
+            // Highlight active row
+            for (const r of inschBody.querySelectorAll('[data-insch-row]')) {
+              r.style.borderColor = r.dataset.inschRow === opt.key ? 'var(--accent)' : 'var(--border)';
+              r.style.background = r.dataset.inschRow === opt.key ? '#f0fdf4' : '#fff';
+            }
+          });
+          labelRow.appendChild(radio);
+          labelRow.appendChild(document.createTextNode(opt.label));
+          row.appendChild(labelRow);
+
+          const textArea = createEditableField(opt[textKey] || '', 'html');
+          textArea.dataset.inschKey = opt.key;
+          textArea.style.cssText += 'min-height:2.5rem;font-size:0.8125rem;';
+          row.appendChild(textArea);
+
+          row.dataset.inschRow = opt.key;
+          if (opt.key === inschrijvingData.active) {
+            row.style.borderColor = 'var(--accent)';
+            row.style.background = '#f0fdf4';
+          }
+
+          inschBody.appendChild(row);
+        }
+
+        inschSection.appendChild(inschBody);
+        panel.appendChild(inschSection);
+
+        // Markdown section for general content
+        const mdSection = document.createElement('div');
+        mdSection.className = 'spreekuur-section';
+        mdSection.innerHTML = '<div class="spreekuur-section-header">Pagina-inhoud</div>';
+        const mdBody = document.createElement('div');
+        mdBody.className = 'spreekuur-section-body';
+        const mdEditor = createEditableField(body, 'markdown');
+        mdEditor.id = 'nieuwe-patienten-md';
+        mdBody.appendChild(mdEditor);
+        mdSection.appendChild(mdBody);
+        panel.appendChild(mdSection);
+
+        // Store sha + path for save
+        panel.dataset.mdPath = mdPath;
+        panel.dataset.mdSha = mdSha;
+        panel.dataset.mdTitle = meta.title || '';
+        panel.dataset.mdDescription = meta.description || '';
+
+        showView('nieuwe-patienten');
+        document.getElementById('save-btn').disabled = false;
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    async function saveNieuwePatienten() {
+      const panel = document.getElementById('nieuwe-patienten-panel');
+
+      // 1. Save inschrijving.json (active radio + texts)
+      const activeRadio = panel.querySelector('input[name="inschrijving-active"]:checked');
+      if (activeRadio) inschrijvingData.active = activeRadio.value;
+
+      const textKey = currentLang === 'en' ? 'textEn' : 'text';
+      for (const opt of inschrijvingData.options) {
+        const editor = panel.querySelector(`[data-insch-key="${opt.key}"]`);
+        if (editor) opt[textKey] = editor.innerHTML;
+      }
+
+      const ijContent = JSON.stringify(inschrijvingData, null, 2) + '\n';
+      const ijMsg = `Update inschrijving${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+      inschrijvingSha = await saveFile(INSCHRIJVING_PATH, ijContent, inschrijvingSha, ijMsg);
+
+      // 2. Save markdown page
+      const settings = gatherPageSettingsFrom(panel);
+      const title = settings.pageTitle ?? panel.dataset.mdTitle;
+      const description = settings.description ?? panel.dataset.mdDescription;
+      const mdEditor = document.getElementById('nieuwe-patienten-md');
+      const body = gatherEditableField(mdEditor, 'markdown');
+      const mdContent = `---\ntitle: "${title}"\ndescription: "${description}"\n---\n\n${body}\n`;
+      const mdPath = panel.dataset.mdPath;
+      const mdSha = panel.dataset.mdSha;
+      const mdMsg = `Update nieuwe-patienten${currentLang === 'en' ? ' (EN)' : ''} via CMS`;
+      const newSha = await saveFile(mdPath, mdContent, mdSha, mdMsg);
+      panel.dataset.mdSha = newSha;
+
+      // 3. Save menu label if changed
+      if (settings.menuLabelHref && settings.menuLabel !== null) {
+        await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
     }
 
     // --- CHANGELOG VIEW ---
