@@ -1,5 +1,5 @@
 {
-  "active": "geen",
+  "active": "duijn",
   "options": [
     {
       "key": "louwet",
@@ -32,7 +32,7 @@
     {
       "key": "geen",
       "label": "Geen ruimte",
-      "text": "Op dit moment is er geen ruimte voor nieuwe inschrijvingen.",
+      "text": "Momenteel kunnen er geen nieuwe patiënten worden aangenomen. De praktijk heeft een maximale patiëntencapaciteit. Het kan voorkomen dat de praktijk tijdelijk geen nieuwe patiënten kan aannemen om organisatorische overbelasting te voorkomen. Uitzonderingen worden gemaakt voor gezinsuitbreiding en samenwoning met reeds ingeschreven patiënten. Is dat het geval, neem dan contact op met de praktijk.",
       "textEn": "Currently, no new patients can be accepted. The practice has a maximum patient capacity. It may happen that the practice is temporarily unable to accept new patients to prevent organizational overload. Exceptions are made for family expansion and cohabitation with already registered patients. If this is the case, please contact the practice.",
       "link": ""
     }
