@@ -1,5 +1,5 @@
 ---
-title: "Ik geef toestemming"
+title: "Landelijk Schakelpunt"
 description: "Informatie over het LSP en toestemming voor het delen van medische gegevens"
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "I give consent"
+title: "National Exchange Point"
 description: "Information about the LSP and consent for sharing medical data"
 ---
 
