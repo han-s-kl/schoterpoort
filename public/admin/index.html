@@ -4434,6 +4434,7 @@
       { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text' },
       { key: 'kwaliteit', label: 'Kwaliteit', type: 'blocks', fields: ['title', 'text'] },
       { key: 'wistUDat', label: 'Wist u dat?', type: 'list' },
+      { key: 'teamPhoto', label: 'Groepsfoto', type: 'photo' },
     ];
 
     async function openHomeEditor(lang) {
@@ -4687,6 +4688,12 @@
               listContainer.appendChild(createListRow('', listContainer.children.length));
             });
             body.appendChild(addBtn);
+          } else if (section.type === 'photo') {
+            const widget = buildStaffPhotoWidget(data[section.key] || '', false);
+            const hiddenInput = widget.querySelector('input[type="hidden"]');
+            hiddenInput.dataset.key = section.key;
+            hiddenInput.dataset.editor = 'home';
+            body.appendChild(widget);
           }
 
           el.appendChild(body);
@@ -4790,6 +4797,9 @@
             }
           }
           result[section.key] = items;
+        } else if (section.type === 'photo') {
+          const hiddenInput = document.querySelector(`#home-panel input[data-key="${section.key}"][data-editor="home"]`);
+          if (hiddenInput) result[section.key] = hiddenInput.value;
         }
       }
       return result;
