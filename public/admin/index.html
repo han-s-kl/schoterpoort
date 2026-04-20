@@ -3972,7 +3972,7 @@
         const mdFile = navItem.file;
         const mdPath = getMarkdownPathForLang(mdFile);
         const { content: mdRaw, sha: mdSha } = await readFile(mdPath);
-        const { meta, body } = parseMarkdownFile(mdRaw);
+        const { meta, body } = parseFrontmatter(mdRaw);
 
         const panel = document.getElementById('nieuwe-patienten-panel');
         panel.innerHTML = '';
@@ -4096,7 +4096,7 @@
       const title = settings.pageTitle ?? panel.dataset.mdTitle;
       const description = settings.description ?? panel.dataset.mdDescription;
       const mdEditor = document.getElementById('nieuwe-patienten-md');
-      const body = gatherEditableField(mdEditor, 'markdown');
+      const body = htmlToMd(mdEditor.innerHTML);
       const mdContent = `---\ntitle: "${title}"\ndescription: "${description}"\n---\n\n${body}\n`;
       const mdPath = panel.dataset.mdPath;
       const mdSha = panel.dataset.mdSha;
