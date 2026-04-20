@@ -3,7 +3,7 @@ title: "New patients"
 description: "Information about registering as a new patient at Huisartsenpraktijk Schoterpoort"
 ---
 
-## Praktijk Steketee is currently accepting new patients
+## Open for new registrations
 
 Praktijk Steketee is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Then you can register online [here](https://huisartsenpraktijk-steketee.mijnpraktijk.nl/register).
 

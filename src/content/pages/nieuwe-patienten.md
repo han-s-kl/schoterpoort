@@ -3,7 +3,7 @@ title: "Nieuwe patiënten"
 description: "Informatie over het inschrijven als nieuwe patiënt bij Huisartsenpraktijk Schoterpoort"
 ---
 
-## Praktijk Steketee is open voor nieuwe inschrijvingen
+## Open voor nieuwe inschrijvingen
 
 Praktijk Steketee neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio? Dan kunt u [hier](https://huisartsenpraktijk-steketee.mijnpraktijk.nl/register) digitaal inschrijven.
 
