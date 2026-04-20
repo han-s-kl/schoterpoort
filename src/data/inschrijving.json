@@ -13,7 +13,7 @@
       "label": "Praktijk Duijn",
       "text": "Praktijk Duijn neemt momenteel nieuwe patiënten aan. Woont u in postcodegebied 2021 tot en met 2026 en heeft u nog geen huisarts in de regio? Dan kunt u zich inschrijving via onderstaande knop. ",
       "textEn": "Praktijk Duijn is currently accepting new patients. Do you live in postal code area 2021 through 2026 and do not yet have a GP in the region? Use the button below to register.",
-      "link": ""
+      "link": "https://huisartsenpraktijk-duijn.mijnpraktijk.nl/register"
     },
     {
       "key": "steketee",
@@ -33,7 +33,7 @@
       "key": "geen",
       "label": "Geen ruimte",
       "text": "Op dit moment is er geen ruimte voor nieuwe inschrijvingen.",
-      "textEn": "There is currently no room for new registrations.",
+      "textEn": "Currently, no new patients can be accepted. The practice has a maximum patient capacity. It may happen that the practice is temporarily unable to accept new patients to prevent organizational overload. Exceptions are made for family expansion and cohabitation with already registered patients. If this is the case, please contact the practice.",
       "link": ""
     }
   ]
