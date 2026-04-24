@@ -1932,7 +1932,7 @@
           input.type = 'text';
           const val = values[field.name];
           input.value = Array.isArray(val) ? val.join(', ') : (val ?? '');
-          input.placeholder = 'maandag, dinsdag, woensdag...';
+          input.placeholder = field.name === 'workingDays' ? 'maandag, dinsdag, woensdag...' : 'Waarde 1, Waarde 2, ...';
         } else {
           input = document.createElement('input');
           input.type = 'text';
