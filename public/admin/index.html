@@ -1049,6 +1049,7 @@
             readOnlyLabel: 'Praktijkondersteuners somatiek',
             staffFilter: s => s.role === 'Praktijkverpleegkundige somatiek',
             staffLinkFilterKey: 'praktijkondersteuners',
+            defaultRole: 'Praktijkverpleegkundige somatiek',
           },
           {
             sectionLabel: 'Tekst -- Spreekuurondersteuner',
@@ -1057,6 +1058,7 @@
             readOnlyLabel: 'Spreekuurondersteuner',
             staffFilter: s => s.role === 'Spreekuurondersteuner',
             staffLinkFilterKey: 'praktijkondersteuners',
+            defaultRole: 'Spreekuurondersteuner',
           },
           {
             sectionLabel: 'Tekst -- Praktijkondersteuners GGZ',
@@ -1065,6 +1067,7 @@
             readOnlyLabel: 'Praktijkondersteuners GGZ',
             staffFilter: s => s.role === 'Praktijkondersteuner GGZ',
             staffLinkFilterKey: 'praktijkondersteuners',
+            defaultRole: 'Praktijkondersteuner GGZ',
           },
         ],
       },
@@ -1081,6 +1084,7 @@
             readOnlyLabel: 'Praktijkassistenten',
             staffFilter: s => /Doktersassistente|Baliemedewerker/i.test(s.role),
             staffLinkFilterKey: 'praktijkassistenten',
+            defaultRole: 'Doktersassistente',
           },
         ],
       },
@@ -1097,6 +1101,7 @@
             readOnlyLabel: 'Huisartsen in opleiding',
             staffFilter: s => s.role === 'Huisarts in opleiding (HAIO)',
             staffLinkFilterKey: 'huisartsen-in-opleiding',
+            defaultRole: 'Huisarts in opleiding (HAIO)',
           },
         ],
       },
@@ -2328,6 +2333,27 @@
       staffSha = sha;
     }
 
+    // Default roles when adding a new staff member via the simple list view
+    const STAFF_DEFAULT_ROLES = {
+      'huisartsen': 'Huisarts',
+    };
+
+    async function deleteStaffMember(index, rerenderFn) {
+      const person = staffData[index];
+      if (!confirm(`Weet u zeker dat u "${person.name}" wilt verwijderen?`)) return;
+      staffData.splice(index, 1);
+      try {
+        setStatus('Verwijderen...', 'saving');
+        const content = JSON.stringify(staffData, null, 2) + '\n';
+        staffSha = await saveFile(STAFF_PATH, content, staffSha, `Delete staff: ${person.name} via CMS`);
+        setStatus(`${person.name} verwijderd`, 'saved');
+        setTimeout(() => setStatus(''), 5000);
+        if (rerenderFn) rerenderFn();
+      } catch (err) {
+        setStatus(`Fout bij verwijderen: ${err.message}`, 'error');
+      }
+    }
+
     async function openStaffList(item) {
       currentMode = 'staff';
       currentStaffIndex = null;
@@ -2345,19 +2371,46 @@
 
         staffData.forEach((person, index) => {
           if (!filterFn(person)) return;
+          const cardWrap = document.createElement('div');
+          cardWrap.style.cssText = 'position:relative;';
           const btn = document.createElement('button');
           btn.className = 'file-card';
+          btn.style.width = '100%';
           btn.innerHTML = `
             <div class="file-name">${person.name}</div>
-            <div class="file-meta">${person.role}${person.team ? ' -- ' + person.team : ''}</div>
+            <div class="file-meta">${person.role}${person.team ? ' - ' + person.team : ''}</div>
             <div class="file-meta">${(person.workingDays || []).join(', ')}</div>
           `;
           btn.addEventListener('click', () => openStaffDetail(index, item));
-          grid.appendChild(btn);
+          cardWrap.appendChild(btn);
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.innerHTML = '&times;';
+          delBtn.title = `${person.name} verwijderen`;
+          delBtn.style.cssText = 'position:absolute;top:0.25rem;right:0.25rem;background:rgba(0,0,0,0.05);border:none;border-radius:4px;width:22px;height:22px;font-size:16px;line-height:1;cursor:pointer;color:#888;z-index:1;';
+          delBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteStaffMember(index, () => openStaffList(item));
+          });
+          cardWrap.appendChild(delBtn);
+          grid.appendChild(cardWrap);
         });
 
+        // Add button
+        const addBtn = document.createElement('button');
+        addBtn.className = 'add-row-btn';
+        addBtn.textContent = '+ Persoon toevoegen';
+        addBtn.style.cssText = 'margin-top:0.75rem;';
+        addBtn.addEventListener('click', () => {
+          const defaultRole = STAFF_DEFAULT_ROLES[item.filterKey] || 'Medewerker';
+          const newPerson = { name: 'Nieuwe medewerker', role: defaultRole, workingDays: [] };
+          staffData.push(newPerson);
+          openStaffDetail(staffData.length - 1, item);
+        });
+        grid.appendChild(addBtn);
+
         showView('staff-list');
-        const count = grid.children.length;
+        const count = grid.querySelectorAll('.file-card').length;
         setStatus(`${count} medewerker${count !== 1 ? 's' : ''}`, '');
       } catch (err) {
         setStatus(`Fout: ${err.message}`, 'error');
@@ -2466,37 +2519,61 @@
           });
         }
 
-        // --- Person tiles section (top) ---
-        const peopleSection = document.createElement('div');
-        peopleSection.className = 'spreekuur-section';
-        const peopleHeader = document.createElement('div');
-        peopleHeader.className = 'spreekuur-section-header';
-        peopleHeader.textContent = 'Personen';
-        peopleSection.appendChild(peopleHeader);
-        const peopleBody = document.createElement('div');
-        peopleBody.className = 'spreekuur-section-body';
-        const tilesGrid = document.createElement('div');
-        tilesGrid.className = 'file-grid';
-        tilesGrid.style.padding = '0';
-        tilesGrid.style.maxWidth = 'none';
-        const filterFn = STAFF_ROLE_FILTERS[filterKey];
-        if (filterFn) {
+        // --- Person tiles section (top) — one sub-group per layout section ---
+        const navRef = navItem || { filterKey, mode: 'staff-page', layoutKey, label: layout.title };
+        for (const section of layout.sections) {
+          const peopleSection = document.createElement('div');
+          peopleSection.className = 'spreekuur-section';
+          const peopleHeader = document.createElement('div');
+          peopleHeader.className = 'spreekuur-section-header';
+          peopleHeader.textContent = section.readOnlyLabel || 'Personen';
+          peopleSection.appendChild(peopleHeader);
+          const peopleBody = document.createElement('div');
+          peopleBody.className = 'spreekuur-section-body';
+          const tilesGrid = document.createElement('div');
+          tilesGrid.className = 'file-grid';
+          tilesGrid.style.padding = '0';
+          tilesGrid.style.maxWidth = 'none';
           staffData.forEach((person, index) => {
-            if (!filterFn(person)) return;
+            if (!section.staffFilter(person)) return;
+            const cardWrap = document.createElement('div');
+            cardWrap.style.cssText = 'position:relative;';
             const btn = document.createElement('button');
             btn.className = 'file-card';
+            btn.style.width = '100%';
             btn.innerHTML = `
               <div class="file-name">${person.name}</div>
-              <div class="file-meta">${person.role}${person.team ? ' -- ' + person.team : ''}</div>
+              <div class="file-meta">${person.role}${person.team ? ' - ' + person.team : ''}</div>
               <div class="file-meta">${(person.workingDays || []).join(', ')}</div>
             `;
-            btn.addEventListener('click', () => openStaffDetail(index, navItem || { filterKey, mode: 'staff-page', layoutKey, label: layout.title }));
-            tilesGrid.appendChild(btn);
+            btn.addEventListener('click', () => openStaffDetail(index, navRef));
+            cardWrap.appendChild(btn);
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.innerHTML = '&times;';
+            delBtn.title = `${person.name} verwijderen`;
+            delBtn.style.cssText = 'position:absolute;top:0.25rem;right:0.25rem;background:rgba(0,0,0,0.05);border:none;border-radius:4px;width:22px;height:22px;font-size:16px;line-height:1;cursor:pointer;color:#888;z-index:1;';
+            delBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              deleteStaffMember(index, () => openStaffPageEditor(layoutKey, navItem));
+            });
+            cardWrap.appendChild(delBtn);
+            tilesGrid.appendChild(cardWrap);
           });
+          const addBtn = document.createElement('button');
+          addBtn.className = 'add-row-btn';
+          addBtn.textContent = '+ Persoon toevoegen';
+          addBtn.style.cssText = 'margin-top:0.5rem;';
+          addBtn.addEventListener('click', () => {
+            const newPerson = { name: 'Nieuwe medewerker', role: section.defaultRole || 'Medewerker', workingDays: [] };
+            staffData.push(newPerson);
+            openStaffDetail(staffData.length - 1, navRef);
+          });
+          tilesGrid.appendChild(addBtn);
+          peopleBody.appendChild(tilesGrid);
+          peopleSection.appendChild(peopleBody);
+          panel.appendChild(peopleSection);
         }
-        peopleBody.appendChild(tilesGrid);
-        peopleSection.appendChild(peopleBody);
-        panel.appendChild(peopleSection);
 
         // --- Editable text sections (below the person tiles) ---
         loaded.forEach((entry, i) => {
