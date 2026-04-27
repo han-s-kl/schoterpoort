@@ -9,7 +9,6 @@ Vondelweg 999, Haarlem (near Delftplein)
 - Evening: 17:00--23:00
 - Weekends and public holidays: 08:00--23:00
 - Closed at night
-- Emergency Department (ED): open until 22:00
 
 **Spaarne Gasthuis Haarlem Zuid**
 Boerhaavelaan 22, Haarlem (Schalkwijk)
