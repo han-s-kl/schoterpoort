@@ -2,10 +2,9 @@
 title: "Wrattenspreekuur"
 description: "Informatie over wratten, zelfbehandeling en het wrattenspreekuur met vloeibare stikstof"
 ---
-
 # Wrattenspreekuur
 
-## Wat zijn het?
+## Wat zijn het?1
 
 Er zijn verschillende soorten wratten. Gewone wratten zijn ruw aanvoelende knobbeltjes die vooral op de handen voorkomen. Voetwratten zitten in de eeltlaag van de voetzool en kunnen hinderlijk zijn bij het lopen. Waterwratten zijn gladde, kleine bultjes met een kuiltje in het midden, die vooral bij kinderen voorkomen. Er bestaan ook nog andere soorten wratten.
 
