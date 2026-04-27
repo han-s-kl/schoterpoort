@@ -554,5 +554,13 @@
     ],
     "roleEn": "GP trainee (HAIO)",
     "photo": "/images/staff/lazin-germawi.jpg"
+  },
+  {
+    "name": "Jasmijn",
+    "role": "Doktersassistente",
+    "workingDays": [],
+    "team": "Praktijk Louwet",
+    "specializations": [],
+    "photo": "/images/staff/jasmijn.jpeg"
   }
 ]
