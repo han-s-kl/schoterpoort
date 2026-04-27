@@ -1683,6 +1683,14 @@
     async function openItem(item) {
       destroyEditors();
       currentNavItem = item;
+      // Clear any running save cooldown so navigating to another page
+      // immediately re-enables the save button.
+      if (saveCooldownTimer) {
+        clearTimeout(saveCooldownTimer);
+        saveCooldownTimer = null;
+        isSaving = false;
+        setStatus('');
+      }
 
       if (item.mode === 'markdown') {
         // Find navId by searching NAV_ITEMS (supports nested sub-groups)
