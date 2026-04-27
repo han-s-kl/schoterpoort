@@ -4,7 +4,7 @@ description: "Information about warts, self-treatment and the wart clinic with l
 ---
 # Wart clinic
 
-## What are warts?1
+## What are warts?
 
 There are different types of warts. Common warts are rough-feeling bumps that mainly occur on the hands. Verrucas (plantar warts) are located in the callus layer of the sole of the foot and can be bothersome when walking. Molluscum contagiosum (water warts) are smooth, small bumps with a dimple in the centre, which mainly occur in children. There are also other types of warts.
 
