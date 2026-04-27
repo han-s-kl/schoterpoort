@@ -1,11 +1,11 @@
 {
-  "pageTitle": "Appointments",
-  "pageDescription": "Make an appointment at Huisartsenpraktijk Schoterpoort Haarlem.",
   "soortenIntro": "The practice assistants will briefly ask about the reason for your visit to estimate the urgency and consultation duration. They maintain professional confidentiality.",
   "standaardConsult": "15 minutes for one complaint.",
   "spoedafspraak": "Same-day guaranteed for emergencies. The assistant assesses the urgency.",
   "dubbelConsult": "For multiple complaints or mental health issues. Request this when booking the appointment.",
   "videoconsult": "Available with GPs and mental health practice nurses via a secure connection.",
-  "terugbelafspraken": "You can request a callback appointment to avoid waiting times. One of the assistants will call you back. Leave your message on the voicemail and end with <strong>#</strong>. The phone system is available 24 hours for repeat prescriptions and appointment cancellations.",
-  "afspraakAfzeggen": "Cancel your appointment by phone at least <strong>24 hours</strong> in advance. For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance."
+  "terugbelafspraken": "You can request a callback appointment to avoid waiting time. One of the assistants will call you back. Leave a message on the voicemail and end with #.<br><br>All calls are handled in order of arrival. If you call in the afternoon, it is possible that all call slots for that day are already busy. We therefore advise you to call in the morning. On working days, <b>we are always available for emergencies between 8:00 and 17:00</b>.<br><br>The telephone system is available 24 hours a day for repeat prescriptions and appointment cancellations.",
+  "afspraakAfzeggen": "Cancel your appointment by phone at least <strong>24 hours</strong> in advance. For appointments with the mental health practice nurse: at least <strong>48 hours</strong> in advance.",
+  "pageTitle": "Appointments",
+  "pageDescription": "Make an appointment at Huisartsenpraktijk Schoterpoort Haarlem."
 }
