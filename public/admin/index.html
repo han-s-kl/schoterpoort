@@ -1222,6 +1222,7 @@
     // --- GITHUB API ---
     async function ghFetch(path, opts = {}) {
       const res = await fetch(`${API}/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
+        cache: 'no-store',
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/vnd.github.v3+json',
