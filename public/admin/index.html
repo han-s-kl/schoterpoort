@@ -1683,6 +1683,12 @@
     async function openItem(item) {
       destroyEditors();
       currentNavItem = item;
+      // Invalidate data caches so re-opening a page always fetches fresh
+      // content from GitHub (prevents showing stale data after a save).
+      staffData = null;
+      staffSha = null;
+      practicesData = null;
+      practicesSha = null;
       // Clear any running save cooldown so navigating to another page
       // immediately re-enables the save button.
       if (saveCooldownTimer) {
