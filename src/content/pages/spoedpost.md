@@ -9,7 +9,6 @@ Vondelweg 999, Haarlem (bij Delftplein)
 - Avond: 17:00--23:00
 - Weekend en feestdagen: 08:00--23:00
 - 's Nachts gesloten
-- Spoedeisende Hulp (SEH): open tot 22:00
 
 **Spaarne Gasthuis Haarlem Zuid**
 Boerhaavelaan 22, Haarlem (Schalkwijk)
