@@ -5,7 +5,7 @@ import { url } from '../../utils/url';
 
 const healthPageIds = [
   'reizigersadvisering', 'soa', 'spiraal', 'tekenbeet',
-  'wrattenspreekuur', 'urineweginfecties', 'zwangerschap',
+  'wrattenspreekuur', 'urineweginfecties',
 ];
 
 const pages = await getCollection('pages');
@@ -37,6 +37,20 @@ const healthPages = pages.filter((p) => healthPageIds.includes(p.id));
             </svg>
           </a>
         ))}
+        <a
+          href="https://www.thuisarts.nl/zwanger/ik-ben-zwanger-belangrijke-adviezen"
+          target="_blank"
+          rel="noopener"
+          class="flex items-center justify-between bg-white rounded-lg border border-neutral-200 p-4 hover:border-primary-300 hover:shadow-sm transition-all no-underline group"
+        >
+          <div>
+            <h2 class="font-semibold text-neutral-900 group-hover:text-dark-700">Zwangerschap</h2>
+            <p class="text-sm text-neutral-500 mt-0.5">Belangrijke adviezen voor zwangeren (thuisarts.nl)</p>
+          </div>
+          <svg class="w-5 h-5 text-neutral-400 group-hover:text-dark-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </a>
       </div>
     </div>
   </section>
