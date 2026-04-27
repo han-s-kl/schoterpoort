@@ -36,4 +36,4 @@ More information is available at [www.npcf.nl](https://www.npcf.nl) and [KNMG Vi
 
 When transferring to a new GP, the records are usually transferred. This is done by post or electronically via Zorgmail File Transfer (ZFT). Patients do not receive the original records but always have the right of access.
 
-See also the [KNMG guideline Transfer of patient records when changing GP](https://schoterpoort.praktijkinfo.nl/upload/download.php?file=2/104.pdf).
+See also the [KNMG guideline Transfer of patient records when changing GP](/schoterpoort/documents/KNMG-richtlijn-overdracht-patientendossier.pdf).

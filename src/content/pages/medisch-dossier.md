@@ -36,4 +36,4 @@ Meer informatie is beschikbaar via [www.npcf.nl](https://www.npcf.nl) en [KNMG I
 
 Bij overstap naar een nieuwe huisarts wordt het dossier doorgaans overgedragen. Dit gebeurt per post of elektronisch via Zorgmail File Transfer (ZFT). Patiënten ontvangen niet het originele dossier maar hebben altijd inzagerecht.
 
-Zie ook de [KNMG richtlijn Overdracht patiëntendossier bij verandering van huisarts](https://schoterpoort.praktijkinfo.nl/upload/download.php?file=2/104.pdf).
+Zie ook de [KNMG richtlijn Overdracht patiëntendossier bij verandering van huisarts](/schoterpoort/documents/KNMG-richtlijn-overdracht-patientendossier.pdf).
