@@ -941,6 +941,7 @@
         <div class="spreekuur-panel" id="zivver-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="changelog-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="nieuwe-patienten-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="telefoonnummers-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="patientenomgeving-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="herhaalrecept-panel" style="display:none"></div>
@@ -1129,6 +1130,7 @@
       },
       {
         label: 'Diensten', children: [
+          { label: 'Telefoonnummers', mode: 'telefoonnummers', navHref: '/telefoonnummers' },
           { label: 'Spreekuur & afspraken', mode: 'spreekuur', navHref: '/spreekuur-afspraken' },
           { label: 'Herhaalrecept', mode: 'herhaalrecept', navHref: '/herhaalrecept' },
           { label: 'Apotheek', mode: 'markdown', file: 'src/content/pages/apotheek.md', fields: PAGE_FIELDS, navHref: '/apotheek' },
@@ -1567,6 +1569,7 @@
       document.getElementById('zivver-panel').style.display = view === 'zivver' ? 'block' : 'none';
       document.getElementById('changelog-panel').style.display = view === 'changelog' ? 'block' : 'none';
       document.getElementById('nieuwe-patienten-panel').style.display = view === 'nieuwe-patienten' ? 'block' : 'none';
+      document.getElementById('telefoonnummers-panel').style.display = view === 'telefoonnummers' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
       document.getElementById('patientenomgeving-panel').style.display = view === 'patientenomgeving' ? 'block' : 'none';
       document.getElementById('herhaalrecept-panel').style.display = view === 'herhaalrecept' ? 'block' : 'none';
@@ -1732,6 +1735,16 @@
         item._navId = item.label;
         setActiveNav(item);
         await openZivverEditor();
+      } else if (item.mode === 'telefoonnummers') {
+        for (const nav of NAV_ITEMS) {
+          if (nav.children && nav.children.includes(item)) {
+            item._navId = `${nav.label}/${item.label}`;
+            break;
+          }
+        }
+        if (!item._navId) item._navId = item.label;
+        setActiveNav(item);
+        await openTelefoonnummersEditor();
       } else if (item.mode === 'nieuwe-patienten') {
         for (const nav of NAV_ITEMS) {
           if (nav.children && nav.children.includes(item)) {
@@ -3433,7 +3446,6 @@
       { key: 'spoedafspraak', label: 'Spoedafspraak', type: 'text' },
       { key: 'dubbelConsult', label: 'Dubbel consult', type: 'text' },
       { key: 'videoconsult', label: 'Videoconsult', type: 'text' },
-      { key: 'terugbelafspraken', label: 'Terugbelafspraken', type: 'text' },
       { key: 'afspraakAfzeggen', label: 'Afspraak afzeggen', type: 'text', accent: 'red' },
     ];
 
@@ -3549,6 +3561,12 @@
           el.appendChild(body);
           panel.appendChild(el);
         }
+
+        // Read-only reference for Terugbelafspraken (now in Algemene gegevens)
+        await ensurePracticesLoaded();
+        const terugbelKey = currentLang === 'en' ? 'terugbelafsprakenEn' : 'terugbelafspraken';
+        const terugbelHtml = `<p>${practicesData[terugbelKey] || ''}</p>`;
+        panel.appendChild(renderReadOnlyBlock('Terugbelafspraken', terugbelHtml));
 
         showView('spreekuur');
         document.getElementById('save-btn').disabled = false;
@@ -3873,6 +3891,21 @@
         menuSection.appendChild(menuBody);
         panel.appendChild(menuSection);
 
+        // Terugbelafspraken
+        const terugbelSection = document.createElement('div');
+        terugbelSection.className = 'spreekuur-section';
+        terugbelSection.innerHTML = '<div class="spreekuur-section-header">Terugbelafspraken</div>';
+        const terugbelBody = document.createElement('div');
+        terugbelBody.className = 'spreekuur-section-body';
+        const terugbelKey = currentLang === 'en' ? 'terugbelafsprakenEn' : 'terugbelafspraken';
+        const terugbelEditable = createEditableField(practicesData[terugbelKey] || '', 'html');
+        terugbelEditable.dataset.key = terugbelKey;
+        terugbelEditable.dataset.editor = 'practice-info-terugbel';
+        terugbelBody.appendChild(createMiniToolbar(terugbelEditable));
+        terugbelBody.appendChild(terugbelEditable);
+        terugbelSection.appendChild(terugbelBody);
+        panel.appendChild(terugbelSection);
+
         showView('practice-info');
         document.getElementById('save-btn').disabled = false;
         setStatus('');
@@ -3911,6 +3944,11 @@
       const inputs = document.querySelectorAll('#practice-info-panel input[data-editor="practice-info"]');
       for (const input of inputs) {
         practicesData[input.dataset.key] = input.value;
+      }
+      // Gather terugbelafspraken
+      const terugbelEditable = document.querySelector('#practice-info-panel [data-editor="practice-info-terugbel"]');
+      if (terugbelEditable) {
+        practicesData[terugbelEditable.dataset.key] = cleanHtml(terugbelEditable.innerHTML);
       }
       // Gather per-practice phone numbers
       for (const inp of document.querySelectorAll('#practice-info-panel input[data-practice-phone-index]')) {
@@ -4196,6 +4234,32 @@
       // 3. Save menu label if changed
       if (settings.menuLabelHref && settings.menuLabel !== null) {
         await saveMenuLabel(settings.menuLabelHref, settings.menuLabel);
+      }
+    }
+
+    // --- TELEFOONNUMMERS EDITOR ---
+    // Read-only view that references Terugbelafspraken from Algemene gegevens.
+    async function openTelefoonnummersEditor() {
+      currentMode = 'telefoonnummers';
+      showView('empty');
+      setTopbar('Telefoonnummers' + (currentLang === 'en' ? ' (EN)' : ''), '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      try {
+        await ensurePracticesLoaded();
+
+        const panel = document.getElementById('telefoonnummers-panel');
+        panel.innerHTML = '';
+
+        const terugbelKey = currentLang === 'en' ? 'terugbelafsprakenEn' : 'terugbelafspraken';
+        const terugbelHtml = `<p>${practicesData[terugbelKey] || ''}</p>`;
+        panel.appendChild(renderReadOnlyBlock('Terugbelafspraken', terugbelHtml));
+
+        showView('telefoonnummers');
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
       }
     }
 
