@@ -1,11 +1,11 @@
 {
-  "pageTitle": "Spreekuur & afspraken",
-  "pageDescription": "Maak een afspraak bij Huisartsenpraktijk Schoterpoort Haarlem.",
   "soortenIntro": "De praktijkassistenten zullen kort vragen naar de reden van uw bezoek om de urgentie en consultduur in te schatten. Zij hanteren professionele geheimhouding.",
   "standaardConsult": "15 minuten voor één klacht.",
   "spoedafspraak": "Dezelfde dag gegarandeerd bij noodgevallen. De assistente beoordeelt de urgentie.",
   "dubbelConsult": "Voor meerdere klachten of psychische problematiek. Vraag dit aan bij het maken van de afspraak.",
   "videoconsult": "Beschikbaar bij huisartsen en GGZ-praktijkondersteuners via beveiligde verbinding.",
-  "terugbelafspraken": "U kunt een terugbelafspraak aanvragen om wachttijd te vermijden. Een van de assistenten belt u dan terug. Spreek uw boodschap in op de voicemail en sluit af met <strong>#</strong>. Het telefoonsysteem is 24 uur beschikbaar voor herhaalrecepten en afspraakannuleringen.",
-  "afspraakAfzeggen": "Zeg uw afspraak minimaal <strong>24 uur</strong> van tevoren telefonisch af. Voor afspraken bij de praktijkondersteuner GGZ: minimaal <strong>48 uur</strong> van tevoren."
+  "terugbelafspraken": "U kunt een terugbelafspraak aanvragen om wachttijd te vermijden. Een van de assistenten belt u dan terug. Spreek uw boodschap in op de voicemail en sluit af met #. <br>Alle telefoontjes worden op volgorde van binnenkomst behandeld. Als u in de middag belt kan het voorkomen dat alle belmogelijkheden voor die dag al bezet zijn. Ons advies is daarom om in de ochtend te bellen. Op werkdagen zijn we tussen 8.00 en 17.00 altijd bereikbaar voor spoed.<br>Het telefoonsysteem is 24 uur beschikbaar voor herhaalrecepten en afspraakannuleringen.",
+  "afspraakAfzeggen": "Zeg uw afspraak minimaal <strong>24 uur</strong> van tevoren telefonisch af. Voor afspraken bij de praktijkondersteuner GGZ: minimaal <strong>48 uur</strong> van tevoren.",
+  "pageTitle": "Spreekuur & afspraken",
+  "pageDescription": "Maak een afspraak bij Huisartsenpraktijk Schoterpoort Haarlem."
 }
