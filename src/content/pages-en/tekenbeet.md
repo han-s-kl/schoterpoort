@@ -2,12 +2,11 @@
 title: "Tick bite"
 description: "Information about tick bites, Lyme disease, prevention and treatment"
 ---
-
 # Tick bite
 
 ## What is a tick bite?
 
-![A tick on the skin](/schoterpoort/images/health/teek.jpg)
+![A tick on the skin](https://schoterpoort.com/schoterpoort/images/health/teek.jpg)
 
 A tick is a small (one to three millimetres), brown-black spider-like insect. Ticks crawl. They cannot jump or fly. Ticks live mainly in bushes and tall grass, in forests, heathland, dunes, parks and gardens. They prefer moist environments and are mainly active from March to October. Every year in the Netherlands, one million people are bitten by a tick. Ticks are also found abroad.
 
@@ -63,9 +62,10 @@ Contact your GP:
 - If you have removed a tick that had probably been attached to the skin for 24 hours or longer.
 - If, near the tick bite, a red or blue-red spot or ring appears within a few days to three months that grows larger within a few days (erythema migrans).
 
-![Erythema migrans - red ring around tick bite](/schoterpoort/images/health/erythema-migrans.jpg)
+![Erythema migrans - red ring around tick bite](https://schoterpoort.com/schoterpoort/images/health/erythema-migrans.jpg)
 
-![Tick bite with erythema migrans](/schoterpoort/images/health/teek-migrans.jpg)
+![Tick bite with erythema migrans](https://schoterpoort.com/schoterpoort/images/health/teek-migrans.jpg)
+
 - If you start feeling flu-like symptoms with fever, headache, muscle pain and fatigue within three months of a tick bite.
 - If you experience double vision or a drooping face long after a tick bite.
 - If you experience pain, tingling or reduced strength in your arm or leg long after a tick bite.
@@ -77,7 +77,7 @@ The last 5 symptoms may indicate Lyme disease. Lyme disease is treated with anti
 
 More information about tick bites and Lyme disease can be found at:
 
-- The [RIVM](http://www.rivm.nl/Onderwerpen/T/Tekenbeten_en_lyme) - Watch the [short film about checking for tick bites](http://www.rivm.nl/Documenten_en_publicaties/Algemeen_Actueel/Multimedia/Infectieziekten/Controleren_op_tekenbeten/Download/Controleren_op_tekenbeten). The RIVM developed a free Tick Bite app that allows you to look up what a tick looks like and how to remove a tick quickly: [Android Tick Bite app](https://play.google.com/store/apps/details?id=nl.ddt.tick) and [iPhone Tick Bite app](https://itunes.apple.com/app/id894584051).
+- The [RIVM](http://www.rivm.nl/Onderwerpen/T/Tekenbeten_en_lyme) - The RIVM developed a free Tick Bite app that allows you to look up what a tick looks like and how to remove a tick quickly: [Android Tick Bite app](https://play.google.com/store/apps/details?id=nl.ddt.tick) and [iPhone Tick Bite app](https://itunes.apple.com/app/id894584051).
 - [Tekenradar.nl](https://tekenradar.nl) - Check the expected tick activity before going into nature.
 
 *This text is from thuisarts.nl and is based on the [NHG treatment guideline Tick Bite and Erythema Migrans](https://richtlijnen.nhg.org/behandelrichtlijnen/tekenbeet-en-erythema-migrans#volledige-tekst). Last revised: 26-02-2025.*
