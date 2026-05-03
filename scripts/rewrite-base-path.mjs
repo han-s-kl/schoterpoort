@@ -39,11 +39,21 @@ async function* walk(dir) {
 let filesTouched = 0;
 let totalReplacements = 0;
 for await (const file of walk(DIST)) {
-  const content = await readFile(file, 'utf8');
+  const original = await readFile(file, 'utf8');
+  let content = original;
+  // Replace /schoterpoort/ prefix from markdown content
   const parts = content.split(FROM);
   if (parts.length > 1) {
     totalReplacements += parts.length - 1;
-    await writeFile(file, parts.join(TO));
+    content = parts.join(TO);
+  }
+  // Fix double slashes in src/href/content attributes produced when base is "/"
+  // e.g. src="//images/logo.png" -> src="/images/logo.png"
+  if (target === 'transip') {
+    content = content.replace(/(src|href|content)="\/\//g, '$1="/');
+  }
+  if (content !== original) {
+    await writeFile(file, content);
     filesTouched++;
   }
 }
