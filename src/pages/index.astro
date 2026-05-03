@@ -113,9 +113,9 @@ function inlineMdToHtml(md: string): string {
                   <div>
                     <h3 class={`font-semibold ${s.title} text-sm`}>{block.data.title}</h3>
                     <div class={`text-sm ${s.text} mt-1 prose prose-sm max-w-none`}>
-                      {practiceData.moetIkNaarDeDokter
-                        ? <Content />
-                        : <Fragment set:html={inlineMdToHtml(stripMoetIkMd(block.body))} />}
+                      {(!practiceData.moetIkNaarDeDokter && block.body.includes('moetiknaardedokter'))
+                        ? <Fragment set:html={inlineMdToHtml(stripMoetIkMd(block.body))} />
+                        : <Content />}
                     </div>
                   </div>
                 </div>
