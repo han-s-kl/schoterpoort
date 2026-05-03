@@ -1,0 +1,40 @@
+RewriteEngine On
+
+# Clean URLs: strip index.html
+RewriteCond %{THE_REQUEST} /index\.html
+RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+# Old slug redirects (SEO)
+RewriteRule ^medewerkers/praktijkverpleegkundigen(/)?$ /medewerkers/praktijkondersteuners [R=301,L]
+RewriteRule ^spreekuur(/)?$ /spreekuur-afspraken [R=301,L]
+RewriteRule ^tarieven-2025(/)?$ /tarieven [R=301,L]
+RewriteRule ^urineonderzoek-formulier(/)?$ /urineonderzoek [R=301,L]
+RewriteRule ^gezondheid(/)?$ /gezondheidsinfo [R=301,L]
+RewriteRule ^aanmelding-nieuwe-patienten(/)?$ /nieuwe-patienten [R=301,L]
+RewriteRule ^ik-geef-toestemming(/)?$ /landelijk-schakelpunt [R=301,L]
+RewriteRule ^administratieformulier(/)?$ / [R=301,L]
+RewriteRule ^formulieren(/)?$ / [R=301,L]
+RewriteRule ^beeldbellen-videoconsult(/)?$ / [R=301,L]
+RewriteRule ^gezondheidsinfo/zwangerschap(/)?$ /gezondheidsinfo [R=301,L]
+
+# Security headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Cache static assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/pdf "access plus 1 month"
+</IfModule>

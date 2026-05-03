@@ -1,15 +1,12 @@
-name: Deploy staging to TransIP
+name: Deploy to TransIP
 
-# Fires on every push to main so CMS commits (which push directly to main via
-# the GitHub Contents API) are picked up automatically alongside regular code
-# commits. Also exposes a manual trigger via the Actions tab.
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: deploy-staging
+  group: deploy-production
   cancel-in-progress: false
 
 jobs:
@@ -28,8 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build staging target
-        run: npm run build:staging
+      - name: Build production target
+        run: npm run build:transip
 
       - name: Configure SSH
         env:
