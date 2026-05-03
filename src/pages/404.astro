@@ -19,4 +19,7 @@ import { url } from '../utils/url';
       </a>
     </div>
   </section>
+  <script is:inline>
+    try { navigator.sendBeacon('/api/log404.php', JSON.stringify({ url: location.pathname })); } catch(e) {}
+  </script>
 </PageLayout>

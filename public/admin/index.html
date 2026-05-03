@@ -940,6 +940,7 @@
         <div class="spreekuur-panel" id="practice-info-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="zivver-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="changelog-panel" style="display:none"></div>
+        <div class="spreekuur-panel" id="log404-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="nieuwe-patienten-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="telefoonnummers-panel" style="display:none"></div>
         <div class="spreekuur-panel" id="home-panel" style="display:none"></div>
@@ -1118,6 +1119,7 @@
       { label: 'Algemene gegevens', mode: 'practice-info' },
       { label: 'ZIVVER links', mode: 'zivver' },
       { label: 'Wijzigingen', mode: 'changelog' },
+      { label: '404 meldingen', mode: '404log' },
       { label: 'Home', mode: 'home', navHref: '/' },
       { type: 'separator' },
       {
@@ -1568,6 +1570,7 @@
       document.getElementById('practice-info-panel').style.display = view === 'practice-info' ? 'block' : 'none';
       document.getElementById('zivver-panel').style.display = view === 'zivver' ? 'block' : 'none';
       document.getElementById('changelog-panel').style.display = view === 'changelog' ? 'block' : 'none';
+      document.getElementById('log404-panel').style.display = view === '404log' ? 'block' : 'none';
       document.getElementById('nieuwe-patienten-panel').style.display = view === 'nieuwe-patienten' ? 'block' : 'none';
       document.getElementById('telefoonnummers-panel').style.display = view === 'telefoonnummers' ? 'block' : 'none';
       document.getElementById('home-panel').style.display = view === 'home' ? 'block' : 'none';
@@ -1769,6 +1772,10 @@
         if (!item._navId) item._navId = item.label;
         setActiveNav(item);
         await openNieuwePatienten(item);
+      } else if (item.mode === '404log') {
+        item._navId = item.label;
+        setActiveNav(item);
+        await open404LogView();
       } else if (item.mode === 'changelog') {
         item._navId = item.label;
         setActiveNav(item);
@@ -4289,6 +4296,78 @@
         panel.appendChild(renderReadOnlyBlock('Terugbelafspraken', terugbelHtml));
 
         showView('telefoonnummers');
+        setStatus('');
+      } catch (err) {
+        setStatus(`Fout: ${err.message}`, 'error');
+      }
+    }
+
+    // --- 404 LOG VIEW ---
+    async function open404LogView() {
+      currentMode = '404log';
+      showView('empty');
+      setTopbar('404 meldingen', '');
+      document.getElementById('save-btn').disabled = true;
+      setStatus('Laden...', 'saving');
+
+      const panel = document.getElementById('log404-panel');
+      panel.innerHTML = '';
+
+      try {
+        const res = await fetch('/api/get404s.php', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const section = document.createElement('div');
+        section.className = 'spreekuur-section';
+        const header = document.createElement('div');
+        header.className = 'spreekuur-section-header';
+        header.textContent = `${data.length} unieke 404-URLs`;
+        section.appendChild(header);
+
+        const body = document.createElement('div');
+        body.className = 'spreekuur-section-body';
+        body.style.padding = '0';
+
+        if (data.length === 0) {
+          const empty = document.createElement('div');
+          empty.style.cssText = 'padding:1rem;color:var(--text-muted);font-size:0.875rem;';
+          empty.textContent = 'Nog geen 404-meldingen ontvangen.';
+          body.appendChild(empty);
+        } else {
+          // Table header
+          const thead = document.createElement('div');
+          thead.style.cssText = 'display:flex;gap:0.75rem;padding:0.5rem 0.875rem;border-bottom:2px solid var(--border);font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;';
+          thead.innerHTML = '<div style="flex:1;min-width:0;">URL</div><div style="flex:none;width:4rem;text-align:right;">Aantal</div><div style="flex:none;width:8rem;text-align:right;">Laatst gezien</div>';
+          body.appendChild(thead);
+
+          for (const entry of data) {
+            const row = document.createElement('div');
+            row.style.cssText = 'display:flex;gap:0.75rem;padding:0.5rem 0.875rem;border-bottom:1px solid var(--border);font-size:0.875rem;align-items:center;';
+
+            const urlEl = document.createElement('div');
+            urlEl.style.cssText = 'flex:1;min-width:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.8125rem;color:var(--text);word-break:break-all;';
+            urlEl.textContent = entry.url;
+            row.appendChild(urlEl);
+
+            const countEl = document.createElement('div');
+            countEl.style.cssText = 'flex:none;width:4rem;text-align:right;font-weight:600;color:var(--text);';
+            countEl.textContent = entry.count;
+            row.appendChild(countEl);
+
+            const lastEl = document.createElement('div');
+            lastEl.style.cssText = 'flex:none;width:8rem;text-align:right;font-size:0.75rem;color:var(--text-muted);';
+            lastEl.textContent = entry.last ? formatRelativeDutch(entry.last) : '';
+            row.appendChild(lastEl);
+
+            body.appendChild(row);
+          }
+        }
+
+        section.appendChild(body);
+        panel.appendChild(section);
+
+        showView('404log');
         setStatus('');
       } catch (err) {
         setStatus(`Fout: ${err.message}`, 'error');
