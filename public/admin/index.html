@@ -3771,6 +3771,21 @@
           body.appendChild(input);
         }
 
+        // Moet ik naar de dokter toggle
+        const moetIkRow = document.createElement('div');
+        moetIkRow.style.cssText = 'display:flex;align-items:center;gap:0.5rem;margin-top:1rem;';
+        const moetIkCheck = document.createElement('input');
+        moetIkCheck.type = 'checkbox';
+        moetIkCheck.id = 'moet-ik-naar-de-dokter';
+        moetIkCheck.checked = practicesData.moetIkNaarDeDokter !== false;
+        const moetIkLabel = document.createElement('label');
+        moetIkLabel.htmlFor = 'moet-ik-naar-de-dokter';
+        moetIkLabel.textContent = 'Moet ik naar de dokter? tonen (homepage widget + footer link)';
+        moetIkLabel.style.cssText = 'font-size:0.8125rem;cursor:pointer;';
+        moetIkRow.appendChild(moetIkCheck);
+        moetIkRow.appendChild(moetIkLabel);
+        body.appendChild(moetIkRow);
+
         section.appendChild(body);
         panel.appendChild(section);
 
@@ -3959,6 +3974,9 @@
       for (const input of inputs) {
         practicesData[input.dataset.key] = input.value;
       }
+      // Gather moet-ik-naar-de-dokter toggle
+      const moetIkCheck = document.getElementById('moet-ik-naar-de-dokter');
+      if (moetIkCheck) practicesData.moetIkNaarDeDokter = moetIkCheck.checked;
       // Gather terugbelafspraken
       const terugbelEditable = document.querySelector('#practice-info-panel [data-editor="practice-info-terugbel"]');
       if (terugbelEditable) {

@@ -55,7 +55,7 @@ const prefix = lang === 'en' ? '/en' : '';
         <h2 class="text-white font-semibold text-lg mb-4">Gezondheidsinfo</h2>
         <ul class="space-y-2 text-sm">
           <li><a href="https://www.thuisarts.nl/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Thuisarts.nl</a></li>
-          <li><a href="https://www.moetiknaardedokter.nl/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Moet ik naar de dokter?</a></li>
+          {practiceData.moetIkNaarDeDokter && <li><a href="https://www.moetiknaardedokter.nl/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Moet ik naar de dokter?</a></li>}
           <li><a href="https://www.rijksoverheid.nl/onderwerpen/verkeersveiligheid/vraag-en-antwoord/medicijnen-in-het-verkeer/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Medicijnen en verkeer</a></li>
           <li><a href="https://www.pharos.nl/" target="_blank" rel="noopener" class="text-dark-300 hover:text-white no-underline transition-colors">Pharos.nl</a></li>
           <li><a href={url('/gezondheidsinfo')} class="text-dark-300 hover:text-white no-underline transition-colors">Alle gezondheidsinfo</a></li>

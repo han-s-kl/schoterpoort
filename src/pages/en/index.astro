@@ -201,11 +201,13 @@ const practices = practiceData.practices;
           <h3 class="font-bold text-neutral-900 group-hover:text-dark-600 mb-2">Thuisarts.nl</h3>
           <p class="text-sm text-neutral-600">Reliable health information from GPs (in Dutch).</p>
         </a>
-        <div class="bg-white rounded-xl p-6 border border-neutral-200">
-          <h3 class="font-bold text-neutral-900 mb-2">Should I see a doctor?</h3>
-          <p class="text-sm text-neutral-600 mb-4">Self-triage: answer the questions and receive immediate advice.</p>
-          <div id="mindd_widget_embedded"></div>
-        </div>
+        {practiceData.moetIkNaarDeDokter && (
+          <div class="bg-white rounded-xl p-6 border border-neutral-200">
+            <h3 class="font-bold text-neutral-900 mb-2">Should I see a doctor?</h3>
+            <p class="text-sm text-neutral-600 mb-4">Self-triage: answer the questions and receive immediate advice.</p>
+            <div id="mindd_widget_embedded"></div>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -277,10 +279,10 @@ const practices = practiceData.practices;
     </div>
   </section>
 
-  <script is:inline src="https://moetiknaardedokter.azurewebsites.net/embed/index.js" type="text/javascript"></script>
-  <script is:inline define:vars={{ phoneGeneral: practiceData.phoneGeneral }}>
+  {practiceData.moetIkNaarDeDokter && <script is:inline src="https://moetiknaardedokter.azurewebsites.net/embed/index.js" type="text/javascript"></script>}
+  <script is:inline define:vars={{ phoneGeneral: practiceData.phoneGeneral, moetIkEnabled: practiceData.moetIkNaarDeDokter }}>
     window.addEventListener('DOMContentLoaded', function() {
-      if (window.mindd) {
+      if (moetIkEnabled && window.mindd) {
         window.mindd.init({
           ApiKey: '4krC1VIVe4CHBIvRoW9hpStBZZE8Ys4M',
           target: '#mindd_widget_embedded',
