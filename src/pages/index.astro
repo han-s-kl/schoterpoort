@@ -10,6 +10,25 @@ const allBlocks = (await getCollection('blocks'))
   .filter((b) => b.data.visible);
 
 const practices = practiceData.practices;
+
+// Strip moetiknaardedokter references when the toggle is off
+function stripMoetIk(html: string): string {
+  if (practiceData.moetIkNaarDeDokter) return html;
+  return html
+    .replace(/[;,]\s*(gebruik|use)\s*<a[^>]*moetiknaardedokter[^>]*>[^<]*<\/a>[^.]*/gi, '')
+    .replace(/<a[^>]*moetiknaardedokter[^>]*>[^<]*<\/a>\s*(of|or)\s*/gi, '');
+}
+function stripMoetIkMd(md: string): string {
+  if (practiceData.moetIkNaarDeDokter) return md;
+  return md
+    .replace(/\[moetiknaardedokter\.nl\]\([^)]*\)\s*(of|or)\s*/gi, '')
+    .replace(/[;,]\s*(gebruik|use)\s*\[moetiknaardedokter\.nl\]\([^)]*\)[^.]*/gi, '');
+}
+function inlineMdToHtml(md: string): string {
+  return md
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
 ---
 
 <PageLayout title={homeData.pageTitle || 'Home'} description={homeData.pageDescription}>
@@ -94,7 +113,9 @@ const practices = practiceData.practices;
                   <div>
                     <h3 class={`font-semibold ${s.title} text-sm`}>{block.data.title}</h3>
                     <div class={`text-sm ${s.text} mt-1 prose prose-sm max-w-none`}>
-                      <Content />
+                      {practiceData.moetIkNaarDeDokter
+                        ? <Content />
+                        : <Fragment set:html={inlineMdToHtml(stripMoetIkMd(block.body))} />}
                     </div>
                   </div>
                 </div>
@@ -269,7 +290,7 @@ const practices = practiceData.practices;
                   <path stroke-linecap="round" stroke-linejoin="round" d={icons[i] || icons[0]} />
                 </svg>
               </div>
-              <p class="text-sm text-neutral-700" set:html={text} />
+              <p class="text-sm text-neutral-700" set:html={stripMoetIk(text)} />
             </div>
           ));
         })()}
