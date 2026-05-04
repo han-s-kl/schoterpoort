@@ -10,8 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$logFile = __DIR__ . '/404-log.json';
-$rateFile = __DIR__ . '/404-rate.json';
+$dataDir = __DIR__ . '/../../404-data';
+if (!is_dir($dataDir)) mkdir($dataDir, 0755, true);
+$logFile = $dataDir . '/404-log.json';
+$rateFile = $dataDir . '/404-rate.json';
 $maxEntries = 1000;
 $rateLimit = 10; // max hits per IP per minute
 

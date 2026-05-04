@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: no-store');
 
-$logFile = __DIR__ . '/404-log.json';
+$logFile = __DIR__ . '/../../404-data/404-log.json';
 
 if (!file_exists($logFile)) {
     echo '[]';
