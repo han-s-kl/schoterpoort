@@ -1,7 +1,7 @@
 ---
 title: "Praktijksluitingen april/mei 2026"
 type: "info"
-visible: true
+visible: false
 ---
 - Van der Eem: 20 april - 27 april
 - Steketee: 20 april - 28 april
