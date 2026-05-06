@@ -141,7 +141,11 @@
     "role": "Huisarts",
     "bigNumber": "",
     "team": "Praktijk Steketee",
-    "workingDays": [],
+    "workingDays": [
+      "maandag",
+      "woensdag",
+      "donderdag"
+    ],
     "since": "2025 (waarnemer voor Willemijn Schaap)",
     "sinceEn": "2025 (locum for Willemijn Schaap)",
     "background": "Neemt waar voor Willemijn Schaap tijdens haar verblijf in Nieuw-Zeeland tot zomer 2026.",
