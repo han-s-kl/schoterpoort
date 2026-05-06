@@ -54,7 +54,12 @@
     "role": "Huisarts",
     "bigNumber": "59909707001",
     "team": "Praktijk Duijn",
-    "workingDays": [],
+    "workingDays": [
+      "maandag",
+      "woensdag",
+      "donderdag",
+      "vrijdag"
+    ],
     "since": "2015 (huisarts sinds februari 2014, praktijk overgenomen in 2022)",
     "sinceEn": "2015 (GP since February 2014, took over practice in 2022)",
     "background": "Sinds februari 2014 ben ik huisarts. Vanaf 2015 ben ik onderdeel van het fijne team Schoterpoort. De eerste jaren was ik werkzaam voor collega Limmen en in 2022 heb ik met veel plezier en enthousiasme de praktijk overgenomen. Als huisarts hoop ik u op een coachende manier te begeleiden bij het maken van keuzes over uw gezondheid. Naast goed medisch handelen, is het mijn doel u als patiënt het gevoel te geven dat er genoeg aandacht aan uw probleem is geschonken. De verschillende mensen en problemen maken het vak voor mij iedere dag weer tot een uitdaging! Mijn man is huisarts in Heemstede en samen hebben wij 3 kinderen.",
