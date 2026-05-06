@@ -6,7 +6,8 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: no-store');
 
-$logFile = __DIR__ . '/../../404-data/404-log.json';
+$dataDir = dirname($_SERVER['DOCUMENT_ROOT']) . '/404-data';
+$logFile = $dataDir . '/404-log.json';
 
 if (!file_exists($logFile)) {
     echo '[]';
@@ -37,4 +38,12 @@ foreach ($log as $entry) {
 $result = array_values($counts);
 usort($result, fn($a, $b) => $b['count'] - $a['count']);
 
-echo json_encode($result);
+echo json_encode([
+    'debug' => [
+        'dataDir' => $dataDir,
+        'logFile' => $logFile,
+        'exists' => file_exists($logFile),
+        'entries' => count($log),
+    ],
+    'data' => $result,
+]);

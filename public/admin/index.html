@@ -4316,13 +4316,15 @@
       try {
         const res = await fetch('/api/get404s.php', { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+        const raw = await res.json();
+        const data = raw.data || raw; // support both wrapped and flat format
+        const debug = raw.debug || null;
 
         const section = document.createElement('div');
         section.className = 'spreekuur-section';
         const header = document.createElement('div');
         header.className = 'spreekuur-section-header';
-        header.textContent = `${data.length} unieke 404-URLs`;
+        header.textContent = `${data.length} unieke 404-URLs${debug ? ` (pad: ${debug.dataDir})` : ''}`;
         section.appendChild(header);
 
         const body = document.createElement('div');
