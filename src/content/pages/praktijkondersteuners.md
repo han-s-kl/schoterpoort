@@ -1,4 +1,4 @@
 ---
 title: "Praktijkondersteuners"
-description: "Informatie over de praktijkondersteuners somatiek, spreekuurondersteuner en POH-GGZ"
+description: "Informatie over de praktijkondersteuners somatiek, spreekuurondersteuner en POH-GGZ "
 ---
